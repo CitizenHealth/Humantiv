@@ -1,4 +1,4 @@
-package com.humantiv;
+package com.citizenhealth.humantiv;
 
 import android.content.Intent;
 import android.os.Bundle;
