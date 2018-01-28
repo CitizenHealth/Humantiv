@@ -8,3 +8,4 @@ export * from "./AlbumDetail";
 export * from "./HeaderImage";
 export * from "./Chooser";
 export * from "./Confirm";
+export * from "./RoundButton";

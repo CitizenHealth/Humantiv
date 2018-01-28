@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Linking } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import firebase from "firebase";
 import { scale } from "react-native-size-matters";
-import { Card, CardSection, Input, Button, HeaderImage, Spinner } from "./common";
-import { emailChanged, passwordChanged, loginUser } from "../actions";
+import Hyperlink from 'react-native-hyperlink';
+import { Card, CardSection, Input, Button, RoundButton, HeaderImage, Spinner } from "./common";
+import { emailChanged, passwordChanged, loginUser, loginGoogleUser, loginFacebookUser } from "../actions";
 import Images from "../resources/images";
 
 class LoginForm extends Component {
@@ -37,6 +38,14 @@ class LoginForm extends Component {
     this.props.loginUser({ email, password });
   }
 
+  onGoogleSignInButtonPress() {
+    this.props.loginGoogleUser();
+  }
+
+  onFacebookSignInButtonPress() {
+    this.props.loginFacebookUser();
+  }
+
   renderError() {
     const { error } = this.props;
     const { errorTextStyle } = styles;
@@ -65,63 +74,78 @@ class LoginForm extends Component {
     const { footerStyles, pageStyle,
             logoStyles, textStyles, containerStyles,
             socialContainer, loginPageStyle,
-            separatorStyles, imageStyle } = styles;
+            separatorStyles, logoTextStyles,
+            loginCardStyle } = styles;
 
     const { email, password } = this.props;
 
     return (
       <View style={pageStyle}>
-        <View style={logoStyles}>
-          <HeaderImage
-            style={imageStyle}
-            source={Images.img_login_header}
-          />
-        </View>
         <View style={containerStyles}>
-          <Text style={textStyles}> Your true Health Score </Text>
+          <View style={logoStyles}>
+            <HeaderImage
+              source={Images.img_login_header}
+            />
+          </View>
+          <View style={logoTextStyles}>
+            <Text style={textStyles}> Your true Health Score </Text>
+          </View>
         </View>
         <View style={loginPageStyle}>
-          <Card>
-            <CardSection>
-              <Input
-                label="Email"
-                placeholder="email@provider.com"
-                value={email}
-                onChangeText={this.onMailChangeText.bind(this)}
-                keyboardType="email-address"
-                returnKeyType={ "next" }
-              />
-            </CardSection>
-            <CardSection>
-              <Input
-                secureTextEntry
-                label="Password"
-                placeholder="password"
-                value={password}
-                enablesReturnKeyAutomatically
-                returnKeyType={ "done" }
-                onChangeText={this.onPasswordChangeText.bind(this)}
-              />
-            </CardSection>
-              {this.renderError()}
-            <CardSection>
-              {this.renderButton()}
-            </CardSection>
-          </Card>
-          <View style={separatorStyles}>
-            <Text style={[textStyles, {color: "#E9222E"}, {height: 40 }]} >- or -</Text>
-          </View>
-          <View style={socialContainer}>
-            <Button backgroundC="#E9222E">
-              google
-            </Button>
-            <Button backgroundC="blue">
-              facebook
-            </Button>
+          <View style={loginCardStyle}>
+            <Card>
+              <CardSection>
+                <Input
+                  label="Email"
+                  placeholder="email@provider.com"
+                  value={email}
+                  onChangeText={this.onMailChangeText.bind(this)}
+                  keyboardType="email-address"
+                  returnKeyType={ "next" }
+                />
+              </CardSection>
+              <CardSection>
+                <Input
+                  secureTextEntry
+                  label="Password"
+                  placeholder="password"
+                  value={password}
+                  enablesReturnKeyAutomatically
+                  returnKeyType={ "done" }
+                  onChangeText={this.onPasswordChangeText.bind(this)}
+                />
+              </CardSection>
+                {this.renderError()}
+              <CardSection>
+                {this.renderButton()}
+              </CardSection>
+            </Card>
+            <View style={separatorStyles}>
+              <Text style={[textStyles, {color: "#E9222E"}]} >- or -</Text>
+            </View>
+            <View style={socialContainer}>
+              <RoundButton
+                style={{ flex: 1}}
+                source={Images.img_login_google}
+                onPress={this.onGoogleSignInButtonPress.bind(this)}
+              >
+              </RoundButton>
+              <RoundButton
+                source={Images.img_login_facebook}
+                onPress={this.onFacebookSignInButtonPress.bind(this)}
+              >
+              </RoundButton>
+            </View>
           </View>
         </View>
         <View backgroundColor={footerStyles}>
-          <Text style={textStyles}>Facing problems with registration or login?</Text>
+          <Hyperlink
+            linkStyle={ { color: '#E9222E' } }
+            onPress={ (url, text) => Linking.openURL(url)}
+            linkText={ url => url === 'http://citizenhealth.io' ? 'registration or login?' : url }
+          >
+            <Text style={textStyles}>Facing problems with http://citizenhealth.io</Text>
+          </Hyperlink>
         </View>
       </View>
     );
@@ -130,53 +154,56 @@ class LoginForm extends Component {
 
 const styles = {
   pageStyle: {
-    justifyContent: "space-between",
 //    backgroundColor: "blue",
     flexDirection: "column",
+    alignItems: "stretch",
     flex: 1
   },
-  loginPageStyle: {
-    height: 100,
-    justifyContent: "space-around",
-//    backgroundColor: "yellow",
-    flexGrow: 1
-  },
-  imageStyle: {
-    height: scale(20),
-  },
-  logoStyles: {
-    flexGrow: 1,
-//    backgroundColor: "orange",
-    paddingLeft: 20,
-    paddingRight: 20
-  },
-  separatorStyles: {
-    flex: 0.5,
-    height: 10,
-    justifyContent: "center",
-//    backgroundColor: "green",
-    alignItems: "center"
-  },
-  socialContainer: {
-    flexGrow: 1,
-    flexDirection: "row",
-    height: 40,
-    paddingLeft: 40,
-    paddingRight: 40,
+  containerStyles: {
     justifyContent: "space-between",
-    padding: 40,
+    flex: 2,
+    flexDirection: "column",
+//    backgroundColor: "orange"
+  },
+  loginPageStyle: {
+    justifyContent: "flex-start",
+//    backgroundColor: "yellow",
+    flex: 3
   },
   footerStyles: {
-    flexGrow: 0,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    height: 80,
     paddingBottom: 20
   },
-  containerStyles: {
-    height: 50,
+  logoStyles: {
+    flex: 2,
+
+//    backgroundColor: "yellow",
+    paddingLeft: scale(80),
+    paddingRight: scale(80)
+  },
+  logoTextStyles: {
+    flex: 1,
+//    backgroundColor: "blue",
+    paddingLeft: scale(80),
+    paddingRight: scale(80)
+  },
+  loginCardStyle: {
+//    backgroundColor: "red",
+    justifyContent: "flex-start"
+  },
+  separatorStyles: {
+    height: 40,
     justifyContent: "center",
-    alignItems: "center"
+//    backgroundColor: "green"
+  },
+  socialContainer: {
+    flexDirection: "row",
+    height: 100,
+    paddingLeft: scale(80),
+    paddingRight: scale(80),
+    justifyContent: "center"
   },
   errorTextStyle: {
     color: "red",
@@ -185,7 +212,6 @@ const styles = {
   textStyles: {
     flexGrow: 1,
     fontSize: 18,
-    paddingLeft: 20,
     color: "#808080",
     textAlign: "center",
     ...Platform.select({
@@ -200,4 +226,10 @@ const mapStateToProps = state => {
   return { email, password, loading, error };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
+export default connect(mapStateToProps, {
+  emailChanged,
+  passwordChanged,
+  loginUser,
+  loginGoogleUser,
+  loginFacebookUser
+})(LoginForm);

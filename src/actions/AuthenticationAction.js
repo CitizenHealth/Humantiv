@@ -4,7 +4,10 @@ import { EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER } from "./types";
+  LOGIN_USER,
+  GOOGLE_LOGIN_USER,
+  FACEBOOK_LOGIN_USER
+} from "./types";
 
 export const emailChanged = (text) => {
   return {
@@ -50,4 +53,18 @@ const loginUserFail = (dispatch, error) => {
       type: LOGIN_USER_FAIL,
       payload: error.message
     });
+};
+
+export const loginGoogleUser = () => {
+  return (dispatch) => {
+    dispatch({ type: GOOGLE_LOGIN_USER });
+    console.log("Signed In with Google");
+  };
+};
+
+export const loginFacebookUser = () => {
+  return (dispatch) => {
+    dispatch({ type: FACEBOOK_LOGIN_USER });
+    console.log("Signed In with Facebook");
+  };
 };
