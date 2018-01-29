@@ -10,19 +10,7 @@ import { emailChanged, passwordChanged, loginUser, loginGoogleUser, loginFaceboo
 import Images from "../resources/images";
 
 class LoginForm extends Component {
-  state = { loggedIn: null };
-
-  componentWillMount() {
-    firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
-      if (user) {
-        this.setState({loggedIn: true});
-        Actions.main();
-      } else {
-        this.setState({loggedIn: false});
-      }
-    });
-  }
+  state = { signUpModalVisible: false };
 
   onMailChangeText(text) {
     this.props.emailChanged(text);
@@ -52,7 +40,7 @@ class LoginForm extends Component {
 
     if (error) {
       return (
-        <View style={{ backgroundColor: "white" }}>
+        <View style={{ justifyContent: 'center', backgroundColor: "red",height: 30 }}>
           <Text style={errorTextStyle}> {error} </Text>
         </View>
       );
@@ -206,8 +194,10 @@ const styles = {
     justifyContent: "center"
   },
   errorTextStyle: {
-    color: "red",
     textAlign: "center",
+    fontSize: 14,
+    color: "white",
+    fontWeight: "800"
   },
   textStyles: {
     flexGrow: 1,

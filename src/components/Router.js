@@ -18,6 +18,7 @@ const RouterComponent = () => {
           <Scene
             key="profile"
             component={ProfileView}
+            initial
           />
         </Scene>
       </Scene>
