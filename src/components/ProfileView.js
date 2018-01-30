@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Button } from "./common";
+import {connect} from "react-redux";
+import { logoutUser } from "../actions";
 
 class ProfileView extends Component {
+
+  onLogOutButtonPress() {
+    this.props.logoutUser();
+  }
 
   render() {
     return (
@@ -10,7 +16,9 @@ class ProfileView extends Component {
         <Text style={{flex: 1, justifyContent: 'center', alignItems: "center"}}>
           Profile View
         </Text>
-        <Button style={{ height: "80"}}>
+        <Button style={{ height: "80"}}
+          onPress={this.onLogOutButtonPress.bind(this)}
+        >
           Sign Out
         </Button>
       </View>
@@ -18,5 +26,9 @@ class ProfileView extends Component {
   }
 }
 
+// const mapStateToProps = (state) => {
+//   const {user} = state.auth;
+//   return {user};
+// };
 
-export default ProfileView;
+export default connect(null, {logoutUser})(ProfileView);

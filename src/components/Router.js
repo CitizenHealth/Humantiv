@@ -2,6 +2,7 @@ import React from "react";
 import { Scene, Router, Actions } from "react-native-router-flux";
 import LoginForm from "./LoginForm";
 import ProfileView from "./ProfileView";
+import StartView from "./StartView";
 
 const RouterComponent = () => {
   return (
@@ -11,8 +12,11 @@ const RouterComponent = () => {
       navBarButtonColor="#E9222E"
     >
       <Scene key="root" hideNavBar>
+        <Scene key="start">
+          <Scene key="load" component={StartView} hideNavBar initial />
+        </Scene>
         <Scene key="auth">
-          <Scene key="login" component={LoginForm} hideNavBar initial />
+          <Scene key="login" component={LoginForm} hideNavBar />
         </Scene>
         <Scene key="main">
           <Scene

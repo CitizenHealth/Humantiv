@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, Text, Platform, Linking } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import firebase from "firebase";
 import { scale } from "react-native-size-matters";
 import Hyperlink from 'react-native-hyperlink';
 import { Card, CardSection, Input, Button, RoundButton, HeaderImage, Spinner } from "./common";
@@ -67,6 +66,10 @@ class LoginForm extends Component {
 
     const { email, password } = this.props;
 
+    if (this.state.loggedIn) {
+      Actions.main();
+      return (<View />);
+    }
     return (
       <View style={pageStyle}>
         <View style={containerStyles}>
