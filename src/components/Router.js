@@ -1,8 +1,10 @@
 import React from "react";
-import { Scene, Router, Actions } from "react-native-router-flux";
+import { Scene, Router } from "react-native-router-flux";
 import LoginForm from "./LoginForm";
 import ProfileView from "./ProfileView";
 import StartView from "./StartView";
+import EmailConfirmationView from "./EmailConfirmationView";
+import PasswordLostView from "./PasswordLostView";
 
 const RouterComponent = () => {
   return (
@@ -17,12 +19,14 @@ const RouterComponent = () => {
         </Scene>
         <Scene key="auth">
           <Scene key="login" component={LoginForm} hideNavBar />
+          <Scene key="verify" component={EmailConfirmationView} hideNavBar />
+          <Scene key="password" component={PasswordLostView} hideNavBar />
         </Scene>
         <Scene key="main">
           <Scene
             key="profile"
             component={ProfileView}
-            initial
+            hideNavBar
           />
         </Scene>
       </Scene>

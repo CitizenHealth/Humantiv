@@ -3,6 +3,9 @@ package com.citizenhealth.humantiv;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -19,8 +22,18 @@ import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage; // <-- Add this line
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.appevents.AppEventsLogger;
 
 public class MainApplication extends Application implements ReactApplication {
+
+  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+
+  protected static CallbackManager getCallbackManager() {
+    return mCallbackManager;
+  }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -32,6 +45,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNI18nPackage(),
+            new FBSDKPackage(mCallbackManager),
+            new RNGoogleSigninPackage(),
             new RNFirebasePackage(),
             new RNFirebaseAnalyticsPackage(), // <-- Add this line
             new RNFirebaseAuthPackage(), // <-- Add this line
@@ -56,6 +72,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

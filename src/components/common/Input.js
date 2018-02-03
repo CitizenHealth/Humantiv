@@ -28,6 +28,7 @@ const Input = (props) => {
         autoFocus={autoFocus}
         keyboardType={keyboardType}
         returnKeyType={returnKeyType}
+        autoCapitalize= "none"
         enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
       />
     </View>

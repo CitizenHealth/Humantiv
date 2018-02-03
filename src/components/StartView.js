@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Spinner, HeaderImage } from "./common";
+import { fetchUser } from "../actions";
 import Images from "../resources/images";
 
 class StartView extends Component {
@@ -13,7 +14,23 @@ class StartView extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
-        Actions.main();
+        this.props.fetchUser(user);
+        if (user.emailVerified) {
+          console.log('Email is verified');
+          Actions.main();
+        }
+        else {
+          console.log('Email is not verified');
+          firebase.auth().languageCode = 'en';
+          user.sendEmailVerification()
+          .then(() => { 
+            console.log(`SV - Verification email sent`);
+          })
+          .catch((error) => {
+            console.log(`SV - Error sending verification email: ${error}`);
+          }); 
+          Actions.verify();
+        }       
       } else {
         Actions.login();
       }
@@ -44,8 +61,8 @@ const styles = {
 };
 
 const mapStateToProps = state => {
-  const { loggedin } = state.auth;
-  return { loggedin };
+  const { user, loggedin } = state.auth;
+  return { user, loggedin };
 };
 
-export default connect(mapStateToProps)(StartView);
+export default connect(mapStateToProps, { fetchUser })(StartView);

@@ -9,3 +9,6 @@ export * from "./HeaderImage";
 export * from "./Chooser";
 export * from "./Confirm";
 export * from "./RoundButton";
+export * from "./LeftButton";
+export * from './Avatar';
+export * from './LinkText';

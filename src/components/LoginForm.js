@@ -59,10 +59,11 @@ class LoginForm extends Component {
   }
   render() {
     const { footerStyles, pageStyle,
-            logoStyles, textStyles, containerStyles,
+            logoStyle, textStyle, containerStyle,
             socialContainer, loginPageStyle,
-            separatorStyles, logoTextStyles,
-            loginCardStyle } = styles;
+            separatorStyle, logoTextStyle,
+            loginCardStyle, buttonContainerStyle
+           } = styles;
 
     const { email, password } = this.props;
 
@@ -72,14 +73,14 @@ class LoginForm extends Component {
     }
     return (
       <View style={pageStyle}>
-        <View style={containerStyles}>
-          <View style={logoStyles}>
+        <View style={containerStyle}>
+          <View style={logoStyle}>
             <HeaderImage
               source={Images.img_login_header}
             />
           </View>
-          <View style={logoTextStyles}>
-            <Text style={textStyles}> Your true Health Score </Text>
+          <View style={logoTextStyle}>
+            <Text style={textStyle}> Your true Health Score </Text>
           </View>
         </View>
         <View style={loginPageStyle}>
@@ -107,12 +108,12 @@ class LoginForm extends Component {
                 />
               </CardSection>
                 {this.renderError()}
-              <CardSection>
+              <CardSection style={buttonContainerStyle}>
                 {this.renderButton()}
               </CardSection>
             </Card>
-            <View style={separatorStyles}>
-              <Text style={[textStyles, {color: "#E9222E"}]} >- or -</Text>
+            <View style={separatorStyle}>
+              <Text style={[textStyle, {color: "#E9222E"}]} >- or -</Text>
             </View>
             <View style={socialContainer}>
               <RoundButton
@@ -135,7 +136,7 @@ class LoginForm extends Component {
             onPress={ (url, text) => Linking.openURL(url)}
             linkText={ url => url === 'http://citizenhealth.io' ? 'registration or login?' : url }
           >
-            <Text style={textStyles}>Facing problems with http://citizenhealth.io</Text>
+            <Text style={textStyle}>Facing problems with http://citizenhealth.io</Text>
           </Hyperlink>
         </View>
       </View>
@@ -150,31 +151,31 @@ const styles = {
     alignItems: "stretch",
     flex: 1
   },
-  containerStyles: {
+  containerStyle: {
     justifyContent: "space-between",
     flex: 2,
     flexDirection: "column",
-//    backgroundColor: "orange"
+ //   backgroundColor: "orange"
   },
   loginPageStyle: {
     justifyContent: "flex-start",
-//    backgroundColor: "yellow",
+ //   backgroundColor: "yellow",
     flex: 3
   },
-  footerStyles: {
+  footerStyle: {
     flexDirection: "row",
     justifyContent: "space-around",
     height: 80,
     paddingBottom: 20
   },
-  logoStyles: {
+  logoStyle: {
     flex: 2,
 
 //    backgroundColor: "yellow",
     paddingLeft: scale(80),
     paddingRight: scale(80)
   },
-  logoTextStyles: {
+  logoTextStyle: {
     flex: 1,
 //    backgroundColor: "blue",
     paddingLeft: scale(80),
@@ -184,10 +185,16 @@ const styles = {
 //    backgroundColor: "red",
     justifyContent: "flex-start"
   },
-  separatorStyles: {
+  separatorStyle: {
     height: 40,
+    alignItems: 'center',
     justifyContent: "center",
 //    backgroundColor: "green"
+  },
+  buttonContainerStyle: {
+    alignItems: 'center',
+    justifyContent: "space-around",
+
   },
   socialContainer: {
     flexDirection: "row",
@@ -202,7 +209,7 @@ const styles = {
     color: "white",
     fontWeight: "800"
   },
-  textStyles: {
+  textStyle: {
     flexGrow: 1,
     fontSize: 18,
     color: "#808080",

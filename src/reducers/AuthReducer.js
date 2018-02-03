@@ -3,7 +3,9 @@ import { EMAIL_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+  GOOGLE_LOGIN_USER,
+  FACEBOOK_LOGIN_USER
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -29,6 +31,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, loading: true, error: "" };
     case LOGOUT_USER:
       return { ...state, ...INITIAL_STATE };
+    case GOOGLE_LOGIN_USER:
+      return { ...state, loading: true, error: "" };
+    case FACEBOOK_LOGIN_USER:
+      return { ...state, loading: true, error: "" }; 
     default:
       return state;
   }

@@ -1,11 +1,12 @@
 import React from "react";
 import { Text, TouchableOpacity, Platform } from "react-native";
+import { scale } from "react-native-size-matters";
 
-const Button = ({ onPress, children, backgroundC = "#E9222E" }) => {
+const Button = ({ onPress, children, backgroundC = "#E9222E", textColor="white", width }) => {
   const { textStyle, buttonStyle } = styles;
   return (
     <TouchableOpacity onPress={onPress} style={[buttonStyle, { backgroundColor: backgroundC, borderColor: backgroundC }]} >
-      <Text style={textStyle}> {children} </Text>
+      <Text style={[textStyle, { color: textColor}]}> {children} </Text>
     </TouchableOpacity>
   );
 };
@@ -24,7 +25,7 @@ const styles = {
     })
   },
   buttonStyle: {
-    flex: 1,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "stretch",

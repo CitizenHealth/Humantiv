@@ -1,11 +1,11 @@
 import React from "react";
 import { TouchableOpacity, View, Image } from "react-native";
 
-const RoundButton = ({source, onPressButton}) => {
+const RoundButton = ({source, onPress}) => {
   const { imageStyle, buttonStyle } = styles;
   return (
     <TouchableOpacity
-      onPress={onPressButton}
+      onPress={onPress}
       style={buttonStyle}
     >
       <View style={{ flex: 1 }} >
