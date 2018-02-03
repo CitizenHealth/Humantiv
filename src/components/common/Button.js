@@ -2,7 +2,7 @@ import React from "react";
 import { Text, TouchableOpacity, Platform } from "react-native";
 import { scale } from "react-native-size-matters";
 
-const Button = ({ onPress, children, backgroundC = "#E9222E", textColor="white", width }) => {
+const Button = ({ onPress, children, backgroundC = "#E9222E", textColor="white" }) => {
   const { textStyle, buttonStyle } = styles;
   return (
     <TouchableOpacity onPress={onPress} style={[buttonStyle, { backgroundColor: backgroundC, borderColor: backgroundC }]} >

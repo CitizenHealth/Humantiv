@@ -22,6 +22,9 @@ class EmailConfirmation extends Component {
     textModal: modalMessages.continue
   };
 
+  dismissModal() {
+    this.setState({visibleModal: !this.state.visibleModal});
+  }
 
   resendConfirmationEmail() {
     const firebaseUser = firebase.auth().currentUser;
@@ -122,7 +125,7 @@ class EmailConfirmation extends Component {
             <View style={modalContent}>
               <Text style={[textStyle, {color: "white", paddingBottom: scale(20)}]} >{this.state.textModal}</Text>              
               <Button 
-                onPress={() => {this.setState({visibleModal: !this.state.visibleModal});}}
+                onPress={this.dismissModal.bind(this)}
                 backgroundC= "white"
                 textColor= "#E9222E" 
               >
