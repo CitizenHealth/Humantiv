@@ -39,11 +39,6 @@
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* HumantivTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* HumantivTests.m */; };
 		4AEAD62C2020576000D5EB42 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4AEAD62B2020576000D5EB42 /* GoogleService-Info.plist */; };
-		4AF5CFE02022CCD300D5D881 /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5CFB52022CCD300D5D881 /* GoogleSymbolUtilities.framework */; };
-		4AF5CFE22022CCF700D5D881 /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5CFE12022CCF700D5D881 /* GoogleAppUtilities.framework */; };
-		4AF5CFE42022CD0700D5D881 /* GoogleAuthUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5CFE32022CD0700D5D881 /* GoogleAuthUtilities.framework */; };
-		4AF5CFE82022CD4800D5D881 /* GoogleNetworkingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5CFE72022CD4800D5D881 /* GoogleNetworkingUtilities.framework */; };
-		4AF5CFEA2022CD9700D5D881 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5CFE92022CD9600D5D881 /* GoogleUtilities.framework */; };
 		4AF5D0392022F83000D5D881 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5D0352022F82F00D5D881 /* FBSDKCoreKit.framework */; };
 		4AF5D03A2022F83000D5D881 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5D0362022F82F00D5D881 /* FBSDKShareKit.framework */; };
 		4AF5D03B2022F83000D5D881 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5D0372022F82F00D5D881 /* FBSDKLoginKit.framework */; };
@@ -487,11 +482,6 @@
 				8D1EC5F0C7A144AA83676009 /* libRNFirebase.a in Frameworks */,
 				22BB79F18F19C958A042C527 /* libPods-Humantiv.a in Frameworks */,
 				0743FD1E73ED4A8CA1F16183 /* libRNGoogleSignin.a in Frameworks */,
-				4AF5CFE02022CCD300D5D881 /* GoogleSymbolUtilities.framework in Frameworks */,
-				4AF5CFE42022CD0700D5D881 /* GoogleAuthUtilities.framework in Frameworks */,
-				4AF5CFE22022CCF700D5D881 /* GoogleAppUtilities.framework in Frameworks */,
-				4AF5CFEA2022CD9700D5D881 /* GoogleUtilities.framework in Frameworks */,
-				4AF5CFE82022CD4800D5D881 /* GoogleNetworkingUtilities.framework in Frameworks */,
 				4AF5D0392022F83000D5D881 /* FBSDKCoreKit.framework in Frameworks */,
 				B2D36E078AAF4355AA6F0D5A /* SafariServices.framework in Frameworks */,
 				DE805D8F5E51477B8485EE8D /* SystemConfiguration.framework in Frameworks */,
@@ -1613,12 +1603,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Humantiv/Pods-Humantiv-resources.sh",
-				"${PODS_ROOT}/GoogleAuthUtilities/Frameworks/frameworks/GoogleAuthUtilities.framework/Resources/GTMOAuth2ViewTouch.xib",
+				"${PODS_ROOT}/GTMOAuth2/Source/Touch/GTMOAuth2ViewTouch.xib",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMOAuth2ViewTouch.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

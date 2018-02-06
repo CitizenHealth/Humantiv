@@ -11,14 +11,14 @@ target 'Humantiv' do
   pod 'Firebase/Auth'
   pod 'Fabric', '~> 1.7.2'
   pod 'Crashlytics', '~> 3.9.3'
-  pod 'Google/SignIn'
+  pod 'GoogleSignIn'
   # Pods for Humantiv
   pod 'AppCenter/Crashes', '~> 1.1.0'
   pod 'AppCenter/Analytics', '~> 1.1.0'
   pod 'AppCenterReactNativeShared', '~> 1.1.0'
 
 
-  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
+# pod 'RNI18n', :path => '../node_modules/react-native-i18n'
 
   target 'HumantivTests' do
     inherit! :search_paths
