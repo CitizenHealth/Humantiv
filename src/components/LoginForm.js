@@ -52,8 +52,10 @@ class LoginForm extends Component {
       return <Spinner size="large" />;
     }
     return (
-      <Button onPress={this.onSignInButtonPress.bind(this)}>
-        Sign In
+      <Button 
+        style={{flex: 1}} 
+        onPress={this.onSignInButtonPress.bind(this)}>
+          Sign In
       </Button>
     );
   }
@@ -133,10 +135,10 @@ class LoginForm extends Component {
         <View backgroundColor={footerStyles}>
           <Hyperlink
             linkStyle={ { color: '#E9222E' } }
-            onPress={ (url, text) => Linking.openURL(url)}
-            linkText={ url => url === 'http://citizenhealth.io' ? 'registration or login?' : url }
+            onPress={ (url, text) => Actions.password()}
+            linkText={ url => url === 'http://citizenhealth.io' ? 'password?' : url }
           >
-            <Text style={textStyle}>Facing problems with http://citizenhealth.io</Text>
+            <Text style={textStyle}>Forgot your http://citizenhealth.io</Text>
           </Hyperlink>
         </View>
       </View>
@@ -192,7 +194,7 @@ const styles = {
 //    backgroundColor: "green"
   },
   buttonContainerStyle: {
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: "space-around",
 
   },

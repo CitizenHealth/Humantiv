@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-rm -rf ./node_modules 
 watchman watch-dell-all 
-npm cache clean 
+rm -rf ./node_modules 
 npm install 
-react-native link
+rm -rf $TMPDIR/react-*
+npm start -- --reset-cache
+rm -rf $TMPDIR/haste-map-react-native-packager-*
