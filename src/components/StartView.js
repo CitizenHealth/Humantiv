@@ -15,7 +15,10 @@ class StartView extends Component {
       console.log(user);
       if (user) {
         this.props.fetchUser(user);
-        if (user.emailVerified) {
+        if (user.emailVerified 
+          && user.providerData[0].providerId !== "facebook.com"
+          && user.providerData[0].providerId !== "google.com"
+        ) {
           console.log('Email is verified');
           Actions.main();
         }
@@ -32,7 +35,7 @@ class StartView extends Component {
           Actions.verify();
         }       
       } else {
-        Actions.login();
+        Actions.pop();
       }
     });
   }
