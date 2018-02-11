@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>847047929311-fg67fjm6g0rvqi41hc170b6lpl85a1dq.apps.googleusercontent.com</string>
+	<string>847047929311-ibked2hj6k5263b55bcjfnpiemrbpans.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.847047929311-fg67fjm6g0rvqi41hc170b6lpl85a1dq</string>
+	<string>com.googleusercontent.apps.847047929311-ibked2hj6k5263b55bcjfnpiemrbpans</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCg_UnWRVDg0JbBTiIlRpPAwAOtAO04BbA</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.citizenhealth.humantiv</string>
+	<string>io.citizenhealth.humantiv</string>
 	<key>PROJECT_ID</key>
 	<string>health-score-6740b</string>
 	<key>STORAGE_BUCKET</key>
@@ -33,7 +33,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:847047929311:ios:12c23366657f6018</string>
+	<string>1:847047929311:ios:134ce5db346cc9e6</string>
 	<key>DATABASE_URL</key>
 	<string>https://health-score-6740b.firebaseio.com</string>
 </dict>

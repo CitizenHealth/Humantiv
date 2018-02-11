@@ -25,7 +25,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		22BB79F18F19C958A042C527 /* libPods-Humantiv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C9AE0BCCCD9D89AA095ACB9 /* libPods-Humantiv.a */; };
-		4AEAD62C2020576000D5EB42 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4AEAD62B2020576000D5EB42 /* GoogleService-Info.plist */; };
+		4A4CD7DC202EF93C00FF4E9D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A4CD7DB202EF93C00FF4E9D /* GoogleService-Info.plist */; };
 		4AF5D0392022F83000D5D881 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5D0352022F82F00D5D881 /* FBSDKCoreKit.framework */; };
 		4AF5D03A2022F83000D5D881 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5D0362022F82F00D5D881 /* FBSDKShareKit.framework */; };
 		4AF5D03B2022F83000D5D881 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF5D0372022F82F00D5D881 /* FBSDKLoginKit.framework */; };
@@ -381,7 +381,7 @@
 		1820E70B8B7D4A10959648DE /* AppCenterReactNativeAnalytics.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AppCenterReactNativeAnalytics.xcodeproj; path = "../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics.xcodeproj"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B912E5970E7BE7783886E99 /* Pods-Humantiv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Humantiv.release.xcconfig"; path = "Pods/Target Support Files/Pods-Humantiv/Pods-Humantiv.release.xcconfig"; sourceTree = "<group>"; };
-		4AEAD62B2020576000D5EB42 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4A4CD7DB202EF93C00FF4E9D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4AF5CFB52022CCD300D5D881 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Pods/GoogleSymbolUtilities/Frameworks/frameworks/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
 		4AF5CFE12022CCF700D5D881 /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppUtilities.framework; path = Pods/GoogleAppUtilities/Frameworks/frameworks/GoogleAppUtilities.framework; sourceTree = "<group>"; };
 		4AF5CFE32022CD0700D5D881 /* GoogleAuthUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAuthUtilities.framework; path = Pods/GoogleAuthUtilities/Frameworks/frameworks/GoogleAuthUtilities.framework; sourceTree = "<group>"; };
@@ -553,7 +553,7 @@
 		13B07FAE1A68108700A75B9A /* Humantiv */ = {
 			isa = PBXGroup;
 			children = (
-				4AEAD62B2020576000D5EB42 /* GoogleService-Info.plist */,
+				4A4CD7DB202EF93C00FF4E9D /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1254,7 +1254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				4AEAD62C2020576000D5EB42 /* GoogleService-Info.plist in Resources */,
+				4A4CD7DC202EF93C00FF4E9D /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				9B13017CA3FE4229B0684AB1 /* AppCenter-Config.plist in Resources */,
 			);
