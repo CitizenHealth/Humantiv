@@ -1335,7 +1335,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ios.citizenhealth.humantiv;
+				PRODUCT_BUNDLE_IDENTIFIER = io.citizenhealth.humantiv;
 				PRODUCT_NAME = Humantiv;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1364,7 +1364,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ios.citizenhealth.humantiv;
+				PRODUCT_BUNDLE_IDENTIFIER = io.citizenhealth.humantiv;
 				PRODUCT_NAME = Humantiv;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
