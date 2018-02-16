@@ -8,17 +8,9 @@
  */
 
 #import "AppDelegate.h"
-#import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
-#import <AppCenterReactNativeAnalytics/AppCenterReactNativeAnalytics.h>
-#import <AppCenterReactNative/AppCenterReactNative.h>
-#import <Firebase.h>
-
+@import Firebase;
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-
-#import <RNGoogleSignin/RNGoogleSignin.h>
-
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation AppDelegate
 
@@ -26,23 +18,15 @@
 {
   NSURL *jsCodeLocation;
 
-  [AppCenterReactNative register];  // Initialize AppCenter 
   [FIRApp configure];
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
-
-  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];  // Initialize AppCenter analytics
-
-  [AppCenterReactNative register];  // Initialize AppCenter
   
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                           didFinishLaunchingWithOptions:launchOptions];
-
 #ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
-RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Humantiv"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
@@ -55,19 +39,5 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
   [self.window makeKeyAndVisible];
   return YES;
 }
-  
-  // add this method before @end
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation]
-  || [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-}
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-  [FBSDKAppEvents activateApp];
-}
 @end

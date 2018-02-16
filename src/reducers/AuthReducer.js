@@ -3,6 +3,7 @@ import { EMAIL_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
   LOGIN_USER,
+  CREATE_USER,
   LOGOUT_USER,
   GOOGLE_LOGIN_USER,
   FACEBOOK_LOGIN_USER
@@ -14,7 +15,9 @@ const INITIAL_STATE = {
   user: null,
   error: "",
   loading: false,
-  loggedin: ""};
+  loggedin: "",
+  firstLogin: false
+};
 
 export default (state = INITIAL_STATE, action) => {
   console.log(action);
@@ -29,6 +32,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, error: action.payload, password: "", loading: false, loggedin: false };
     case LOGIN_USER:
       return { ...state, loading: true, error: "" };
+    case CREATE_USER:
+      return { ...state, loading: true, error: "", firstLogin: true};
     case LOGOUT_USER:
       return { ...state, ...INITIAL_STATE };
     case GOOGLE_LOGIN_USER:

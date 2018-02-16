@@ -18,7 +18,7 @@ const RouterComponent = () => {
           <Scene key="load" component={StartView} hideNavBar initial />
         </Scene>
         <Scene key="auth">
-          <Scene key="login" component={LoginForm} hideNavBar />
+          <Scene key="login" component={LoginForm} hideNavBar initial/>
           <Scene key="verify" component={EmailConfirmationView} hideNavBar />
           <Scene key="password" component={PasswordLostView} hideNavBar />
         </Scene>
@@ -27,6 +27,7 @@ const RouterComponent = () => {
             key="profile"
             component={ProfileView}
             hideNavBar
+            initial
           />
         </Scene>
       </Scene>

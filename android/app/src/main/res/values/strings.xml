@@ -1,7 +1,3 @@
 <resources>
-    <string moduleConfig="true" name="appcenterCrashes_whenToSendCrashes">ALWAYS_SEND</string>
-    <string moduleConfig="true" name="appcenterAnalytics_whenToEnableAnalytics">ALWAYS_SEND</string>
-    <string name="facebook_app_id">1768168920145823</string>
-    <string name="fb_login_protocol_scheme">fb1768168920145823</string>
     <string name="app_name">Humantiv</string>
 </resources>

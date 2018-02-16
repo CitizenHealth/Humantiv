@@ -8,7 +8,6 @@ import { scale } from "react-native-size-matters";
 import firebase from "react-native-firebase";
 import Images from "../resources/images";
 import { fetchUser } from "../actions";
-import { strings } from '../../locales/i18n';
 
 const modalMessages = {
   continue: "Please confirm your email",
@@ -170,12 +169,15 @@ const styles = {
   modalStyle:{
     alignItems: 'center'
   },
+  buttonStyle: {
+    alignSelf: "stretch"
+  },
   buttonContainerStyle: {
     flex: 2,
-    alignItems: 'flex-end',
-    justifyContent: "space-around",
-    paddingLeft: scale(80),
-    paddingRight: scale(80)
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: scale(10),
+    paddingRight: scale(10)
   },
 
   textStyle: {

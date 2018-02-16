@@ -1,9 +1,18 @@
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 const Card = (props) => {
+  const {titleStyle, titleContainerStyle,  containerStyle} = styles;
+
   return (
-    <View style={styles.containerStyle}>
+    <View style={containerStyle}>
+      {(props.title) ?
+        <View style={titleContainerStyle}>
+          <Text style={titleStyle}>
+            {props.title}
+          </Text>
+        </View>
+      : null}
       {props.children}
     </View>
   );
@@ -23,6 +32,22 @@ const styles = {
     marginLeft: 5,
     marginRight: 5,
     marginTop: 10
+  },
+  titleContainerStyle: {
+    borderBottomWidth: 1,
+    padding: 5,
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    borderColor: "#ddd",
+    position: "relative",
+    backgroundColor: "#E9222E"
+  },
+  titleStyle: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: "white",
+    paddingLeft: 20,
+    flex: 1
   }
 };
 

@@ -11,7 +11,7 @@ const Input = (props) => {
     returnKeyType,
     keyboardType,
     autoFocus,
-
+    editable
   } = props;
   const { inputStyle, labelStyle, containerStyle } = styles;
 
@@ -29,6 +29,7 @@ const Input = (props) => {
         keyboardType={keyboardType}
         returnKeyType={returnKeyType}
         autoCapitalize= "none"
+        editable= {editable}
         enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
       />
     </View>

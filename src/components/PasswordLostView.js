@@ -8,7 +8,6 @@ import { scale } from "react-native-size-matters";
 import firebase from "react-native-firebase";
 import Images from "../resources/images";
 import { checkEmail } from '../business';
-import { strings } from '../../locales/i18n';
 
 const modalMessages = {
   badEmail: "The email address entered is invalid",

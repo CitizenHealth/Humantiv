@@ -11,13 +11,13 @@ import Images from "../resources/images";
 class StartView extends Component {
 
   componentWillMount() {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.app().auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
         this.props.fetchUser(user);
         if (user.emailVerified 
-          && user.providerData[0].providerId !== "facebook.com"
-          && user.providerData[0].providerId !== "google.com"
+          || user.providerData[0].providerId === "facebook.com"
+          || user.providerData[0].providerId === "google.com"
         ) {
           console.log('Email is verified');
           Actions.main();
@@ -34,13 +34,20 @@ class StartView extends Component {
           }); 
           Actions.verify();
         }       
-      } else {
-        Actions.pop();
+      } else {       
+        console.log(`Route: ${Actions.currentScene}`);
+        if (Actions.currentScene === "load")
+          Actions.login();
+        else {
+          Actions.pop();
+        }
       }
     });
   }
 
   render() {
+    console.log(Actions._state.routes);
+ 
     const { pageStyle, spinnerStyle} = styles;
 
     return (

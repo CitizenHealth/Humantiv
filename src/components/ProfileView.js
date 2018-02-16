@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
-import { View, Text, Platform } from 'react-native';
+import { ScrollView, View, Text, Platform, StyleSheet } from 'react-native';
 import { Button, Input, CardSection, Card, Avatar } from "./common";
 import {connect} from "react-redux";
 import { scale } from "react-native-size-matters";
-import { logoutUser } from "../actions";
+import { 
+  logoutUser,  
+  dataCreate, 
+  dataSave,
+  dataFetch
+} from "../actions";
 import Images from "../resources/images";
 
 class ProfileView extends Component {
 
+  componentWillMount () {
+    this.props.dataFetch({type: "profile"});
+    this.props.dataFetch({type: "health"});
+  }
+
   onLogOutButtonPress() {
     this.props.logoutUser();
+  }
+
+  onSaveButtonPress() {
+    const {children} = this.props;
+
+    this.props.dataSave({type: "profile", data: children.profile});
+    this.props.dataSave({type: "health", data: children.health});
   }
 
   onNameChangeText(text) {
@@ -17,6 +34,10 @@ class ProfileView extends Component {
   }
 
   onMailChangeText(text) {
+    //
+  }
+
+  onPhoneChangeText(text) {
     //
   }
 
@@ -42,27 +63,140 @@ class ProfileView extends Component {
   }
   
   render() {
-    const { user } = this.props;
+    const { user, children } = this.props;
     const {
       pageStyle,
       containerStyles,
-      avatarStyle,
       textStyle,
       loginCardStyle,
       buttonContainerStyle
     } = styles;
-
+    console.log(`Children: ${children}`);
     return (
       <View style={pageStyle}>
+      <ScrollView >
         <View style={containerStyles}>
           {this.renderProfileImage()}
           <Text style={textStyle}> Citizen Health </Text>
-          <Avatar style={avatarStyle}
-            imageURL= ""
-          />
+          <Button
+            onPress={this.onLogOutButtonPress.bind(this)}
+          >
+            Sign Out
+          </Button>
         </View>
         <View style={loginCardStyle}>
-          <Card style={{ flex: 1}}>
+          <Card 
+            title = "Profile"
+          >
+            <CardSection>
+              <Input 
+                label = "Name"
+                placeholder="Name"
+                value={(user) ? user.displayName : ""}
+                onChangeText={this.onNameChangeText.bind(this)}
+                returnKeyType={ "next" }
+                editable={false}
+              />
+            </CardSection>
+            <CardSection>
+              <Input
+                label="Email"
+                placeholder="email@provider.com"
+                value={(user) ? user.email : ""}
+                onChangeText={this.onMailChangeText.bind(this)}
+                keyboardType="email-address"
+                returnKeyType={ "next" }
+                editable={false}
+              />
+            </CardSection>
+            <CardSection>
+              <Input
+                label="Phone"
+                placeholder="555-555-5555"
+                value={(user) ? user.phoneNumber : ""}
+                onChangeText={this.onPhoneChangeText.bind(this)}
+                keyboardType="phone-pad"
+                returnKeyType={ "next" }
+                editable={false}
+              />
+            </CardSection>
+            <CardSection>
+              <Input 
+                  label = "Country"
+                  placeholder="USA"
+                  value={(children.profile) ? children.profile.country : ""}
+                  onChangeText={value => {
+                   this.props.dataCreate({"type": "profile", "prop": "country", "value": value});
+                  }}
+                  returnKeyType={ "next" }
+                />
+            </CardSection>
+            <CardSection>
+              <Input 
+                  label = "State"
+                  placeholder=""
+                  value={(children.profile) ? children.profile.state : ""}
+                  onChangeText={value => {
+                    this.props.dataCreate({"type": "profile", "prop": "state", "value": value});
+                   }}
+                   returnKeyType={ "next" }
+                />
+            </CardSection>
+            <CardSection>
+              <Input 
+                  label = "City"
+                  placeholder=""
+                  value={(children.profile) ? children.profile.city : ""}
+                  onChangeText={value => {
+                    this.props.dataCreate({"type": "profile", "prop": "city", "value": value});
+                   }}
+                  returnKeyType={ "next" }
+                />
+            </CardSection>
+          </Card>
+          <Card 
+            title = "Health"
+          >
+            <CardSection>
+              <Input 
+                label = "Score"
+                placeholder="Between 0 and 100"
+                value={(children.health) ? children.health.score : ""}
+                onChangeText={value => {
+                  this.props.dataCreate({"type": "health", "prop": "score", "value": value});
+                }}
+                keyboardType="numeric"
+                returnKeyType={ "next" }
+              />
+            </CardSection>
+            <CardSection>
+              <Input
+                label="Height"
+                placeholder="In centimeters"
+                value={(children.health) ? children.health.height : ""}
+                onChangeText={value => {
+                  this.props.dataCreate({"type": "health", "prop": "height", "value": value});
+                }}
+                keyboardType="numeric"
+                returnKeyType={ "next" }
+              />
+            </CardSection>
+            <CardSection>
+              <Input
+                label="Weight"
+                placeholder="In kilograms"
+                value={(children.health) ? children.health.weight : ""}
+                onChangeText={value => {
+                  this.props.dataCreate({"type": "health", "prop": "weight", "value": value});
+                }}
+               keyboardType="numeric"
+                returnKeyType={ "next" }
+              />
+            </CardSection>
+          </Card>
+          <Card 
+            title = "Wallet"
+          >
             <CardSection>
               <Input 
                 label = "Name"
@@ -92,22 +226,25 @@ class ProfileView extends Component {
                 returnKeyType={ "next" }
               />
             </CardSection>
+          </Card>
+          <Card>
             <CardSection style ={buttonContainerStyle}>
               <Button 
-                style={{ width: "200" }}
-                onPress={this.onLogOutButtonPress.bind(this)}
+                style = {{ }}
+                onPress={this.onSaveButtonPress.bind(this)}
               >
-                Sign Out
+                Save
               </Button>
             </CardSection>
           </Card>
         </View>
+      </ScrollView>
       </View>
     );
   }
 }
 
-const styles = {
+const styles = StyleSheet.create ({
   pageStyle: {
 //    backgroundColor: "blue",
     flexDirection: "column",
@@ -135,8 +272,9 @@ const styles = {
     flexDirection: 'column',
   },
   buttonContainerStyle: {
-    alignItems: 'center',
-    justifyContent: "space-around"
+    alignItems: 'stretch',
+    justifyContent: "center",
+//    backgroundColor: "yellow"
   },
   textStyle: {
     flex: 4,
@@ -148,11 +286,18 @@ const styles = {
       android: { fontFamily: "Roboto" }
     })
   }
-};
+});
 
 const mapStateToProps = state => {
   const {user} = state.auth;
-  return {user}; 
+  const {children} = state.data;
+
+  return {user, children  }; 
 };
 
-export default connect(mapStateToProps, {logoutUser})(ProfileView);
+export default connect(mapStateToProps, {
+  logoutUser, 
+  dataCreate, 
+  dataSave,
+  dataFetch
+})(ProfileView);
