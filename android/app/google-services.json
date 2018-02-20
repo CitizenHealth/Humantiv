@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "847047929311",
+    "firebase_url": "https://health-score-6740b.firebaseio.com",
+    "project_id": "health-score-6740b",
+    "storage_bucket": "health-score-6740b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847047929311:android:134ce5db346cc9e6",
+        "android_client_info": {
+          "package_name": "io.citizenhealth.humantiv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847047929311-me465as3kdc6un1u0g68r5q0bnko677b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNzd7_M3D9s72yVYAkC1RauGzs-OPk_5w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
