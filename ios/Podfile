@@ -12,6 +12,8 @@ target 'Humantiv' do
   pod 'Fabric'
   pod 'Crashlytics'
   pod 'Firebase/Database'
+  pod 'Firebase/Performance'
+  pod 'Firebase/RemoteConfig'
   #pod 'GoogleSignIn'
   
   target 'HumantivTests' do

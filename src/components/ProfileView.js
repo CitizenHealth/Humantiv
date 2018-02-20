@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, Platform, StyleSheet } from 'react-native';
-import { Button, Input, CardSection, Card, Avatar } from "./common";
+import { Button, Input, LeftButton, CardSection, Card, Avatar } from "./common";
 import {connect} from "react-redux";
 import { scale } from "react-native-size-matters";
+import { Actions } from 'react-native-router-flux';
 import { 
   logoutUser,  
   dataCreate, 
@@ -16,6 +17,7 @@ class ProfileView extends Component {
   componentWillMount () {
     this.props.dataFetch({type: "profile"});
     this.props.dataFetch({type: "health"});
+    this.props.dataFetch({type: "wallet"});
   }
 
   onLogOutButtonPress() {
@@ -27,6 +29,7 @@ class ProfileView extends Component {
 
     this.props.dataSave({type: "profile", data: children.profile});
     this.props.dataSave({type: "health", data: children.health});
+    this.props.dataSave({type: "wallet", data: children.wallet});
   }
 
   onNameChangeText(text) {
@@ -75,9 +78,9 @@ class ProfileView extends Component {
     return (
       <View style={pageStyle}>
       <ScrollView >
-        <View style={containerStyles}>
+        <View style={containerStyles}>          
+          <LeftButton onPress={() => Actions.pop()}/>
           {this.renderProfileImage()}
-          <Text style={textStyle}> Citizen Health </Text>
           <Button
             onPress={this.onLogOutButtonPress.bind(this)}
           >
@@ -199,31 +202,18 @@ class ProfileView extends Component {
           >
             <CardSection>
               <Input 
-                label = "Name"
-                placeholder="Name"
-                value={(user) ? user.displayName : ""}
-                onChangeText={this.onNameChangeText.bind(this)}
-                returnKeyType={ "next" }
+                label = "Medits"
+                placeholder="Ammount of medits"
+                value={(children.wallet) ? children.wallet.medits : ""}
+                editable={false}
               />
             </CardSection>
             <CardSection>
-              <Input
-                label="Email"
-                placeholder="email@provider.com"
-                value={(user) ? user.email : ""}
-                onChangeText={this.onMailChangeText.bind(this)}
-                keyboardType="email-address"
-                returnKeyType={ "next" }
-              />
-            </CardSection>
-            <CardSection>
-              <Input
-                label="Phone"
-                placeholder="555-555-5555"
-                value={(user) ? user.phoneNumber : ""}
-                onChangeText={this.onPhoneChangeText.bind(this)}
-                keyboardType="phone-pad"
-                returnKeyType={ "next" }
+              <Input 
+                label = "MDX"
+                placeholder="MDX"
+                value={(children.wallet) ? children.wallet.mdx : ""}
+                editable={false}
               />
             </CardSection>
           </Card>

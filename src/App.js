@@ -11,14 +11,15 @@ class App extends Component {
   
   componentWillMount() {
     // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyCi5H4fcSpiHhqP9v5jGYz00axLeQB729k",
-        authDomain: "test-94084.firebaseapp.com",
-        databaseURL: "https://test-94084.firebaseio.com",
-        projectId: "test-94084",
-        storageBucket: "test-94084.appspot.com",
-        messagingSenderId: "757200182779"
-    };
+    // var config = {
+    //     apiKey: "AIzaSyCi5H4fcSpiHhqP9v5jGYz00axLeQB729k",
+    //     authDomain: "test-94084.firebaseapp.com",
+    //     databaseURL: "https://test-94084.firebaseio.com",
+    //     projectId: "test-94084",
+    //     storageBucket: "test-94084.appspot.com",
+    //     messagingSenderId: "757200182779"
+    // };
+    firebase.perf().setPerformanceCollectionEnabled(true)
     firebase.app();
   }
 

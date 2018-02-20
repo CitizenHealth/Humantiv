@@ -12,3 +12,4 @@ export * from "./RoundButton";
 export * from "./LeftButton";
 export * from './Avatar';
 export * from './LinkText';
+export * from './ImageButton';

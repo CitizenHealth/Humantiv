@@ -17,8 +17,8 @@ const styles = {
     alignItems: 'center'
   },
   imageStyle: {
-    height: 50,
-    width: 50,
+    height: 44,
+    width: 44,
  //   backgroundColor: 'yellow'
   }
 };
