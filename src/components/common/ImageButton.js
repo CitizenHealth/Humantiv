@@ -9,7 +9,7 @@ const ImageButton = ({source, style, onPress}) => {
         >
           <Image 
             source={source} 
-            style={[style, {style}]}
+            style={[style, style]}
             />
         </TouchableOpacity>
       </View>
