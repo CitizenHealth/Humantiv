@@ -2,17 +2,18 @@ import React, { Component } from "react";
 import { View, Text, Platform} from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
-import {Button, HeaderImage, LeftButton, LinkText } from "./common";
+import {Button, HeaderImage, IconButton, LinkText } from "./common";
+import {
+  ModalDialog 
+} from './custom'; 
 import { Actions } from "react-native-router-flux";
 import { scale } from "react-native-size-matters";
 import firebase from "react-native-firebase";
 import Images from "../resources/images";
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { fetchUser } from "../actions";
+import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 
-const modalMessages = {
-  continue: "Please confirm your email",
-  resend: "A new confirmation email was just sent!"
-};
 
 class EmailConfirmation extends Component {
   
@@ -66,7 +67,6 @@ class EmailConfirmation extends Component {
     const { 
       pageStyle,
       ImageContainerStyle,
-      textStyle,
       buttonContainerStyle,
       navigationBarStyle,
       textContainerStyle,
@@ -78,23 +78,20 @@ class EmailConfirmation extends Component {
 
     return (
         <View style={pageStyle}>
-          <View style={navigationBarStyle}>
-            <LeftButton onPress={() => Actions.pop()}/>
-          </View>
           <View style={ImageContainerStyle} >
             <HeaderImage source={Images.img_login_email}/>
           </View>
           <View style={textContainerStyle} >
-              <Text style={[textStyle, {fontSize: 24, fontWeight: 'bold', flex: 1}]}>
+              <Text style={[theme.primaryGreyTextStyle, {fontSize: 24, fontWeight: 'bold', flex: 1}]}>
                 Confirm your email address
               </Text>
-              <Text style={[textStyle, {flex: 1}]}>
+              <Text style={[theme.primaryGreyTextStyle, {flex: 1}]}>
                 We sent a confirmation email to:
               </Text>
-             <Text style={[textStyle, {color: "#E9222E", flex: 1}]}>
+             <Text style={[theme.primaryGreyTextStyle, {color: primaryBlueColor, flex: 1}]}>
                 {(user) ? user.email : ""}
               </Text>
-              <Text style={textStyle}>
+              <Text style={theme.primaryGreyTextStyle}>
                 Check your email and click on the confirmation link to continue.
               </Text>
             </View>
@@ -110,28 +107,15 @@ class EmailConfirmation extends Component {
               Resend confirmation email
             </LinkText>
           </View>
-          <Modal
-            isVisible={this.state.visibleModal}
-            backdropOpacity={0.5}
-            animationIn="zoomInDown"
-            animationOut="zoomOutUp"
-            animationInTiming={1000}
-            animationOutTiming={1000}
-            backdropTransitionInTiming={1000}
-            backdropTransitionOutTiming={1000}
-            style={modalStyle}
+          <ModalDialog
+            visible={this.state.visibleModal}
+            label={this.state.textModal.message}
+            cancelLabel={this.state.textModal.cancel}
+            acceptLabel={this.state.textModal.accept}
+            onCancelPress={this.dismissModal.bind(this)}
+            onAcceptPress={this.dismissModal.bind(this)}
           >
-            <View style={modalContent}>
-              <Text style={[textStyle, {color: "white", paddingBottom: scale(20)}]} >{this.state.textModal}</Text>              
-              <Button 
-                onPress={this.dismissModal.bind(this)}
-                backgroundC= "white"
-                textColor= "#E9222E" 
-              >
-                Ok
-              </Button>
-             </View>
-        </Modal>
+          </ModalDialog>
         </View>
     );
   }
@@ -141,6 +125,7 @@ const styles = {
   pageStyle: {
     justifyContent: "space-around",
     flexDirection: "column",
+    backgroundColor: '#fff',
     flex: 1
   },
   navigationBarStyle: {
@@ -159,16 +144,6 @@ const styles = {
     justifyContent: "center",
  //   backgroundColor: "yellow",
   },
-  modalContent: {
-    alignItems: 'center',
-    justifyContent: "center",
-    padding: scale(20),
-
-    backgroundColor: "red"
-  },
-  modalStyle:{
-    alignItems: 'center'
-  },
   buttonStyle: {
     alignSelf: "stretch"
   },
@@ -178,16 +153,6 @@ const styles = {
     justifyContent: "center",
     paddingLeft: scale(10),
     paddingRight: scale(10)
-  },
-
-  textStyle: {
-    fontSize: 18,
-    color: "#808080",
-    textAlign: "center",
-    ...Platform.select({
-      ios: { fontFamily: "Arial", },
-      android: { fontFamily: "Roboto" }
-    })
   },
   linkContainerStyle: {
     flexDirection: "row",

@@ -1,15 +1,43 @@
 import React, { Component } from "react";
-import { View, Text, Platform, Linking } from "react-native";
+import { View, Text, Linking, TextField, MDButton } from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { scale } from "react-native-size-matters";
 import Hyperlink from 'react-native-hyperlink';
-import { Card, CardSection, Input, Button, RoundButton, HeaderImage, Spinner } from "./common";
+import { 
+  Card, 
+  CardSection, 
+  RoundButton, 
+  HeaderImage, 
+  Spinner  
+} from "./common";
+import { 
+  SignInButton,
+  FacebookLoginButton, 
+  GoogleLoginButton, 
+  SignUpButton,
+  IconInput,
+  ModalDialog 
+} from './custom'; 
 import { emailChanged, passwordChanged, loginUser, loginGoogleUser, loginFacebookUser } from "../actions";
 import Images from "../resources/images";
+import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
+import Icon from "react-native-fontawesome";
 
 class LoginForm extends Component {
-  state = { signUpModalVisible: false };
+  state = { 
+    signUpModalVisible: false,
+    dialogState: modalMessages.noEmail
+   };
+
+  dismissModal() {
+    this.setState({signUpModalVisible: !this.state.signUpModalVisible});
+  }
+
+  createAccount() {
+
+  }
 
   onMailChangeText(text) {
     this.props.emailChanged(text);
@@ -47,25 +75,26 @@ class LoginForm extends Component {
   }
   renderButton() {
     const { loading } = this.props;
+    const { primaryWhiteTextStyle } = theme;
 
     if (loading) {
       return <Spinner size="large" />;
     }
     return (
-      <Button 
-        style={{flex: 1}} 
+      <SignUpButton
         onPress={this.onSignInButtonPress.bind(this)}>
-          Sign In
-      </Button>
+          <Text style={primaryWhiteTextStyle}> Sign In </Text>
+      </SignUpButton>
     );
   }
   render() {
     const { footerStyles, pageStyle,
-            logoStyle, textStyle, containerStyle,
+            logoStyle,
             socialContainer, loginPageStyle,
             separatorStyle, logoTextStyle,
             loginCardStyle, buttonContainerStyle
            } = styles;
+    const { primaryWhiteTextStyle, primaryGreyTextStyle } = theme;
 
     const { email, password } = this.props;
 
@@ -75,94 +104,100 @@ class LoginForm extends Component {
     }
     return (
       <View style={pageStyle}>
-        <View style={containerStyle}>
-          <View style={logoStyle}>
-            <HeaderImage
-              source={Images.img_login_header}
+        <View style={logoStyle}>
+          <HeaderImage
+            source={Images.img_login_header}
+          />
+        </View>
+        <View style={loginCardStyle}>
+          <CardSection>
+            <IconInput
+              icon={Icons.envelopeO}
+              placeholder="Email address"
+              value={email}
+              onChangeText={this.onMailChangeText.bind(this)}
+              keyboardType="email-address"
+              returnKeyType={ "next" }
             />
+          </CardSection>
+          <CardSection>
+            <IconInput
+              secureTextEntry
+              icon={Icons.lock}
+              placeholder="Password"
+              value={password}
+              enablesReturnKeyAutomatically
+              returnKeyType={ "done" }
+              onChangeText={this.onPasswordChangeText.bind(this)}
+            />
+          </CardSection>
           </View>
-          <View style={logoTextStyle}>
-            <Text style={textStyle}> Your true Health Score </Text>
+          <View style={socialContainer}>
+          {this.renderError()}
+          {this.renderButton()}
+          <View style={separatorStyle}>
+            <Text style={[primaryGreyTextStyle, {color: primaryGreyColor}]} >- or -</Text>
           </View>
-        </View>
-        <View style={loginPageStyle}>
-          <View style={loginCardStyle}>
-            <Card>
-              <CardSection>
-                <Input
-                  label="Email"
-                  placeholder="email@provider.com"
-                  value={email}
-                  onChangeText={this.onMailChangeText.bind(this)}
-                  keyboardType="email-address"
-                  returnKeyType={ "next" }
-                />
-              </CardSection>
-              <CardSection>
-                <Input
-                  secureTextEntry
-                  label="Password"
-                  placeholder="password"
-                  value={password}
-                  enablesReturnKeyAutomatically
-                  returnKeyType={ "done" }
-                  onChangeText={this.onPasswordChangeText.bind(this)}
-                />
-              </CardSection>
-                {this.renderError()}
-              <CardSection style={buttonContainerStyle}>
-                {this.renderButton()}
-              </CardSection>
-            </Card>
-            <View style={separatorStyle}>
-              <Text style={[textStyle, {color: "#E9222E"}]} >- or -</Text>
-            </View>
-            <View style={socialContainer}>
-              <RoundButton
-                style={{ flex: 1}}
-                source={Images.img_login_google}
-                onPress={this.onGoogleSignInButtonPress.bind(this)}
+          <FacebookLoginButton
+              onPress={this.onFacebookSignInButtonPress.bind(this)}
+            >
+              <FontAwesome 
+                style={{color: 'white'}}
               >
-              </RoundButton>
-              <RoundButton
-                source={Images.img_login_facebook}
-                onPress={this.onFacebookSignInButtonPress.bind(this)}
+                {Icons.facebook}
+                <Text style={primaryWhiteTextStyle}>  Connect with Facebook</Text>
+              </FontAwesome>
+            </FacebookLoginButton>
+            <GoogleLoginButton
+              onPress={this.onGoogleSignInButtonPress.bind(this)}
+              isDisabled={true}
+            >
+              <FontAwesome 
+                style={{color: 'white'}}
               >
-              </RoundButton>
-            </View>
+                {Icons.googlePlus}
+                <Text style={primaryWhiteTextStyle}>  Connect with Google</Text>
+              </FontAwesome>
+            </GoogleLoginButton>
           </View>
-        </View>
-        <View backgroundColor={footerStyles}>
+      <View backgroundColor={footerStyles}>
           <Hyperlink
-            linkStyle={ { color: '#E9222E' } }
+            linkStyle={ { color: primaryBlueColor } }
             onPress={ (url, text) => Actions.password()}
             linkText={ url => url === 'http://citizenhealth.io' ? 'password?' : url }
           >
-            <Text style={textStyle}>Forgot your http://citizenhealth.io</Text>
+            <Text style= {[primaryGreyTextStyle, {color: primaryGreyColor}]}>Forgot your http://citizenhealth.io</Text>
           </Hyperlink>
         </View>
+        <ModalDialog
+          visible={this.state.signUpModalVisible}
+          label={this.state.dialogState.message}
+          cancelLabel={this.state.dialogState.cancel}
+          acceptLabel={this.state.dialogState.accept}
+          onCancelPress={this.dismissModal.bind(this)}
+          onAcceptPress={this.dismissModal.bind(this)}
+        >
+        </ModalDialog>
       </View>
+              
+        
     );
   }
 }
 
 const styles = {
   pageStyle: {
-//    backgroundColor: "blue",
+    backgroundColor: "white",
     flexDirection: "column",
     alignItems: "stretch",
     flex: 1
   },
-  containerStyle: {
-    justifyContent: "space-between",
-    flex: 2,
-    flexDirection: "column",
- //   backgroundColor: "orange"
-  },
   loginPageStyle: {
-    justifyContent: "flex-start",
- //   backgroundColor: "yellow",
-    flex: 3
+    alignItems: 'space-around',
+    justifyContent: "space-around",
+    alignItems: "stretch",
+//    backgroundColor: "yellow",
+    flex: 4
   },
   footerStyle: {
     flexDirection: "row",
@@ -171,9 +206,9 @@ const styles = {
     paddingBottom: 20
   },
   logoStyle: {
-    flex: 2,
+    flex: 3,
 
-//    backgroundColor: "yellow",
+ //   backgroundColor: "yellow",
     paddingLeft: scale(80),
     paddingRight: scale(80)
   },
@@ -185,7 +220,9 @@ const styles = {
   },
   loginCardStyle: {
 //    backgroundColor: "red",
-    justifyContent: "flex-start"
+    justifyContent: "space-around",
+    paddingLeft: scale(20),
+    paddingRight: scale(20)  
   },
   separatorStyle: {
     height: 40,
@@ -199,11 +236,12 @@ const styles = {
 
   },
   socialContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     height: 100,
-    paddingLeft: scale(80),
-    paddingRight: scale(80),
-    justifyContent: "center"
+    paddingLeft: scale(20),
+    paddingRight: scale(20),
+    justifyContent: "center",
+    flex: 3
   },
   errorTextStyle: {
     textAlign: "center",
@@ -211,16 +249,6 @@ const styles = {
     color: "white",
     fontWeight: "800"
   },
-  textStyle: {
-    flexGrow: 1,
-    fontSize: 18,
-    color: "#808080",
-    textAlign: "center",
-    ...Platform.select({
-      ios: { fontFamily: "Arial", },
-      android: { fontFamily: "Roboto" }
-    })
-  }
 };
 
 const mapStateToProps = state => {

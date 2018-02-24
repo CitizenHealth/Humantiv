@@ -2,25 +2,31 @@ import React, { Component } from "react";
 import { View, Text, Platform} from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
-import {Button, HeaderImage, LeftButton, Input, CardSection, Card } from "./common";
+import {
+  Button, 
+  HeaderImage, 
+  IconButton, 
+  CardSection, 
+  Card 
+} from "./common";
+import { 
+  IconInput,
+  ModalDialog 
+} from './custom'; 
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { Actions } from "react-native-router-flux";
 import { scale } from "react-native-size-matters";
 import firebase from "react-native-firebase";
 import Images from "../resources/images";
 import { checkEmail } from '../business';
-
-const modalMessages = {
-  badEmail: "The email address entered is invalid",
-  noUser: "The email address entered is not registered",
-  password: "A email with password change instructions was sent!"
-};
+import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 
 class PasswordLostView extends Component {
   
   state = {
     passwordReset: false,
     visibleModal: false,
-    textModal: modalMessages.password,
+    textModal: modalMessages.emailSent,
     email: ""
   };
 
@@ -58,7 +64,7 @@ class PasswordLostView extends Component {
       this.setState({
         passwordReset: true, 
         visibleModal: true, 
-        textModal: modalMessages.password
+        textModal: modalMessages.emailSent
       });
     })
     .catch((error) => {
@@ -91,7 +97,9 @@ class PasswordLostView extends Component {
     return (
         <View style={pageStyle}>
           <View style={navigationBarStyle}>
-            <LeftButton onPress={() => Actions.pop()}/>
+            <IconButton onPress={() => {Actions.pop()}}>
+              <FontAwesome>{Icons.chevronLeft}</FontAwesome>
+            </IconButton>
           </View>
           <View style={ImageContainerStyle} >
             <HeaderImage source={Images.img_login_password}/>
@@ -100,51 +108,44 @@ class PasswordLostView extends Component {
               <Text style={[textStyle, {fontSize: 24, fontWeight: 'bold', flex: 1}]}>
                 Forgot your password?
               </Text>
-              <Text style={[textStyle, {flex: 1}]}>
+              <Text style={[textStyle, {
+                flex: 1,               
+                paddingLeft: scale(20),
+                paddingRight: scale(20)
+              }]}>
                 Enter your email below to receive your password reset instructions
               </Text>
-              <View style={{flex: 2}}>
-                <Card>
+              <View style={{
+                flex: 2,
+                paddingLeft: scale(20),
+                paddingRight: scale(20)
+              }}>
                   <CardSection>
-                    <Input
-                      label="Email"
-                      placeholder="email@provider.com"
-                      keyboardType="email-address"
-                      enablesReturnKeyAutomatically
-                      returnKeyType={ "done" }
+                    <IconInput
+                      icon={Icons.envelopeO}
+                      placeholder="Email address"
                       onChangeText={this.onMailChangeText.bind(this)}
+                      keyboardType="email-address"
+                      returnKeyType={ "next" }
                     />
                   </CardSection>
-                </Card>
               </View>
             </View>
           <View style={buttonContainerStyle} >
-            <Button style={buttonStyle} onPress={this.sendPasswordInstructions.bind(this)}>
-              Send password
+            <Button
+              onPress={this.sendPasswordInstructions.bind(this)}>
+              Recover Password
             </Button>
           </View>
-          <Modal
-            isVisible={this.state.visibleModal}
-            backdropOpacity={0.5}
-            animationIn="zoomInDown"
-            animationOut="zoomOutUp"
-            animationInTiming={1000}
-            animationOutTiming={1000}
-            backdropTransitionInTiming={1000}
-            backdropTransitionOutTiming={1000}
-            style={modalStyle}
+            <ModalDialog
+            visible={this.state.visibleModal}
+            label={this.state.textModal.message}
+            cancelLabel={this.state.textModal.cancel}
+            acceptLabel={this.state.textModal.accept}
+            onCancelPress={this.dismissModal.bind(this)}
+            onAcceptPress={this.dismissModal.bind(this)}
           >
-            <View style={modalContent}>
-              <Text style={[textStyle, {color: "white", paddingBottom: scale(20)}]} >{this.state.textModal}</Text>              
-              <Button 
-                onPress={this.dismissModal.bind(this)}
-                backgroundC= "white"
-                textColor= "#E9222E" 
-              >
-                Ok
-              </Button>
-             </View>
-        </Modal>
+          </ModalDialog>
         </View>
     );
   }
@@ -154,7 +155,8 @@ const styles = {
   pageStyle: {
     justifyContent: "space-around",
     flexDirection: "column",
-    flex: 1
+    flex: 1,
+    backgroundColor: "#fff"
   },
   navigationBarStyle: {
     height: 60,
@@ -186,8 +188,8 @@ const styles = {
     flex: 2,
     alignItems: 'flex-end',
     justifyContent: "space-around",
-    paddingLeft: scale(80),
-    paddingRight: scale(80)
+    paddingLeft: scale(20),
+    paddingRight: scale(20)
   },
 
   textStyle: {

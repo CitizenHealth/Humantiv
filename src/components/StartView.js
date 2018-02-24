@@ -7,6 +7,7 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Spinner, HeaderImage } from "./common";
 import { fetchUser } from "../actions";
 import Images from "../resources/images";
+import { theme } from './themes';
 
 class StartView extends Component {
 
@@ -39,7 +40,7 @@ class StartView extends Component {
         if (Actions.currentScene === "load")
           Actions.login();
         else {
-          Actions.pop();
+          Actions.popTo('login');
         }
       }
     });
@@ -48,27 +49,15 @@ class StartView extends Component {
   render() {
     console.log(Actions._state.routes);
  
-    const { pageStyle, spinnerStyle} = styles;
+    const { starPageStyle, startSpinnerStyle} = theme;
 
     return (
-      <View style={pageStyle}>
-        <Spinner size="large" style={spinnerStyle} />
+      <View style={starPageStyle}>
+        <Spinner size="large" style={startSpinnerStyle} />
       </View>
     );
   }
 }
-
-const styles = {
-  pageStyle: {
-    justifyContent: "space-between",
-    backgroundColor: "#E9222E",
-    flexDirection: "column",
-    flex: 1
-  },
-  spinnerStyle: {
-    color: "white"
-  }
-};
 
 const mapStateToProps = state => {
   const { user, loggedin } = state.auth;

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, Platform, StyleSheet } from 'react-native';
-import { Button, Input, LeftButton, CardSection, Card, Avatar } from "./common";
+import { Button, IconButton, CardSection, Card, Avatar } from "./common";
 import {connect} from "react-redux";
 import { scale } from "react-native-size-matters";
 import { Actions } from 'react-native-router-flux';
+import { TextInput } from "./custom"
 import { 
   logoutUser,  
   dataCreate, 
@@ -11,6 +12,7 @@ import {
   dataFetch
 } from "../actions";
 import Images from "../resources/images";
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 class ProfileView extends Component {
 
@@ -59,9 +61,9 @@ class ProfileView extends Component {
       );
     }
     return (
-      <Avatar style={avatarStyle}
-      source= {Images.img_user_profile}
-      />
+      <IconButton>
+        <FontAwesome>{Icons.userCircle}</FontAwesome>
+      </IconButton>
     );
   }
   
@@ -79,20 +81,20 @@ class ProfileView extends Component {
       <View style={pageStyle}>
       <ScrollView >
         <View style={containerStyles}>          
-          <LeftButton onPress={() => Actions.pop()}/>
+          <IconButton onPress={() => {Actions.pop()}}>
+            <FontAwesome>{Icons.chevronLeft}</FontAwesome>
+          </IconButton>
           {this.renderProfileImage()}
-          <Button
-            onPress={this.onLogOutButtonPress.bind(this)}
-          >
-            Sign Out
-          </Button>
+          <IconButton onPress={this.onLogOutButtonPress.bind(this)}>
+            <FontAwesome>{Icons.powerOff}</FontAwesome>
+          </IconButton>
         </View>
         <View style={loginCardStyle}>
           <Card 
             title = "Profile"
           >
             <CardSection>
-              <Input 
+              <TextInput 
                 label = "Name"
                 placeholder="Name"
                 value={(user) ? user.displayName : ""}
@@ -102,7 +104,7 @@ class ProfileView extends Component {
               />
             </CardSection>
             <CardSection>
-              <Input
+              <TextInput
                 label="Email"
                 placeholder="email@provider.com"
                 value={(user) ? user.email : ""}
@@ -113,7 +115,7 @@ class ProfileView extends Component {
               />
             </CardSection>
             <CardSection>
-              <Input
+              <TextInput
                 label="Phone"
                 placeholder="555-555-5555"
                 value={(user) ? user.phoneNumber : ""}
@@ -124,7 +126,7 @@ class ProfileView extends Component {
               />
             </CardSection>
             <CardSection>
-              <Input 
+              <TextInput 
                   label = "Country"
                   placeholder="USA"
                   value={(children.profile) ? children.profile.country : ""}
@@ -135,7 +137,7 @@ class ProfileView extends Component {
                 />
             </CardSection>
             <CardSection>
-              <Input 
+              <TextInput 
                   label = "State"
                   placeholder=""
                   value={(children.profile) ? children.profile.state : ""}
@@ -146,7 +148,7 @@ class ProfileView extends Component {
                 />
             </CardSection>
             <CardSection>
-              <Input 
+              <TextInput 
                   label = "City"
                   placeholder=""
                   value={(children.profile) ? children.profile.city : ""}
@@ -161,7 +163,7 @@ class ProfileView extends Component {
             title = "Health"
           >
             <CardSection>
-              <Input 
+              <TextInput 
                 label = "Score"
                 placeholder="Between 0 and 100"
                 value={(children.health) ? children.health.score : ""}
@@ -173,7 +175,7 @@ class ProfileView extends Component {
               />
             </CardSection>
             <CardSection>
-              <Input
+              <TextInput
                 label="Height"
                 placeholder="In centimeters"
                 value={(children.health) ? children.health.height : ""}
@@ -185,7 +187,7 @@ class ProfileView extends Component {
               />
             </CardSection>
             <CardSection>
-              <Input
+              <TextInput
                 label="Weight"
                 placeholder="In kilograms"
                 value={(children.health) ? children.health.weight : ""}
@@ -201,15 +203,15 @@ class ProfileView extends Component {
             title = "Wallet"
           >
             <CardSection>
-              <Input 
-                label = "Medits"
+              <TextInput 
+                label = "Medit"
                 placeholder="Ammount of medits"
                 value={(children.wallet) ? children.wallet.medits : ""}
                 editable={false}
               />
             </CardSection>
             <CardSection>
-              <Input 
+              <TextInput 
                 label = "MDX"
                 placeholder="MDX"
                 value={(children.wallet) ? children.wallet.mdx : ""}
@@ -217,16 +219,15 @@ class ProfileView extends Component {
               />
             </CardSection>
           </Card>
-          <Card>
-            <CardSection style ={buttonContainerStyle}>
-              <Button 
-                style = {{ }}
-                onPress={this.onSaveButtonPress.bind(this)}
-              >
-                Save
-              </Button>
-            </CardSection>
-          </Card>
+            <Button 
+              onPress={this.onSaveButtonPress.bind(this)}
+              style={{
+                marginLeft:20,
+                marginRight: 20
+              }}
+            >
+              Save
+            </Button>
         </View>
       </ScrollView>
       </View>
@@ -242,11 +243,10 @@ const styles = StyleSheet.create ({
     flex: 1
   },
   containerStyles: {
-    paddingTop: 10,
     flexDirection: 'row',
-    justifyContent: "center",
-    height: scale(80),
-//    backgroundColor: "orange",
+    justifyContent: "space-between",
+    height: scale(60),
+  //  backgroundColor: "orange",
     alignItems: 'center',
     alignContent: 'stretch'
   },

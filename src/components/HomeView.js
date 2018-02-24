@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, Platform, StyleSheet } from 'react-native';
-import { Button, Input, CardSection, Card, Avatar, ImageButton } from "./common";
+import { Button, CardSection, Card, Avatar, IconButton } from "./common";
+import { TextInput } from "./custom"
 import {connect} from "react-redux";
 import { scale } from "react-native-size-matters";
 import { 
@@ -9,6 +10,7 @@ import {
   dataSave,
   dataFetch
 } from "../actions";
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Images from "../resources/images";
 import { Actions } from "react-native-router-flux";
 
@@ -43,9 +45,9 @@ class HomeView extends Component {
       );
     }
     return (
-      <Avatar style={avatarStyle}
-        source= {Images.img_user_profile}
-      />
+      <IconButton>
+        <FontAwesome>{Icons.userCircle}</FontAwesome>
+      </IconButton>
     );
   }
   
@@ -53,118 +55,29 @@ class HomeView extends Component {
     const { user, children } = this.props;
     const {
       pageStyle,
-      containerStyles,
-      textStyle,
-      loginCardStyle,
-      buttonContainerStyle
+      cardsSectionStyle,
+      scoreSectionStyle,
+      headerStyle,
+      containerStyle,
+      textStyle
     } = styles;
     console.log(`Children: ${children}`);
     return (
       <View style={pageStyle}>
-      <ScrollView >
-        <View style={containerStyles}>
-          {this.renderProfileImage()}
-          <Text style={textStyle}> Citizen Health </Text>
-          <ImageButton
-            source={Images.img_settings_disabled}
-            style={{height: 44, width: 44}}
-            onPress={this.onSettingsPress.bind(this)}
-          />
-        </View>
-        <View style={loginCardStyle}>
-          <Card 
-            title = "Profile"
-          >
-            <CardSection>
-              <Input 
-                label = "Name"
-                placeholder="Name"
-                value={(user) ? user.displayName : ""}
-                returnKeyType={ "next" }
-                editable={false}
-              />
-            </CardSection>
-            <CardSection>
-              <Input
-                label="Email"
-                placeholder="email@provider.com"
-                value={(user) ? user.email : ""}
-                keyboardType="email-address"
-                returnKeyType={ "next" }
-                editable={false}
-              />
-            </CardSection>
-          </Card>
-          <Card 
-            title = "Health"
-          >
-            <CardSection>
-              <Input 
-                label = "Score"
-                placeholder="Between 0 and 100"
-                value={(children.health) ? children.health.score : ""}
-                onChangeText={value => {
-                  this.props.dataCreate({"type": "health", "prop": "score", "value": value});
-                }}
-                keyboardType="numeric"
-                returnKeyType={ "next" }
-              />
-            </CardSection>
-            <CardSection>
-              <Input
-                label="Height"
-                placeholder="In centimeters"
-                value={(children.health) ? children.health.height : ""}
-                onChangeText={value => {
-                  this.props.dataCreate({"type": "health", "prop": "height", "value": value});
-                }}
-                keyboardType="numeric"
-                returnKeyType={ "next" }
-              />
-            </CardSection>
-            <CardSection>
-              <Input
-                label="Weight"
-                placeholder="In kilograms"
-                value={(children.health) ? children.health.weight : ""}
-                onChangeText={value => {
-                  this.props.dataCreate({"type": "health", "prop": "weight", "value": value});
-                }}
-               keyboardType="numeric"
-                returnKeyType={ "next" }
-              />
-            </CardSection>
-          </Card>
-          <Card 
-            title = "Wallet"
-          >
-            <CardSection>
-              <Input 
-                label = "Medits"
-                placeholder="Ammount of medits"
-                value={(children.wallet) ? children.wallet.medits : ""}
-                editable={false}
-              />
-            </CardSection>
-            <CardSection>
-              <Input 
-                label = "MDX"
-                placeholder="MDX"
-                value={(children.wallet) ? children.wallet.mdx : ""}
-                editable={false}
-              />
-            </CardSection>
-          </Card>
-          <Card>
-            <CardSection style ={buttonContainerStyle}>
-              <Button 
-                style = {{ }}
-                onPress={this.onSaveButtonPress.bind(this)}
-              >
-                Save
-              </Button>
-            </CardSection>
-          </Card>
+      <View style={headerStyle}>
+        {this.renderProfileImage()}
+        <Text style={textStyle}> Citizen Health </Text>
+        <IconButton onPress={this.onSettingsPress.bind(this)}>
+          <FontAwesome>{Icons.sliders}</FontAwesome>
+        </IconButton>
+      </View>
+      <ScrollView style={{flex: 1, backgroundColor: 'blue'}}>  
+        <View style={containerStyle}>      
+          <View style={cardsSectionStyle}>
+            <Text> Hi </Text>
+          </View>
+          <View style={scoreSectionStyle}>
+          </View>
         </View>
       </ScrollView>
       </View>
@@ -179,35 +92,33 @@ const styles = StyleSheet.create ({
     alignItems: "stretch",
     flex: 1
   },
-  containerStyles: {
+  headerStyle: {
     flexDirection: 'row',
-    justifyContent: "center",
+    justifyContent: "space-between",
     height: scale(60),
-  //  backgroundColor: "orange",
     alignItems: 'center',
     alignContent: 'stretch'
   },
-  avatarStyle: {
-    flex: 1,
-    //backgroundColor: "yellow",
-    justifyContent: 'flex-start',
-  },
-  loginCardStyle: {
-    justifyContent: "flex-start",
-//    backgroundColor: "yellow",
-    flex: 1,
+  containerStyle: {
+    flex:1,
     flexDirection: 'column',
+    backgroundColor: "orange",
   },
-  buttonContainerStyle: {
-    alignItems: 'stretch',
-    justifyContent: "center",
-//    backgroundColor: "yellow"
+  cardsSectionStyle: {
+    flex:1,
+    flexDirection: 'row',
+    backgroundColor: "orange",
+  },
+  scoreSectionStyle: {
+    flex: 3,
+    backgroundColor: "yellow",
+    justifyContent: 'flex-start',
   },
   textStyle: {
     flex: 4,
     textAlign: 'center',
-    fontSize: 20,
-    color: "#4e505c",
+    fontSize: 0,
+    color: "#808080",
     ...Platform.select({
       ios: { fontFamily: "Arial", },
       android: { fontFamily: "Roboto" }

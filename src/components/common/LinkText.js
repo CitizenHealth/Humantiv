@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity} from "react-native";
+import { theme, primaryBlueColor, primaryGreyColor} from '../themes';
 
 const LinkText = ({children, onPress}) => {
   const {containerStyle,  textStyle} = styles;
@@ -23,7 +24,7 @@ const styles = {
         
   },
   textStyle: {
-    color: "#E9222E",
+    color: primaryBlueColor,
     fontSize: 18,
   }
 };
