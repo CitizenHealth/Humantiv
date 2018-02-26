@@ -40,7 +40,8 @@ class StartView extends Component {
         if (Actions.currentScene === "load")
           Actions.login();
         else {
-          Actions.popTo('login');
+          Actions.popTo('load');
+          Actions.login();
         }
       }
     });
