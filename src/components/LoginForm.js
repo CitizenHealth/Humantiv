@@ -150,7 +150,6 @@ class LoginForm extends Component {
             </FacebookLoginButton>
             <GoogleLoginButton
               onPress={this.onGoogleSignInButtonPress.bind(this)}
-              isDisabled={true}
             >
               <FontAwesome 
                 style={{color: 'white'}}

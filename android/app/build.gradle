@@ -151,6 +151,10 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-google-signin')
+    compile(project(":react-native-google-signin")){
+        exclude group: "com.google.android.gms" // very important
+    }
     compile project(':react-native-fbsdk')
     compile project(':react-native-gesture-handler')
     compile(project(':react-native-firebase')) {
@@ -161,6 +165,7 @@ dependencies {
     }
     // Firebase dependencies
     compile "com.google.android.gms:play-services-base:11.8.0"
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
     compile "com.google.firebase:firebase-core:11.8.0"
     compile "com.google.firebase:firebase-analytics:11.8.0"
     compile "com.google.firebase:firebase-auth:11.8.0"

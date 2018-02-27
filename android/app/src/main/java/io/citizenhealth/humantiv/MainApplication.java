@@ -5,6 +5,8 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.swmansion.gesturehandler.react.BuildConfig;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -60,6 +62,8 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new RNGoogleSigninPackage(),
+                    new RNGoogleSigninPackage(),
                     new RNFirebasePackage(),
                     new RNGestureHandlerPackage(),
                     new FBSDKPackage(mCallbackManager),

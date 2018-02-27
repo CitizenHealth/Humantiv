@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "847047929311-tq29erqnihhorkn1pmhjcr1htokbvori.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.citizenhealth.humantiv",
+            "certificate_hash": "34fd3d3740f0667e50de1d7326da922400e55792"
+          }
+        },
+        {
           "client_id": "847047929311-me465as3kdc6un1u0g68r5q0bnko677b.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847047929311-me465as3kdc6un1u0g68r5q0bnko677b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "847047929311-ibked2hj6k5263b55bcjfnpiemrbpans.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.citizenhealth.humantiv"
+              }
+            }
+          ]
         },
         "ads_service": {
           "status": 2

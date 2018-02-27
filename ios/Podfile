@@ -15,7 +15,7 @@ target 'Humantiv' do
   pod 'Firebase/Performance'
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/Storage'
-  #pod 'GoogleSignIn'
+  pod 'GoogleSignIn'
   
   target 'HumantivTests' do
     inherit! :search_paths

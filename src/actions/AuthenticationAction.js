@@ -1,5 +1,5 @@
 import firebase from "react-native-firebase";
-//import { GoogleSignin } from 'react-native-google-signin';
+import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 import { Actions } from "react-native-router-flux";
@@ -102,36 +102,36 @@ export const fetchUser = (user) => {
 // Calling this function will open Google for login.
  const googleLogin = (dispatch) => {
   // Add configuration settings here:
-  // return GoogleSignin.configure({
-  //   iosClientId: "847047929311-fg67fjm6g0rvqi41hc170b6lpl85a1dq.apps.googleusercontent.com", // only for iOS
-  // })
-  // .then(() => {
-  //   GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-  //     // play services are available. can now configure library
-  //     GoogleSignin.signIn()
-  //     .then((data) => {
+  return GoogleSignin.configure({
+    iosClientId: "847047929311-ibked2hj6k5263b55bcjfnpiemrbpans.apps.googleusercontent.com", // only for iOS
+  })
+  .then(() => {
+    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+      // play services are available. can now configure library
+      GoogleSignin.signIn()
+      .then((data) => {
         
-  //       // create a new firebase credential with the token
-  //       const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
-  //       dispatch({ type: GOOGLE_LOGIN_USER });
+        // create a new firebase credential with the token
+        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+        dispatch({ type: GOOGLE_LOGIN_USER });
   
-  //       // login with credential
-  //       return firebase.auth().signInWithCredential(credential);
-  //     })
-  //     .then((user) => {
-  //       console.info(JSON.stringify(user.toJSON()));
-  //       loginUserSuccess(dispatch, user);
-  //       console.log("Signed In with Google");
-  //     })
-  //     .catch((error) => {
-  //       console.error(`Login fail with error: ${error}`);
-  //       loginUserFail(dispatch, error);
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.log("Play services error", err.code, err.message);
-  //   });
-  //  });
+        // login with credential
+        return firebase.auth().signInWithCredential(credential);
+      })
+      .then((user) => {
+        console.info(JSON.stringify(user.toJSON()));
+        loginUserSuccess(dispatch, user);
+        console.log("Signed In with Google");
+      })
+      .catch((error) => {
+        console.error(`Login fail with error: ${error}`);
+        loginUserFail(dispatch, error);
+      });
+    })
+    .catch((err) => {
+      console.log("Play services error", err.code, err.message);
+    });
+   });
 };
 
 // Calling the following function will open the FB login dialogue:
