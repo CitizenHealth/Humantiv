@@ -32,6 +32,7 @@ class Input extends Component {
           autoCapitalize= "none"
           editable= {editable}
           enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
+          underlineColorAndroid="transparent"
         />
     );
   };
