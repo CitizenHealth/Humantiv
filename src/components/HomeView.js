@@ -1,22 +1,49 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, Platform, StyleSheet } from 'react-native';
-import { Button, CardSection, Card, Avatar, IconButton } from "./common";
-import { TextInput } from "./custom"
+import { ScrollView, View, Text, Platform, StyleSheet, WebView } from 'react-native';
 import {connect} from "react-redux";
 import { scale } from "react-native-size-matters";
 import { 
-  logoutUser,  
   dataCreate, 
   dataSave,
   dataFetch
 } from "../actions";
+import { Avatar, IconButton } from "./common";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import Images from "../resources/images";
 import { Actions } from "react-native-router-flux";
 
+const baseURL = 'https://connect.humanapi.co/embed?';
+const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
+const clientSecret = '1de96f660418ba961d6f2de259f01aaed5da3445';
+const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
+const publicToken = null; //Set to publicToken value if previously retrieved or 'null' for new users
+const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
+const closeURL = 'https://connect.humanapi.co/blank/hc-close';
+
 class HomeView extends Component {
 
+ state = {
+    url: "",
+    status: 'No Page Loaded',
+    backButtonEnabled: false,
+    forwardButtonEnabled: false,
+    loading: true,
+    scalesPageToFit: true,
+  };
+
   componentWillMount () {
+    const {email} = this.props;
+
+    if (!email) {
+      console.log('Remote logging - ser email is null');
+    }
+    const clientUserId = email;
+
+    const connectURL = baseURL + 'client_id=' + clientID + '&client_user_id=' + clientUserId + 
+    '&finish_url=' + finishURL + '&close_url='+ closeURL + (publicToken != null ? "&public_token="+ 
+    publicToken : '');
+
+    this.setState({url: connectURL});
     this.props.dataFetch({type: "profile"});
     this.props.dataFetch({type: "health"});
     this.props.dataFetch({type: "wallet"});
@@ -24,14 +51,6 @@ class HomeView extends Component {
 
   onSettingsPress() {
     Actions.profile();
-  }
-
-  onSaveButtonPress() {
-    const {children} = this.props;
-
-    this.props.dataSave({type: "profile", data: children.profile});
-    this.props.dataSave({type: "health", data: children.health});
-    this.props.dataSave({type: "wallet", data: children.wallet});
   }
 
   renderProfileImage() {
@@ -64,26 +83,47 @@ class HomeView extends Component {
     console.log(`Children: ${children}`);
     return (
       <View style={pageStyle}>
-      <View style={headerStyle}>
-        {this.renderProfileImage()}
-        <Text style={textStyle}> Citizen Health </Text>
-        <IconButton onPress={this.onSettingsPress.bind(this)}>
-          <FontAwesome>{Icons.sliders}</FontAwesome>
-        </IconButton>
-      </View>
-      <ScrollView style={{flex: 1, backgroundColor: 'blue'}}>  
-        <View style={containerStyle}>      
-          <View style={cardsSectionStyle}>
-            <Text> Hi </Text>
-          </View>
-          <View style={scoreSectionStyle}>
-          </View>
+        <View style={headerStyle}>
+          {this.renderProfileImage()}
+          <Text style={textStyle}> Citizen Health </Text>
+          <IconButton onPress={this.onSettingsPress.bind(this)}>
+            <FontAwesome>{Icons.sliders}</FontAwesome>
+          </IconButton>
         </View>
-      </ScrollView>
-      </View>
+        <WebView
+            ref={'webview'}
+            automaticallyAdjustContentInsets={false}
+            style={styles.webView}
+            source={{uri: this.state.url}}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+            decelerationRate="normal"
+            onNavigationStateChange={this.onNavigationStateChange}
+            onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
+            startInLoadingState={true}
+            scalesPageToFit={this.state.scalesPageToFit}
+          />
+        </View>
     );
   }
 }
+{/* <View style={pageStyle}>
+<View style={headerStyle}>
+  {this.renderProfileImage()}
+  <Text style={textStyle}> Citizen Health </Text>
+  <IconButton onPress={this.onSettingsPress.bind(this)}>
+    <FontAwesome>{Icons.sliders}</FontAwesome>
+  </IconButton>
+</View>
+<ScrollView style={{flex: 1, backgroundColor: 'blue'}}>  
+  <View style={containerStyle}>      
+    <View style={cardsSectionStyle}>
+    </View>
+    <View style={scoreSectionStyle}>
+    </View>
+  </View>
+</ScrollView>
+</View> */}
 
 const styles = StyleSheet.create ({
   pageStyle: {
@@ -134,7 +174,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  logoutUser, 
   dataCreate, 
   dataSave,
   dataFetch

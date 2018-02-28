@@ -25,7 +25,7 @@ class StartView extends Component {
         FCM.getToken().then(token => {
         
           // stores the token in the user's document
-          console.log(token);
+          console.log(`FCM Token: ${token}`);
         });
 
         if (user.emailVerified 
