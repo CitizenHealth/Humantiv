@@ -19,7 +19,7 @@ class App extends Component {
     //     storageBucket: "test-94084.appspot.com",
     //     messagingSenderId: "757200182779"
     // };
-    firebase.perf().setPerformanceCollectionEnabled(true)
+//    firebase.perf().setPerformanceCollectionEnabled(true)
     firebase.app();
   }
 

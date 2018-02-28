@@ -12,10 +12,22 @@ import { theme } from './themes';
 class StartView extends Component {
 
   componentWillMount() {
-    firebase.app().auth().onAuthStateChanged((user) => {
+      FCM = firebase.messaging();
+
+      firebase.app().auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
         this.props.fetchUser(user);
+        // requests permissions from the user
+        FCM.requestPermissions();
+
+        // gets the device's push token
+        FCM.getToken().then(token => {
+        
+          // stores the token in the user's document
+          console.log(token);
+        });
+
         if (user.emailVerified 
           || user.providerData[0].providerId === "facebook.com"
           || user.providerData[0].providerId === "google.com"

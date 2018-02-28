@@ -6,7 +6,6 @@ import android.support.v4.app.ActivityCompat;
 
 import com.facebook.react.ReactApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.swmansion.gesturehandler.react.BuildConfig;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,6 +24,7 @@ import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -62,7 +62,6 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-            new RNGoogleSigninPackage(),
                     new RNGoogleSigninPackage(),
                     new RNFirebasePackage(),
                     new RNGestureHandlerPackage(),
@@ -73,7 +72,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFirebaseDatabasePackage(),
                     new RNFirebasePerformancePackage(),
                     new RNFirebaseRemoteConfigPackage(),
-                    new RNFirebaseStoragePackage()
+                    new RNFirebaseStoragePackage(),
+                    new RNFirebaseMessagingPackage()
             );
     }
 

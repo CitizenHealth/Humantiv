@@ -7,19 +7,20 @@ target 'Humantiv' do
 
   # Pods for Humantiv
 
-  pod 'Firebase/Core'
-  pod 'Firebase/Auth'
-  pod 'Fabric'
-  pod 'Crashlytics'
-  pod 'Firebase/Database'
-  pod 'Firebase/Performance'
-  pod 'Firebase/RemoteConfig'
-  pod 'Firebase/Storage'
-  pod 'GoogleSignIn'
-  
-  target 'HumantivTests' do
+#  pod 'Firebase/Core'
+#  pod 'Firebase/Auth'
+#  pod 'Fabric'
+#  pod 'Crashlytics'
+#  pod 'Firebase/Database'
+#  pod 'Firebase/Performance'
+#  pod 'Firebase/RemoteConfig'
+#  pod 'Firebase/Storage'
+#  pod 'GoogleSignIn'
+end
+
+target 'HumantivTests' do
     inherit! :search_paths
     # Pods for testing
-  end
-
 end
+
+
