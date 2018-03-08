@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { Button } from '../../src/components/common';
-import { SignUpButton, FacebookLoginButton, GoogleLoginButton } from '../../src/components/custom';
+import { HumanAPI, SignUpButton, FacebookLoginButton, GoogleLoginButton } from '../../src/components/custom';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
 
@@ -58,4 +58,21 @@ storiesOf('Button', module)
     >
       <Text>Connect with Google</Text>
     </GoogleLoginButton>
-  ))
+  ));
+
+  storiesOf('HumanAPI', module)
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('Launch', () => (
+    <View
+      style= {{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
+      }}>
+        <HumanAPI 
+          clientUserId="nabylb@gmail.com"
+          publicToken={null}
+        />
+      </View>
+  ));

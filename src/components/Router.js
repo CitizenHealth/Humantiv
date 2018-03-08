@@ -8,6 +8,7 @@ import EmailConfirmationView from "./EmailConfirmationView";
 import PasswordLostView from "./PasswordLostView";
 import HomeView from "./HomeView";
 import TabView from "./TabView";
+import SimplePage from "./SimplePage";
 
 const RouterComponent = () => {
   return (
@@ -18,14 +19,18 @@ const RouterComponent = () => {
     >
       <Scene key="root" hideNavBar>
         <Scene key="start">
-          <Scene key="load" component={StartView} hideNavBar initial />
+          <Scene key="load" component={StartView} animation='fade' hideNavBar initial />
         </Scene>
         <Scene key="auth">
-          <Scene key="login" component={LoginForm} hideNavBar initial/>
+          <Scene key="login" component={LoginForm} animation='fade' hideNavBar initial/>
           <Scene key="verify" component={EmailConfirmationView} hideNavBar />
           <Scene key="password" component={PasswordLostView} hideNavBar />
         </Scene>
-        <Scene key="tutorial" component={TutorialView} hideNavBar/>
+        <Scene key="onboarding">
+          <Scene key="tutorial" component={TutorialView} hideNavBar initial/>
+          <Scene key="personal" component={SimplePage} hideNavBar/>
+          <Scene key="humanapi" component={SimplePage} hideNavBar/>
+        </Scene>
         <Scene key="main">
           <Scene
             key="tab"

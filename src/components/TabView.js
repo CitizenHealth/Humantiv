@@ -3,6 +3,7 @@ import { Animated, View, Text, StyleSheet, Image } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import SimplePage from './SimplePage';
 import HomeView from './HomeView';
+import HumanAPI from './HumanAPI';
 import Images from '../resources/images';
 import type { Route, NavigationState } from 'react-native-tab-view/types';
 
@@ -19,6 +20,14 @@ class TabView extends React.Component<*, State> {
   static title = 'Bottom bar with indicator';
   static appbarElevation = 4;
 
+  componentWillMount() {
+    var i = 2;
+  }
+
+  componentWillUnmount() {
+
+  }
+  
   state = {
     index: 0,
     routes: [
@@ -142,7 +151,7 @@ class TabView extends React.Component<*, State> {
     switch (route.key) {
       case '0':
         return (
-          <HomeView
+          <HumanAPI
           />
         );
       case '1':

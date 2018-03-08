@@ -2,7 +2,6 @@ import firebase from "react-native-firebase";
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
-import { Actions } from "react-native-router-flux";
 import { EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
@@ -32,11 +31,13 @@ export const loginUser = ({ email, password }) => {
   return (dispatch) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
+      firebase.analytics().logEvent('user_login', {provider: 'Email Login'});
       dispatch({ type: LOGIN_USER });
     })
     .catch(() => {
       firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(() => {
+        firebase.analytics().logEvent('user_login', {provider: 'Email SignIn'});
         dispatch({ type: CREATE_USER });
         // Create user database
         
@@ -53,8 +54,6 @@ const loginUserSuccess = (dispatch, user) => {
       type: LOGIN_USER_SUCCESS,
       payload: user._user
     });    
-  Actions.main();
-  
 };
 
 const loginUserFail = (dispatch, error) => {
@@ -120,11 +119,12 @@ export const fetchUser = (user) => {
       })
       .then((user) => {
         console.info(JSON.stringify(user.toJSON()));
+        firebase.analytics().logEvent('user_login', {provider: 'Google'});
         loginUserSuccess(dispatch, user);
         console.log("Signed In with Google");
       })
       .catch((error) => {
-        console.error(`Login fail with error: ${error}`);
+        console.log(`Login fail with error: ${error}`);
         loginUserFail(dispatch, error);
       });
     })
@@ -147,7 +147,7 @@ const facebookLogin = (dispatch) => {
     })
     .then(data => {
       if (data) {
-        // create a new firebase credential with the token
+         // create a new firebase credential with the token
         const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
         dispatch({ type: FACEBOOK_LOGIN_USER });
         // login with credential
@@ -157,6 +157,7 @@ const facebookLogin = (dispatch) => {
     .then((user) => {
       if (user) {
         console.info(JSON.stringify(user.toJSON()));
+        firebase.analytics().logEvent('user_login', {provider: 'Facebook'});
         loginUserSuccess(dispatch, user);
       }
     })

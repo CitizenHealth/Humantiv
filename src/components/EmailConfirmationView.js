@@ -57,7 +57,7 @@ class EmailConfirmation extends Component {
         }
       });    
     } else {
-      Actions.login();
+      Actions.auth();
     }
   }
 

@@ -35,7 +35,7 @@ class HomeView extends Component {
     const {email} = this.props;
 
     if (!email) {
-      console.log('Remote logging - ser email is null');
+      console.log('Remote logging - User email is null');
     }
     const clientUserId = email;
 

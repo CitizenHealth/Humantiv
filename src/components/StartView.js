@@ -49,18 +49,18 @@ class StartView extends Component {
         }       
       } else {       
         console.log(`Route: ${Actions.currentScene}`);
-        if (Actions.currentScene === "load")
-          Actions.login();
+        if (Actions.currentScene === "load"
+            || Actions.currentScene === "login")
+          Actions.auth();
         else {
-          Actions.popTo('load');
-          Actions.login();
+          Actions.reset('auth');
         }
       }
     });
   }
 
   render() {
-    console.log(Actions._state.routes);
+    console.log(`Routes states: ${Actions._state.routes}`);
  
     const { starPageStyle, startSpinnerStyle} = theme;
 
