@@ -25,3 +25,6 @@ Now open up your Android App in the Firebase console and add the SHA-1:
 
 # Build Status
 [![Nevercode build status](https://app.nevercode.io/api/projects/679a112b-d03e-4998-9ec5-b7380f833b18/workflows/87fd9f97-e635-442e-a4a4-e1b03ad825c5/status_badge.svg?branch=master)](https://app.nevercode.io/#/project/679a112b-d03e-4998-9ec5-b7380f833b18/workflow/87fd9f97-e635-442e-a4a4-e1b03ad825c5/latestBuild?branch=master)
+
+https://build.appcenter.ms/v0.1/apps/b7f2dff4-eb48-4276-bfec-d039660af96c/branches/master/badge
+https://build.appcenter.ms/v0.1/apps/1b98ec5d-c8f6-4916-b279-b4820e4f5870/branches/master/badge
