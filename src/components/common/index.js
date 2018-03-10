@@ -14,3 +14,4 @@ export * from './Avatar';
 export * from './LinkText';
 export * from './ImageButton';
 export * from './ModalWrapper';
+export * from './PageSlide';

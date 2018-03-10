@@ -11,7 +11,6 @@ import {
   dataSave,
   dataFetch
 } from "../actions";
-import Images from "../resources/images";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 class ProfileView extends Component {

@@ -21,13 +21,13 @@ const RouterComponent = () => {
         <Scene key="start">
           <Scene key="load" component={StartView} animation='fade' hideNavBar initial />
         </Scene>
-        <Scene key="auth">
-          <Scene key="login" component={LoginForm} animation='fade' hideNavBar initial/>
+         <Scene key="auth">
+          <Scene key="tutorial" component={TutorialView} animation='fade' hideNavBar initial/>
+          <Scene key="login" component={LoginForm} animation='fade' hideNavBar />
           <Scene key="verify" component={EmailConfirmationView} hideNavBar />
           <Scene key="password" component={PasswordLostView} hideNavBar />
         </Scene>
         <Scene key="onboarding">
-          <Scene key="tutorial" component={TutorialView} hideNavBar initial/>
           <Scene key="personal" component={SimplePage} hideNavBar/>
           <Scene key="humanapi" component={SimplePage} hideNavBar/>
         </Scene>

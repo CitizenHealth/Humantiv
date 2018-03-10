@@ -5,15 +5,33 @@ import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Spinner, HeaderImage } from "./common";
-import { fetchUser } from "../actions";
-import Images from "../resources/images";
+import { fetchUser, getConfiguration } from "../actions";
 import { theme } from './themes';
+import configData from '../configuration/appconfig.json';
 
 class StartView extends Component {
 
   componentWillMount() {
+      // Connect Firebase Analytics
       FCM = firebase.messaging();
 
+      // Retrieve Firebase Remote Configurations
+      // Set default values
+      if (__DEV__) {
+        firebase.config().enableDeveloperMode();
+      }
+      firebase.config().setDefaults({
+        tutorial_title: configData.tutorial_title,
+        tutorial_text: configData.tutorial_text,
+        tutorial_background_color: configData.tutorial_background_color
+      });
+
+      // Fetch remote configuration parameters
+      this.props.getConfiguration('tutorial_title');
+      this.props.getConfiguration('tutorial_text');
+      this.props.getConfiguration('tutorial_background_color');
+
+      // Take care of Authentication
       firebase.app().auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
@@ -74,7 +92,8 @@ class StartView extends Component {
 
 const mapStateToProps = state => {
   const { user, loggedin } = state.auth;
-  return { user, loggedin };
+  const { tutorial_title, tutorial_text} = state.config;
+  return { user, loggedin, tutorial_title, tutorial_text};
 };
 
-export default connect(mapStateToProps, { fetchUser })(StartView);
+export default connect(mapStateToProps, { fetchUser, getConfiguration })(StartView);

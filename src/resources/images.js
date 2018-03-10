@@ -17,7 +17,9 @@ const Images = {
   img_purchase_enabled: require("./images/tabs/purchase_enabled.png"),
   img_purchase_disabled: require("./images/tabs/purchase_disabled.png"),
   img_settings_enabled: require("./images/tabs/settings_enabled.png"),
-  img_settings_disabled: require("./images/tabs/settings_disabled.png")
+  img_settings_disabled: require("./images/tabs/settings_disabled.png"),
+
+  img_tutorial_1: require("./images/tutorial/tutorial1.png")
 };
 
 export default Images;

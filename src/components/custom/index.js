@@ -4,3 +4,4 @@ export * from './GoogleLoginButton';
 export * from './IconInput';
 export * from './TextInput';
 export * from './ModalDialog';
+export * from './TutorialSlider';
