@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.facebook.react.ReactApplication;
+import io.sentry.RNSentryPackage;
 import io.citizenhealth.humanapi.RNReactNativeHumanApiPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.swmansion.gesturehandler.react.BuildConfig;
@@ -63,6 +64,7 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new RNSentryPackage(MainApplication.this),
             new RNReactNativeHumanApiPackage(),
                     new RNGoogleSigninPackage(),
                     new RNFirebasePackage(),

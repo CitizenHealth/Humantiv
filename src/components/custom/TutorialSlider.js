@@ -156,7 +156,7 @@ class TutorialSlider extends Component {
           pagingEnabled
           showsHorizontalScrollIndicator={false}
           bounces={false}
-          style={{ flex: 1,  backgroundColor: primaryBlueColor }}
+          style={{ flex: 1,  backgroundColor: this.props.backgroundColor }}
           renderItem={this._renderItem}
           onMomentumScrollEnd={this._onMomentumScrollEnd}
         />

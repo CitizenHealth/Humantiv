@@ -13,14 +13,49 @@ import {TutorialSlider} from '../components/custom';
 import Images from '../resources/images';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {primaryBlueColor, primaryGreyColor} from './themes/theme';
+import {primaryBlueColor} from './themes/theme';
+import {
+  Sentry,
+  SentrySeverity,
+  SentryLog
+} from 'react-native-sentry';
 
 
 
 class TutorialView extends Component {
 
+  componentWillMount() {
+    // set a custom message
+    // Sentry.captureMessage("TEST message", {
+    //   level: SentrySeverity.Warning
+    // }); // Default SentrySeverity.Error
+    
+    // // capture an exception
+    // Sentry.captureException(new Error('Oops!'), {
+    //   logger: 'Tutorial'
+    // });
+    
+    // // capture a breadcrumb
+    // Sentry.captureBreadcrumb({
+    //   message: 'Tutorial run',
+    //   category: 'action',
+    //   data: {
+    //       isbn: '978-1617290541',
+    //       cartSize: '3'
+    //   }
+    // });
+    
+    // This will trigger a crash in the native sentry client
+    //Sentry.nativeCrash();
+  }
+
   componentDidCatch(error, info) {
     //Try Sentry to report rendering issues
+    // capture an exception
+    Sentry.captureException(new Error('Render Problem'), {
+      logger: 'TutorialView'
+    });
+    
     console.log(`${displayName}: ${error} - ${info}`);
   }
 
@@ -47,18 +82,52 @@ class TutorialView extends Component {
       buttonTextStyle
     } = styles;
 
-    slides[0] = {
-      key: 'welcome',
-      title: this.props.tutorial_title,
-      text: this.props.tutorial_text,
-      image: Images.img_tutorial_1,
-      imageStyle: styles.image,
-      backgroundColor: this.props.tutorial_background_color,
-    };
+    var slides = [
+      {
+        key: 'welcome',
+        title: this.props.tutorial_title,
+        text: this.props.tutorial_text,
+        image: Images.img_tutorial_1,
+        imageStyle: styles.image,
+        backgroundColor: this.props.tutorial_background_color,
+      },
+      {
+        key: 'intelligence',
+        title: 'Health Intelligence',
+        text: 'Our AI analyzes data from multiple devices, services, and health providers.',
+        image: Images.img_tutorial_1,
+        imageStyle: styles.image,
+        backgroundColor: this.props.tutorial_background_color,
+      },
+      {
+        key: 'cryptocurrency',
+        title: 'Cryptocurrency rewards',
+        text: 'Receive Medits for improving your health.',
+        image: Images.img_tutorial_1,
+        imageStyle: styles.image,
+        backgroundColor: this.props.tutorial_background_color,
+      },
+      {
+        key: 'vote',
+        title: 'Every vote counts',
+        text: 'You decide how we change healthcare.',
+        image: Images.img_tutorial_1,
+        imageStyle: styles.image,
+        backgroundColor: this.props.tutorial_background_color,
+      },
+      {
+        key: 'change',
+        title: 'Change is coming!',
+        text: 'Be part of the growing movement changing healthcare from the ground up.',
+        image: Images.img_tutorial_1,
+        imageStyle: styles.image,
+        backgroundColor: this.props.tutorial_background_color,
+      }
+    ];
 
     return (
-      <View style={containerStyle}>
-       <TutorialSlider style={{flex:1, alignItems: 'stretch', backgroundColor: 'yellow'}}
+      <View style={[containerStyle, {backgroundColor: this.props.tutorial_background_color}]}>
+       <TutorialSlider style={{flex:1, alignItems: 'stretch'}}
           slides={slides}
           onSlideChange={(a, b) => console.log(`Active slide changed from ${b} to ${a}`)}
           renderNextButton={this.renderNextButton}
@@ -69,7 +138,7 @@ class TutorialView extends Component {
             style={buttonStyle} 
             onPress={() => Actions.login()}
           >
-            <Text style={buttonTextStyle}>
+            <Text style={[buttonTextStyle, {color: this.props.tutorial_background_color}]}>
                 GET STARTED
             </Text>
           </TouchableOpacity>
@@ -95,7 +164,6 @@ const styles = StyleSheet.create({
     },
     buttonTextStyle: {
       textAlign: 'center',
-      color: primaryBlueColor,
       fontWeight: "600",
       fontSize: 16,
       marginBottom: 5,
@@ -106,49 +174,6 @@ const styles = StyleSheet.create({
     }
   });
  
-  var slides = [
-    {
-      key: 'welcome',
-      title: 'Welcome to Humantiv',
-      text: 'Welcome to the new healthcare revolution powered by you.',
-      image: Images.img_tutorial_1,
-      imageStyle: styles.image,
-      backgroundColor: primaryBlueColor,
-    },
-    {
-      key: 'intelligence',
-      title: 'Health Intelligence',
-      text: 'Our AI analyzes data from multiple devices, services, and health providers.',
-      image: Images.img_tutorial_1,
-      imageStyle: styles.image,
-      backgroundColor: primaryBlueColor,
-    },
-    {
-      key: 'cryptocurrency',
-      title: 'Cryptocurrency rewards',
-      text: 'Receive Medits for improving your health.',
-      image: Images.img_tutorial_1,
-      imageStyle: styles.image,
-      backgroundColor: primaryBlueColor,
-    },
-    {
-      key: 'vote',
-      title: 'Every vote counts',
-      text: 'You decide how we change healthcare.',
-      image: Images.img_tutorial_1,
-      imageStyle: styles.image,
-      backgroundColor: primaryBlueColor,
-    },
-    {
-      key: 'change',
-      title: 'Change is coming!',
-      text: 'Be part of the growing movement changing healthcare from the ground up.',
-      image: Images.img_tutorial_1,
-      imageStyle: styles.image,
-      backgroundColor: primaryBlueColor,
-    }
-  ];
-  
   const mapStateToProps = (state) => {
     const {
       tutorial_title, 

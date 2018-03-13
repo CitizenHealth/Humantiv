@@ -11,6 +11,11 @@
 #import "Firebase.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#if __has_include(<React/RNSentry.h>)
+#import <React/RNSentry.h> // This is used for versions of react >= 0.40
+#else
+#import "RNSentry.h" // This is used for versions of react < 0.40
+#endif
 #import <RNGoogleSignin/RNGoogleSignin.h>
 #import "RNFirebaseMessaging.h"
 
@@ -36,11 +41,13 @@
 #else
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
-
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Humantiv"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
+
+  [RNSentry installWithRootView:rootView];
+
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

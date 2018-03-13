@@ -8,6 +8,12 @@ import { Spinner, HeaderImage } from "./common";
 import { fetchUser, getConfiguration } from "../actions";
 import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
+import {
+        Sentry,
+        SentrySeverity,
+        SentryLog
+      } from 'react-native-sentry';
+    
 
 class StartView extends Component {
 
@@ -46,6 +52,17 @@ class StartView extends Component {
           console.log(`FCM Token: ${token}`);
         });
 
+        // Set Sentry crash reporting context
+        // set the user context
+        Sentry.setUserContext({
+          email: user.email,
+          userID: user.userID,
+          username: user.username,
+          extra: {
+            "is_admin": false
+          }
+        });
+
         if (user.emailVerified 
           || user.providerData[0].providerId === "facebook.com"
           || user.providerData[0].providerId === "google.com"
@@ -74,6 +91,51 @@ class StartView extends Component {
           Actions.reset('auth');
         }
       }
+    });
+
+    // disable stacktrace merging
+    Sentry.config("https://0999f8401b0844a7b4279508d1d5bac9:5f9c3a1bdca04884aea7634085ce459e@sentry.io/275892", {
+      deactivateStacktraceMerging: false, // default: true | Deactivates the stacktrace merging feature
+      logLevel: SentryLog.Debug, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
+      disableNativeIntegration: false, // default: false | Deactivates the native integration and only uses raven-js
+      handlePromiseRejection: true // default: true | Handle unhandled promise rejections
+      // sampleRate: 0.5 // default: 1.0 | Only set this if you don't want to send every event so e.g.: 0.5 will send 50% of all events
+      // These two options will only be considered if stacktrace merging is active
+      // Here you can add modules that should be ignored or exclude modules
+      // that should no longer be ignored from stacktrace merging
+      // ignoreModulesExclude: ["I18nManager"], // default: [] | Exclude is always stronger than include
+      // ignoreModulesInclude: ["RNSentry"], // default: [] | Include modules that should be ignored too
+      // ---------------------------------
+    }).install();
+    
+    // set a callback after an event was successfully sentry
+    // its only guaranteed that this event contains `event_id` & `level`
+    Sentry.setEventSentSuccessfully((event) => {
+      // can also be called outside this block but maybe null
+      // Sentry.lastEventId(); -> returns the last event_id after the first successfully sent event
+      // Sentry.lastException(); -> returns the last event after the first successfully sent event
+    });
+    
+    Sentry.setShouldSendCallback((event) => {
+      return true; // if return false, event will not be sent
+    });
+    
+    // Sentry.lastException(); // Will return the last sent error event
+    // Sentry.lastEventId(); // Will return the last event id
+    
+    // export an extra context
+    // Sentry.setExtraContext({
+    //   "a_thing": 3,
+    //   "some_things": {"green": "red"},
+    //   "foobar": ["a", "b", "c"],
+    //   "react": true,
+    //   "float": 2.43
+    // });
+    
+    // set the tag context
+    Sentry.setTagsContext({
+      "environment": "production",
+      "react": true
     });
   }
 

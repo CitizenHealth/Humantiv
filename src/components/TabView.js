@@ -5,6 +5,7 @@ import SimplePage from './SimplePage';
 import HomeView from './HomeView';
 import HumanAPI from './HumanAPI';
 import Images from '../resources/images';
+import {primaryBlueColor} from './themes/theme';
 import type { Route, NavigationState } from 'react-native-tab-view/types';
 
 type State = NavigationState<
@@ -112,7 +113,7 @@ class TabView extends React.Component<*, State> {
   _renderLabel = props => ({ route, index }) => {
     var color = "#DADDE2";
     if (parseInt(route.key) === parseInt(this.state.index)) {
-      color = "#3C9AFB";     
+      color = primaryBlueColor;     
     }
     return (
       <Animated.Text style={[styles.label, { color }]}>

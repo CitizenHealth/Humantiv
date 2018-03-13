@@ -17,6 +17,7 @@ import {
   GoogleLoginButton, 
   SignUpButton,
   IconInput,
+  IconPasswordInput,
   ModalDialog 
 } from './custom'; 
 import { emailChanged, passwordChanged, loginUser, loginGoogleUser, loginFacebookUser } from "../actions";
@@ -121,8 +122,7 @@ class LoginForm extends Component {
             />
           </CardSection>
           <CardSection>
-            <IconInput
-              secureTextEntry
+            <IconPasswordInput
               icon={Icons.lock}
               placeholder="Password"
               value={password}
