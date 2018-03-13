@@ -135,11 +135,20 @@ export const theme = StyleSheet.create({
     paddingLeft: 20,
     flex: 1
   },
+  inputPasswordContainerStyle: {
+    flex: 1,
+    height: 80,
+    flexDirection: "column",
+    alignItems: "center"
+  },
   inputContainerStyle: {
     height: 40,
     flex: 1,
     flexDirection: "row",
     alignItems: "center"
+  },
+  inputPasswordCheckerStyle: {
+    flex: 1,
   },
   iconButtonStyle: {
     alignItems: "center",

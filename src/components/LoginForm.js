@@ -18,18 +18,19 @@ import {
   SignUpButton,
   IconInput,
   IconPasswordInput,
-  ModalDialog 
+  ModalDialog,
+  PasswordInputStrengthIndicator
 } from './custom'; 
 import { emailChanged, passwordChanged, loginUser, loginGoogleUser, loginFacebookUser } from "../actions";
 import Images from "../resources/images";
 import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import Icon from "react-native-fontawesome";
 
 class LoginForm extends Component {
   state = { 
     signUpModalVisible: false,
-    dialogState: modalMessages.noEmail
+    dialogState: modalMessages.noEmail,
+    signInEnabled: false
    };
 
   dismissModal() {
@@ -121,13 +122,11 @@ class LoginForm extends Component {
               returnKeyType={ "next" }
             />
           </CardSection>
-          <CardSection>
-            <IconPasswordInput
+          <CardSection style={{borderColor: 'transparent'}}>
+            <PasswordInputStrengthIndicator
               icon={Icons.lock}
               placeholder="Password"
               value={password}
-              enablesReturnKeyAutomatically
-              returnKeyType={ "done" }
               onChangeText={this.onPasswordChangeText.bind(this)}
             />
           </CardSection>

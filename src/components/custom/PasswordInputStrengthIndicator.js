@@ -8,13 +8,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { 
     View, 
-    TextInput, 
     StyleSheet, 
     Dimensions, 
     Text, 
-    Animated } from 'react-native';
+    Animated,
+    TextInput
+   } from 'react-native';
+import {IconPasswordInput} from '../custom';
 import zxcvbn from 'zxcvbn';
 import _ from 'lodash';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
+
 
 const { width: wWidth } = Dimensions.get('window');
 
@@ -32,46 +36,46 @@ const regex = {
   symbolsPattern: /\W/
 };
 
-export default class PasswordStrengthChecker extends Component {
+class PasswordInputStrengthIndicator extends Component {
   static defaultProps = {
     minLevel: 2,
-    minLength: 0,
+    minLength: 8,
     ruleNames: 'lowerCase|upperCase|digits|symbols',
     strengthLevels: [
       {
         label: 'Weak',
-        labelColor: '#fff',
-        widthPercent: 33,
+        labelColor: '#fe6c6c',
+        widthPercent: 25,
         innerBarColor: '#fe6c6c'
       },
       {
         label: 'Weak',
-        labelColor: '#fff',
-        widthPercent: 33,
+        labelColor: '#fe6c6c',
+        widthPercent: 25,
         innerBarColor: '#fe6c6c'
       },
       {
         label: 'Fair',
-        labelColor: '#fff',
-        widthPercent: 67,
+        labelColor: '#feb466',
+        widthPercent: 50,
         innerBarColor: '#feb466'
       },
       {
-        label: 'Fair',
-        labelColor: '#fff',
-        widthPercent: 67,
-        innerBarColor: '#feb466'
+        label: 'Good',
+        labelColor: '#81fe2c',
+        widthPercent: 75,
+        innerBarColor: '#81fe2c'
       },
       {
         label: 'Strong',
-        labelColor: '#fff',
+        labelColor: '#6cfeb5',
         widthPercent: 100,
         innerBarColor: '#6cfeb5'
       }
     ],
     tooShort: {
-      enabled: false,
-      labelColor: '#fff',
+      enabled: true,
+      labelColor: '#fe6c6c',
       label: 'Too short',
       widthPercent: 33,
       innerBarColor: '#fe6c6c'
@@ -215,14 +219,16 @@ export default class PasswordStrengthChecker extends Component {
     const { inputWrapperStyle, inputStyle } = this.props;
     return (
       <View style={[styles.inputWrapper, inputWrapperStyle]}>
-        <TextInput
-          selectionColor="#fff"
+        <IconPasswordInput
+          icon={this.props.icon}
+          placeholder={this.props.placeholder}
+          value={this.props.value}
+          enablesReturnKeyAutomatically
+          returnKeyType={ "done" }
           autoCapitalize="none"
           autoCorrect={false}
           multiline={false}
-          underlineColorAndroid="transparent"
           {...this.props}
-          style={[styles.input, inputStyle]}
           onChangeText={text => this.onChangeText(text)}
         />
       </View>
@@ -306,16 +312,16 @@ export default class PasswordStrengthChecker extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
+    height: 60,
     backgroundColor: 'transparent',
   },
   inputWrapper: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 40,
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
     backgroundColor: 'transparent',
-    borderBottomWidth: 0.8,
-    borderColor: 'rgba(242, 242, 242, 0.5)'
   },
   input: {
     flex: 1,
@@ -327,7 +333,10 @@ const styles = StyleSheet.create({
   passwordStrengthWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 10
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    alignItems: "stretch",
+    marginLeft: 10
   },
   passwordStrengthBar: {
     height: 10,
@@ -351,3 +360,5 @@ const styles = StyleSheet.create({
     fontSize: 14
   }
 });
+
+export {PasswordInputStrengthIndicator}

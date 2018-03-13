@@ -16,6 +16,8 @@ target 'Humantiv' do
 #  pod 'Firebase/RemoteConfig'
 #  pod 'Firebase/Storage'
 #  pod 'GoogleSignIn'
+
+
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
 end

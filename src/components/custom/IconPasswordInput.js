@@ -19,9 +19,9 @@ class IconPasswordInput extends Component {
 
     renderShowIcon() {
         if (this.state.isPasswordVisible) {
-            return (Icons.eyeSlash);
-        } else {
             return (Icons.eye);
+        } else {
+            return (Icons.eyeSlash);
         }
     }
 

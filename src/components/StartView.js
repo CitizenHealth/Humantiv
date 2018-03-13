@@ -96,7 +96,7 @@ class StartView extends Component {
     // disable stacktrace merging
     Sentry.config("https://0999f8401b0844a7b4279508d1d5bac9:5f9c3a1bdca04884aea7634085ce459e@sentry.io/275892", {
       deactivateStacktraceMerging: false, // default: true | Deactivates the stacktrace merging feature
-      logLevel: SentryLog.Debug, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
+      logLevel: SentryLog.None, // default SentryLog.None | Possible values:  .None, .Error, .Debug, .Verbose
       disableNativeIntegration: false, // default: false | Deactivates the native integration and only uses raven-js
       handlePromiseRejection: true // default: true | Handle unhandled promise rejections
       // sampleRate: 0.5 // default: 1.0 | Only set this if you don't want to send every event so e.g.: 0.5 will send 50% of all events
