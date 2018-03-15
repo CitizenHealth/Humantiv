@@ -18,7 +18,7 @@ target 'Humantiv' do
 #  pod 'GoogleSignIn'
 
 
-  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
+#  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
 end
 
