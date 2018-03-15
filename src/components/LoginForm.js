@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, Linking, TextField, MDButton } from "react-native";
+import { 
+  View, 
+  Text, 
+  Linking, 
+  TextField, 
+  MDButton
+ } from "react-native";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { scale } from "react-native-size-matters";
@@ -94,7 +101,8 @@ class LoginForm extends Component {
             logoStyle,
             socialContainer, loginPageStyle,
             separatorStyle, logoTextStyle,
-            loginCardStyle, buttonContainerStyle
+            loginCardStyle, buttonContainerStyle,
+            keyboardPageStyle
            } = styles;
     const { primaryWhiteTextStyle, primaryGreyTextStyle } = theme;
 
@@ -105,7 +113,12 @@ class LoginForm extends Component {
       return (<View />);
     }
     return (
-      <View style={pageStyle}>
+      <KeyboardAwareScrollView
+        style={{ backgroundColor: '#4c69a5' }}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={pageStyle}
+        scrollEnabled={false}
+      >
         <View style={logoStyle}>
           <HeaderImage
             source={Images.img_login_header}
@@ -176,14 +189,15 @@ class LoginForm extends Component {
           onAcceptPress={this.dismissModal.bind(this)}
         >
         </ModalDialog>
-      </View>
-              
-        
+      </KeyboardAwareScrollView>   
     );
   }
 }
 
 const styles = {
+  keyboardPageStyle: {
+    flex: 1
+  },
   pageStyle: {
     backgroundColor: "white",
     flexDirection: "column",

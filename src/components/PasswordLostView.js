@@ -13,6 +13,7 @@ import {
   IconInput,
   ModalDialog 
 } from './custom'; 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { Actions } from "react-native-router-flux";
 import { scale } from "react-native-size-matters";
@@ -95,7 +96,12 @@ class PasswordLostView extends Component {
     } = styles;
 
     return (
-        <View style={pageStyle}>
+        <KeyboardAwareScrollView
+          style={{ backgroundColor: '#4c69a5' }}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          contentContainerStyle={pageStyle}
+          scrollEnabled={false}
+        >
           <View style={navigationBarStyle}>
             <IconButton onPress={() => {Actions.pop()}}>
               <FontAwesome>{Icons.chevronLeft}</FontAwesome>
@@ -146,7 +152,7 @@ class PasswordLostView extends Component {
             onAcceptPress={this.dismissModal.bind(this)}
           >
           </ModalDialog>
-        </View>
+        </KeyboardAwareScrollView>
     );
   }
 }
