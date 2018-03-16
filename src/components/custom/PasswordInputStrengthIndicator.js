@@ -12,7 +12,8 @@ import {
     Dimensions, 
     Text, 
     Animated,
-    TextInput
+    TextInput,
+    ViewPropTypes
    } from 'react-native';
 import {IconPasswordInput} from '../custom';
 import zxcvbn from 'zxcvbn';
@@ -92,11 +93,11 @@ class PasswordInputStrengthIndicator extends Component {
     strengthLevels: PropTypes.array,
     tooShort: PropTypes.object,
     minLevel: PropTypes.number,
-    inputWrapperStyle: View.propTypes.style,
+    inputWrapperStyle: ViewPropTypes.style,
     inputStyle: TextInput.propTypes.style,
-    strengthWrapperStyle: View.propTypes.style,
-    strengthBarStyle: View.propTypes.style,
-    innerStrengthBarStyle: View.propTypes.style,
+    strengthWrapperStyle: ViewPropTypes.style,
+    strengthBarStyle: ViewPropTypes.style,
+    innerStrengthBarStyle: ViewPropTypes.style,
     strengthDescriptionStyle: Text.propTypes.style,
     barColor: PropTypes.string,
     barWidthPercent: PropTypes.number,

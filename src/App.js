@@ -6,7 +6,10 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import reducers from "./reducers";
 import RouterComponent from "./components/Router";
 import firebase from "react-native-firebase";
-import { Sentry } from 'react-native-sentry';
+import { 
+  Sentry,
+  SentryLog 
+} from 'react-native-sentry';
 
 class App extends Component {
   

@@ -110,8 +110,7 @@ export const theme = StyleSheet.create({
     padding: 5,
     justifyContent: "flex-start",
     flexDirection: "row",
-    borderColor: "#ddd",
-    position: "relative",
+    color: "#ddd",
     backgroundColor: primaryBlueColor
   },
   cardTitleStyle: {
