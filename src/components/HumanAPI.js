@@ -15,7 +15,8 @@ import { Actions } from "react-native-router-flux";
 import RNHumanAPI from 'react-native-human-api';
 import { 
     dataSave,
-    dataFetch
+    dataFetch,
+    humanAPIFetch
   } from "../actions";
 
 const baseURL = 'https://connect.humanapi.co/embed?';
@@ -58,8 +59,10 @@ class HumanAPI extends Component {
             auth_url: 'https://us-central1-health-score-6740b.cloudfunctions.net/humanAPITokenExchange',
             success: (data) => {
                 // save publicToken
-            this.saveHumanAPIPublicToken(data.public_token);
-            console.log(data.public_token)
+                this.saveHumanAPIPublicToken(data.public_token);
+
+                console.log(`Human API Callback: ${data}`);
+
             },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         } : {
@@ -70,8 +73,8 @@ class HumanAPI extends Component {
             success: (data) => {
                 // save publicToken
                 this.saveHumanAPIPublicToken(data.public_token);
-                console.log(data.public_token)
-            },  // callback when success with auth_url
+                this.props.humanAPIFetch(data.public_token);
+             },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         }
         humanAPI.onConnect(options)
@@ -81,22 +84,60 @@ class HumanAPI extends Component {
       }
     
     renderProfileImage() {
-    const { user } = this.props;
-    const { avatarStyle } = this.props;
-    if (user && user.photoURL) {
+        const { user } = this.props;
+        const { avatarStyle } = this.props;
+        if (user && user.photoURL) {
+            return (
+            <Avatar style={avatarStyle}
+                imageURL= {user.photoURL}
+            />
+            );
+        }
         return (
-        <Avatar style={avatarStyle}
-            imageURL= {user.photoURL}
-        />
+            <IconButton>
+            <FontAwesome>{Icons.userCircle}</FontAwesome>
+            </IconButton>
         );
     }
-    return (
-        <IconButton>
-        <FontAwesome>{Icons.userCircle}</FontAwesome>
-        </IconButton>
-    );
-    }
 
+    renderActivity() {
+        const {webStyle} = styles;
+        const {children} = this.props;
+
+        const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
+        const human_id = (children.humanapi && children.humanapi.human_id) ? children.humanapi.human_id : null;
+        const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
+ 
+        // Get humanId and accessToken from the humanapi table
+         console.log(`WEBVIEW public_token: ${public_token}`);
+         console.log(`WEBVIEW human_id: ${human_id}`);
+         console.log(`WEBVIEW access_token: ${access_token}`);
+
+         if (access_token === null) {
+             return (
+                 <View style={{flex: 1}}>
+
+                 </View>
+             );
+         } else {
+            return (
+                <View style={{flex: 1}}>
+                    <WebView
+                    source={{uri: `https://chart.humanapi.co/v1/human/activities/summaries?chart_token=demo&start_date=2015-09-01&end_date=2015-09-30&type=gauge`}}
+                        style={webStyle}
+                    />
+                    <WebView
+                    source={{uri: `https://chart.humanapi.co/v1/human/activities/summaries?chart_token=demo&start_date=2015-09-01&end_date=2015-09-30&type=bar`}}
+                        style={webStyle}
+                    />
+                    <WebView
+                    source={{uri: `https://chart.humanapi.co/v1/human/activities/summaries?chart_token=demo&start_date=2015-09-01&end_date=2015-09-30&type=line`}}
+                        style={webStyle}
+                    />
+                </View>
+            );
+        }
+    }
     render() {
         const {
             button,
@@ -109,12 +150,13 @@ class HumanAPI extends Component {
         return (
             <View style={pageStyle}>
                 <View style={headerStyle}>
-                {this.renderProfileImage()}
-                <Text style={textStyle}> Citizen Health </Text>
-                <IconButton onPress={this.onSettingsPress.bind(this)}>
-                    <FontAwesome>{Icons.sliders}</FontAwesome>
-                </IconButton>
+                    {this.renderProfileImage()}
+                    <Text style={textStyle}> Citizen Health </Text>
+                    <IconButton onPress={this.onSettingsPress.bind(this)}>
+                        <FontAwesome>{Icons.sliders}</FontAwesome>
+                    </IconButton>
                 </View>
+                {this.renderActivity()}
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.button} onPress={this.connectHumanAPI}>
                         <Text style={styles.instructions}>
@@ -129,23 +171,26 @@ class HumanAPI extends Component {
 
 const styles = StyleSheet.create({
     pageStyle: {
-        backgroundColor: "#FFF",
         flexDirection: "column",
         alignItems: "stretch",
         flex: 1
     },
     headerStyle: {
+        backgroundColor: "#FFF",
         flexDirection: 'row',
         justifyContent: "space-between",
         height: scale(60),
         alignItems: 'center',
         alignContent: 'stretch'
     },
-    container: {
+    webStyle: {
         flex: 1,
+        alignContent: 'stretch'
+    },
+    container: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF'
+        height: scale(80),
     },
     instructions: {
         textAlign: 'center',
@@ -183,4 +228,4 @@ const mapStateToProps = (state) => {
         user, children
     }
 }
-export default connect(mapStateToProps, {dataFetch, dataSave})(HumanAPI);
+export default connect(mapStateToProps, {dataFetch, dataSave, humanAPIFetch})(HumanAPI);

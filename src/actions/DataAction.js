@@ -1,6 +1,6 @@
 import firebase from "react-native-firebase";
 import { Actions } from "react-native-router-flux";
-import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT } from "./types";
+import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH } from "./types";
 
 export const dataCreate = ({type, prop, value}) => {
   return ({
@@ -47,5 +47,29 @@ export const dataFetch = ({type}) => {
       let data = snapshot.val();
       dispatch({ type: DATA_FETCH, payload: {type, data} });
     });
+  };
+};
+
+export const humanAPIFetch = (publicToken) => {
+  const { currentUser } = firebase.auth();
+
+  return (dispatch) => {
+
+    // Move the data from the /humanapi database ...
+    firebase.database().ref(`/humanapi/${publicToken}`)
+    .once("value", snapshot => {
+
+      // ... to the main users database ...
+      dispatch(dataSave({type: "humanapi", data: {
+        public_token: publicToken,
+        human_id: snapshot.val().humanId,
+        access_token: snapshot.val().accessToken
+      }}));
+      // ... and delete the entry in the temp /humanapi database
+      dispatch(
+        firebase.database().ref(`/humanapi/${publicToken}`)
+        .remove()
+      );
+    })
   };
 };

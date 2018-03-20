@@ -1,7 +1,8 @@
-import { DATA_CREATE, DATA_SAVE, DATA_EDIT, DATA_FETCH } from "../actions/types";
+import { DATA_CREATE, DATA_SAVE, DATA_EDIT, DATA_FETCH, HUMANAPI_DATA_FETCH } from "../actions/types";
 
 const INITIAL_STATE = {
-  children: {}
+  children: {},
+  hapiPublicToken: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -28,6 +29,11 @@ export default (state = INITIAL_STATE, action) => {
           ...state.children,
           [action.payload.type] : action.payload.data
           }
+      };
+    case HUMANAPI_DATA_FETCH:
+      return {
+        ...state,
+        hapiPublicToken : action.payload.data
       };
     default:
       return state;
