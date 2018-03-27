@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { 
     View, 
-    TouchableOpacity, 
-    TouchableNativeFeedback,
+    TouchableOpacity,
     Platform
  } from 'react-native';
 import { Input } from '../common/Input';
@@ -49,7 +48,7 @@ class IconPasswordInput extends Component {
     renderDisplayPassword() {
         if (Platform.OS === 'android') {
             return (
-                <TouchableNativeFeedback 
+                <TouchableOpacity 
                     onPress={() => {this.setState({isPasswordVisible: !this.state.isPasswordVisible})}} 
                 > 
                     <FontAwesome 
@@ -62,7 +61,7 @@ class IconPasswordInput extends Component {
                     >
                         {this.renderShowIcon()}
                     </FontAwesome> 
-                </TouchableNativeFeedback>
+                </TouchableOpacity>
             )
         } else {
             return (

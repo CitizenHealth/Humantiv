@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  TouchableNativeFeedback,
   Platform
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -33,8 +32,8 @@ class Button extends Component {
     onPress: PropTypes.func,
     onLongPress: PropTypes.func,
     onPressIn: PropTypes.func,
-    onPressOut: PropTypes.func,
-    background: (TouchableNativeFeedback.propTypes) ? TouchableNativeFeedback.propTypes.background : PropTypes.any,
+    onPressOut: PropTypes.func
+//    background: (TouchableOpacity.propTypes) ? TouchableOpacity.propTypes.background : PropTypes.any,
   }
 
   static isAndroid = (Platform.OS === 'android')
@@ -106,25 +105,30 @@ class Button extends Component {
       delayPressIn: this.props.delayPressIn,
       delayPressOut: this.props.delayPressOut,
     };
-    if (Button.isAndroid) {
+//     if (Button.isAndroid) {
+//       touchableProps = Object.assign(touchableProps, {
+// //        background: this.props.background
+//         activeOpacity: 0.5
+//       });
+//       return (
+//         <TouchableOpacity {...touchableProps}>
+//           <View style={[theme.buttonStyle, this.props.style]}>
+//             {this._renderInnerText()}
+//           </View>
+//         </TouchableOpacity>
+//       )
+//     } else {
       touchableProps = Object.assign(touchableProps, {
-        background: this.props.background || TouchableNativeFeedback.SelectableBackground()
+//        background: this.props.background
+        activeOpacity: 0.5
       });
       return (
-        <TouchableNativeFeedback {...touchableProps}>
-          <View style={[theme.buttonStyle, this.props.style]}>
-            {this._renderInnerText()}
-          </View>
-        </TouchableNativeFeedback>
-      )
-    } else {
-      return (
         <TouchableOpacity {...touchableProps}
-          style={[theme.buttonStyle,  , this.props.style]}>
+          style={[theme.buttonStyle, this.props.style]}>
           {this._renderInnerText()}
         </TouchableOpacity>
       );
-    }
+//    }
   }
 }
 

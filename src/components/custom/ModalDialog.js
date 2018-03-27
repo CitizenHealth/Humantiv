@@ -93,7 +93,7 @@ class ModalDialog extends Component {
           style= {[
             modalContent, { 
               width: scale(280), 
-              height: scale(100)
+              height: scale(120)
             }]
           }
           visible={this.props.visible}>
@@ -106,10 +106,9 @@ class ModalDialog extends Component {
                   {
                     flex: 1,
                     padding:15,
-                    fontSize:20,
+                    fontSize:18,
                     justifyContent: 'flex-start',
                     alignContent: 'center',
-                    fontWeight: '500',
                     textAlign: 'left'
                   }]
                 }

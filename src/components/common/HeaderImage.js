@@ -19,10 +19,10 @@ const styles = {
     flex: 1,
     height: undefined,
     width: undefined,
-    resizeMode: "contain",
-    shadowOffset:{  width: 5,  height: 5,  },
-    shadowColor: "grey",
-    shadowOpacity: 0.7
+    resizeMode: "contain"
+    // shadowOffset:{  width: 5,  height: 5,  },
+    // shadowColor: "grey",
+    // shadowOpacity: 0.7
   }
 };
 

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, Platform} from "react-native";
+import { View, Text, Platform, Alert} from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Spinner, HeaderImage } from "./common";
-import { fetchUser, getConfiguration } from "../actions";
+import { fetchUser, getConfiguration, dataSave } from "../actions";
 import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
 import {
@@ -18,9 +18,27 @@ import {
 class StartView extends Component {
 
   componentWillMount() {
-      // Connect Firebase Analytics
+      // Connect Firebase Messaging
       FCM = firebase.messaging();
+      FCM.getInitialNotification(() => {
 
+      })
+      .then(notif => {
+        console.log(`Notification received: ${JSON.stringify(notif)}`)
+      });
+      FCM.onMessage((payload) => {
+        const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
+        const body = Platform.OS === 'ios' ? payload.aps.alert.body : payload.fcm.body;
+
+        Alert.alert(
+          title,
+          body,
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          { cancelable: false }
+        )
+      });
       // Retrieve Firebase Remote Configurations
       // Set default values
       if (__DEV__) {
@@ -46,10 +64,12 @@ class StartView extends Component {
         FCM.requestPermissions();
 
         // gets the device's push token
-        FCM.getToken().then(token => {
-        
+        FCM.getToken().then(token => {      
           // stores the token in the user's document
           console.log(`FCM Token: ${token}`);
+          if(token && token != undefined) {                
+            this.props.dataSave({type: 'messaging', data: {fcm: token}});
+          }
         });
 
         // Set Sentry crash reporting context
@@ -158,4 +178,8 @@ const mapStateToProps = state => {
   return { user, loggedin, tutorial_title, tutorial_text};
 };
 
-export default connect(mapStateToProps, { fetchUser, getConfiguration })(StartView);
+export default connect(mapStateToProps, { 
+  fetchUser, 
+  getConfiguration,
+  dataSave
+})(StartView);

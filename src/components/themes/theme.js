@@ -62,9 +62,9 @@ export const theme = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: primaryBlueColor,
     
-    shadowOffset:{  width: 5,  height: 5,  },
-    shadowColor: primaryBlueColor,
-    shadowOpacity: 0.7
+    // shadowOffset:{  width: 5,  height: 5,  },
+    // shadowColor: primaryBlueColor,
+    // shadowOpacity: 0.7
   },
   textButtonStyle: {
     flex: 1,
