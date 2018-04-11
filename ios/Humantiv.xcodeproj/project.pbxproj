@@ -57,6 +57,11 @@
 		4A5382DE2046943000D2FFBA /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5382DA2046943000D2FFBA /* Protobuf.framework */; };
 		4A5382DF2046943000D2FFBA /* FirebaseMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5382DB2046943000D2FFBA /* FirebaseMessaging.framework */; };
 		4A5E585F203FA6390053C2E8 /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A5E585E203FA6390053C2E8 /* fontawesome-webfont.ttf */; };
+		4A70B2E8207D3C2800C97F24 /* humantiv-icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A70B2E4207D3C2800C97F24 /* humantiv-icons.ttf */; };
+		4A70B2E9207D3C2800C97F24 /* Sofia-Pro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A70B2E5207D3C2800C97F24 /* Sofia-Pro-Regular.ttf */; };
+		4A70B2EA207D3C2800C97F24 /* Sofia-Pro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A70B2E6207D3C2800C97F24 /* Sofia-Pro-SemiBold.ttf */; };
+		4A70B2EB207D3C2800C97F24 /* Sofia-Pro-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A70B2E7207D3C2800C97F24 /* Sofia-Pro-UltraLight.ttf */; };
+		4A88425A207B2D8800C04E91 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A884249207B2D1500C04E91 /* libRNSVG.a */; };
 		4A909D17205A638C003071F4 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A909D16205A61D9003071F4 /* libRNSentry.a */; };
 		4AA195B020362983001ABB7F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4AA195AF20362982001ABB7F /* GoogleService-Info.plist */; };
 		4AA195FB20363524001ABB7F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA195FA20363524001ABB7F /* FBSDKCoreKit.framework */; };
@@ -70,6 +75,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8847B742C19D440195938DA1 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AD450AC75E0427DA0DE5A93 /* libRNGestureHandler.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		CD4FC1A2482C447F9D80401A /* libRNReactNativeHgraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA8BFF4E945C4CDAB3137956 /* libRNReactNativeHgraph.a */; };
 		D6BC166C79A143DD8D5DB060 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FF1E9C364548889EB99604 /* libRNGoogleSignin.a */; };
 		D8C6F9F8BC4349E6A36D880D /* libRNReactNativeHumanApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B410E20CD26441B297DABB11 /* libRNReactNativeHumanApi.a */; };
 		DAA85372BB284E98A8D0B31B /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319D1445DDB74963ABA01F9B /* SafariServices.framework */; };
@@ -280,6 +286,27 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNReactNativeHumanApi;
 		};
+		4A884241207B288200C04E91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B226DAA58F44D2CA1A206FE /* RNReactNativeHgraph.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNReactNativeHgraph;
+		};
+		4A884248207B2D1500C04E91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A884243207B2D1500C04E91 /* RNSVG.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = RNSVG;
+		};
+		4A88424A207B2D1500C04E91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A884243207B2D1500C04E91 /* RNSVG.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 94DDAC5C1F3D024300EED511;
+			remoteInfo = "RNSVG-tvOS";
+		};
 		4A909D15205A61D9003071F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4A909CE5205A61D7003071F4 /* RNSentry.xcodeproj */;
@@ -450,6 +477,11 @@
 		4A5382DB2046943000D2FFBA /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseMessaging.framework; sourceTree = "<group>"; };
 		4A5382E020469BB000D2FFBA /* Humantiv.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Humantiv.entitlements; path = Humantiv/Humantiv.entitlements; sourceTree = "<group>"; };
 		4A5E585E203FA6390053C2E8 /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
+		4A70B2E4207D3C2800C97F24 /* humantiv-icons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "humantiv-icons.ttf"; path = "../src/resources/fonts/humantiv-icons.ttf"; sourceTree = "<group>"; };
+		4A70B2E5207D3C2800C97F24 /* Sofia-Pro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sofia-Pro-Regular.ttf"; path = "../src/resources/fonts/Sofia-Pro-Regular.ttf"; sourceTree = "<group>"; };
+		4A70B2E6207D3C2800C97F24 /* Sofia-Pro-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sofia-Pro-SemiBold.ttf"; path = "../src/resources/fonts/Sofia-Pro-SemiBold.ttf"; sourceTree = "<group>"; };
+		4A70B2E7207D3C2800C97F24 /* Sofia-Pro-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sofia-Pro-UltraLight.ttf"; path = "../src/resources/fonts/Sofia-Pro-UltraLight.ttf"; sourceTree = "<group>"; };
+		4A884243207B2D1500C04E91 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		4A909CE5205A61D7003071F4 /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
 		4AA195AF20362982001ABB7F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4AA195FA20363524001ABB7F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -462,6 +494,7 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6CFF7B2CAE3D46518C99395E /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		7B226DAA58F44D2CA1A206FE /* RNReactNativeHgraph.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNReactNativeHgraph.xcodeproj; path = "../node_modules/react-native-hgraph/ios/RNReactNativeHgraph.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		83EB4664C5FFE46349CEE26F /* Pods-HumantivTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumantivTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HumantivTests/Pods-HumantivTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8AD450AC75E0427DA0DE5A93 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
@@ -472,6 +505,7 @@
 		D6FF1E9C364548889EB99604 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		E63881D4C25F4551A9649A08 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ED0FEDB7E11EF0DAECFAA6A4 /* Pods-HumantivTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumantivTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HumantivTests/Pods-HumantivTests.release.xcconfig"; sourceTree = "<group>"; };
+		FA8BFF4E945C4CDAB3137956 /* libRNReactNativeHgraph.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeHgraph.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -488,6 +522,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A88425A207B2D8800C04E91 /* libRNSVG.a in Frameworks */,
 				4A5382DC2046943000D2FFBA /* Protobuf.framework in Frameworks */,
 				4AA195FF2036361A001ABB7F /* Bolts.framework in Frameworks */,
 				4AA196002036361A001ABB7F /* FBSDKShareKit.framework in Frameworks */,
@@ -546,6 +581,7 @@
 				4A909D17205A638C003071F4 /* libRNSentry.a in Frameworks */,
 				48CF185296FEE6D28052CE22 /* Pods_Humantiv.framework in Frameworks */,
 				D8C6F9F8BC4349E6A36D880D /* libRNReactNativeHumanApi.a in Frameworks */,
+				CD4FC1A2482C447F9D80401A /* libRNReactNativeHgraph.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -826,6 +862,10 @@
 		4A5E5829203F87D00053C2E8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				4A70B2E4207D3C2800C97F24 /* humantiv-icons.ttf */,
+				4A70B2E5207D3C2800C97F24 /* Sofia-Pro-Regular.ttf */,
+				4A70B2E6207D3C2800C97F24 /* Sofia-Pro-SemiBold.ttf */,
+				4A70B2E7207D3C2800C97F24 /* Sofia-Pro-UltraLight.ttf */,
 				4A5E585E203FA6390053C2E8 /* fontawesome-webfont.ttf */,
 			);
 			name = Fonts;
@@ -835,6 +875,23 @@
 			isa = PBXGroup;
 			children = (
 				4A7BBFF9204FCD3500C253C5 /* libRNReactNativeHumanApi.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4A88423E207B288100C04E91 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A884242207B288200C04E91 /* libRNReactNativeHgraph.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4A884244207B2D1500C04E91 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A884249207B2D1500C04E91 /* libRNSVG.a */,
+				4A88424B207B2D1500C04E91 /* libRNSVG-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -855,6 +912,7 @@
 				3189F2CEC44D428D93B60F4A /* libRCTFBSDK.a */,
 				D6FF1E9C364548889EB99604 /* libRNGoogleSignin.a */,
 				B410E20CD26441B297DABB11 /* libRNReactNativeHumanApi.a */,
+				FA8BFF4E945C4CDAB3137956 /* libRNReactNativeHgraph.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -899,6 +957,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4A884243207B2D1500C04E91 /* RNSVG.xcodeproj */,
 				4A909CE5205A61D7003071F4 /* RNSentry.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -917,6 +976,7 @@
 				5E58BED957924C8798AA8A1C /* RCTFBSDK.xcodeproj */,
 				11A88EA5FE674F6C95B678AA /* RNGoogleSignin.xcodeproj */,
 				2399776D47AA419C90FA436D /* RNReactNativeHumanApi.xcodeproj */,
+				7B226DAA58F44D2CA1A206FE /* RNReactNativeHgraph.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1116,12 +1176,20 @@
 					ProjectRef = 11A88EA5FE674F6C95B678AA /* RNGoogleSignin.xcodeproj */;
 				},
 				{
+					ProductGroup = 4A88423E207B288100C04E91 /* Products */;
+					ProjectRef = 7B226DAA58F44D2CA1A206FE /* RNReactNativeHgraph.xcodeproj */;
+				},
+				{
 					ProductGroup = 4A7BBFF5204FCD3500C253C5 /* Products */;
 					ProjectRef = 2399776D47AA419C90FA436D /* RNReactNativeHumanApi.xcodeproj */;
 				},
 				{
 					ProductGroup = 4A909CE6205A61D7003071F4 /* Products */;
 					ProjectRef = 4A909CE5205A61D7003071F4 /* RNSentry.xcodeproj */;
+				},
+				{
+					ProductGroup = 4A884244207B2D1500C04E91 /* Products */;
+					ProjectRef = 4A884243207B2D1500C04E91 /* RNSVG.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1329,6 +1397,27 @@
 			remoteRef = 4A7BBFF8204FCD3500C253C5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		4A884242207B288200C04E91 /* libRNReactNativeHgraph.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNReactNativeHgraph.a;
+			remoteRef = 4A884241207B288200C04E91 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A884249207B2D1500C04E91 /* libRNSVG.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSVG.a;
+			remoteRef = 4A884248207B2D1500C04E91 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A88424B207B2D1500C04E91 /* libRNSVG-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNSVG-tvOS.a";
+			remoteRef = 4A88424A207B2D1500C04E91 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4A909D16205A61D9003071F4 /* libRNSentry.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1451,7 +1540,11 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				4A1B155320461C0300198EC0 /* GoogleSignIn.bundle in Resources */,
 				4A5E585F203FA6390053C2E8 /* fontawesome-webfont.ttf in Resources */,
+				4A70B2E8207D3C2800C97F24 /* humantiv-icons.ttf in Resources */,
+				4A70B2EB207D3C2800C97F24 /* Sofia-Pro-UltraLight.ttf in Resources */,
+				4A70B2EA207D3C2800C97F24 /* Sofia-Pro-SemiBold.ttf in Resources */,
 				4AA195B020362983001ABB7F /* GoogleService-Info.plist in Resources */,
+				4A70B2E9207D3C2800C97F24 /* Sofia-Pro-Regular.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1643,12 +1736,14 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-human-api/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
 				);
 				INFOPLIST_FILE = HumantivTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1676,12 +1771,14 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-human-api/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
 				);
 				INFOPLIST_FILE = HumantivTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1725,6 +1822,7 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-human-api/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
 				);
 				INFOPLIST_FILE = Humantiv/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1769,6 +1867,7 @@
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-human-api/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
 				);
 				INFOPLIST_FILE = Humantiv/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

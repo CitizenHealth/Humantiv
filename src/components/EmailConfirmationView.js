@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, Platform} from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
-import {Button, HeaderImage, IconButton, LinkText } from "./common";
+import {Button, HeaderImage, LinkText } from "./common";
 import {
   ModalDialog 
 } from './custom'; 

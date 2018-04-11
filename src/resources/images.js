@@ -1,4 +1,6 @@
 const Images = {
+
+  // Login View
   img_login_header: require("./images/login/logo.png"),
   img_login_google: require("./images/login/google.png"),
   img_login_facebook: require("./images/login/facebook.png"),
@@ -19,7 +21,8 @@ const Images = {
   img_settings_enabled: require("./images/tabs/settings_enabled.png"),
   img_settings_disabled: require("./images/tabs/settings_disabled.png"),
 
-  img_tutorial_1: require("./images/tutorial/tutorial1.png")
+  img_tutorial_1: require("./images/tutorial/tutorial1.png"),
+
 };
 
 export default Images;

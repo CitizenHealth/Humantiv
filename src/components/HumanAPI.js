@@ -10,7 +10,13 @@ import {
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import {Avatar, IconButton} from './common';
+import HGraph, { hGraphConvert, calculateHealthScore }  from 'react-native-hgraph';
+import {
+    Avatar, 
+    IconButton,
+    ScoreCard,
+    Card
+} from './common';
 import { Actions } from "react-native-router-flux";
 import RNHumanAPI from 'react-native-human-api';
 import { 
@@ -113,6 +119,106 @@ class HumanAPI extends Component {
          console.log(`WEBVIEW human_id: ${human_id}`);
          console.log(`WEBVIEW access_token: ${access_token}`);
 
+         const totalCholesterolValue = (1-0)*Math.random();
+         const ldlValue = (300-0)*Math.random();
+         const hdlValue = (150-0)*Math.random();
+         const triglyceridesValue = (300-0)*Math.random();
+         const bloodPressureSystolicValue = (230-50)*Math.random();
+         const bloodPressureDiastolicValue = (140-35)*Math.random();
+         const alcoholUseValue = (20-0)*Math.random();
+         const nicotineUseValue = (20-0)*Math.random();
+         const painLevelValue = (10-0)*Math.random();
+         const waistCircumferenceValue = (200-0)*Math.random();
+         const weightValue = (400-50)*Math.random();
+         const exerciseValue = (60-0)*Math.random();
+         const sleepValue = (18-0)*Math.random();
+         const happinessValue = (10-0)*Math.random();
+         const glucoseValue = (160-0)*Math.random();
+         const otherValue = (1-0)*Math.random();
+         const healthData = [
+           hGraphConvert('male', 'totalCholesterol',
+           {
+               id        : 'totalCholesterol',
+               "value"     : totalCholesterolValue
+           }),
+           hGraphConvert('male', 'ldl',
+           {
+               id        : 'ldl',
+               "value"     : ldlValue
+           }),
+           hGraphConvert('male', 'hdl',
+           {
+               id        : 'hdl',
+               "value"     : hdlValue
+           }),
+           hGraphConvert('male', 'triglycerides',
+           {
+               id        : 'triglycerides',
+               "value"     : triglyceridesValue
+           }),
+           hGraphConvert('male', 'bloodPressureSystolic',
+           {
+               id        : 'bloodPressureSystolic',
+               "value"     : bloodPressureSystolicValue
+           }),
+           hGraphConvert('male', 'bloodPressureDiastolic',
+           {
+               id        : 'bloodPressureDiastolic',
+               "value"     : bloodPressureDiastolicValue
+           }),
+           hGraphConvert('male', 'alcoholUse',
+           {
+               id        : 'alcoholUse',
+               "value"     : alcoholUseValue
+           }),
+           hGraphConvert('male', 'nicotineUse',
+           {
+               id        : 'nicotineUse',
+               "value"     : nicotineUseValue
+           }),
+           hGraphConvert('male', 'painLevel',
+           {
+               id        : 'painLevel',
+               "value"     : painLevelValue
+           }),
+           hGraphConvert('male', 'waistCircumference',
+           {
+               id        : 'waistCircumference',
+               "value"     : waistCircumferenceValue
+           }),
+           hGraphConvert('male', 'weight',
+           {
+               id        : 'weight',
+               "value"     : weightValue
+           }),
+           hGraphConvert('male', 'exercise',
+           {
+               id        : 'exercise',
+               "value"     : exerciseValue
+           }),
+           hGraphConvert('male', 'sleep',
+           {
+               id        : 'sleep',
+               "value"     : sleepValue
+           }),
+           hGraphConvert('male', 'happiness',
+           {
+               id        : 'happiness',
+               "value"     : happinessValue
+           }),
+           hGraphConvert('male', 'glucose',
+           {
+               id        : 'glucose',
+               "value"     : glucoseValue
+           }),
+           hGraphConvert('male', 'other',
+           {
+               id        : 'other',
+               "value"     : otherValue
+           }),
+         ]
+   
+         const healthScore =  Math.floor(calculateHealthScore(healthData));        
          if (access_token === null) {
              return (
                  <View style={{flex: 1}}>
@@ -122,18 +228,60 @@ class HumanAPI extends Component {
          } else {
             return (
                 <View style={{flex: 1}}>
-                    <WebView
-                    source={{uri: `https://chart.humanapi.co/v1/human/activities/summaries?chart_token=demo&start_date=2015-09-01&end_date=2015-09-30&type=gauge`}}
-                        style={webStyle}
-                    />
-                    <WebView
-                    source={{uri: `https://chart.humanapi.co/v1/human/activities/summaries?chart_token=demo&start_date=2015-09-01&end_date=2015-09-30&type=bar`}}
-                        style={webStyle}
-                    />
-                    <WebView
-                    source={{uri: `https://chart.humanapi.co/v1/human/activities/summaries?chart_token=demo&start_date=2015-09-01&end_date=2015-09-30&type=line`}}
-                        style={webStyle}
-                    />
+                    <View style={{
+                        justifyContent: "space-between",
+                        alignContent: "center",
+                        flexDirection: "row", 
+                        backgroundColor: "red",
+                        height: 100
+                    }}>
+                        <Card style={{
+                            backgroundColor: "blue",
+                            alignContent: "center",
+                            width: 400,
+                            height: 80
+                            }}>
+                            <Text>
+                                10,030 MEDITS
+                            </Text>
+                        </Card>
+                        <Card style={{
+                            backgroundColor: "green",
+                            alignContent: "center",
+                            width: 400,
+                            height: 80                            
+                            }}>
+                            <Text>
+                                10,030 MEDITS
+                            </Text>
+                        </Card>
+                    </View>
+                    <ScoreCard 
+                        style={{
+                        title: "Health Graph",
+                        buttonTitle: "Add data source",
+                        backgroundColor: "#fff",
+                        }}
+                        onPress= {this.connectHumanAPI}
+                    >
+                        <HGraph
+                            width= {200}
+                            height= {200}
+                            pathColor= "#dbecff"
+    //                        score={this.props.score}
+                            score={healthScore} 
+                            margin={
+                            {top: 50,
+                            right: 100, 
+                            bottom: 50, 
+                            left: 100}}
+                            showAxisLabel={true}
+                            fontSize={12}
+                            fontColor="#b6bbc4"
+                            scoreFontSize={50}
+                            data= {healthData}
+                        />
+                    </ScoreCard>
                 </View>
             );
         }
@@ -151,19 +299,19 @@ class HumanAPI extends Component {
             <View style={pageStyle}>
                 <View style={headerStyle}>
                     {this.renderProfileImage()}
-                    <Text style={textStyle}> Citizen Health </Text>
+                    <Text style={textStyle}> My Health </Text>
                     <IconButton onPress={this.onSettingsPress.bind(this)}>
                         <FontAwesome>{Icons.sliders}</FontAwesome>
                     </IconButton>
                 </View>
                 {this.renderActivity()}
-                <View style={styles.container}>
+                {/* <View style={styles.container}>
                     <TouchableOpacity style={styles.button} onPress={this.connectHumanAPI}>
                         <Text style={styles.instructions}>
                             CONNECT HEALTH SERVICES AND DEVICES
                         </Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </View>
             );
     }
@@ -171,12 +319,12 @@ class HumanAPI extends Component {
 
 const styles = StyleSheet.create({
     pageStyle: {
+        backgroundColor: "#f9fafc",
         flexDirection: "column",
         alignItems: "stretch",
         flex: 1
     },
     headerStyle: {
-        backgroundColor: "#FFF",
         flexDirection: 'row',
         justifyContent: "space-between",
         height: scale(60),
@@ -204,8 +352,8 @@ const styles = StyleSheet.create({
     textStyle: {
         flex: 4,
         textAlign: 'center',
-        fontSize: 0,
-        color: "#808080",
+        fontSize: 20,
+        color: "#757b86",
         ...Platform.select({
           ios: { fontFamily: "Arial", },
           android: { fontFamily: "Roboto" }

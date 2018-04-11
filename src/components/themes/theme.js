@@ -91,35 +91,7 @@ export const theme = StyleSheet.create({
   opacity: {
     opacity: 0.5,
   },
-  cardContainerStyle: {
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: "#ddd",
-    borderBottomWidth: 0,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10
-  },
-  cardTitleContainerStyle: {
-    borderBottomWidth: 1,
-    padding: 5,
-    justifyContent: "flex-start",
-    flexDirection: "row",
-    color: "#ddd",
-    backgroundColor: primaryBlueColor
-  },
-  cardTitleStyle: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: "white",
-    paddingLeft: 20,
-    flex: 1
-  },
+  
   inputStyle: {
     color: primaryGreyColor,
     paddingRight: 5,
@@ -147,7 +119,7 @@ export const theme = StyleSheet.create({
     alignItems: "center"
   },
   inputPasswordCheckerStyle: {
-    flex: 1,
+    flex: 1
   },
   iconButtonStyle: {
     alignItems: "center",

@@ -20,6 +20,8 @@ target 'Humantiv' do
 
 #  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
 
+#  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
 end
 
 target 'HumantivTests' do

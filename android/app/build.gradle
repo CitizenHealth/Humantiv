@@ -152,6 +152,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-svg')
+    compile project(':react-native-hgraph')
     compile project(':react-native-sentry')
     compile project(':react-native-human-api')
     compile project(':react-native-google-signin')

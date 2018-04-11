@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import { theme } from '../themes';
+import PropTypes from 'prop-types';
 
 const Card = (props) => {
   const {cardTitleStyle, cardTitleContainerStyle,  cardContainerStyle} = theme;
