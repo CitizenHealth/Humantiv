@@ -47,6 +47,11 @@
     "react-dom": "16.2.0",
     "react-test-renderer": "16.2.0"
   },
+  "rnpm": {
+    "assets": [
+	    "./assets/fonts/"
+    ]
+  },
   "jest": {
     "preset": "react-native",
     "transform": {

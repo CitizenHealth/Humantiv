@@ -11,11 +11,13 @@ import PropTypes from 'prop-types';
 import Images from "../../resources/images";
 import {IconButton} from './IconButton';
 import {Icon} from './Icon';
+import {Fonts} from '../../resources/fonts/Fonts'
 
 class ScoreCard extends Component {
   static propTypes = {
     title: PropTypes.string,
     buttonTitle: PropTypes.string,
+    footerTitle: PropTypes.string,
     backgroundColor: PropTypes.string,
     titleColor: PropTypes.string,
     buttonTitleColor: PropTypes.string,
@@ -26,6 +28,7 @@ class ScoreCard extends Component {
   static defaultProps = {
     title: "Health graph",
     buttonTitle: "Add data source",
+    footerTitle: "Add manual activity",
     backgroundColor: "#fff",
     titleColor: "#757b86",
     buttonTitleColor: "#3598fe",
@@ -45,8 +48,15 @@ class ScoreCard extends Component {
       headerContainerStyle,
       imageStyle,
       cardButtonTitleStyle,
-      buttonStyle
+      buttonStyle,
+      footerContainerStyle,
+      cardFooterButtonTitleStyle,
     } = styles;
+
+    const {
+      iconStyle,
+      iconTextStyle
+    } = theme;
 
     return (
       <View style={[cardContainerStyle, {backgroundColor: this.props.backgroundColor}]}>
@@ -61,7 +71,9 @@ class ScoreCard extends Component {
           {(this.props.buttonTitle) ?
             <View style={cardTitleContainerStyle}>
                 <IconButton
-                  onPress={this.props.onPress}
+                  onPress={this.props.onPressHeader}
+                  viewStyles={iconStyle}
+                  textStyles={iconTextStyle}
                 >
                 <Icon name="plus_blue"/>
               </IconButton>
@@ -72,6 +84,22 @@ class ScoreCard extends Component {
           : null}
         </View>
         {this.props.children}
+        <View style={footerContainerStyle}>
+          {(this.props.title) ?
+            <View style={cardTitleContainerStyle}>
+            <IconButton
+                  onPress={this.props.onPressFooter}
+                  viewStyles={iconStyle}
+                  textStyles={[iconTextStyle, {color:"#757b86"}]}
+                >
+                <Icon name="plus_grey"/>
+              </IconButton>
+              <Text style={cardFooterButtonTitleStyle}>
+                {this.props.footerTitle}
+              </Text>
+            </View>
+          : null}
+        </View>
       </View>
     );
   }
@@ -87,7 +115,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 1,
+    elevation: 2,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,
@@ -100,24 +128,39 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#ddd",  
   },
+  footerContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 60,
+    borderTopWidth: 1,
+    borderColor: "#ddd",  
+  },
   cardTitleContainerStyle: {
     padding: 1,
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
     alignItems: 'center',
-    flexDirection: "row",
-    backgroundColor: "#fff"
+    flexDirection: "row"
   },
   cardTitleStyle: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 18,
+    fontWeight: "400",
     color: "#757b86",
-    paddingLeft: 10
+    paddingLeft: 10,
+    fontFamily: Fonts.regular
   },
   cardButtonTitleStyle: {
     fontSize: 14,
     fontWeight: "400",
     color: "#3598fe",
-    paddingLeft: 10
+    fontFamily: Fonts.regular,
+    paddingRight: 10
+  },
+  cardFooterButtonTitleStyle: {
+    fontSize: 14,
+    fontWeight: "400",
+    color: "#757b86",
+    fontFamily: Fonts.regular
   },
   imageStyle: {
     flex: 1,

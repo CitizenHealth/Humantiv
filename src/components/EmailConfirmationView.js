@@ -76,6 +76,8 @@ class EmailConfirmation extends Component {
       modalStyle
     } = styles;
 
+    firebase.analytics().setCurrentScreen('Email Confirmation Screen', 'EmailConfirmationView')
+
     return (
         <View style={pageStyle}>
           <View style={ImageContainerStyle} >

@@ -95,6 +95,8 @@ class PasswordLostView extends Component {
       modalStyle
     } = styles;
 
+    firebase.analytics().setCurrentScreen('Password Lost Screen', 'PasswordLostView')
+
     return (
         <KeyboardAwareScrollView
           style={{ backgroundColor: '#4c69a5' }}

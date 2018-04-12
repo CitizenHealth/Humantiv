@@ -39,6 +39,11 @@ class StartView extends Component {
           { cancelable: false }
         )
       });
+
+      // Init Google Analytics
+      firebase.analytics().setAnalyticsCollectionEnabled(true);
+      firebase.analytics().setCurrentScreen('Loading Screen', 'StartView')
+
       // Retrieve Firebase Remote Configurations
       // Set default values
       if (__DEV__) {
@@ -72,6 +77,9 @@ class StartView extends Component {
           }
         });
 
+        // Set Google analytics
+        firebase.analytics().setUserId(user.userID);
+        firebase.analytics().setUserProperty('email', user.email);
         // Set Sentry crash reporting context
         // set the user context
         Sentry.setUserContext({

@@ -204,5 +204,16 @@ export const theme = StyleSheet.create({
     justifyContent: 'flex-end',
     color: primaryBlueColor
   },
+  iconStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 44,
+    width: 44
+  },
+  iconTextStyle: {
+    margin: 2, 
+    fontSize: 24, 
+    textAlign: 'right'
+  }
 });
  

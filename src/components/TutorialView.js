@@ -14,6 +14,7 @@ import Images from '../resources/images';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {primaryBlueColor} from './themes/theme';
+import firebase from "react-native-firebase";
 import {
   Sentry,
   SentrySeverity,
@@ -47,6 +48,7 @@ class TutorialView extends Component {
     
     // This will trigger a crash in the native sentry client
     //Sentry.nativeCrash();
+    firebase.analytics().setCurrentScreen('Tutorial Screen', 'TutorialView')
   }
 
   componentDidCatch(error, info) {
@@ -93,8 +95,8 @@ class TutorialView extends Component {
       },
       {
         key: 'intelligence',
-        title: 'Health Intelligence',
-        text: 'Our AI analyzes data from multiple devices, services, and health providers.',
+        title: 'Your personal health journey',
+        text: 'Select what Personal Health Journey best describes your needs.',
         image: Images.img_tutorial_1,
         imageStyle: styles.image,
         backgroundColor: this.props.tutorial_background_color,
@@ -102,7 +104,7 @@ class TutorialView extends Component {
       {
         key: 'cryptocurrency',
         title: 'Cryptocurrency rewards',
-        text: 'Receive Medits for improving your health.',
+        text: 'From your wallet you can view your Medit and Medex balance and redeem tokens on our partners stores.',
         image: Images.img_tutorial_1,
         imageStyle: styles.image,
         backgroundColor: this.props.tutorial_background_color,
@@ -110,7 +112,7 @@ class TutorialView extends Component {
       {
         key: 'vote',
         title: 'Every vote counts',
-        text: 'You decide how we change healthcare.',
+        text: 'Citizen Health is vested in you - the people. You have voting rights and privileges that help govern this organization. ',
         image: Images.img_tutorial_1,
         imageStyle: styles.image,
         backgroundColor: this.props.tutorial_background_color,

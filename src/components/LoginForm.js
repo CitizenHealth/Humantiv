@@ -32,6 +32,7 @@ import { emailChanged, passwordChanged, loginUser, loginGoogleUser, loginFaceboo
 import Images from "../resources/images";
 import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import firebase from "react-native-firebase";
 
 class LoginForm extends Component {
   state = { 
@@ -107,6 +108,8 @@ class LoginForm extends Component {
     const { primaryWhiteTextStyle, primaryGreyTextStyle } = theme;
 
     const { email, password } = this.props;
+
+    firebase.analytics().setCurrentScreen('Login Screen', 'LoginForm')
 
     if (this.state.loggedIn) {
       Actions.main();

@@ -17,3 +17,4 @@ export * from './ModalWrapper';
 export * from './PageSlide';
 export * from './ScoreCard';
 export * from './Icon';
+export * from './ValueCard';

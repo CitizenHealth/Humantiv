@@ -7,8 +7,8 @@ import { theme } from '../themes';
 const IconButton = (props) => {
   const { iconButtonStyle, iconContentStyle } = theme;
   return (
-    <TouchableOpacity style={iconButtonStyle} onPress={props.onPress} >
-      <Text style={iconContentStyle}>
+    <TouchableOpacity style={[iconButtonStyle, props.viewStyles]} onPress={props.onPress} >
+      <Text style={[iconContentStyle, props.textStyles]}>
         {props.children}
       </Text>
     </TouchableOpacity>
