@@ -32,7 +32,7 @@ export const modalMessages = {
   },
   emailSent: {
     title: "",
-    message: "A email with password change instructions was sent!",
+    message: "An email with password change instructions was sent!",
     cancel: "CANCEL",
     accept: ""
   },

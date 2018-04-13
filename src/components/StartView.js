@@ -73,7 +73,7 @@ class StartView extends Component {
           // stores the token in the user's document
           console.log(`FCM Token: ${token}`);
           if(token && token != undefined) {                
-            this.props.dataSave({type: 'messaging', data: {fcm: token}});
+            this.props.dataSave({type: 'messaging', data: token});
           }
         });
 

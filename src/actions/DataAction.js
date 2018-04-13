@@ -13,11 +13,19 @@ export const dataSave = ({type, data}) => {
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/${type}`)
-    .update(data)
-    .then(() => {
-      dispatch({ type: DATA_SAVE });
-    });
+    if (type === "messaging") {
+      firebase.database().ref(`/users/${currentUser.uid}/${type}/fcm`)
+      .push(data)
+      .then(() => {
+        dispatch({ type: DATA_SAVE });
+      });
+    } else {
+      firebase.database().ref(`/users/${currentUser.uid}/${type}`)
+      .update(data)
+      .then(() => {
+        dispatch({ type: DATA_SAVE });
+      });
+    }
   };
 };
 

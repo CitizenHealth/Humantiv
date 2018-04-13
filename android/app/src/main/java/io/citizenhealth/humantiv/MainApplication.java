@@ -30,6 +30,8 @@ import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
+import com.wix.reactnativenotifications.RNNotificationsPackage;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -65,23 +67,24 @@ public class MainApplication extends Application implements ReactApplication {
                 // for ActivityCompat#requestPermissions for more details.
             }
             return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
-            new SvgPackage(),
-            new RNReactNativeHgraphPackage(),
-            new RNSentryPackage(MainApplication.this),
-            new RNReactNativeHumanApiPackage(),
-                    new RNGoogleSigninPackage(),
-                    new RNFirebasePackage(),
-                    new RNGestureHandlerPackage(),
-                    new FBSDKPackage(mCallbackManager),
-                    new RNFirebaseAnalyticsPackage(),
-                    new RNFirebaseAuthPackage(),
-                    new RNFirebaseCrashlyticsPackage(),
-                    new RNFirebaseDatabasePackage(),
-                    new RNFirebasePerformancePackage(),
-                    new RNFirebaseRemoteConfigPackage(),
-                    new RNFirebaseStoragePackage(),
-                    new RNFirebaseMessagingPackage()
+                new MainReactPackage(),
+                new SvgPackage(),
+                new RNReactNativeHgraphPackage(),
+                new RNSentryPackage(MainApplication.this),
+                new RNReactNativeHumanApiPackage(),
+                new RNGoogleSigninPackage(),
+                new RNFirebasePackage(),
+                new RNGestureHandlerPackage(),
+                new FBSDKPackage(mCallbackManager),
+                new RNFirebaseAnalyticsPackage(),
+                new RNFirebaseAuthPackage(),
+                new RNFirebaseCrashlyticsPackage(),
+                new RNFirebaseDatabasePackage(),
+                new RNFirebasePerformancePackage(),
+                new RNFirebaseRemoteConfigPackage(),
+                new RNFirebaseStoragePackage(),
+                new RNFirebaseMessagingPackage(),
+                new RNNotificationsPackage(MainApplication.this)
             );
     }
 

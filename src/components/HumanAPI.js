@@ -68,6 +68,7 @@ class HumanAPI extends Component {
     }
 
     refreshData() {
+        const {children} = this.props;
         const totalCholesterolValue = (1-0)*Math.random();
         const ldlValue = (300-0)*Math.random();
         const hdlValue = (150-0)*Math.random();
@@ -169,7 +170,21 @@ class HumanAPI extends Component {
   
         const healthScore =  Math.floor(calculateHealthScore(healthData));  
 
-        this.setState({healthData: healthData, healthScore: healthScore});
+        const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
+        const human_id = (children.humanapi && children.humanapi.human_id) ? children.humanapi.human_id : null;
+        const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
+ 
+        // Get humanId and accessToken from the humanapi table
+         console.log(`WEBVIEW public_token: ${public_token}`);
+         console.log(`WEBVIEW human_id: ${human_id}`);
+         console.log(`WEBVIEW access_token: ${access_token}`);
+
+      
+         if (access_token === null) {
+            this.setState({healthData: [], healthScore: null});
+         } else {
+            this.setState({healthData: healthData, healthScore: healthScore});
+        }
     }
 
     addManualActivity = () => {
@@ -205,6 +220,7 @@ class HumanAPI extends Component {
                 // save publicToken
                 this.saveHumanAPIPublicToken(data.public_token);
                 this.props.humanAPIFetch(data.public_token);
+                this.refreshData();
              },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         }
@@ -270,27 +286,11 @@ class HumanAPI extends Component {
         const {webStyle, valueCardsStyle} = styles;
         const {children} = this.props;
 
-        const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
-        const human_id = (children.humanapi && children.humanapi.human_id) ? children.humanapi.human_id : null;
-        const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
- 
-        // Get humanId and accessToken from the humanapi table
-         console.log(`WEBVIEW public_token: ${public_token}`);
-         console.log(`WEBVIEW human_id: ${human_id}`);
-         console.log(`WEBVIEW access_token: ${access_token}`);
-
-      
-         if (access_token === null) {
-             return (
-                 <View style={{flex: 1}}>
-
-                 </View>
-             );
-         } else {
             const medits = (children.wallet) ? children.wallet.medits : "";
             const mdx = (children.wallet) ? children.wallet.mdx : "";
             const screenWidth = Dimensions.get('window').width;
             const valueCardWidth = (screenWidth - 30)/2;
+            const hgraphWidth = screenWidth - 220;
             return (
                 <View style={{flex: 1}}>
                     <View style={valueCardsStyle}>
@@ -322,8 +322,8 @@ class HumanAPI extends Component {
                         onPressFooter= {this.addManualActivity}
                     >
                         <HGraph
-                            width= {200}
-                            height= {200}
+                            width= {hgraphWidth}
+                            height= {hgraphWidth}
     //                        score={this.props.score}
                             pathColor= "#b7daff"
                             score={this.state.healthScore} 
@@ -341,7 +341,6 @@ class HumanAPI extends Component {
                     </ScoreCard>
                  </View>
             );
-        }
     }
     render() {
         const {
