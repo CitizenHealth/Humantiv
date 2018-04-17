@@ -1,9 +1,15 @@
 import React from "react";
 import { StyleSheet, Platform } from "react-native";
 import { scale } from "react-native-size-matters";
+import { Fonts } from '../../resources/fonts/Fonts';
 
 export const primaryBlueColor = '#3C9AFB';
-export const primaryGreyColor = 'grey';
+export const primaryGreyColor = '#b6bbc4';
+
+export const graphGreyColor = '#757b86';
+export const graphRedColor = '#f15b58';
+export const graphOrangeColor = '#efb6094';
+export const graphGreenColor = '#36d391';
 
 export const modalMessages = {
   badEmail: {
@@ -51,9 +57,47 @@ export const modalMessages = {
 
 };
 
+// Remote Configuration Candidate
+export const ActivityFeedTypes = {
+  Activity: {
+    Score: 'score',
+    Run: 'run',
+    Walk: 'walk',
+    Swim: 'swim',
+    Bike: 'bike',
+    Workout: 'workout',
+    Soccer: 'soccer',
+    Basketball: 'basketball',
+    Baseball: 'baseball'
+  },
+  Vital: {
+    Temperature: 'temperature',
+    BloodPressure: 'bloodpressure',
+    HeartRate: 'heartrate',
+    SPO2: 'spo2'
+  },
+  Wallet: {
+    Medits: 'medits',
+    Medex: 'medex'
+  },
+  Market: {
+    Recommendation: 'recommendation',
+    Deal: 'deal'
+  },
+  Vote: {
+    Alert: 'alert',
+    Result: 'result'
+  },
+  Profile: {
+    Missing: 'complete'
+  },
+  Community: {
+    Announcement: 'announcement'
+  }
+}
 export const theme = StyleSheet.create({
   buttonStyle: {
-    height: 44,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 45,
@@ -72,6 +116,7 @@ export const theme = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     backgroundColor: 'transparent',
+    fontFamily: Fonts.bold,
     color: 'white'
   },
   disabledButtonStyle: {
@@ -98,6 +143,7 @@ export const theme = StyleSheet.create({
     paddingLeft: 5,
     fontSize: 18,
     lineHeight: 23,
+    fontFamily: Fonts.regular,
     flex: 2
   },
   inputLabelStyle: {
@@ -113,7 +159,7 @@ export const theme = StyleSheet.create({
     alignItems: "center"
   },
   inputContainerStyle: {
-    height: 40,
+    height: 50,
     flex: 1,
     flexDirection: "row",
     alignItems: "center"
@@ -146,19 +192,13 @@ export const theme = StyleSheet.create({
     fontSize: 18,
     color: 'white',
     textAlign: "center",
-    ...Platform.select({
-      ios: { fontFamily: "Arial", },
-      android: { fontFamily: "Roboto" }
-    })
+    fontFamily: Fonts.bold
   },
   primaryGreyTextStyle: {
     fontSize: 18,
     color: primaryGreyColor,
     textAlign: "center",
-    ...Platform.select({
-      ios: { fontFamily: "Arial", },
-      android: { fontFamily: "Roboto" }
-    })
+    fontFamily: Fonts.regular
   },
   modalContent: {
     alignItems: 'stretch',

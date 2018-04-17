@@ -33,6 +33,7 @@ import Images from "../resources/images";
 import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import firebase from "react-native-firebase";
+import {Fonts} from '../resources/fonts/Fonts';
 
 class LoginForm extends Component {
   state = { 
@@ -236,8 +237,8 @@ const styles = {
   loginCardStyle: {
 //    backgroundColor: "red",
     justifyContent: "space-around",
-    paddingLeft: scale(20),
-    paddingRight: scale(20)  
+    paddingLeft: scale(40),
+    paddingRight: scale(40)  
   },
   separatorStyle: {
     height: 40,
@@ -253,8 +254,8 @@ const styles = {
   socialContainer: {
     flexDirection: "column",
     height: 100,
-    paddingLeft: scale(20),
-    paddingRight: scale(20),
+    paddingLeft: scale(40),
+    paddingRight: scale(40),
     justifyContent: "center",
     flex: 3
   },
@@ -262,7 +263,8 @@ const styles = {
     textAlign: "center",
     fontSize: 14,
     color: "white",
-    fontWeight: "800"
+    fontWeight: "800",
+    fontFamily: Fonts.regular
   },
 };
 

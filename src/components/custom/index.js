@@ -7,4 +7,5 @@ export * from './TextInput';
 export * from './ModalDialog';
 export * from './TutorialSlider';
 export * from './PasswordInputStrengthIndicator';
+export * from './GraphSection';
 

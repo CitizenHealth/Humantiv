@@ -11,62 +11,46 @@ import {
     graphGreenColor,
     graphOrangeColor,
     graphRedColor,
-    graphGreyColor
+    graphGreyColor,
+    ActivityFeedTypes
 } from '../themes';
 import PropTypes from 'prop-types';
 import Images from "../../resources/images";
 import {Fonts} from '../../resources/fonts/Fonts'
-import {Dot} from './Dot';
 
 
-class GraphCard extends Component {
+class ActivityCard extends Component {
   static propTypes = {
+    type: PropTypes.string,
     title: PropTypes.string,
-    unit: PropTypes.string,
-    data: PropTypes.arrayOf(PropTypes.shape({
-        time: PropTypes.number.isRequired,
-        value: PropTypes.number.isRequired
-    })),
-    rules: PropTypes.shape({
-        min: PropTypes.number.isRequired,
-        max: PropTypes.number.isRequired,
-        healthyMin: PropTypes.number.isRequired,
-        healthyMax: PropTypes.number.isRequired
-    }),
+    value: PropTypes.string,
+    preposition: PropTypes.string,
     width: PropTypes.number,
     height: PropTypes.number
   };
 
   static defaultProps = {
+    type: ActivityFeedTypes.Community.Announcement,
     title: "",
     unit: "",
-    data: [],
-    rules: {},
+    value: "",
+    preposition: "",
     width: 200,
     height: 200
   }
 
   constructor(props) {
     super(props);
-    const {
-        data, 
-        rules
-    } = props;
+  }
 
-    const latestValue = (data.length > 0 ) ? data[data.length -1].value : "-";
-    var selectedColor = graphGreyColor;
+  cardImage() {
+    const {type} = this.props;
+    switch(this.prop) {
+        case ActivityFeedTypes.Vital.HeartRate: {
 
-    if (latestValue !== "-") {
-        if (latestValue < rules.healthyMin || latestValue > rules.healthyMax) {
-            selectedColor = graphRedColor;
-        } else {
-            selectedColor = graphGreenColor;
+            return Images.img_vote_enabled;
         }
     }
-    this.state = {
-        value: latestValue,
-        color: selectedColor
-    };
   }
 
   render() {
@@ -131,7 +115,7 @@ class GraphCard extends Component {
                 [graphAreaStyle,
                 {
                     height: height/6,
-                    width: width-30
+                    width: width-20
                 }
             ]}>        
             </View>    
@@ -159,7 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    marginLeft: 15,
+    marginLeft: 10,
   },
   graphAreaStyle: {
     backgroundColor: "#ddd",
@@ -203,4 +187,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export { GraphCard };
+export { ActivityCard };

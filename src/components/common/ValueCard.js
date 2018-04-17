@@ -30,7 +30,7 @@ class ValueCard extends Component {
     backgroundImage: "",
     color: "#dddddd",
     width: 200,
-    height: 200/2.40
+    height: 200/2.50
   }
 
   constructor(props) {
@@ -98,8 +98,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 3 },
     shadowOpacity: 0.8,
     shadowRadius: 5,
-    elevation: 10,
-    marginTop: 10,
+    elevation: 10
   },
   valueContainerStyle: {
     flex: 1,

@@ -1,3 +1,4 @@
+import Feed from './Feed';
 export * from "./Button";
 export * from "./Header";
 export * from "./Card";
@@ -18,3 +19,7 @@ export * from './PageSlide';
 export * from './ScoreCard';
 export * from './Icon';
 export * from './ValueCard';
+export * from './GraphCard';
+export * from './Dot';
+export * from './ActivityCard';
+export {Feed} from './Feed';

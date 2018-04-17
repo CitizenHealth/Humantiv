@@ -19,8 +19,10 @@ import {
     ScoreCard,
     Card,
     ValueCard,
+    GraphCard,
     Icon
 } from './common';
+import Feed from "./common/Feed";
 import { Actions } from "react-native-router-flux";
 import RNHumanAPI from 'react-native-human-api';
 import { 
@@ -31,6 +33,7 @@ import {
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
 import { theme, primaryBlueColor } from './themes';
+import {formatNumbers} from '../business/Helpers';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -170,21 +173,7 @@ class HumanAPI extends Component {
   
         const healthScore =  Math.floor(calculateHealthScore(healthData));  
 
-        const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
-        const human_id = (children.humanapi && children.humanapi.human_id) ? children.humanapi.human_id : null;
-        const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
- 
-        // Get humanId and accessToken from the humanapi table
-         console.log(`WEBVIEW public_token: ${public_token}`);
-         console.log(`WEBVIEW human_id: ${human_id}`);
-         console.log(`WEBVIEW access_token: ${access_token}`);
-
-      
-         if (access_token === null) {
-            this.setState({healthData: [], healthScore: null});
-         } else {
-            this.setState({healthData: healthData, healthScore: healthScore});
-        }
+        this.setState({healthData: healthData, healthScore: healthScore});
     }
 
     addManualActivity = () => {
@@ -250,13 +239,18 @@ class HumanAPI extends Component {
     renderGraphTiles() {
         const {
             sectionTitleStyle,
-            sectionContainerStyle
+            sectionContainerStyle,
+            cardsStyle,
+            cardsContainer
         } = styles;
 
         const {
             iconStyle,
             iconTextStyle
           } = theme;
+        
+        const screenWidth = Dimensions.get('window').width;
+        const graphCardWidth = (screenWidth - 30)/2;
 
         return (
             <View>
@@ -269,44 +263,163 @@ class HumanAPI extends Component {
                         viewStyles={iconStyle}
                         textStyles={[iconTextStyle, {color:"#757b86"}]}
                     >
-                    <Icon name="sandwich"/>
-              </IconButton>
+                        <Icon name="sandwich"/>
+                    </IconButton>
                 </View>
-                <View>
+                <View style={
+                    [cardsContainer,
+                    {height: 2*graphCardWidth+20}]}>
+                    <View style={cardsStyle}>
+                        <GraphCard
+                            title= "Heart rate"
+                            unit= "bpm"
+                            data= {[
+                                {time: 1, value: 78},
+                                {time: 2, value: 45}, 
+                                {time: 3, value: 235},  
+                                {time: 4, value: 54}, 
+                                {time: 5, value: 53}, 
+                                {time: 6, value: 87}, 
+                            ]}
+                            rules= {{ 
+                                min: 40,
+                                max: 280,
+                                healthyMin: 55,
+                                healthyMax: 100
+                            }}
+                            width= {graphCardWidth}
+                            height= {graphCardWidth}
+                        />
+
+                        <GraphCard
+                            title= "Glucose"
+                            unit= "mg/dl"
+                            data= {[
+                                {time: 1, value: 112},
+                                {time: 2, value: 97}, 
+                                {time: 3, value: 96},  
+                                {time: 4, value: 95}, 
+                                {time: 5, value: 111}
+                            ]}
+                            rules= {{ 
+                                min: 0,
+                                max: 160,
+                                healthyMin: 61,
+                                healthyMax: 100
+                            }}
+                            width= {graphCardWidth}
+                            height= {graphCardWidth}
+                        />
+                    </View>
+                    <View style={cardsStyle}>
+                        <GraphCard
+                            title= "Sleep"
+                            unit= "hours"
+                            data= {[
+                                {time: 1, value: 6},
+                                {time: 2, value: 7}, 
+                                {time: 3, value: 5},  
+                                {time: 4, value: 4}, 
+                                {time: 5, value: 8}, 
+                                {time: 6, value: 9}, 
+                            ]}
+                            rules= {{ 
+                                min: 0,
+                                max: 24,
+                                healthyMin: 7,
+                                healthyMax: 9
+                            }}
+                            width= {graphCardWidth}
+                            height= {graphCardWidth}
+                        />
+
+                        <GraphCard
+                            title= "Weight"
+                            unit= "lbs"
+                            data= {[
+                                {time: 1, value: 367},
+                                {time: 2, value: 350}, 
+                                {time: 3, value: 257},  
+                                {time: 4, value: 220}, 
+                                {time: 5, value: 199}
+                            ]}
+                            rules= {{ 
+                                min: 120,
+                                max: 1000,
+                                healthyMin: 120,
+                                healthyMax: 190
+                            }}
+                            width= {graphCardWidth}
+                            height= {graphCardWidth}
+                        />
+                    </View>
                 </View>
             </View>
         )
     }
 
     renderActivityFeed() {
+        const {
+            sectionTitleStyle,
+            sectionContainerStyle,
+            iconTextStyle,
+            iconStyle
+        } = styles;
 
+        return (
+            <View>
+                <View style={sectionContainerStyle}>
+                    <Text style={sectionTitleStyle}>
+                        Activity
+                    </Text>
+                    <IconButton
+                        onPress={this.props.onPressFooter}
+                        viewStyles={iconStyle}
+                        textStyles={[iconTextStyle, {color:"#757b86"}]}
+                    >
+                        <Icon name="sandwich"/>
+                    </IconButton>
+                </View>
+                <Feed />
+            </View>
+        )
     }
 
     renderActivity() {
-        const {webStyle, valueCardsStyle} = styles;
         const {children} = this.props;
+        const {cardsStyle} = styles;
+
+        const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
+        const human_id = (children.humanapi && children.humanapi.human_id) ? children.humanapi.human_id : null;
+        const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
+ 
+        // Get humanId and accessToken from the humanapi table
+         console.log(`WEBVIEW public_token: ${public_token}`);
+         console.log(`WEBVIEW human_id: ${human_id}`);
+         console.log(`WEBVIEW access_token: ${access_token}`);
+
 
             const medits = (children.wallet) ? children.wallet.medits : "";
             const mdx = (children.wallet) ? children.wallet.mdx : "";
             const screenWidth = Dimensions.get('window').width;
             const valueCardWidth = (screenWidth - 30)/2;
-            const hgraphWidth = screenWidth - 220;
+            const hgraphWidth = screenWidth - 120;
             return (
                 <View style={{flex: 1}}>
-                    <View style={valueCardsStyle}>
-                        <ValueCard
+                    <View style={cardsStyle}>
+                        <ValueCard 
                             color= "#3ba4f9"
                             icon= "center"
                             title= "Medit Balance"
-                            value= {medits}
+                            value= {formatNumbers(medits.toString())}
                             width= {valueCardWidth}
                         />
 
                         <ValueCard
                             color= "#34d392"
-                            icon= "center"
+                            icon= "mdx"
                             title= "MDX Balance"
-                            value= {mdx}
+                            value= {formatNumbers(mdx.toString())}
                             width= {valueCardWidth}
                         />
 
@@ -326,17 +439,22 @@ class HumanAPI extends Component {
                             height= {hgraphWidth}
     //                        score={this.props.score}
                             pathColor= "#b7daff"
-                            score={this.state.healthScore} 
+                            score={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? null : this.state.healthScore} 
                             margin={
                             {top: 50,
-                            right: 100, 
+                            right: 50, 
                             bottom: 50, 
-                            left: 100}}
+                            left: 50}}
                             showAxisLabel={true}
                             fontSize={12}
                             fontColor="#b6bbc4"
                             scoreFontSize={50}
-                            data= {this.state.healthData}
+                            pointRadius = {3}
+                            axisLabelOffset = {4}
+                            axisLabelWrapWidth = {5}
+                            donutHoleFactor = {.50}
+                            pointLabelOffset = {4}
+                            data= {(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? [] : this.state.healthData}
                         />
                     </ScoreCard>
                  </View>
@@ -384,18 +502,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'stretch'
     },
-    webStyle: {
-        flex: 1,
-        alignContent: 'stretch'
-    },
-    valueCardsStyle: {
+   cardsStyle: {
         flex: 1,
         justifyContent: "space-between",
         alignContent: "center",
         flexDirection: "row",
         marginLeft: 10,
-        marginRight: 10, 
-        height: 100
+        marginRight: 10
+    },
+    cardsContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: "space-between",
+        alignContent: "center"
     },
     container: {
         justifyContent: 'flex-end',
@@ -429,7 +548,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "space-between",
         alignItems: "center",
-        height: 60,
         padding: 10,
     },
     sectionTitleStyle: {

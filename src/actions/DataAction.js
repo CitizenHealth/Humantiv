@@ -14,8 +14,8 @@ export const dataSave = ({type, data}) => {
 
   return (dispatch) => {
     if (type === "messaging") {
-      firebase.database().ref(`/users/${currentUser.uid}/${type}/fcm`)
-      .push(data)
+      firebase.database().ref(`/users/${currentUser.uid}/${type}/fcm/${data}`)
+      .set(data)
       .then(() => {
         dispatch({ type: DATA_SAVE });
       });
