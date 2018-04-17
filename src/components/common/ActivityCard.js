@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { 
     theme, 
+    primaryGreyColor,
     primaryBlueColor, 
     graphGreenColor,
     graphOrangeColor,
@@ -15,8 +16,9 @@ import {
     ActivityFeedTypes
 } from '../themes';
 import PropTypes from 'prop-types';
-import Images from "../../resources/images";
-import {Fonts} from '../../resources/fonts/Fonts'
+import {Fonts} from '../../resources/fonts/Fonts';
+import {Icon} from './Icon';
+
 
 
 class ActivityCard extends Component {
@@ -25,6 +27,7 @@ class ActivityCard extends Component {
     title: PropTypes.string,
     value: PropTypes.string,
     preposition: PropTypes.string,
+    time: PropTypes.number.isRequired,
     width: PropTypes.number,
     height: PropTypes.number
   };
@@ -32,9 +35,9 @@ class ActivityCard extends Component {
   static defaultProps = {
     type: ActivityFeedTypes.Community.Announcement,
     title: "",
-    unit: "",
     value: "",
     preposition: "",
+    time: 0,
     width: 200,
     height: 200
   }
@@ -45,10 +48,62 @@ class ActivityCard extends Component {
 
   cardImage() {
     const {type} = this.props;
-    switch(this.prop) {
-        case ActivityFeedTypes.Vital.HeartRate: {
 
-            return Images.img_vote_enabled;
+    switch(type) {
+        case ActivityFeedTypes.Vital.HeartRate: {
+            return "heart_rate";
+        }
+        case ActivityFeedTypes.Activity.Run: {
+            return "runner";
+        }
+        case ActivityFeedTypes.Activity.Swim: {
+            return "swimmer";
+        }
+        case ActivityFeedTypes.Activity.Score: {
+            return "thumbs_up_green";
+        }
+        case ActivityFeedTypes.Activity.Workout: {
+            return "bench";
+        }
+        case ActivityFeedTypes.Wallet.Medits: {
+            return "medit";
+        }
+        case ActivityFeedTypes.Wallet.Medex: {
+            return "medex";
+        }
+        default: {
+            return "";
+        }
+    }
+  }
+
+  cardColor() {
+    const {type} = this.props;
+
+    switch(type) {
+        case ActivityFeedTypes.Vital.HeartRate: {
+            return "#f15b58";
+        }
+        case ActivityFeedTypes.Activity.Run: {
+            return "#36d391";
+        }
+        case ActivityFeedTypes.Activity.Swim: {
+            return "#58d9f5";
+        }
+        case ActivityFeedTypes.Activity.Score: {
+            return "green";
+        }
+        case ActivityFeedTypes.Activity.Workout: {
+            return "#ffbf6c";
+        }
+        case ActivityFeedTypes.Wallet.Medits: {
+            return "#3598fe";
+        }
+        case ActivityFeedTypes.Wallet.Medex: {
+            return "#35d392";
+        }
+        default: {
+            return "#000";
         }
     }
   }
@@ -56,21 +111,22 @@ class ActivityCard extends Component {
   render() {
     const {
         cardStyle,
-        headerContainerStyle,
+        iconContainerStyle,
         valueContainerStyle,
-        valueTextStyle,
-        unitTextStyle,
-        titleContainerStyle,
-        titleTextStyle,
-        graphContainerStyle,
-        graphAreaStyle
+        textContainerStyle,
+        messageContainerStyle,
+        titleStyle,
+        prepositionStyle,
+        timeContainerStyle,
+        valueStyle,
+        timeStyle
     } = styles;
 
     const {
         title,
-        unit,
-        data,
-        rules,
+        value,
+        preposition,
+        time,
         width,
         height
     } = this.props;
@@ -80,46 +136,36 @@ class ActivityCard extends Component {
           width: width,
           height: height
       }]}>
-        <View style={headerContainerStyle}>
-            <View style={valueContainerStyle}>
-                <Text style={[valueTextStyle,
-                {
-                    color: this.state.color
-                }]}>
-                    {this.state.value}
+        <View style={[iconContainerStyle, {
+            width: height,
+            height: height
+        }]}>
+            <Icon 
+                name={this.cardImage()}
+                color= {this.cardColor()}
+                size= {25}
+            />
+        </View>
+        <View style={textContainerStyle}>
+            <View style={messageContainerStyle}>
+                <Text style={titleStyle}>
+                    {title}
                 </Text>
-                <Text style={[unitTextStyle,
-                    {
-                        color: this.state.color
-                    }]}>
-                    {this.props.unit}
+                <Text style={prepositionStyle}>
+                    {preposition}
+                </Text>
+                <Text style={
+                    [valueStyle,
+                    {color: this.cardColor()}]}>
+                    {value}
                 </Text>
             </View>
-            <View style={titleContainerStyle}>
-                <Dot
-                    size= {15}
-                    color= {this.state.color}
-                />
-                <Text style={[
-                    titleTextStyle,
-                    {
-                        color: this.state.color
-                    }
-                ]}>
-                    {this.props.title}
+            <View style={timeContainerStyle}>
+                <Text style={timeStyle}>
+                    {time}
                 </Text>
             </View>
         </View>
-        <View style={graphContainerStyle}>
-            <View style={
-                [graphAreaStyle,
-                {
-                    height: height/6,
-                    width: width-20
-                }
-            ]}>        
-            </View>    
-        </View>      
     </View>
     );
   }
@@ -127,6 +173,7 @@ class ActivityCard extends Component {
 
 const styles = StyleSheet.create({
   cardStyle: {
+    flexDirection: 'row',
     borderWidth: 1,
     borderRadius: 3,
     backgroundColor: "#fff",
@@ -138,53 +185,61 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 2
   },    
-  headerContainerStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
-    marginLeft: 10,
+  iconContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRightColor: '#ddd',
+    borderRightWidth: 1
   },
-  graphAreaStyle: {
-    backgroundColor: "#ddd",
-    opacity: 0.5
-  },
-  graphContainerStyle: {
-    flex: 1,
+  valueContainerStyle: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  valueContainerStyle: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end'
+  textContainerStyle: {
+    flex: 1,
+    marginLeft: 10,
   },
-  valueTextStyle: {
-    fontSize: 40,
+  messageContainerStyle: {
+      flex:1,
+      flexDirection: 'row',
+      alignItems: 'flex-end',
+  },
+  titleStyle: {
+    fontSize: 16,
+    fontWeight: "400",
+    textAlignVertical: 'bottom',
+    color: "#757b86",
+    fontFamily: Fonts.regular,
+    marginLeft: 4,
+  },
+  prepositionStyle: {
+    fontSize: 16,
+    fontWeight: "400",
+    textAlignVertical: 'bottom',
+    fontFamily: Fonts.regular,
+    color: "#b6bbc4",
+    marginLeft: 4
+  },
+  timeContainerStyle: {
+    flex: 1,
+    alignItems: 'flex-start',
+  },
+  timeStyle: {
+    fontSize: 12,
     fontWeight: "400",
     marginBottom: -5,
     textAlignVertical: 'bottom',
-    fontFamily: Fonts.regular
-  },
-  titleContainerStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
- titleTextStyle: {
-    fontSize: 14,
-    fontWeight: "400",
     fontFamily: Fonts.regular,
-    marginLeft: 5
+    color: "#b6bbc4",
+    marginLeft: 4
   },
-  unitTextStyle: {
-    fontSize: 18,
-    fontWeight: "800",
-    marginLeft: 2,
-    fontFamily: Fonts.bold
-  }
+  valueStyle: {
+    fontSize: 16,
+    fontWeight: "400",
+    textAlignVertical: 'bottom',
+    fontFamily: Fonts.regular,
+    marginLeft: 4
+  },
 });
 
 export { ActivityCard };

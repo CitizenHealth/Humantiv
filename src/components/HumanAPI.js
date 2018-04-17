@@ -366,6 +366,9 @@ class HumanAPI extends Component {
             iconStyle
         } = styles;
 
+        const screenWidth = Dimensions.get('window').width;
+        const activityCardWidth = (screenWidth - 20);
+
         return (
             <View>
                 <View style={sectionContainerStyle}>
@@ -380,7 +383,10 @@ class HumanAPI extends Component {
                         <Icon name="sandwich"/>
                     </IconButton>
                 </View>
-                <Feed />
+                <Feed 
+                    height= {activityCardWidth/5}
+                    width= {activityCardWidth}
+                />
             </View>
         )
     }
