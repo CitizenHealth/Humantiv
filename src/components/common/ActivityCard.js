@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textAlignVertical: 'bottom',
     fontFamily: Fonts.regular,
-    color: "#b6bbc4",
+    color: primaryGreyColor,
     marginLeft: 4
   },
   timeContainerStyle: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     marginBottom: -5,
     textAlignVertical: 'bottom',
     fontFamily: Fonts.regular,
-    color: "#b6bbc4",
+    color: primaryGreyColor,
     marginLeft: 4
   },
   valueStyle: {

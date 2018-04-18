@@ -18,15 +18,22 @@ import {
 class StartView extends Component {
 
   componentWillMount() {
-      // Connect Firebase Messaging
-      FCM = firebase.messaging();
-      FCM.getInitialNotification(() => {
 
-      })
-      .then(notif => {
-        console.log(`Notification received: ${JSON.stringify(notif)}`)
-      });
-      FCM.onMessage((payload) => {
+    firebase.notifications().onNotification((notification) => {
+      const title = notification.title;
+      const body = notification.body;
+
+      Alert.alert(
+        title,
+        body,
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+    });
+      // Connect Firebase Messaging
+      firebase.messaging().onMessage((payload) => {
         const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
         const body = Platform.OS === 'ios' ? payload.aps.alert.body : payload.fcm.body;
 
@@ -66,25 +73,38 @@ class StartView extends Component {
       if (user) {
         this.props.fetchUser(user);
         // requests permissions from the user
-        FCM.requestPermissions();
-
-        // gets the device's push token
-        FCM.getToken().then(token => {      
-          // stores the token in the user's document
-          console.log(`FCM Token: ${token}`);
-          if(token && token != undefined) {                
-            this.props.dataSave({type: 'messaging', data: token});
-          }
+        firebase.messaging().hasPermission()
+        .then(enabled => {
+          if (enabled) {
+            // user has permissions
+          } else {
+            
+          } 
         });
-
+        firebase.messaging().requestPermission()
+          .then(() => {
+            // gets the device's push token
+            firebase.messaging().getToken()
+            .then(token => {      
+              // stores the token in the user's document
+              console.log(`FCM Token: ${token}`);
+              if(token && token != undefined) {                
+                this.props.dataSave({type: 'messaging', data: token});
+              }
+            })
+          })
+          .catch(error => {
+            // User has rejected permissions  
+          });
         // Set Google analytics
-        firebase.analytics().setUserId(user.userID);
+        console.log(`USER ID: ${user.uid}`)
+        firebase.analytics().setUserId(user.uid);
         firebase.analytics().setUserProperty('email', user.email);
         // Set Sentry crash reporting context
         // set the user context
         Sentry.setUserContext({
           email: user.email,
-          userID: user.userID,
+          userID: user.uid,
           username: user.username,
           extra: {
             "is_admin": false

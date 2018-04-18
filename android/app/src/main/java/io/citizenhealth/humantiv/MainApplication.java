@@ -29,8 +29,7 @@ import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-
-import com.wix.reactnativenotifications.RNNotificationsPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -84,7 +83,7 @@ public class MainApplication extends Application implements ReactApplication {
                 new RNFirebaseRemoteConfigPackage(),
                 new RNFirebaseStoragePackage(),
                 new RNFirebaseMessagingPackage(),
-                new RNNotificationsPackage(MainApplication.this)
+                new RNFirebaseNotificationsPackage()
             );
     }
 
