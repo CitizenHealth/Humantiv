@@ -17,7 +17,17 @@ import PropTypes from 'prop-types';
 import Images from "../../resources/images";
 import {Fonts} from '../../resources/fonts/Fonts'
 import {Dot} from './Dot';
-
+import { 
+  Defs, 
+  LinearGradient, 
+  Stop, 
+  Circle,
+  Svg,
+  Rect
+} from 'react-native-svg'
+import { LineChart, Grid} from 'react-native-svg-charts'
+import * as shape from 'd3-shape';
+import {primaryGreyColor} from '../themes/theme';
 
 class GraphCard extends Component {
   static propTypes = {
@@ -91,6 +101,13 @@ class GraphCard extends Component {
         height
     } = this.props;
 
+    // convert data to array
+    var dataArray = []; 
+    for (var index = 0; index < data.length; index++) {
+      dataArray[index] = data[index].value;
+    }
+    const size = 24;
+
     return (
     <View style={[cardStyle, {
           width: width,
@@ -113,8 +130,9 @@ class GraphCard extends Component {
             </View>
             <View style={titleContainerStyle}>
                 <Dot
-                    size= {15}
+                    size= {size}
                     color= {this.state.color}
+                    animate= {true}
                 />
                 <Text style={[
                     titleTextStyle,
@@ -130,11 +148,43 @@ class GraphCard extends Component {
             <View style={
                 [graphAreaStyle,
                 {
-                    height: height/6,
-                    width: width-30
+                  height: height/2,
+                  width: width-30
                 }
-            ]}>        
-            </View>    
+            ]}>
+              <Svg
+                width ={(width || 100) -30}
+                height ={(height || 100)/2}
+                x = {0}
+                y = {0}
+              >
+                {/* <LineChart
+                  style = {{
+                    height: (height  || 100)/2,
+                    width: (width || 100) -30
+                  }}           
+                  data={ dataArray }
+                  animate= {true}
+                  animationDuration = {1000}
+                  showGrid= {false}
+                  contentInset={ { top: (height|| 100)/6, bottom: (height|| 100)/6 } }
+                  curve= {shape.curveNatural}
+                  svg={{
+                      strokeWidth: 2,
+                      stroke: graphGreyColor,
+                  }}
+                >
+                </LineChart>     */}
+                <Rect
+                  x={0}
+                  y={3*height/16}
+                  width={(width || 100)-30}
+                  height={(height || 100)/8}
+                  fill="#ddd"
+                  opacity={0.8}
+                />
+              </Svg>
+          </View>    
         </View>      
     </View>
     );
@@ -162,7 +212,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   graphAreaStyle: {
-    backgroundColor: "#ddd",
     opacity: 0.5
   },
   graphContainerStyle: {

@@ -76,6 +76,10 @@ export const ActivityFeedTypes = {
     HeartRate: 'heartrate',
     SPO2: 'spo2'
   },
+  Health: {
+    Sleep: 'sleep',
+    Workout: 'workout'
+  },
   Wallet: {
     Medits: 'medits',
     Medex: 'medex'

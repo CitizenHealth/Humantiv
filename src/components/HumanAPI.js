@@ -20,7 +20,7 @@ import {
     Card,
     ValueCard,
     GraphCard,
-    Icon
+    Icon as HMIcon
 } from './common';
 import Feed from "./common/Feed";
 import { Actions } from "react-native-router-flux";
@@ -34,6 +34,7 @@ import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
 import { theme, primaryBlueColor } from './themes';
 import {formatNumbers} from '../business/Helpers';
+import ActionButton from 'react-native-action-button';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -263,7 +264,10 @@ class HumanAPI extends Component {
                         viewStyles={iconStyle}
                         textStyles={[iconTextStyle, {color:"#757b86"}]}
                     >
-                        <Icon name="sandwich"/>
+                        <HMIcon 
+                          name="sandwich"
+                          size= {16}
+                        />
                     </IconButton>
                 </View>
                 <View style={
@@ -380,7 +384,10 @@ class HumanAPI extends Component {
                         viewStyles={iconStyle}
                         textStyles={[iconTextStyle, {color:"#757b86"}]}
                     >
-                        <Icon name="sandwich"/>
+                        <HMIcon 
+                          name="sandwich"
+                          size= {16}
+                        />
                     </IconButton>
                 </View>
                 <Feed 
@@ -472,7 +479,9 @@ class HumanAPI extends Component {
             instructions,
             pageStyle,
             headerStyle,
-            textStyle
+            textStyle,
+            iconStyle,
+            iconTextStyle
         } = styles;
 
         return (
@@ -480,15 +489,61 @@ class HumanAPI extends Component {
                 <View style={headerStyle}>
                     {this.renderProfileImage()}
                     <Text style={textStyle}> My Health </Text>
-                    <IconButton onPress={this.onSettingsPress.bind(this)}>
-                        <FontAwesome>{Icons.sliders}</FontAwesome>
-                    </IconButton>
+                    <IconButton
+                        onPress={this.onSettingsPress.bind(this)}
+                        viewStyles={iconStyle}
+                        textStyles={[iconTextStyle, {color:"#757b86"}]}
+                    >
+                        <HMIcon 
+                          name="bell"
+                          size= {20}
+                        />
+                    </IconButton>                 
                 </View>
                 <ScrollView >                   
                     {this.renderActivity()}
                     {this.renderGraphTiles()}
                     {this.renderActivityFeed()}                  
-                </ScrollView >        
+                </ScrollView > 
+                <ActionButton 
+                  size={44}
+                  offsetX={20}
+                  offsetY={20}
+                  buttonColor="rgba(231,76,60,1)">
+                  <ActionButton.Item 
+                    buttonColor='#9b59b6' 
+                    title="Other" 
+                    size={44}
+                    onPress={() => console.log("notes tapped!")}>
+                    <FontAwesome 
+                      style={styles.actionButtonIcon}
+                    >
+                      {Icons.userCircle}  
+                    </FontAwesome>
+                  </ActionButton.Item>
+                  <ActionButton.Item 
+                    buttonColor='#3498db' 
+                    title="Heart Rate"
+                    size={44} 
+                    onPress={() => {}}>
+                    <FontAwesome 
+                      style={styles.actionButtonIcon}
+                    >
+                      {Icons.heartbeat}  
+                    </FontAwesome>
+                  </ActionButton.Item>
+                  <ActionButton.Item 
+                    buttonColor='#1abc9c' 
+                    size={44}
+                    title="Activity" 
+                    onPress={() => {}}>
+                    <FontAwesome 
+                      style={styles.actionButtonIcon}
+                    >
+                      {Icons.futbolO}  
+                    </FontAwesome>
+                  </ActionButton.Item>
+                </ActionButton>       
             </View>
             );
     }
@@ -562,7 +617,12 @@ const styles = StyleSheet.create({
         color: "#757b86",
         paddingLeft: 10,
         fontFamily: Fonts.regular
-    }
+    },
+    actionButtonIcon: {
+      fontSize: 20,
+      height: 22,
+      color: 'white',
+    },
 });
 
 const mapStateToProps = (state) => {

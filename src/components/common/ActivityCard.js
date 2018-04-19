@@ -71,6 +71,12 @@ class ActivityCard extends Component {
         case ActivityFeedTypes.Wallet.Medex: {
             return "medex";
         }
+        case ActivityFeedTypes.Health.Workout: {
+          return "bench";
+        }
+        case ActivityFeedTypes.Health.Sleep: {
+          return "sleep";
+        } 
         default: {
             return "";
         }
@@ -100,8 +106,14 @@ class ActivityCard extends Component {
             return "#3598fe";
         }
         case ActivityFeedTypes.Wallet.Medex: {
-            return "#35d392";
+          return "#35d392";
         }
+        case ActivityFeedTypes.Health.Workout: {
+          return "#ffae45";
+        }
+        case ActivityFeedTypes.Health.Sleep: {
+          return "#f15b58";
+        }   
         default: {
             return "#000";
         }
@@ -151,7 +163,12 @@ class ActivityCard extends Component {
                 <Text style={titleStyle}>
                     {title}
                 </Text>
-                <Text style={prepositionStyle}>
+                <Text style={[
+                  prepositionStyle,
+                  {
+                    marginLeft: (preposition.length !== 0) ? 4 : 0
+                  }
+                ]}>
                     {preposition}
                 </Text>
                 <Text style={
@@ -217,8 +234,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textAlignVertical: 'bottom',
     fontFamily: Fonts.regular,
-    color: primaryGreyColor,
-    marginLeft: 4
+    color: primaryGreyColor
   },
   timeContainerStyle: {
     flex: 1,

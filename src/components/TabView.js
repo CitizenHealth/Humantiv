@@ -6,6 +6,9 @@ import HomeView from './HomeView';
 import HumanAPI from './HumanAPI';
 import Images from '../resources/images';
 import {primaryBlueColor} from './themes/theme';
+import {
+  Icon  
+} from './common'
 import type { Route, NavigationState } from 'react-native-tab-view/types';
 
 type State = NavigationState<
@@ -32,15 +35,16 @@ class TabView extends React.Component<*, State> {
   state = {
     index: 0,
     routes: [
-      { key: '0', title: 'Home', icon: 'img_home', color: 'transparent' },
+      { key: '0', title: 'Health', icon: 'heart', color: 'transparent' },
+      { key: '1', title: 'Wallet', icon: 'wallet', color: 'transparent' },
+      { key: '2', title: 'Market', icon: 'market', color: 'transparent' },
       {
-        key: '1',
+        key: '3',
         title: 'Vote',
-        icon: 'img_vote',
+        icon: 'vote',
         color: 'transparent',
       },
-      { key: '2', title: 'Share', icon: 'img_share', color: 'transparent' },
-      { key: '3', title: 'Purchase', icon: 'img_purchase', color: 'transparent' },
+      { key: '4', title: 'Settings', icon: 'settings', color: 'transparent' },
     ],
   };
 
@@ -102,12 +106,18 @@ class TabView extends React.Component<*, State> {
   };
 
   _renderIcon = ({ route }) => {
-    var image = route.icon + "_disabled";
+    var icon = route.icon + "_disabled";
+    var color = "#DADDE2";
     if (parseInt(route.key) === parseInt(this.state.index)) {
-      image = route.icon + "_enabled";     
+      icon = route.icon + "_enabled";
+      color =  "#3599fe";    
     }
-    const path = Images[image];
-    return (<Image source={path} size={24} style={styles.icon} />);
+    return (<Icon 
+      name={icon}
+      size= {20}
+      style={styles.icon}
+      color= {color}
+    />);
   };
 
   _renderLabel = props => ({ route, index }) => {
@@ -123,7 +133,7 @@ class TabView extends React.Component<*, State> {
   };
 
   _renderBadge = ({ route }) => {
-    if (route.key === '1') {
+    if (route.key === '3') {
       return (
         <View style={styles.badge}>
           <Text style={styles.count}>2</Text>
@@ -164,6 +174,10 @@ class TabView extends React.Component<*, State> {
           <SimplePage state={this.state} style={{ backgroundColor: route.color }} />
         );
       case '3':
+        return (
+          <SimplePage state={this.state} style={{ backgroundColor: route.color }} />
+        );
+      case '4':
         return (
           <SimplePage state={this.state} style={{ backgroundColor: route.color }} />
         );
@@ -219,8 +233,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginRight: 20,
     backgroundColor: '#f44336',
-    height: 24,
-    width: 24,
+    height: 18,
+    width: 18,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',

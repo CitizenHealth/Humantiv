@@ -35,43 +35,43 @@ const Icon = ({name, size, color}) => {
         case "thumbs_down_red":
             code = "D";
             break; 
-        case "heart_on":
+        case "heart_enabled":
             code = "E";
             break; 
         case "hands_heart":
             code = "F";
             break; 
-        case "heart_off":
+        case "heart_disabled":
             code = "G";
             break; 
-        case "market_on":
+        case "market_enabled":
             code = "H";
             break; 
-        case "market_off":
+        case "market_disabled":
             code = "a";
             break; 
         case "runner":
             code = "b";
             break; 
-        case "settings_on":
+        case "settings_enabled":
             code = "c";
             break; 
-        case "settings_off":
+        case "settings_disabled":
             code = "d";
             break; 
         case "swimmer":
             code = "e";
             break; 
-        case "vote_on":
+        case "vote_enabled":
             code = "f";
             break; 
-        case "vote_off":
+        case "vote_disabled":
             code = "g";
             break; 
-        case "wallet_on":
+        case "wallet_enabled":
             code = "h";
             break; 
-        case "wallet_off":
+        case "wallet_disabled":
             code = "i";
             break; 
         case "plus_grey":
@@ -92,7 +92,7 @@ const Icon = ({name, size, color}) => {
         case "heart_rate":
             code = "o";
             break;               
-        case "mdx":
+        case "medex":
             code = "p";
             break;               
         case "medit_small":

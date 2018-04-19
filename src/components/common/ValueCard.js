@@ -70,7 +70,7 @@ class ValueCard extends Component {
             <Text style={valueTextStyle}>
                 {value}
             </Text>
-            <Icon 
+            <Icon
             name={icon}
             color= "#fff"
             size= {16}/>
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "400",
     marginLeft: 10,
+    marginTop: -5,
     fontFamily: Fonts.regular
   }
 });
