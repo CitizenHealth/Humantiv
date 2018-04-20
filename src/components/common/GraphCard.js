@@ -25,7 +25,7 @@ import {
   Svg,
   Rect
 } from 'react-native-svg'
-import { LineChart, Grid} from 'react-native-svg-charts'
+import { LineChart, AreaChart} from 'react-native-svg-charts'
 import * as shape from 'd3-shape';
 import {primaryGreyColor} from '../themes/theme';
 
@@ -152,38 +152,32 @@ class GraphCard extends Component {
                   width: width-30
                 }
             ]}>
-              <Svg
+              <View
                 width ={(width || 100) -30}
                 height ={(height || 100)/2}
-                x = {0}
-                y = {0}
               >
-                {/* <LineChart
-                  style = {{
-                    height: (height  || 100)/2,
-                    width: (width || 100) -30
-                  }}           
-                  data={ dataArray }
-                  animate= {true}
-                  animationDuration = {1000}
-                  showGrid= {false}
-                  contentInset={ { top: (height|| 100)/6, bottom: (height|| 100)/6 } }
-                  curve= {shape.curveNatural}
-                  svg={{
-                      strokeWidth: 2,
-                      stroke: graphGreyColor,
-                  }}
-                >
-                </LineChart>     */}
-                <Rect
-                  x={0}
-                  y={3*height/16}
-                  width={(width || 100)-30}
-                  height={(height || 100)/8}
-                  fill="#ddd"
-                  opacity={0.8}
-                />
-              </Svg>
+                
+
+                <LineChart
+                    style = {{
+                      height: height/2,
+                      width: width -30
+                    }} 
+                    x={0}
+                    y={0}          
+                    data={ dataArray }
+                    animate= {true}
+                    animationDuration = {1000}
+                    showGrid= {false}
+                    contentInset={ { top: 25, bottom: 25 } }
+                    curve= {shape.curveNatural}
+                    svg={{
+                        strokeWidth: 2,
+                        stroke: graphGreyColor,
+                    }}
+                  >
+                  </LineChart> 
+              </View>
           </View>    
         </View>      
     </View>
@@ -202,7 +196,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 2
+    elevation: 1
   },    
   headerContainerStyle: {
     flex: 1,

@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { Button } from '../../src/components/common';
-import { HumanAPI, SignUpButton, FacebookLoginButton, GoogleLoginButton } from '../../src/components/custom';
+import { HealthView, SignUpButton, FacebookLoginButton, GoogleLoginButton } from '../../src/components/custom';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
 
@@ -60,7 +60,7 @@ storiesOf('Button', module)
     </GoogleLoginButton>
   ));
 
-  storiesOf('HumanAPI', module)
+  storiesOf('HealthView', module)
   .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
   .add('Launch', () => (
     <View
@@ -70,7 +70,7 @@ storiesOf('Button', module)
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
       }}>
-        <HumanAPI 
+        <HealthView 
           clientUserId="nabylb@gmail.com"
           publicToken={null}
         />

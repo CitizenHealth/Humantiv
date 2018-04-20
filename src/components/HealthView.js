@@ -32,7 +32,12 @@ import {
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
-import { theme, primaryBlueColor } from './themes';
+import { 
+  theme, 
+  primaryBlueColor, 
+  primaryBackgroungColor,
+  graphGreyColor
+ } from './themes';
 import {formatNumbers} from '../business/Helpers';
 import ActionButton from 'react-native-action-button';
 
@@ -43,7 +48,7 @@ const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
 const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
 const closeURL = 'https://connect.humanapi.co/blank/hc-close';
 
-class HumanAPI extends Component {
+class HealthView extends Component {
 
     componentWillMount () {
         this.props.dataFetch({type: "humanapi"});
@@ -262,7 +267,7 @@ class HumanAPI extends Component {
                     <IconButton
                         onPress={this.props.onPressFooter}
                         viewStyles={iconStyle}
-                        textStyles={[iconTextStyle, {color:"#757b86"}]}
+                        textStyles={[iconTextStyle, {color:graphGreyColor}]}
                     >
                         <HMIcon 
                           name="sandwich"
@@ -280,10 +285,16 @@ class HumanAPI extends Component {
                             data= {[
                                 {time: 1, value: 78},
                                 {time: 2, value: 45}, 
-                                {time: 3, value: 235},  
+                                {time: 3, value: 121},  
                                 {time: 4, value: 54}, 
                                 {time: 5, value: 53}, 
-                                {time: 6, value: 87}, 
+                                {time: 6, value: 56}, 
+                                {time: 7, value: 63},
+                                {time: 8, value: 54}, 
+                                {time: 9, value: 61},  
+                                {time: 10, value: 59}, 
+                                {time: 11, value: 58}, 
+                                {time: 12, value: 59}, 
                             ]}
                             rules= {{ 
                                 min: 40,
@@ -303,8 +314,13 @@ class HumanAPI extends Component {
                                 {time: 2, value: 97}, 
                                 {time: 3, value: 96},  
                                 {time: 4, value: 95}, 
-                                {time: 5, value: 111}
-                            ]}
+                                {time: 5, value: 95},
+                                {time: 6, value: 97},
+                                {time: 7, value: 102}, 
+                                {time: 8, value: 94},  
+                                {time: 9, value: 98}, 
+                                {time: 10, value: 97}
+                             ]}
                             rules= {{ 
                                 min: 0,
                                 max: 160,
@@ -326,7 +342,12 @@ class HumanAPI extends Component {
                                 {time: 4, value: 4}, 
                                 {time: 5, value: 8}, 
                                 {time: 6, value: 9}, 
-                            ]}
+                                {time: 7, value: 10},
+                                {time: 8, value: 7}, 
+                                {time: 9, value: 7},  
+                                {time: 10, value: 8}, 
+                                {time: 11, value: 7}, 
+                                {time: 12, value: 9},                            ]}
                             rules= {{ 
                                 min: 0,
                                 max: 24,
@@ -382,7 +403,7 @@ class HumanAPI extends Component {
                     <IconButton
                         onPress={this.props.onPressFooter}
                         viewStyles={iconStyle}
-                        textStyles={[iconTextStyle, {color:"#757b86"}]}
+                        textStyles={[iconTextStyle, {color:graphGreyColor}]}
                     >
                         <HMIcon 
                           name="sandwich"
@@ -418,11 +439,11 @@ class HumanAPI extends Component {
             const valueCardWidth = (screenWidth - 30)/2;
             const hgraphWidth = screenWidth - 120;
             return (
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, marginTop: 5}}>
                     <View style={cardsStyle}>
                         <ValueCard 
                             color= "#3ba4f9"
-                            icon= "center"
+                            icon= "medit"
                             title= "Medit Balance"
                             value= {formatNumbers(medits.toString())}
                             width= {valueCardWidth}
@@ -430,7 +451,7 @@ class HumanAPI extends Component {
 
                         <ValueCard
                             color= "#34d392"
-                            icon= "mdx"
+                            icon= "medex"
                             title= "MDX Balance"
                             value= {formatNumbers(mdx.toString())}
                             width= {valueCardWidth}
@@ -488,11 +509,11 @@ class HumanAPI extends Component {
             <View style={pageStyle}>
                 <View style={headerStyle}>
                     {this.renderProfileImage()}
-                    <Text style={textStyle}> My Health </Text>
+                    <Text style={textStyle}> My health </Text>
                     <IconButton
                         onPress={this.onSettingsPress.bind(this)}
                         viewStyles={iconStyle}
-                        textStyles={[iconTextStyle, {color:"#757b86"}]}
+                        textStyles={[iconTextStyle, {color:graphGreyColor}]}
                     >
                         <HMIcon 
                           name="bell"
@@ -512,13 +533,13 @@ class HumanAPI extends Component {
                   buttonColor="rgba(231,76,60,1)">
                   <ActionButton.Item 
                     buttonColor='#9b59b6' 
-                    title="Other" 
+                    title="Sleep" 
                     size={44}
                     onPress={() => console.log("notes tapped!")}>
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
-                      {Icons.userCircle}  
+                      {Icons.bed}  
                     </FontAwesome>
                   </ActionButton.Item>
                   <ActionButton.Item 
@@ -551,7 +572,7 @@ class HumanAPI extends Component {
 
 const styles = StyleSheet.create({
     pageStyle: {
-        backgroundColor: "#f9fafc",
+        backgroundColor: primaryBackgroungColor,
         flexDirection: "column",
         alignItems: "stretch",
         flex: 1
@@ -561,7 +582,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         height: scale(60),
         alignItems: 'center',
-        alignContent: 'stretch'
+        alignContent: 'stretch',
+        backgroundColor: primaryBackgroungColor
     },
    cardsStyle: {
         flex: 1,
@@ -595,7 +617,7 @@ const styles = StyleSheet.create({
         flex: 4,
         textAlign: 'center',
         fontSize: 20,
-        color: "#757b86",
+        color: graphGreyColor,
         fontFamily: Fonts.regular
     },
     button: {
@@ -614,7 +636,7 @@ const styles = StyleSheet.create({
     sectionTitleStyle: {
         fontSize: 18,
         fontWeight: "400",
-        color: "#757b86",
+        color: graphGreyColor,
         paddingLeft: 10,
         fontFamily: Fonts.regular
     },
@@ -633,4 +655,4 @@ const mapStateToProps = (state) => {
         user, children
     }
 }
-export default connect(mapStateToProps, {dataFetch, dataSave, humanAPIFetch})(HumanAPI);
+export default connect(mapStateToProps, {dataFetch, dataSave, humanAPIFetch})(HealthView);

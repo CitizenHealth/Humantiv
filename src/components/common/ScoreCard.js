@@ -6,7 +6,11 @@ import {
   TouchableOpacity,
   Image
 } from "react-native";
-import { theme, primaryBlueColor } from '../themes';
+import { 
+  theme, 
+  primaryBlueColor,
+  graphGreyColor
+ } from '../themes';
 import PropTypes from 'prop-types';
 import Images from "../../resources/images";
 import {IconButton} from './IconButton';
@@ -30,7 +34,7 @@ class ScoreCard extends Component {
     buttonTitle: "Add data source",
     footerTitle: "Add manual activity",
     backgroundColor: "#fff",
-    titleColor: "#757b86",
+    titleColor: graphGreyColor,
     buttonTitleColor: "#3598fe",
     width: undefined,
     height: undefined
@@ -90,7 +94,7 @@ class ScoreCard extends Component {
             <IconButton
                   onPress={this.props.onPressFooter}
                   viewStyles={iconStyle}
-                  textStyles={[iconTextStyle, {color:"#757b86"}]}
+                  textStyles={[iconTextStyle, {color:graphGreyColor}]}
                 >
                 <Icon name="plus_grey"/>
               </IconButton>
@@ -115,7 +119,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 2,
+    elevation: 1,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
   cardTitleStyle: {
     fontSize: 18,
     fontWeight: "400",
-    color: "#757b86",
+    color: graphGreyColor,
     paddingLeft: 10,
     fontFamily: Fonts.regular
   },
@@ -159,7 +163,7 @@ const styles = StyleSheet.create({
   cardFooterButtonTitleStyle: {
     fontSize: 14,
     fontWeight: "400",
-    color: "#757b86",
+    color: graphGreyColor,
     fontFamily: Fonts.regular
   },
   imageStyle: {

@@ -27,7 +27,7 @@ class ActivityCard extends Component {
     title: PropTypes.string,
     value: PropTypes.string,
     preposition: PropTypes.string,
-    time: PropTypes.number.isRequired,
+    time: PropTypes.string.isRequired,
     width: PropTypes.number,
     height: PropTypes.number
   };
@@ -37,7 +37,7 @@ class ActivityCard extends Component {
     title: "",
     value: "",
     preposition: "",
-    time: 0,
+    time: "",
     width: 200,
     height: 200
   }
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 2
+    elevation: 1
   },    
   iconContainerStyle: {
     justifyContent: 'center',
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "400",
     textAlignVertical: 'bottom',
-    color: "#757b86",
+    color: graphGreyColor,
     fontFamily: Fonts.regular,
     marginLeft: 4,
   },

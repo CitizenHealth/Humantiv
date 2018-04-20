@@ -43,38 +43,37 @@ class Dot extends Component {
       });
 
       this.runAnimation();
-      this.runOpacityAnimation();
     }
 
     runAnimation() {
         this.state.circleRadius.setValue(this.props.size/8);
         Animated.timing(this.state.circleRadius, {
-          toValue: this.props.size/2,
+          toValue: this.props.size/4,
           duration: 3000,
           easing: Easing.none,
         }).start(() => {
           if(this.props.animate) {
-            this.runAnimation();
+            this.runOpacityAnimation();
           } else {
 //            this.state.circleRadius.setValue(this.props.size/4);
           }
         });
       }
 
-      runOpacityAnimation() {
-        this.state.circleOpacity.setValue(0.3);
-        Animated.timing(this.state.circleOpacity, {
-          toValue: 0,
-          duration: 5000,
-          easing: Easing.none,
-        }).start(() => {
-          if(this.props.animate) {
-            this.runOpacityAnimation();
-          } else {
+    runOpacityAnimation() {
+      this.state.circleOpacity.setValue(0.3);
+      Animated.timing(this.state.circleOpacity, {
+        toValue: 0,
+        duration: 3000,
+        easing: Easing.none,
+      }).start(() => {
+        if(this.props.animate) {
+          this.runAnimation();
+        } else {
 //            this.state.circleOpacity.setValue(0.3);
-          }
-        });
-      }
+        }
+      });
+    }
 
     render() {
         const {
@@ -93,7 +92,6 @@ class Dot extends Component {
                   ref={ ref => this._myCircle = ref } 
                   cx={(this.props.size || 100)/2}
                   cy={(this.props.size || 100)/2} 
-                  r="50"
                   opacity= {0.3}
                   fill={this.props.color}
                 />

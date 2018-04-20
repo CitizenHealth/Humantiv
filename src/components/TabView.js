@@ -3,7 +3,8 @@ import { Animated, View, Text, StyleSheet, Image } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import SimplePage from './SimplePage';
 import HomeView from './HomeView';
-import HumanAPI from './HumanAPI';
+import HealthView from './HealthView';
+import WalletView from './WalletView';
 import Images from '../resources/images';
 import {primaryBlueColor} from './themes/theme';
 import {
@@ -162,12 +163,13 @@ class TabView extends React.Component<*, State> {
     switch (route.key) {
       case '0':
         return (
-          <HumanAPI
+          <HealthView
           />
         );
       case '1':
         return (
-          <SimplePage state={this.state} style={{ backgroundColor: route.color }} />
+          <WalletView
+           />
         );
       case '2':
         return (
