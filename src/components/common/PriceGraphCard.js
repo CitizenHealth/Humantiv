@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   titleContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center'
+    justifyContent: 'center',
+    alignItems: 'flex-start'
   },
   valueContainer: {
     justifyContent: 'center',
@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: primaryGreyColor,
     fontFamily: Fonts.regular,
+    marginLeft: 8,
   },
   cardValueStyle: {
     fontSize: 28,
