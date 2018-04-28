@@ -108,7 +108,7 @@ class TabView extends React.Component<*, State> {
 
   _renderIcon = ({ route }) => {
     var icon = route.icon + "_disabled";
-    var color = "#DADDE2";
+    var color = "#3599fe";
     if (parseInt(route.key) === parseInt(this.state.index)) {
       icon = route.icon + "_enabled";
       color =  "#3599fe";    

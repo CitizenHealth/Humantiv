@@ -28,9 +28,9 @@ export default class Welcome extends React.Component {
   render() {
     return (
       <View style={this.styles.wrapper}>
-        <Text style={this.styles.header}>Welcome to Humantiv Storybook</Text>
+        <Text style={this.styles.header}>Welcome to the Humantiv Storybook</Text>
         <Text style={this.styles.content}>
-          This is a UI Component development environment for the Humantiv app. Here you can
+          This is a UI Component development environment for your React Native app. Here you can
           display and interact with your UI components as stories. A story is a single state of one
           or more UI components. You can have as many stories as you want. In other words a story is
           like a visual test case.

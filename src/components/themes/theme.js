@@ -8,6 +8,9 @@ export const primaryGreyColor = '#b6bbc4';
 export const primaryGreenColor = '#36d491';
 export const primaryBackgroungColor = '#f9fafc';
 
+export const highlightedGreenColor = '#57d777'
+export const highlightedGreyColor = '#c8ccd3'
+
 export const graphGreyColor = '#757b86';
 export const graphRedColor = '#f15b58';
 export const graphOrangeColor = '#efb6094';

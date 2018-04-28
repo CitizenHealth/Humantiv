@@ -156,8 +156,6 @@ class GraphCard extends Component {
                 width ={(width || 100) -30}
                 height ={(height || 100)/2}
               >
-                
-
                 <LineChart
                     style = {{
                       height: height/2,

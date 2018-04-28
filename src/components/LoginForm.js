@@ -30,7 +30,7 @@ import {
 } from './custom'; 
 import { emailChanged, passwordChanged, loginUser, loginGoogleUser, loginFacebookUser } from "../actions";
 import Images from "../resources/images";
-import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
+import { theme, primaryWhiteTextStyle, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import firebase from "react-native-firebase";
 import {Fonts} from '../resources/fonts/Fonts';
@@ -86,7 +86,6 @@ class LoginForm extends Component {
   }
   renderButton() {
     const { loading } = this.props;
-    const { primaryWhiteTextStyle } = theme;
 
     if (loading) {
       return <Spinner size="large" />;

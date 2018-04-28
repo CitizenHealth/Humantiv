@@ -31,13 +31,13 @@ class Dot extends Component {
       };
 
       this.state.circleRadius.addListener( (circleRadius) => {
-        if (this._myCircle !== undefined) {
+        if (this._myCircle !== undefined && this._myCircle) {
           this._myCircle.setNativeProps({ r: circleRadius.value.toString() });
         }
       });
 
       this.state.circleOpacity.addListener( (circleOpacity) => {
-        if (this._myCircle !== undefined) {
+        if (this._myCircle !== undefined && this._myCircle) {
           this._myCircle.setNativeProps({ opacity: circleOpacity.value });
         }
       });
@@ -49,7 +49,7 @@ class Dot extends Component {
         this.state.circleRadius.setValue(this.props.size/8);
         Animated.timing(this.state.circleRadius, {
           toValue: this.props.size/4,
-          duration: 3000,
+          duration: 2000,
           easing: Easing.none,
         }).start(() => {
           if(this.props.animate) {
@@ -64,7 +64,7 @@ class Dot extends Component {
       this.state.circleOpacity.setValue(0.3);
       Animated.timing(this.state.circleOpacity, {
         toValue: 0,
-        duration: 3000,
+        duration: 2000,
         easing: Easing.none,
       }).start(() => {
         if(this.props.animate) {
@@ -92,7 +92,7 @@ class Dot extends Component {
                   ref={ ref => this._myCircle = ref } 
                   cx={(this.props.size || 100)/2}
                   cy={(this.props.size || 100)/2} 
-                  opacity= {0.3}
+                  style = {{opacity: 0.3}}
                   fill={this.props.color}
                 />
                 <Circle

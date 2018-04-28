@@ -24,4 +24,6 @@ export * from './GraphCard';
 export * from './Dot';
 export * from './ActivityCard';
 export * from './WalletCard';
+export * from './JourneyCard';
+export * from './JourneyChoice';
 export {Feed} from './Feed';
