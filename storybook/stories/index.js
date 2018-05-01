@@ -13,10 +13,20 @@ import {
   Button,
   GraphCard,
   JourneyCard,
-  JourneyChoice
- } from '../../src/components/common';
+  JourneyChoice,
+  SettingsHeader,
+  SettingsTextEntry,
+  SettingsSwitch,
+  SettingsChoice,
+  SettingsSection
+} from '../../src/components/common';
 import Feed from '../../src/components/common/Feed';
-import { HealthView, SignUpButton, FacebookLoginButton, GoogleLoginButton } from '../../src/components/custom';
+import { 
+  HealthView, 
+  SignUpButton, 
+  FacebookLoginButton, 
+  GoogleLoginButton 
+} from '../../src/components/custom';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
@@ -151,12 +161,14 @@ storiesOf('Button', module)
       size = {screenWidth -scale(40)}
       selected = {false}
       style = {{ marginBottom: 5}}
+      onSelected = {() => {console.log("Selected")}}
     />
   )).add('Selected', () => (
     <JourneyCard
       size = {screenWidth -scale(40)}
       selected = {true}
       style = {{marginBottom: 5}}
+      onSelected = {() => {console.log("Selected")}}
   />
   ));
 
@@ -193,11 +205,84 @@ storiesOf('Button', module)
     </ScrollView>
   ));
 
-  storiesOf('Feed', module)
+  storiesOf('Settings', module)
   .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
-  .add('Default', () => (
-    < Feed
-      width = {screenWidth -scale(20)}
-      height = {screenWidth -scale(20)}
+  .add('Header', () => (
+    < SettingsHeader
     />
+  ))
+  .add('Text Entry', () => (
+    < SettingsTextEntry
+      label="Age"
+      placeholder=""
+      onChangeText= {() => {console.log("")}}
+      enablesReturnKeyAutomatically={true}
+      returnKeyType="done"
+      keyboardType="numeric"
+      autoFocus={false}
+      value="26"
+      unit="years old"
+    />
+  ))
+  .add('Text Choice', () => (
+    < SettingsChoice
+      label="Age"
+      placeholder=""
+      onChangeText= {() => {console.log("")}}
+      enablesReturnKeyAutomatically={false}
+      returnKeyType="done"
+      keyboardType="numeric"
+      autoFocus={false}
+      value="26"
+    />
+  ))
+  .add('Text Section', () => (
+    < SettingsSection
+      title="Profile section"
+    >
+      < SettingsTextEntry
+        label="Age"
+        placeholder=""
+        onChangeText= {() => {console.log("")}}
+        enablesReturnKeyAutomatically={true}
+        returnKeyType="done"
+        keyboardType="numeric"
+        autoFocus={false}
+        value="26"
+        unit="years old"
+      />
+      < SettingsTextEntry
+        label="Gender"
+        placeholder=""
+        onChangeText= {() => {console.log("")}}
+        enablesReturnKeyAutomatically={true}
+        returnKeyType="done"
+        keyboardType="numeric"
+        autoFocus={false}
+        value="Male"
+        unit=""
+      />
+      < SettingsTextEntry
+        label="Weight"
+        placeholder=""
+        onChangeText= {() => {console.log("")}}
+        enablesReturnKeyAutomatically={true}
+        returnKeyType="done"
+        keyboardType="numeric"
+        autoFocus={false}
+        value="83"
+        unit="kg"
+      />
+      < SettingsTextEntry
+        label="Height"
+        placeholder=""
+        onChangeText= {() => {console.log("")}}
+        enablesReturnKeyAutomatically={true}
+        returnKeyType="done"
+        keyboardType="numeric"
+        autoFocus={false}
+        value="186"
+        unit="cm"
+      />
+    </SettingsSection>
   ));

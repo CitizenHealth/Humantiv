@@ -88,7 +88,7 @@ class JourneyCard extends Component {
         <View style={[iconContainerStyle,
             {
               width: this.props.size/6.3,
-              marginTop: this.props.size/19
+              marginTop: this.props.size/17
             }
           ]}>
           <Icon

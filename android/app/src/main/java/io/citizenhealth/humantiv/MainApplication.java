@@ -5,6 +5,10 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.horcrux.svg.SvgPackage;
 import com.reactlibrary.RNReactNativeHgraphPackage;
 import io.sentry.RNSentryPackage;
@@ -67,6 +71,10 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
+            new RNGoogleSigninPackage(),
+            new RNGestureHandlerPackage(),
+            new RNFirebasePackage(),
+            new FBSDKPackage(),
                 new SvgPackage(),
                 new RNReactNativeHgraphPackage(),
                 new RNSentryPackage(MainApplication.this),

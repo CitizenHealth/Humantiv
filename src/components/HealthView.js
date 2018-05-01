@@ -497,7 +497,6 @@ class HealthView extends Component {
     render() {
         const {
             button,
-            instructions,
             pageStyle,
             headerStyle,
             textStyle,
@@ -603,15 +602,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         height: scale(80),
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#fff',
-        marginBottom: 5,
-        ...Platform.select({
-            ios: { fontFamily: "Arial", },
-            android: { fontFamily: "Roboto" }
-        })
     },
     textStyle: {
         flex: 4,

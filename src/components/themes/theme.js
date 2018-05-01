@@ -5,6 +5,7 @@ import { Fonts } from '../../resources/fonts/Fonts';
 
 export const primaryBlueColor = '#3C9AFB';
 export const primaryGreyColor = '#b6bbc4';
+export const secondaryGreyColor = '#545962';
 export const primaryGreenColor = '#36d491';
 export const primaryBackgroungColor = '#f9fafc';
 

@@ -5,7 +5,8 @@ import { theme } from '../themes';
 class Input extends Component {
   
   render() {
-    const { label,
+    const { 
+      label,
       value,
       onChangeText,
       placeholder,
