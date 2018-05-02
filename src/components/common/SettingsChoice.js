@@ -11,34 +11,42 @@ import {
   graphGreyColor, 
   primaryBlueColor
 } from '../themes'
+import PropTypes from 'prop-types';
 import { scale } from "react-native-size-matters";
 import {Select, Option} from "react-native-chooser";
+import {primaryGreyColor} from '../themes/theme';
 
 const screenWidth = Dimensions.get('window').width;
-const componentWidth = screenWidth;
 const componentHeight = 50;
 
 class SettingsChoice extends Component {
+
+  static propTypes = {
+    label: PropTypes.string,
+    choices: PropTypes.array,
+    onSelect: PropTypes.func,
+    value: PropTypes.string
+  }
+
+  static defaultProps = {
+    label: "",
+    choices: [],
+    value: ""
+  }
  
   constructor(props) {
     super(props);
     this.state = {
-      value : (props.choices) ? props.choices[0] : ""
+      value : props.value
     }
   }
 
   render() {
     const {
       label,
-      placeholder,
-      onChangeText,
-      enablesReturnKeyAutomatically,
-      returnKeyType,
-      keyboardType,
-      autoFocus,
-      value,
-      unit,
-      editable
+      choices,
+      onChangeChoice,
+      value
     } = this.props;
 
     const {
@@ -53,45 +61,43 @@ class SettingsChoice extends Component {
           {label}
         </Text>
         <Select
-            onSelect = {() => {this.onSelect();}}
+            onSelect = {(value, label) => {
+              this.setState({value : value});
+              this.props.onSelect(value, label);
+            }}
             defaultText  = {this.state.value}
-            style = {inputStyle}
-            textStyle = {{}}
-            backdropStyle  = {{backgroundColor : "#d3d5d6"}}
-            optionListStyle = {{backgroundColor : "#F5FCFF"}}
+            textStyle = {inputStyle}
+            transparent = {true}
+            optionListStyle = {{backgroundColor : "#fff"}}
+            style = {{
+              borderWidth: 0            
+            }}
+            optionListStyle = {{
+              borderWidth: 0,
+              justifyContent: 'center',
+              alignItems: "center",
+              backgroundColor: "#fff",
+              height: 45*choices.length
+            }}
           >
-          <Option value = {{name : "azhar"}}>Azhar</Option>
-          <Option value = "johnceena">Johnceena</Option>
-          <Option value = "undertaker">Undertaker</Option>
-          <Option value = "Daniel">Daniel</Option>
-          <Option value = "Roman">Roman</Option>
-          <Option value = "Stonecold">Stonecold</Option>
-          <Option value = "Rock">Rock</Option>
-          <Option value = "Sheild">Sheild</Option>
-          <Option value = "Orton">Orton</Option>
- 
+          {this.props.choices.map((choice, index) =>{
+            return (
+              <Option
+               styleText = {[labelStyle, {textAlign: 'center'}]}
+               value = {choice}
+               key = {index}
+              >
+                {choice}
+              </Option>
+            );
+          })}
         </Select>
-        <TextInput 
-          style={inputStyle}
-          placeholder={placeholder}
-          autoCorrect={false}
-          value={`${value} ${unit}`}
-          onChangeText={onChangeText}
-          autoFocus={autoFocus}
-          keyboardType={keyboardType}
-          returnKeyType={returnKeyType}
-          autoCapitalize= "none"
-          editable= {editable}
-          enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
-          underlineColorAndroid="transparent"
-        />
       </View>
     )
   }
 }
 const styles = {
   containerStyle: {
-    width: componentWidth,
     height: componentHeight,
     justifyContent: 'center',
     alignItems: 'center',
@@ -120,7 +126,6 @@ const styles = {
     fontFamily: Fonts.regular,
     fontWeight: "400",
     color: highlightedGreyColor,
-    marginRight: scale(10)
   }
 }
 

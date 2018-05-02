@@ -5,6 +5,7 @@ import SimplePage from './SimplePage';
 import HomeView from './HomeView';
 import HealthView from './HealthView';
 import WalletView from './WalletView';
+import SettingsView from './SettingsView';
 import Images from '../resources/images';
 import {primaryBlueColor} from './themes/theme';
 import {
@@ -181,7 +182,8 @@ class TabView extends React.Component<*, State> {
         );
       case '4':
         return (
-          <SimplePage state={this.state} style={{ backgroundColor: route.color }} />
+          <SettingsView 
+          />
         );
       default:
         return null;

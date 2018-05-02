@@ -13,17 +13,20 @@ import {
   graphGreyColor, 
   primaryBlueColor
 } from '../themes'
+import PropTypes from 'prop-types';
 
 class SettingsHeader extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "Nabyl Bennouri",
-      email: "nabylb@gmail.com",
-      image: "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg"
-    };
+  static propTypes = {
+    name: PropTypes.string,
+    email: PropTypes.string,
+    image: PropTypes.string
   }
+  static defaultProps = {
+    name: "",
+    email: "",
+    image: "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg"
+  }
+
   render() {
     const {
       containerStyle,
@@ -62,7 +65,7 @@ class SettingsHeader extends Component {
                 borderRadius: imageSize/2
               }
             ]}
-            source={{uri: this.state.image}} />
+            source={{uri: this.props.image}} />
           <IconButton 
             viewStyles ={{
               height: imageSize/3,
@@ -83,12 +86,12 @@ class SettingsHeader extends Component {
           </IconButton>
           <View style={upperTextContainer}>
             <Text style={nameStyle}>
-              {this.state.name}
+              {this.props.name}
             </Text>
           </View>
           <View style={lowerTextContainer}>
             <Text style={emailStyle}>
-              {this.state.email}
+              {this.props.email}
             </Text>
           </View>
         </View>

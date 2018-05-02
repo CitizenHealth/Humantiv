@@ -169,8 +169,7 @@ const styles = StyleSheet.create({
         backgroundColor: primaryBackgroungColor,
         flexDirection: "column",
         alignItems: "stretch",
-        flex: 1,
-        marginTop: 10
+        flex: 1
     },
     headerStyle: {
         flexDirection: 'row',

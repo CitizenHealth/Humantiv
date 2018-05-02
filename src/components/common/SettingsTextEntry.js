@@ -12,13 +12,41 @@ import {
   primaryBlueColor
 } from '../themes'
 import { scale } from "react-native-size-matters";
+import PropTypes from 'prop-types';
 
 const screenWidth = Dimensions.get('window').width;
-const componentWidth = screenWidth;
 const componentHeight = 50;
 
 class SettingsTextEntry extends Component {
+  static propTypes = {
+    label: PropTypes.string,
+    placeholder: PropTypes.string,
+    onChangeText: PropTypes.func,
+    enablesReturnKeyAutomatically: PropTypes.bool,
+    returnKeyType: PropTypes.string,
+    keyboardType: PropTypes.string,
+    autoFocus: PropTypes.bool,
+    unit: PropTypes.string,
+    editable: PropTypes.bool,
+    value: PropTypes.string
+  }
 
+  static defaultProps = {
+    label: "Label",
+    placeholder: "",
+    enablesReturnKeyAutomatically: false,
+    autoFocus: false,
+    unit: "Units",
+    editable: true,
+    value: "Value"
+  }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      text: props.value
+    }
+  }
   
   render() {
     const {
@@ -29,7 +57,6 @@ class SettingsTextEntry extends Component {
       returnKeyType,
       keyboardType,
       autoFocus,
-      value,
       unit,
       editable
     } = this.props;
@@ -37,7 +64,9 @@ class SettingsTextEntry extends Component {
     const {
       containerStyle,
       labelStyle,
-      inputStyle
+      inputStyle,
+      valueContainerStyle,
+      unitLabelStyle
     } = styles;
     
     return(
@@ -45,27 +74,35 @@ class SettingsTextEntry extends Component {
         <Text style={labelStyle}>
           {label}
         </Text>
-        <TextInput 
-          style={inputStyle}
-          placeholder={placeholder}
-          autoCorrect={false}
-          value={`${value} ${unit}`}
-          onChangeText={onChangeText}
-          autoFocus={autoFocus}
-          keyboardType={keyboardType}
-          returnKeyType={returnKeyType}
-          autoCapitalize= "none"
-          editable= {editable}
-          enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
-          underlineColorAndroid="transparent"
-        />
+        <View style={valueContainerStyle}>
+          <TextInput 
+            style={inputStyle}
+            placeholder={placeholder}
+            autoCorrect={false}
+            value={this.state.text}
+            onChangeText={(text) => {
+              var trimText = text;
+              this.setState({text: trimText});
+              onChangeText(trimText);
+            }}
+            autoFocus={autoFocus}
+            keyboardType={keyboardType}
+            returnKeyType={returnKeyType}
+            autoCapitalize= "none"
+            editable= {editable}
+            enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
+            underlineColorAndroid="transparent"
+          />
+          <Text style={unitLabelStyle}>
+            {` ${unit}`}
+          </Text>
+        </View>
       </View>
     )
   }
 }
 const styles = {
   containerStyle: {
-    width: componentWidth,
     height: componentHeight,
     justifyContent: 'center',
     alignItems: 'center',
@@ -86,15 +123,27 @@ const styles = {
     color: graphGreyColor,
     marginLeft: scale(10)
   },
-  inputStyle: {
+  valueContainerStyle: {
     flex: 4,
+    flexDirection: 'row',
+    marginRight: scale(10),
     justifyContent: 'flex-end',
+  },
+  inputStyle: {
+    flex: 1,
     textAlign: 'right',
     fontSize: 18,
     fontFamily: Fonts.regular,
     fontWeight: "400",
     color: highlightedGreyColor,
-    marginRight: scale(10)
+
+  },
+  unitLabelStyle: {
+    textAlign: 'right',
+    fontSize: 18,
+    fontFamily: Fonts.regular,
+    fontWeight: "400",
+    color: highlightedGreyColor,
   }
 }
 

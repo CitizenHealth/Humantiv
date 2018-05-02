@@ -506,21 +506,21 @@ class HealthView extends Component {
 
         return (
             <View style={pageStyle}>
-                <View style={headerStyle}>
-                    {this.renderProfileImage()}
-                    <Text style={textStyle}> My health </Text>
-                    <IconButton
-                        onPress={this.onSettingsPress.bind(this)}
-                        viewStyles={iconStyle}
-                        textStyles={[iconTextStyle, {color:graphGreyColor}]}
-                    >
-                        <HMIcon 
-                          name="bell"
-                          size= {20}
-                        />
-                    </IconButton>                 
-                </View>
-                <ScrollView >                   
+                <ScrollView > 
+                    <View style={headerStyle}>
+                        {this.renderProfileImage()}
+                        <Text style={textStyle}> My health </Text>
+                        <IconButton
+                            onPress={this.onSettingsPress.bind(this)}
+                            viewStyles={iconStyle}
+                            textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                        >
+                            <HMIcon 
+                              name="bell"
+                              size= {20}
+                            />
+                        </IconButton>                 
+                    </View>                  
                     {this.renderActivity()}
                     {this.renderGraphTiles()}
                     {this.renderActivityFeed()}                  

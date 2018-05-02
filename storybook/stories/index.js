@@ -215,7 +215,7 @@ storiesOf('Button', module)
     < SettingsTextEntry
       label="Age"
       placeholder=""
-      onChangeText= {() => {console.log("")}}
+      onChangeText= {(text) => {console.log(text)}}
       enablesReturnKeyAutomatically={true}
       returnKeyType="done"
       keyboardType="numeric"
@@ -224,65 +224,137 @@ storiesOf('Button', module)
       unit="years old"
     />
   ))
-  .add('Text Choice', () => (
+  .add('Choice', () => (
     < SettingsChoice
-      label="Age"
-      placeholder=""
-      onChangeText= {() => {console.log("")}}
-      enablesReturnKeyAutomatically={false}
-      returnKeyType="done"
-      keyboardType="numeric"
-      autoFocus={false}
-      value="26"
+      label="Gender"
+      onSelect= {
+        (value, label) => {console.log(value, label)}
+      }
+      value = "Male"
+      choices = {["Male","Female","I'd rather not say"]}
     />
   ))
-  .add('Text Section', () => (
-    < SettingsSection
-      title="Profile section"
-    >
-      < SettingsTextEntry
-        label="Age"
-        placeholder=""
-        onChangeText= {() => {console.log("")}}
-        enablesReturnKeyAutomatically={true}
-        returnKeyType="done"
-        keyboardType="numeric"
-        autoFocus={false}
-        value="26"
-        unit="years old"
+  .add('Switch', () => (
+    < SettingsSwitch
+      label="Goal Notifications"
+      onValueChange= {
+        (value) => {console.log(value)}
+      }
+      on = {true}
+    />
+  ))
+  .add('Section', () => (
+    <View>
+      <ScrollView
+      style={{
+        flex: 1
+      }}
+      showsHorizontalScrollIndicator={false}
+      horizontal={false}
+      >
+      < SettingsHeader
+        name="Nabyl Bennouri"
+        email="nabyl@citizenhealth.io"
+        image="https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg"
       />
-      < SettingsTextEntry
+      < SettingsSection
+        title="Profile section"
+      >
+        < SettingsTextEntry
+          label="Age"
+          placeholder=""
+          onChangeText= {(text) => {console.log("text")}}
+          enablesReturnKeyAutomatically={true}
+          returnKeyType="done"
+          keyboardType="numeric"
+          autoFocus={false}
+          value="26"
+          unit="years old"
+        />
+        < SettingsChoice
         label="Gender"
-        placeholder=""
-        onChangeText= {() => {console.log("")}}
-        enablesReturnKeyAutomatically={true}
-        returnKeyType="done"
-        keyboardType="numeric"
-        autoFocus={false}
-        value="Male"
-        unit=""
+        onSelect= {
+          (value, label) => {console.log(value, label)}
+        }
+        value = "Male"
+        choices = {["Male","Female","I'd rather not say"]}
       />
-      < SettingsTextEntry
+        < SettingsTextEntry
+          label="Weight"
+          placeholder=""
+          onChangeText= {(text) => {console.log("text")}}
+          enablesReturnKeyAutomatically={true}
+          returnKeyType="done"
+          keyboardType="numeric"
+          autoFocus={false}
+          value="83"
+          unit="kg"
+        />
+        < SettingsTextEntry
+          label="Height"
+          placeholder=""
+          onChangeText= {(text) => {console.log("text")}}
+          enablesReturnKeyAutomatically={true}
+          returnKeyType="done"
+          keyboardType="numeric"
+          autoFocus={false}
+          value="186"
+          unit="cm"
+        />
+      </SettingsSection>
+      < SettingsSection
+        title="Settings"
+      >
+        < SettingsChoice
+          label="Height"
+          onSelect= {
+            (value, label) => {console.log(value, label)}
+          }
+          value = "Centimeters"
+          choices = {["Centimeters","Inches"]}
+        />
+        < SettingsChoice
         label="Weight"
-        placeholder=""
-        onChangeText= {() => {console.log("")}}
-        enablesReturnKeyAutomatically={true}
-        returnKeyType="done"
-        keyboardType="numeric"
-        autoFocus={false}
-        value="83"
-        unit="kg"
-      />
-      < SettingsTextEntry
-        label="Height"
-        placeholder=""
-        onChangeText= {() => {console.log("")}}
-        enablesReturnKeyAutomatically={true}
-        returnKeyType="done"
-        keyboardType="numeric"
-        autoFocus={false}
-        value="186"
-        unit="cm"
-      />
-    </SettingsSection>
+        onSelect= {
+          (value, label) => {console.log(value, label)}
+        }
+        value = "Kilograms"
+        choices = {["Kilograms","Lbs"]}
+        />
+        < SettingsChoice
+          label="Distance"
+          onSelect= {
+            (value, label) => {console.log(value, label)}
+          }
+          value = "Meters"
+          choices = {["Meters","Feet"]}
+        />
+      </SettingsSection>
+      < SettingsSection
+        title="Notifications"
+      >
+        < SettingsSwitch
+          label="Goals Notifications"
+          onValueChange= {
+            (value) => {console.log(value)}
+          }
+          value = {true}
+        />
+        < SettingsSwitch
+          label="Votes Notifications"
+          onValueChange= {
+            (value) => {console.log(value)}
+          }
+          value = {false}
+        />
+        < SettingsSwitch
+          label="Wallet Notifications"
+          onValueChange= {
+            (value) => {console.log(value)}
+          }
+          value = {true}
+        />
+      </SettingsSection>
+    </ScrollView>
+  </View>
   ));
