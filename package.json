@@ -19,7 +19,7 @@
     "react-native-fontawesome": "^5.7.0",
     "react-native-gesture-handler": "^1.0.0-alpha.41",
     "react-native-google-signin": "^0.12.0",
-    "react-native-hgraph": "^0.2.0",
+    "react-native-hgraph": "^0.2.1",
     "react-native-human-api": "^0.1.3",
     "react-native-hyperlink": "0.0.12",
     "react-native-keyboard-aware-scroll-view": "^0.4.4",

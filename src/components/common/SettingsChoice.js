@@ -113,7 +113,7 @@ const styles = {
     textAlignVertical: 'center',
     flex: 2,
     fontSize: 18,
-    fontFamily: Fonts.light,
+    fontFamily: Fonts.regular,
     fontWeight: "400",
     color: graphGreyColor,
     marginLeft: scale(10)

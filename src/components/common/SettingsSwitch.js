@@ -3,7 +3,8 @@ import {
   View,
   Switch,
   Text,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import {Fonts} from '../../resources/fonts/Fonts'
 import {
@@ -39,24 +40,12 @@ class SettingsSwitch extends Component {
       value: props.value
     }
   }
-  render() {
-    const {
-      label,
-      on
-    } = this.props;
 
-    const {
-      containerStyle,
-      labelStyle,
-      inputStyle,
-      switchStyle
-    } = styles;
-    
-    return(
-      <View style={containerStyle}>
-        <Text style={labelStyle}>
-          {label}
-        </Text>
+  renderSwitch() {
+    const {switchStyle} = styles;
+
+    return (
+      (Platform.OS == 'ios') ?
         <Switch
           onTintColor= {primaryBlueColor}
           onValueChange={(value) => {
@@ -66,6 +55,38 @@ class SettingsSwitch extends Component {
           value={this.state.value}
           style = {switchStyle}
         />
+        : 
+        <Switch
+          onTintColor= {primaryBlueColor}
+          thumbTintColor='#fff'
+          onValueChange={(value) => {
+            this.setState({value});
+            this.props.onValueChange(value);
+          }}
+          value={this.state.value}
+          style = {switchStyle}
+        />
+    );
+  }
+
+  render() {
+    const {
+      label,
+      on
+    } = this.props;
+
+    const {
+      containerStyle,
+      labelStyle,
+      inputStyle
+    } = styles;
+    
+    return(
+      <View style={containerStyle}>
+        <Text style={labelStyle}>
+          {label}
+        </Text>
+        {this.renderSwitch()}
       </View>
     )
   }
@@ -87,7 +108,7 @@ const styles = {
     textAlignVertical: 'center',
     flex: 2,
     fontSize: 18,
-    fontFamily: Fonts.light,
+    fontFamily: Fonts.regular,
     fontWeight: "400",
     color: graphGreyColor,
     marginLeft: scale(10)

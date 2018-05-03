@@ -152,21 +152,15 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-google-signin')
-    compile project(':react-native-gesture-handler')
-    compile(project(':react-native-firebase')) {
-        transitive = false
-    }
-    compile project(':react-native-fbsdk')
-        implementation project(':react-native-sentry')
+    implementation project(':react-native-svg')
+    implementation project(':react-native-hgraph')
+    implementation project(':react-native-gesture-handler')
+    implementation project(':react-native-fbsdk')
+    implementation project(':react-native-sentry')
     implementation project(':react-native-human-api')
-    implementation project(':react-native-google-signin')
     implementation(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important
     }
-
-    implementation project(':react-native-fbsdk')
-    implementation project(':react-native-gesture-handler')
     implementation(project(':react-native-firebase')) {
         transitive = false
     }

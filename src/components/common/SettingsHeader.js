@@ -112,7 +112,8 @@ const styles = {
     flex: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    overflow: 'visible'
   },
   upperTextContainer: {
     flex: 1,
@@ -128,7 +129,7 @@ const styles = {
   },
   nameStyle: {
     fontSize: 24,
-    fontFamily: Fonts.light,
+    fontFamily: Fonts.regular,
     fontWeight: "400",
     color: graphGreyColor,
   },

@@ -75,7 +75,7 @@ const styles = {
   titleStyle: {
     textAlignVertical: 'center',
     fontSize: 22,
-    fontFamily: Fonts.light,
+    fontFamily: Fonts.Regular,
     fontWeight: "400",
     color: secondaryGreyColor,
     marginLeft: scale(10)
