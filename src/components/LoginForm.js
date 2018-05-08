@@ -86,6 +86,7 @@ class LoginForm extends Component {
   }
   renderButton() {
     const { loading } = this.props;
+    const {primaryWhiteTextStyle} = theme;
 
     if (loading) {
       return <Spinner size="large" />;
@@ -107,12 +108,12 @@ class LoginForm extends Component {
            } = styles;
     const { primaryWhiteTextStyle, primaryGreyTextStyle } = theme;
 
-    const { email, password } = this.props;
+    const { email, password, children } = this.props;
 
     firebase.analytics().setCurrentScreen('Login Screen', 'LoginForm')
 
     if (this.state.loggedIn) {
-      Actions.main();
+      (children.profile && children.profile.journey) ? Actions.main(): Actions.journey();
       return (<View />);
     }
     return (
@@ -269,7 +270,8 @@ const styles = {
 
 const mapStateToProps = state => {
   const { email, password, loading, error } = state.auth;
-  return { email, password, loading, error };
+  const { children } = state.data;
+  return { email, password, loading, error, children };
 };
 
 export default connect(mapStateToProps, {

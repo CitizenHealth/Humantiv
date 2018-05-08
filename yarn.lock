@@ -6917,6 +6917,10 @@ react-native-animatable@^1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-chooser@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-chooser/-/react-native-chooser-1.7.0.tgz#f0cf5f19cec2677932450711dc81625541607714"
+
 react-native-compat@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-compat/-/react-native-compat-1.0.0.tgz#491dbd8a0105ac061b8d0d926463ce6a3dff33bc"
@@ -6975,9 +6979,9 @@ react-native-google-signin@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-0.12.0.tgz#fc549593adbc92ed2a5a683a957f157650ece961"
 
-react-native-hgraph@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-hgraph/-/react-native-hgraph-0.2.0.tgz#4aac2078c3a91201652551e94063b6412d5c3c92"
+react-native-hgraph@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-hgraph/-/react-native-hgraph-0.2.1.tgz#b6dfe8c6218b21317a71ff18e5fda14957d38560"
   dependencies:
     d3-ease "^1.0.3"
     d3-format "^1.2.2"

@@ -3,6 +3,10 @@ import { View } from 'react-native';
 import { Input } from '../common/Input';
 import {theme, primaryBlueColor} from '../themes';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import {
+  primaryGreyColor,
+  secondaryGreyColor
+} from '../themes/theme';
 
 class IconInput extends Component {
 
@@ -25,7 +29,11 @@ class IconInput extends Component {
                     {this.props.icon}
                 </FontAwesome>
                 <Input 
-                    style= {{backgroundColor: '#3C6AB4', shadowColor: '#3C6AB4'}}
+                    style= {{
+                      backgroundColor: '#3C6AB4', 
+                      shadowColor: '#3C6AB4',
+                      color: secondaryGreyColor
+                    }}
                     {...this.props}
                 >
                 </Input>

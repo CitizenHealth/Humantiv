@@ -14,6 +14,7 @@ import {
   primaryBlueColor
 } from '../themes'
 import PropTypes from 'prop-types';
+import { scale } from "react-native-size-matters";
 
 class SettingsHeader extends Component {
   static propTypes = {
@@ -51,8 +52,7 @@ class SettingsHeader extends Component {
           width: screenWidth
         }
       ]}>
-
-        <View style={upperContainerStyle}>
+      <View style={upperContainerStyle}>
         </View>
         <View style={lowerContainer}>
           <Image 
@@ -102,7 +102,7 @@ class SettingsHeader extends Component {
 
 const styles = {
   containerStyle: {
-    height: 200
+    height: scale(200)
   },
   upperContainerStyle: {
     flex: 2,

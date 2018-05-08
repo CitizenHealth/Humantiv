@@ -50,6 +50,7 @@ class Dot extends Component {
         Animated.timing(this.state.circleRadius, {
           toValue: this.props.size/4,
           duration: 2000,
+          useNativeDriver: true,
           easing: Easing.none,
         }).start(() => {
           if(this.props.animate) {
@@ -65,6 +66,7 @@ class Dot extends Component {
       Animated.timing(this.state.circleOpacity, {
         toValue: 0,
         duration: 2000,
+        useNativeDriver: true,
         easing: Easing.none,
       }).start(() => {
         if(this.props.animate) {

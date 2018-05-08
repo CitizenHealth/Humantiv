@@ -1,0 +1,27 @@
+
+  [
+    {
+      "title": "I want to function at a higher level in my work.",
+      "content": "We'll guide you on the path to more energy, high productivity, higher efficiency, and more satisfaction in your work.",
+      "icon": "graph",
+      "key": "energy"
+    },
+    {
+      "title": "I want to perform like an olympian.",
+      "content": "We'll personalize a fitness and nutritional strategy to hit your goals, no matter how Olympian-size they are.",
+      "icon": "trophee",
+      "key": "performance"
+    },
+    {
+      "title": "I want to be around to play with my grankids.",
+      "content": "We'll guide you on a journey to keep your muscles firm mind sharp, and ready to keep up with the grandkids.",
+      "icon": "blocks",
+      "key": "longevity"
+    },
+    {
+      "title": "I want to boost my immune system to stop getting sick all the time",
+      "content": "We'll craft an immune boosting diet full of fruits, vegetables, and sunlight",
+      "icon": "head",
+      "key": "immunity"
+    }
+  ]

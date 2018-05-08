@@ -11,7 +11,7 @@ import { scale } from "react-native-size-matters";
 import firebase from "react-native-firebase";
 import Images from "../resources/images";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import { fetchUser } from "../actions";
+import { dataFetch, fetchUser } from "../actions";
 import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 
 
@@ -21,6 +21,10 @@ class EmailConfirmation extends Component {
     visibleModal: false,
     textModal: modalMessages.continue
   };
+
+  componentWillMount () {
+    this.props.dataFetch({type: 'profile'});
+  }
 
   dismissModal() {
     this.setState({visibleModal: !this.state.visibleModal});
@@ -43,6 +47,7 @@ class EmailConfirmation extends Component {
 
   confirmEmail() {
     var firebaseUser = firebase.auth().currentUser;
+    const {children} = this.props;
 
     if (firebaseUser) {
       firebaseUser.reload()
@@ -50,7 +55,7 @@ class EmailConfirmation extends Component {
         firebaseUser = firebase.auth().currentUser;
         if (firebaseUser._user.emailVerified) {
           console.log('Email is verified');
-          Actions.main();
+          (children.profile && children.profile.journey) ? Actions.main(): Actions.journey();
           return;
         } else {
           this.setState({visibleModal: true, textModal: modalMessages.continue});
@@ -167,8 +172,9 @@ const styles = {
 
 const mapStateToProps = state => {
   const { user } = state.auth;
+  const {children } = state.data;
 
-  return { user };
+  return { user, children };
 };
 
-export default connect(mapStateToProps, { fetchUser })(EmailConfirmation);
+export default connect(mapStateToProps, { dataFetch, fetchUser })(EmailConfirmation);

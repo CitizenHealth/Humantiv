@@ -36,7 +36,7 @@ class JourneyCard extends Component {
     icon: "trophee",
     content: "Lorem ipsum dolor sit amet, pro noster fierent corrumpit ea. Pro impetus qualisque at, qui ne singulis scripserit comprehensam, illum iusto ne nec. Eam cu verear deleniti iudicabit.",
     selected: false,
-    size: screenWidth - scale(40)
+    size: screenWidth - scale(20)
   }
 
   constructor(props) {

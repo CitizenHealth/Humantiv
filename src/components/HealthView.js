@@ -54,7 +54,9 @@ class HealthView extends Component {
         this.props.dataFetch({type: "humanapi"});
         this.props.dataFetch({type: "health"});
         this.props.dataFetch({type: "wallet"});
-        firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
+        this.props.dataFetch({type: "profile"});
+        this.props.dataFetch({type: "notifications"});
+            firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
         this.setState({
             healthData: [],
             healthScore: 0

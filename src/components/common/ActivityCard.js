@@ -103,7 +103,7 @@ class ActivityCard extends Component {
             return "#ffbf6c";
         }
         case ActivityFeedTypes.Wallet.Medits: {
-            return "#3598fe";
+            return primaryBlueColor;
         }
         case ActivityFeedTypes.Wallet.Medex: {
           return "#35d392";

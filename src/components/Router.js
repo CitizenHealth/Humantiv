@@ -9,6 +9,8 @@ import PasswordLostView from "./PasswordLostView";
 import HomeView from "./HomeView";
 import TabView from "./TabView";
 import SimplePage from "./SimplePage";
+import JourneyView from "./JourneyView";
+import SettingsJourneyView from "./SettingsJourneyView";
 
 const RouterComponent = () => {
   return (
@@ -31,6 +33,12 @@ const RouterComponent = () => {
           <Scene key="personal" component={SimplePage} hideNavBar/>
           <Scene key="humanapi" component={SimplePage} hideNavBar/>
         </Scene>
+        <Scene 
+          key="journey"
+          component={JourneyView}
+          hideNavBar
+        >
+        </Scene>
         <Scene key="main">
           <Scene
             key="tab"
@@ -39,8 +47,8 @@ const RouterComponent = () => {
             initial
           />
           <Scene
-            key="profile"
-            component={ProfileView}
+            key="settingsjourney"
+            component={SettingsJourneyView}
             hideNavBar            
           />
         </Scene>

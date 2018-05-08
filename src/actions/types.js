@@ -12,5 +12,6 @@ export const DATA_CREATE = "data_create";
 export const DATA_SAVE = "data_save"; 
 export const DATA_FETCH = "data_fetch"; 
 export const DATA_EDIT = "data_edit";
+export const DATA_EXISTS = "data_exists";
 export const CONFIG_UPDATE = "config_update";
 export const HUMANAPI_DATA_FETCH = "humanapi_data_fetch";

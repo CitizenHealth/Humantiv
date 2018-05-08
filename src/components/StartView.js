@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { Spinner, HeaderImage } from "./common";
-import { fetchUser, getConfiguration, dataSave } from "../actions";
+import { dataExists, fetchUser, getConfiguration, dataSave } from "../actions";
 import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
 import {
@@ -17,7 +17,14 @@ import {
 
 class StartView extends Component {
 
+  componentWillUpdate(nextProps) {
+    if (nextProps.registered !== undefined && this.props.registered ===undefined) {
+      (nextProps.registered) ? Actions.main(): Actions.journey();
+    }
+  }
+
   componentWillMount() {
+    const {children} = this.props;
 
     firebase.notifications().onNotification((notification) => {
       const title = notification.title;
@@ -72,6 +79,7 @@ class StartView extends Component {
       console.log(user);
       if (user) {
         this.props.fetchUser(user);
+ 
         // requests permissions from the user
         firebase.messaging().hasPermission()
         .then(enabled => {
@@ -82,20 +90,20 @@ class StartView extends Component {
           } 
         });
         firebase.messaging().requestPermission()
-          .then(() => {
-            // gets the device's push token
-            firebase.messaging().getToken()
-            .then(token => {      
-              // stores the token in the user's document
-              console.log(`FCM Token: ${token}`);
-              if(token && token != undefined) {                
-                this.props.dataSave({type: 'messaging', data: token});
-              }
-            })
+        .then(() => {
+          // gets the device's push token
+          firebase.messaging().getToken()
+          .then(token => {      
+            // stores the token in the user's document
+            console.log(`FCM Token: ${token}`);
+            if(token && token != undefined) {                
+              this.props.dataSave({type: 'messaging', data: token});
+            }
           })
-          .catch(error => {
-            // User has rejected permissions  
-          });
+        })
+        .catch(error => {
+          // User has rejected permissions  
+        });
         // Set Google analytics
         console.log(`USER ID: ${user.uid}`)
         firebase.analytics().setUserId(user.uid);
@@ -116,7 +124,7 @@ class StartView extends Component {
           || user.providerData[0].providerId === "google.com"
         ) {
           console.log('Email is verified');
-          Actions.main();
+          this.props.dataExists({type: 'profile'});
         }
         else {
           console.log('Email is not verified');
@@ -202,12 +210,14 @@ class StartView extends Component {
 
 const mapStateToProps = state => {
   const { user, loggedin } = state.auth;
+  const { children, registered } = state.data;
   const { tutorial_title, tutorial_text} = state.config;
-  return { user, loggedin, tutorial_title, tutorial_text};
+  return { user, loggedin, children, registered, tutorial_title, tutorial_text};
 };
 
 export default connect(mapStateToProps, { 
   fetchUser, 
   getConfiguration,
-  dataSave
+  dataSave,
+  dataExists
 })(StartView);

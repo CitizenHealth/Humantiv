@@ -23,7 +23,7 @@ class SettingsChoice extends Component {
 
   static propTypes = {
     label: PropTypes.string,
-    choices: PropTypes.array,
+    choices: PropTypes.array.isRequired,
     onSelect: PropTypes.func,
     value: PropTypes.string
   }
@@ -36,9 +36,22 @@ class SettingsChoice extends Component {
  
   constructor(props) {
     super(props);
+
     this.state = {
-      value : props.value
+      value : (props.choices.includes(props.value)) ? 
+      props.value : props.choices[0]
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props.value !== nextProps.value;;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value : (nextProps.choices.includes(nextProps.value)) ? 
+      nextProps.value : nextProps.choices[0]
+    });
   }
 
   render() {
@@ -68,7 +81,15 @@ class SettingsChoice extends Component {
             defaultText  = {this.state.value}
             textStyle = {inputStyle}
             transparent = {true}
-            optionListStyle = {{backgroundColor : "#fff"}}
+            backdropStyle = {{
+              borderWidth: 1,
+              shadowOffset:{  width: 3,  height: 3,  },
+              shadowColor: '#000',
+              shadowOpacity: 0.4,
+              borderRadius: 3,
+              shadowColor: "#000",
+              borderColor: "#ddd",
+            }}
             style = {{
               borderWidth: 0            
             }}

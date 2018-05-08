@@ -1,6 +1,6 @@
 import firebase from "react-native-firebase";
 import { Actions } from "react-native-router-flux";
-import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH } from "./types";
+import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS } from "./types";
 
 export const dataCreate = ({type, prop, value}) => {
   return ({
@@ -54,6 +54,18 @@ export const dataFetch = ({type}) => {
     .on("value", snapshot => {
       let data = snapshot.val();
       dispatch({ type: DATA_FETCH, payload: {type, data} });
+    });
+  };
+};
+
+export const dataExists = ({type}) => {
+  const { currentUser } = firebase.auth();
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/${type}`)
+    .on("value", snapshot => {
+      let exists = snapshot.exists();
+      dispatch({ type: DATA_EXISTS, payload: {type, exists} });
     });
   };
 };

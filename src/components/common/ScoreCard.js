@@ -35,7 +35,7 @@ class ScoreCard extends Component {
     footerTitle: "Add manual activity",
     backgroundColor: "#fff",
     titleColor: graphGreyColor,
-    buttonTitleColor: "#3598fe",
+    buttonTitleColor: primaryBlueColor,
     width: undefined,
     height: undefined
   }
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   cardButtonTitleStyle: {
     fontSize: 14,
     fontWeight: "400",
-    color: "#3598fe",
+    color: primaryBlueColor,
     fontFamily: Fonts.regular,
     paddingRight: 10
   },

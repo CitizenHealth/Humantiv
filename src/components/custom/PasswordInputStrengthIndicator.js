@@ -24,7 +24,7 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 const { width: wWidth } = Dimensions.get('window');
 
 const widthByPercent = (percentage, containerWidth = wWidth) => {
-  const value = (percentage * containerWidth) / 100;
+  const value = (percentage * containerWidth) / 100 - 20;
   return Math.round(value);
 };
 

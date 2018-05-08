@@ -41,6 +41,16 @@ class SettingsSwitch extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.value !== nextProps.value;;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value : nextProps.value
+    });
+  }
+
   renderSwitch() {
     const {switchStyle} = styles;
 

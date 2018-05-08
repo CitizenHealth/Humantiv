@@ -39,7 +39,7 @@ class PriceGraphCard extends Component {
   static defaultProps = {
     type: "medit",
     buttonTitle: "Add data source",
-    graphColor: "#3598fe",
+    graphColor: primaryBlueColor,
     width: undefined,
     height: undefined,
     data: [],

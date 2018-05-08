@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   View
 } from 'react-native';
+import {primaryBackgroungColor} from '../themes';
 
 class JourneyChoice extends Component {
   static propTypes = {
@@ -11,7 +12,9 @@ class JourneyChoice extends Component {
       title: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
       icon: PropTypes.string.isRequired
-    }))
+    })),
+    setSelected: PropTypes.func.isRequired,
+    value: PropTypes.string
   };
 
   static defaultProps = {
@@ -22,12 +25,13 @@ class JourneyChoice extends Component {
     super(props);
 
     this.state = {
-      selected: -1
+      selected: props.value
     }
   }
 
-  setSelected(index) {
-    this.setState({selected: index});
+  setSelected(key) {
+    this.setState({selected: key});
+    this.props.setSelected(key);
   }
 
   render() {
@@ -41,9 +45,13 @@ class JourneyChoice extends Component {
             title= {item.title}
             icon= {item.icon}
             content= {item.content}
-            selected = {index === this.state.selected}
-            style = {{marginBottom: 15}}
-            onSelected = {() => {this.setSelected(index)}}
+            selected = {item.key === this.state.selected}
+            style = {{
+              marginBottom: 15,
+              marginLeft: 10,
+              marginRight: 10
+            }}
+            onSelected = {() => {this.setSelected(item.key)}}
             key = {index}
           />
         )
@@ -59,8 +67,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: "space-between",
     alignContent: "center",
-    marginLeft: 10,
-    marginRight: 10
+    backgroundColor: primaryBackgroungColor
   }
 }
 export {JourneyChoice};

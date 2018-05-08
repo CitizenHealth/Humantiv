@@ -1,12 +1,18 @@
-import { DATA_CREATE, DATA_SAVE, DATA_EDIT, DATA_FETCH, HUMANAPI_DATA_FETCH } from "../actions/types";
+import { DATA_CREATE, DATA_SAVE, DATA_EDIT, DATA_FETCH, DATA_EXISTS, HUMANAPI_DATA_FETCH } from "../actions/types";
 
 const INITIAL_STATE = {
   children: {},
-  hapiPublicToken: {}
+  hapiPublicToken: {},
+  registered: undefined
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case DATA_EXISTS:
+      return {
+        ...state,
+        registered: action.payload.exists
+      }
     case DATA_CREATE:
     return {
       ...state,

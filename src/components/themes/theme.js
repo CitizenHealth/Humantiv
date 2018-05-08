@@ -148,7 +148,7 @@ export const theme = StyleSheet.create({
   },
   
   inputStyle: {
-    color: primaryGreyColor,
+    color: secondaryGreyColor,
     paddingRight: 5,
     paddingLeft: 5,
     fontSize: 18,

@@ -6,8 +6,6 @@ import android.support.v4.app.ActivityCompat;
 
 import com.facebook.react.ReactApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.horcrux.svg.SvgPackage;
 import io.citizenhealth.RNReactNativeHgraphPackage;

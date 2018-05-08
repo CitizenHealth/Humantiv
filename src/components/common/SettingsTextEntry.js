@@ -8,8 +8,10 @@ import {
 import {Fonts} from '../../resources/fonts/Fonts'
 import {
   highlightedGreyColor, 
+  secondaryGreyColor,
   graphGreyColor, 
-  primaryBlueColor
+  primaryBlueColor,
+  graphRedColor
 } from '../themes'
 import { scale } from "react-native-size-matters";
 import PropTypes from 'prop-types';
@@ -28,7 +30,8 @@ class SettingsTextEntry extends Component {
     autoFocus: PropTypes.bool,
     unit: PropTypes.string,
     editable: PropTypes.bool,
-    value: PropTypes.string
+    value: PropTypes.string,
+    missing: PropTypes.string
   }
 
   static defaultProps = {
@@ -38,19 +41,27 @@ class SettingsTextEntry extends Component {
     autoFocus: false,
     unit: "Units",
     editable: true,
-    value: "Value"
+    value: "Value",
+    missing: ""
   }
   constructor(props) {
     super(props);
 
     this.state = {
-      text: props.value
+      text: props.value,
+      missing: props.missing
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      text: nextProps.value,
+      missing: nextProps.missing
+    });
+  }
   
-  render() {
+  renderTextArea() {
     const {
-      label,
       placeholder,
       onChangeText,
       enablesReturnKeyAutomatically,
@@ -60,13 +71,60 @@ class SettingsTextEntry extends Component {
       unit,
       editable
     } = this.props;
-
+    
     const {
-      containerStyle,
-      labelStyle,
       inputStyle,
       valueContainerStyle,
       unitLabelStyle
+    } = styles;
+
+    return (
+      <View style={valueContainerStyle}>
+        <TextInput 
+          style={[
+            inputStyle,
+            {
+              color: (this.state.missing === "") ? highlightedGreyColor : graphRedColor
+            }]}
+          placeholder={placeholder}
+          autoCorrect={false}
+          value={(this.state.missing === "") ? this.state.text : this.state.missing }
+          onChangeText={(text) => {
+            var trimText = text;
+            if (text !== "") {
+              if (this.state.missing !== "") {
+                this.setState({missing: ""})
+                trimText = trimText.substr(trimText.length-1, 1)
+              }
+            } else {
+              this.setState({missing: this.props.missing})
+            }
+            
+            this.setState({text: trimText});
+            onChangeText(trimText);
+          }}
+          autoFocus={autoFocus}
+          keyboardType={keyboardType}
+          returnKeyType={returnKeyType}
+          autoCapitalize= "none"
+          editable= {editable}
+          enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
+          underlineColorAndroid="transparent"
+        />
+        <Text style={unitLabelStyle}>
+          {(this.state.missing === "") ? ` ${unit}` : ""}
+        </Text>
+      </View>
+    );
+  }
+  render() {
+    const {
+      label
+    } = this.props;
+
+    const {
+      containerStyle,
+      labelStyle
     } = styles;
     
     return(
@@ -74,29 +132,7 @@ class SettingsTextEntry extends Component {
         <Text style={labelStyle}>
           {label}
         </Text>
-        <View style={valueContainerStyle}>
-          <TextInput 
-            style={inputStyle}
-            placeholder={placeholder}
-            autoCorrect={false}
-            value={this.state.text}
-            onChangeText={(text) => {
-              var trimText = text;
-              this.setState({text: trimText});
-              onChangeText(trimText);
-            }}
-            autoFocus={autoFocus}
-            keyboardType={keyboardType}
-            returnKeyType={returnKeyType}
-            autoCapitalize= "none"
-            editable= {editable}
-            enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
-            underlineColorAndroid="transparent"
-          />
-          <Text style={unitLabelStyle}>
-            {` ${unit}`}
-          </Text>
-        </View>
+        {this.renderTextArea()}
       </View>
     )
   }

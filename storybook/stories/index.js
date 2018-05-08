@@ -18,7 +18,9 @@ import {
   SettingsTextEntry,
   SettingsSwitch,
   SettingsChoice,
-  SettingsSection
+  SettingsSection,
+  SettingsDataSource,
+  SettingsJourney
 } from '../../src/components/common';
 import Feed from '../../src/components/common/Feed';
 import { 
@@ -38,6 +40,7 @@ import {
 } from '../../src/components/themes';
 import { scale } from "react-native-size-matters";
 import {Icon} from '../../src/components/common/Icon';
+import {primaryGreenColor} from '../../src/components/themes/theme';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -224,6 +227,19 @@ storiesOf('Button', module)
       unit="years old"
     />
   ))
+  .add('Text Entry Missing', () => (
+    < SettingsTextEntry
+      label="Age"
+      placeholder=""
+      onChangeText= {(text) => {console.log(text)}}
+      enablesReturnKeyAutomatically={true}
+      returnKeyType="done"
+      keyboardType="numeric"
+      autoFocus={false}
+      missing="Needed for health score"
+      unit="years old"
+    />
+  ))
   .add('Choice', () => (
     < SettingsChoice
       label="Gender"
@@ -243,6 +259,23 @@ storiesOf('Button', module)
       on = {true}
     />
   ))
+  .add('Data Source', () => (
+    <SettingsDataSource
+      label= "Add data source"
+      icon= "plus_blue"
+      color= {primaryBlueColor}
+      onPress={() => {console.log("Human API Call")}}
+    />
+  ))
+  .add('Journey', () => (
+    <SettingsJourney
+      type= "longevity"
+      color= {primaryGreenColor}
+      onPress={() => {console.log("Change Journey")}}
+      width={screenWidth}
+    />
+  ))
+
   .add('Section', () => (
     <View>
       <ScrollView
@@ -270,6 +303,7 @@ storiesOf('Button', module)
           autoFocus={false}
           value="26"
           unit="years old"
+          missing="Needed for the health score"
         />
         < SettingsChoice
         label="Gender"
@@ -289,6 +323,7 @@ storiesOf('Button', module)
           autoFocus={false}
           value="83"
           unit="kg"
+          missing="Needed for the health score"
         />
         < SettingsTextEntry
           label="Height"
@@ -300,6 +335,7 @@ storiesOf('Button', module)
           autoFocus={false}
           value="186"
           unit="cm"
+          missing="Needed for the health score"
         />
       </SettingsSection>
       < SettingsSection
@@ -353,6 +389,25 @@ storiesOf('Button', module)
             (value) => {console.log(value)}
           }
           value = {true}
+        />
+      </SettingsSection>
+      < SettingsSection
+        title="Data Sources"
+      >
+        <SettingsDataSource
+          label= "Add data source"
+          icon= "plus_blue"
+          color= {primaryBlueColor}
+          onPress={() => {console.log("Human API Call")}}
+        />
+      </SettingsSection>
+      < SettingsSection
+        title="Your Journey"
+      >
+        <SettingsJourney
+          type= "immunity"
+          color= {primaryGreenColor}
+          onPress={() => {console.log("Change Journey")}}
         />
       </SettingsSection>
     </ScrollView>
