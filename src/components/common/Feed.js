@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {convertUNIXTimeToString} from "../../business/Helpers";
 import { 
   View
 } from "react-native";
@@ -12,18 +13,26 @@ import {
 } from '../themes';
 import PropTypes from 'prop-types';
 import {ActivityCard} from './ActivityCard';
-import { 
-    dataSave,
-    dataFetch
-} from "../../actions";
-import {connect} from "react-redux";
 import {ActivityFeedTypes} from '../themes/theme';
-
 
 class Feed extends Component {
   static propTypes = {
     width: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    stories: PropTypes.objectOf(
+      PropTypes.shape(
+        {
+          time: PropTypes.number.isRequired,
+          title: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired,
+          preposition: PropTypes.string,
+          type: PropTypes.string.isRequired,
+        }
+      )
+    ),
+    filters: PropTypes.oneOfType(
+      PropTypes.boolean
+    )
   };
 
   static defaultProps = {
@@ -33,14 +42,54 @@ class Feed extends Component {
 
   constructor(props) {
     super(props);
-    const {
-        data, 
-        rules
-    } = props;
   }
 
   componentWillMount() {
-    this.props.dataFetch({type: "feed"});
+  
+  }
+
+  renderStories() {
+    const {
+        width,
+        height,
+        stories,
+        filters
+    } = this.props;
+
+    const {cardContainerStyle} = styles;
+
+    var filteredOutStories = [];
+
+    if (filters) {
+      Object.keys(filters).map(key => {
+        if (filters[key]) {
+          filteredOutStories.push(key);
+        }
+      });
+    }
+
+    const storiesArray = Object.values(stories);
+    const storiesFeed = storiesArray.map( (story, index) => {
+      if (!filteredOutStories.includes(story.type)) {
+        return (<ActivityCard
+            width= {width}
+            height= {height}
+            type= {story.type}
+            title= {story.title}
+            preposition= {story.preposition}
+            value= {story.value}
+            time={convertUNIXTimeToString(story.time)}
+            key={index}
+        />
+        );
+      }
+    });
+
+    return (
+      <View style = {cardContainerStyle}>
+        {storiesFeed}
+      </View>
+    )
   }
 
   render() {
@@ -49,90 +98,9 @@ class Feed extends Component {
         cardContainerStyle
     } = styles;
 
-    const {
-        width,
-        height
-    } = this.props;
-
     return (
         <View style={containerStyle}>
-            <View style = {cardContainerStyle}>
-                <ActivityCard
-                     width= {width}
-                     height= {height}
-                     type= {ActivityFeedTypes.Health.Sleep}
-                    title= "Too little sleep."
-                    preposition= ""
-                    value= "Please sleep more!"
-                    time="Today at 7:04 AM"
-                />
-            </View>
-            <View style = {cardContainerStyle}>
-                <ActivityCard 
-                    width= {width}
-                    height= {height}
-                    type= {ActivityFeedTypes.Wallet.Medits}
-                    title= "You've earned"
-                    preposition= ""
-                    value= "25 Medits"
-                    time="Yesterday at 3:15 PM"
-                />
-            </View>
-            <View style = {cardContainerStyle}>
-                <ActivityCard
-                    width= {width}
-                    height= {height}
-                    type= {ActivityFeedTypes.Activity.Swim}
-                    title= "Swam"
-                    preposition= "for"
-                    value= "1 mile"
-                    time="Wednesday 4/18 at 6:12 AM"
-                />
-            </View>
-            <View style = {cardContainerStyle}>
-                <ActivityCard
-                     width= {width}
-                     height= {height}
-                     type= {ActivityFeedTypes.Vital.HeartRate}
-                    title= "Heart rate"
-                    preposition= "was"
-                    value= "87 bpm"
-                    time="Sunday 4/15 at 10:27 AM"
-                />
-            </View>
-            <View style = {cardContainerStyle}>
-                <ActivityCard
-                     width= {width}
-                     height= {height}
-                     type= {ActivityFeedTypes.Activity.Run}
-                    title= "Ran"
-                    preposition= "for"
-                    value= "25 minutes"
-                    time="Friday 4/13 at 12:04 PM"
-                />
-            </View>
-            <View style = {cardContainerStyle}>
-                <ActivityCard
-                     width= {width}
-                     height= {height}
-                     type= {ActivityFeedTypes.Activity.Workout}
-                    title= "Gym"
-                    preposition= "for"
-                    value= "1 hour 25 minutes"
-                    time="Thursday 4/12 at 12:04 PM"
-                />
-            </View>
-            <View style = {cardContainerStyle}>
-                <ActivityCard
-                     width= {width}
-                     height= {height}
-                     type= {ActivityFeedTypes.Wallet.Medex}
-                    title= "You spent"
-                    preposition= ""
-                    value= "1.45 Medex"
-                    time="Thursday 4/12 at 8:04 AM"
-                />
-            </View>
+          {this.renderStories()}
         </View>
     )
   }
@@ -152,12 +120,4 @@ const styles = {
   }
 }
 
-const mapStateToProps = (state) => {
-    const {children} = state.data;
-
-    return {
-        children
-    }
-}
-
-export default connect(mapStateToProps, {dataSave, dataFetch})(Feed);
+export {Feed};

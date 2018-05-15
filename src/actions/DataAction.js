@@ -1,5 +1,4 @@
 import firebase from "react-native-firebase";
-import { Actions } from "react-native-router-flux";
 import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS } from "./types";
 
 export const dataCreate = ({type, prop, value}) => {

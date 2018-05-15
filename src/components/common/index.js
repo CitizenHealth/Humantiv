@@ -33,4 +33,4 @@ export * from './SettingsChoice';
 export * from './SettingsSection';
 export * from './SettingsDataSource';
 export * from './SettingsJourney';
-export {Feed} from './Feed';
+export * from './Feed';

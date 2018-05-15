@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Too little sleep.",
+    "preposition": "",
+    "value": "Please sleep more!",
+    "time": 1,
+    "type": "sleep"
+  },
+  {
+    "title": "You've earned",
+    "preposition": "",
+    "value": "25 Medits",
+    "time": 2,
+    "type": "medits"
+  },
+  {
+    "title": "Swam",
+    "preposition": "for",
+    "value": "1 Mile",
+    "time": 3,
+    "type": "swim"
+  },
+  {
+    "title": "Heart rate",
+    "preposition": "was",
+    "value": "85 bpm",
+    "time": 4,
+    "type": "heartrate"
+  },
+  {
+    "title": "Run",
+    "preposition": "for",
+    "value": "25 minutes",
+    "time": 5,
+    "type": "run"
+  },
+  {
+    "title": "Gym",
+    "preposition": "for",
+    "value": "1 hour 25 minutes",
+    "time": 6,
+    "type": "workout"
+  },
+  {
+    "title": "You spent",
+    "preposition": "",
+    "value": "1.45 Medex",
+    "time": 7,
+    "type": "medex"
+  }
+]

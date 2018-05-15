@@ -14,6 +14,7 @@ import {connect} from "react-redux";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import HGraph, { hGraphConvert, calculateHealthScore }  from 'react-native-hgraph';
 import {
+    Feed,
     Avatar, 
     IconButton,
     ScoreCard,
@@ -22,12 +23,15 @@ import {
     GraphCard,
     Icon as HMIcon
 } from './common';
-import Feed from "./common/Feed";
 import { Actions } from "react-native-router-flux";
 import RNHumanAPI from 'react-native-human-api';
 import { 
     dataSave,
     dataFetch,
+    fetchFeedFilters,
+    fetchFeedStories,
+    addFeedStory,
+    removeFeedStory,
     humanAPIFetch
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
@@ -40,6 +44,7 @@ import {
  } from './themes';
 import {formatNumbers} from '../business/Helpers';
 import ActionButton from 'react-native-action-button';
+import myStories from '../configuration/notifications.json'
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -55,8 +60,10 @@ class HealthView extends Component {
         this.props.dataFetch({type: "health"});
         this.props.dataFetch({type: "wallet"});
         this.props.dataFetch({type: "profile"});
+        this.props.fetchFeedFilters();
+        this.props.fetchFeedStories();
         this.props.dataFetch({type: "notifications"});
-            firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
+        firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
         this.setState({
             healthData: [],
             healthScore: 0
@@ -224,9 +231,28 @@ class HealthView extends Component {
         humanAPI.onConnect(options)
     }
     onSettingsPress() {
-        Actions.profile();
-      }
+      Actions.profile();
+    }
     
+    onActivityPress() {
+      const story = {
+        title: "Swam",
+        preposition: "for",
+        value: "1 Mile",
+        time: Math.round((new Date()).getTime() / 1000),
+        type: "swim"
+      }
+      this.props.addFeedStory(story);
+    }
+
+    onSleepPress() {
+      const {stories} = this.props;
+
+      const keys = Object.keys(stories);
+      const id = keys[keys.length-1];
+      this.props.removeFeedStory(id);
+    }
+
     renderProfileImage() {
         const { user } = this.props;
         const { avatarStyle } = this.props;
@@ -416,6 +442,8 @@ class HealthView extends Component {
                 <Feed 
                     height= {activityCardWidth/5}
                     width= {activityCardWidth}
+                    stories= {this.props.stories}
+                    filters= {this.props.filters}
                 />
             </View>
         )
@@ -536,7 +564,7 @@ class HealthView extends Component {
                     buttonColor='#9b59b6' 
                     title="Sleep" 
                     size={44}
-                    onPress={() => console.log("notes tapped!")}>
+                    onPress={() => this.onSleepPress()}>
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
@@ -558,7 +586,7 @@ class HealthView extends Component {
                     buttonColor='#1abc9c' 
                     size={44}
                     title="Activity" 
-                    onPress={() => {}}>
+                    onPress={() => {this.onActivityPress()}}>
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
@@ -642,9 +670,18 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     const {user} = state.auth;
     const {children} = state.data;
+    const {stories, filters} = state.feed;
 
     return {
-        user, children
+        user, children, stories, filters
     }
 }
-export default connect(mapStateToProps, {dataFetch, dataSave, humanAPIFetch})(HealthView);
+export default connect(mapStateToProps, {
+  dataFetch, 
+  dataSave, 
+  fetchFeedFilters,
+  fetchFeedStories,
+  addFeedStory,
+  removeFeedStory,
+  humanAPIFetch
+  })(HealthView);
