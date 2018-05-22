@@ -34,3 +34,4 @@ export * from './SettingsSection';
 export * from './SettingsDataSource';
 export * from './SettingsJourney';
 export * from './Feed';
+export * from './Date';

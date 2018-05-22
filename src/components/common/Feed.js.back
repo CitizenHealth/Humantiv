@@ -1,0 +1,171 @@
+import React, { Component } from "react";
+import {convertUNIXTimeToString} from "../../business/Helpers";
+import { 
+  View
+} from "react-native";
+import {Button} from "./";
+import { 
+    theme, 
+    primaryBlueColor, 
+    graphGreenColor,
+    graphOrangeColor,
+    graphRedColor,
+    graphGreyColor,
+    ActivityFeedTypes,
+    primaryBackgroungColor
+} from '../themes';
+import PropTypes from 'prop-types';
+import {ActivityCard} from './ActivityCard';
+import SwipeList from 'react-native-smooth-swipe-list';
+
+class Feed extends Component {
+  static propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    stories: PropTypes.objectOf(
+      PropTypes.shape(
+        {
+          time: PropTypes.number.isRequired,
+          title: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired,
+          preposition: PropTypes.string,
+          type: PropTypes.string.isRequired,
+        }
+      )
+    ),
+    filters: PropTypes.oneOfType(
+      PropTypes.boolean
+    )
+  };
+
+  static defaultProps = {
+    width: 400,
+    height: 50
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    // it's a good idea to store the derived rowData to prevent 
+    // unnecessary re-renders of the rows in the ListView 
+    const {
+      stories,
+      filters
+    } = this.props;
+
+    this.updateStories(stories, filters);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // however if you store the derived data you will need to handle the 
+    // logic for whether a rowData element needs to be replaced
+    if (nextProps.stories != this.props.stories ||
+      nextProps.filters != this.props.filters) {
+        this.updateStories(nextProps.stories, nextProps.filters);
+      }
+  };
+
+  constructRowData(story) {
+    return {
+        id: `${story.time}`,
+        rowView: this.getRowView(story),
+        leftSubView: this.getMarkCompleteButton(story), //optional
+        rightSubView: this.getArchiveButton(story), //optional
+ //       style: styles.row //optional but recommended to style your rows
+    };
+  };
+
+  updateStories(stories, filters) {
+    const storiesArray = Object.values(stories);
+    var filteredOutStories = [];
+
+    if (filters) {
+      Object.keys(filters).map(key => {
+        if (filters[key]) {
+          filteredOutStories.push(key);
+        }
+      });
+    }
+
+    this.rowData = storiesArray.map( (story) => {
+      if (!filteredOutStories.includes(story.type)) {
+       return this.constructRowData(story)
+      }
+    });
+  }
+  getRowView(story) {
+    // return the view that will be the face of the row
+    const {
+      width,
+      height,
+    } = this.props;
+
+    const {cardContainerStyle} = styles;
+   
+    return (
+      <View style={cardContainerStyle}>
+      <ActivityCard
+        width= {width}
+        height= {height}
+        type= {story.type}
+        title= {story.title}
+        preposition= {story.preposition}
+        value= {story.value}
+        time={convertUNIXTimeToString(story.time)}
+      />
+      </View>
+    );
+  }
+
+  getMarkCompleteButton(story) {
+    // return your touchable view, it can be whatever 
+    return (
+      <Button 
+        onPress={() => console.log(`DELETE: ${story.time}`)}
+        text="DISMISS"
+        color="RED" 
+      />
+    );
+   };
+
+  getArchiveButton(story) {
+    return (
+      <Button 
+        onPress={() => console.log(`DELETE: ${story.time}`)}
+        text="DISMISS"
+        color="RED" 
+      />
+    );
+  };
+
+  render() {
+    const {
+        containerStyle
+    } = styles;
+    return <SwipeList contentContainerStyle={containerStyle} rowData={this.rowData} />
+    // return (
+    //     <View style={containerStyle}>
+    //       {this.renderStories()}
+    //     </View>
+    // )
+  }
+}
+
+const styles = {
+    containerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: "space-between",
+    alignContent: "center",
+    backgroundColor: primaryBackgroungColor
+  },
+  cardContainerStyle: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10 
+  }
+}
+
+export {Feed};

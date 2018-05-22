@@ -84,7 +84,8 @@ export const ActivityFeedTypes = {
   },
   Health: {
     Sleep: 'sleep',
-    Workout: 'workout'
+    Workout: 'workout',
+    Weight: 'weight'
   },
   Wallet: {
     Medits: 'medits',
@@ -205,7 +206,7 @@ export const theme = StyleSheet.create({
     fontFamily: Fonts.bold
   },
   primaryGreyTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     color: primaryGreyColor,
     textAlign: "center",
     fontFamily: Fonts.regular

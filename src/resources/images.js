@@ -22,6 +22,12 @@ const Images = {
   img_settings_disabled: require("./images/tabs/settings_disabled.png"),
 
   img_tutorial_1: require("./images/tutorial/tutorial1.png"),
+  
+  img_medit_bg: require("./images/health/medit_card.png"),
+  img_medex_bg: require("./images/health/medex_card.png"),
+
+  img_medit_wallet_bg: require("./images/wallet/medit_card_wallet.png"),
+  img_medex_wallet_bg: require("./images/wallet/medex_card_wallet.png"),
 
 };
 

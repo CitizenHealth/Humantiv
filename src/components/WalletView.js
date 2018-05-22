@@ -152,11 +152,11 @@ class WalletView extends Component {
 
         return (
           <View style={pageStyle}>
-            <View style={headerStyle}>
-              <Text style={textStyle}> Wallet </Text>               
-            </View>
               <ScrollView >                   
-                  {this.renderGraphCard()} 
+                <View style={headerStyle}>
+                  <Text style={textStyle}> Wallet </Text>               
+                </View>
+                   {this.renderGraphCard()} 
                   {this.renderRedeem()}                
               </ScrollView >     
           </View>

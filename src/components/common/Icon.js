@@ -109,7 +109,11 @@ const Icon = ({name, size, color}) => {
             break;               
         case "sleep":
             code = "v";
+            break;
+        case "weight":
+            code = "v";
             break;                         
+                         
         default:
             break;
     }

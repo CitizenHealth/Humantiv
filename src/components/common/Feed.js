@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {convertUNIXTimeToString} from "../../business/Helpers";
 import { 
-  View
+  View,
+  FlatList
 } from "react-native";
 import { 
     theme, 
@@ -13,12 +14,14 @@ import {
 } from '../themes';
 import PropTypes from 'prop-types';
 import {ActivityCard} from './ActivityCard';
-import {ActivityFeedTypes} from '../themes/theme';
+import {ActivityFeedTypes, primaryBackgroungColor} from '../themes/theme';
+import Swipeout from 'react-native-swipeout';
 
 class Feed extends Component {
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
+    onSwipe: PropTypes.func,
     stories: PropTypes.objectOf(
       PropTypes.shape(
         {
@@ -42,12 +45,19 @@ class Feed extends Component {
 
   constructor(props) {
     super(props);
-  }
 
-  componentWillMount() {
-  
+    this.state = {
+      activeRowKey: null
+    }
   }
-
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.stories != this.props.stories || 
+        nextProps.filters != this.props.filters )
+      {
+        return true;
+      }
+    return false
+  }
   renderStories() {
     const {
         width,
@@ -69,27 +79,56 @@ class Feed extends Component {
     }
 
     const storiesArray = Object.values(stories);
-    const storiesFeed = storiesArray.map( (story, index) => {
-      if (!filteredOutStories.includes(story.type)) {
-        return (<ActivityCard
-            width= {width}
-            height= {height}
-            type= {story.type}
-            title= {story.title}
-            preposition= {story.preposition}
-            value= {story.value}
-            time={convertUNIXTimeToString(story.time)}
+    const storiesFeed = storiesArray.reverse().map( (story, index) => {
+      if (!filteredOutStories.includes(story.type)) { 
+        const id = story.time;     
+        return (          
+          <View 
+            style = {cardContainerStyle}
             key={index}
-        />
+          >
+            <Swipeout
+            rowId = {id}
+            autoClose= {true}
+            onClose={ () => {
+              
+            }}
+            onOpen={ () => {
+              console.log("OPEN: ID = " + id)
+            }}
+            left={ [{
+              onPress: () => {
+                this.props.onSwipe(id);
+              },
+              text: "Dismiss",
+              type: "delete"
+            }]}
+            style = {{backgroundColor: primaryBackgroungColor}}
+            >
+              <ActivityCard
+                width= {width}
+                height= {height}
+                type= {story.type}
+                title= {story.title}
+                preposition= {story.preposition}
+                value= {story.value}
+                time={convertUNIXTimeToString(story.time)}
+              />
+            </Swipeout>
+          </View>
         );
       }
     });
 
-    return (
-      <View style = {cardContainerStyle}>
-        {storiesFeed}
-      </View>
-    )
+    if (storiesFeed.length > 0) {
+      return (
+        <View>
+          {storiesFeed}
+        </View>
+      )
+    } else {
+      return <View/>
+    }
   }
 
   render() {

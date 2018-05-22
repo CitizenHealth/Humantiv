@@ -61,7 +61,7 @@ export const dataExists = ({type}) => {
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/${type}`)
+    firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
     .on("value", snapshot => {
       let exists = snapshot.exists();
       dispatch({ type: DATA_EXISTS, payload: {type, exists} });

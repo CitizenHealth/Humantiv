@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "847047929311-000onflcjvek73029cbgskd496e69h0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.citizenhealth.humantiv",
+            "certificate_hash": "23b2c507ab277e1a8de3d5d05cf8a7fcc81542d9"
+          }
+        },
+        {
           "client_id": "847047929311-tq29erqnihhorkn1pmhjcr1htokbvori.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

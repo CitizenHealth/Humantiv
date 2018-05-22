@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -49,6 +50,7 @@
 		4A1B15EC2046678300198EC0 /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A1B15DE2046678000198EC0 /* FirebaseDatabase.framework */; };
 		4A1B15ED2046678300198EC0 /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A1B15E02046678200198EC0 /* GTMSessionFetcher.framework */; };
 		4A1B15EE2046678300198EC0 /* FirebaseStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A1B15E12046678200198EC0 /* FirebaseStorage.framework */; };
+		4A52645A20AE352000BC834D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A52642B20AE34CB00BC834D /* libBVLinearGradient.a */; };
 		4A5382D22046884500D2FFBA /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5382CE2046884500D2FFBA /* Protobuf.framework */; };
 		4A5382D32046884500D2FFBA /* FirebaseSwizzlingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5382CF2046884500D2FFBA /* FirebaseSwizzlingUtilities.framework */; };
 		4A5382D42046884500D2FFBA /* GTMSessionFetcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5382D02046884500D2FFBA /* GTMSessionFetcher.framework */; };
@@ -279,6 +281,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		4A52642820AE34CB00BC834D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = BVLinearGradient;
+		};
+		4A52642A20AE34CB00BC834D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64AA15081EF7F30100718508;
+			remoteInfo = "BVLinearGradient-tvOS";
+		};
 		4A7BBFF8204FCD3500C253C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2399776D47AA419C90FA436D /* RNReactNativeHumanApi.xcodeproj */;
@@ -468,6 +484,7 @@
 		4A1B15DE2046678000198EC0 /* FirebaseDatabase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseDatabase.framework; sourceTree = "<group>"; };
 		4A1B15E02046678200198EC0 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GTMSessionFetcher.framework; sourceTree = "<group>"; };
 		4A1B15E12046678200198EC0 /* FirebaseStorage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseStorage.framework; sourceTree = "<group>"; };
+		4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4A5382CE2046884500D2FFBA /* Protobuf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Protobuf.framework; sourceTree = "<group>"; };
 		4A5382CF2046884500D2FFBA /* FirebaseSwizzlingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseSwizzlingUtilities.framework; sourceTree = "<group>"; };
 		4A5382D02046884500D2FFBA /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GTMSessionFetcher.framework; sourceTree = "<group>"; };
@@ -581,6 +598,7 @@
 				4A1B15EE2046678300198EC0 /* FirebaseStorage.framework in Frameworks */,
 				4A909D17205A638C003071F4 /* libRNSentry.a in Frameworks */,
 				48CF185296FEE6D28052CE22 /* Pods_Humantiv.framework in Frameworks */,
+				4A52645A20AE352000BC834D /* libBVLinearGradient.a in Frameworks */,
 				D8C6F9F8BC4349E6A36D880D /* libRNReactNativeHumanApi.a in Frameworks */,
 				CD4FC1A2482C447F9D80401A /* libRNReactNativeHgraph.a in Frameworks */,
 			);
@@ -843,6 +861,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4A52642420AE34CB00BC834D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A52642920AE34CB00BC834D /* libBVLinearGradient.a */,
+				4A52642B20AE34CB00BC834D /* libBVLinearGradient.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4A5382CD2046884500D2FFBA /* Performance */ = {
 			isa = PBXGroup;
 			children = (
@@ -958,6 +985,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */,
 				4A884243207B2D1500C04E91 /* RNSVG.xcodeproj */,
 				4A909CE5205A61D7003071F4 /* RNSentry.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -1113,6 +1141,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 4A52642420AE34CB00BC834D /* Products */;
+					ProjectRef = 4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */;
+				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
@@ -1390,6 +1422,20 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = 4A1BD0A1203CDBAC00535E46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A52642920AE34CB00BC834D /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = 4A52642820AE34CB00BC834D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A52642B20AE34CB00BC834D /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = 4A52642A20AE34CB00BC834D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4A7BBFF9204FCD3500C253C5 /* libRNReactNativeHumanApi.a */ = {

@@ -3,13 +3,15 @@ import {
   Text, 
   View,
   StyleSheet,
-  Image
+  Image,
+  ImageBackground
 } from "react-native";
 import { theme, primaryBlueColor } from '../themes';
 import PropTypes from 'prop-types';
 import Images from "../../resources/images";
 import {Icon} from './Icon';
 import {Fonts} from '../../resources/fonts/Fonts'
+import LinearGradient from 'react-native-linear-gradient';
 
 
 class WalletCard extends Component {
@@ -39,6 +41,28 @@ class WalletCard extends Component {
     this.props.height = this.props.width / 1.25;
   }
 
+  getGradientConfig() {
+    const {icon} = this.props;
+    
+    switch(icon) {
+      case 'medit':
+        return {
+          colors: ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)'],
+          image: Images.img_medit_wallet_bg
+        }
+      case 'medex':
+        return {
+          colors: ['rgba(50, 211, 148,1)','rgba(144, 222, 75,0.7)'],
+          image: Images.img_medex_wallet_bg
+        }
+      default:
+        return {
+          colors: ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)'],
+          image: Images.img_medit_wallet_bg
+        }
+    }     
+  }
+
   render() {
     const {
         cardStyle,
@@ -56,15 +80,19 @@ class WalletCard extends Component {
         height
     } = this.props;
 
+    const config = this.getGradientConfig(icon);
     return (
-      <View style={[cardStyle, {
-          shadowColor: color,
-          borderColor: color,
-          backgroundColor: color,
-          width: width,
-          height: height
-      }]}>
-        <View style={valueContainerStyle}>
+      <LinearGradient style={[cardStyle, {
+        overflow: 'hidden',
+        width: width,
+        height: height
+      }]}
+        start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
+          colors={config.colors}>
+        <ImageBackground 
+          style={valueContainerStyle}
+          source={config.image}
+        >
           <Icon
             name={icon}
             color= "#fff"
@@ -77,26 +105,20 @@ class WalletCard extends Component {
             titleTextStyle,
             {
               color: "#fff", 
-              opacity: 0.7
+              opacity: 0.8
             }
           ]}>
               {title}
           </Text>
-        </View>        
-      </View>
+        </ImageBackground>        
+      </LinearGradient>
     );
   }
 };
 
 const styles = StyleSheet.create({
   cardStyle: {
-    borderWidth: 1,
-    borderRadius: 3,
-    borderBottomWidth: 0,
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
-    elevation: 10
+    borderRadius: 3
   },
   valueContainerStyle: {
     flex: 1,

@@ -152,6 +152,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-linear-gradient')
     implementation project(':react-native-svg')
     implementation project(':react-native-hgraph')
     implementation project(':react-native-gesture-handler')

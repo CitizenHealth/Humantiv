@@ -25,7 +25,7 @@ class JourneyChoice extends Component {
     super(props);
 
     this.state = {
-      selected: props.value
+      selected: (props.value)  ? props.value : null
     }
   }
 

@@ -234,23 +234,37 @@ class HealthView extends Component {
       Actions.profile();
     }
     
-    onActivityPress() {
+    onWeightPress() {
       const story = {
-        title: "Swam",
-        preposition: "for",
-        value: "1 Mile",
+        title: "Your weight",
+        preposition: "is",
+        value: "182 lbs",
         time: Math.round((new Date()).getTime() / 1000),
-        type: "swim"
+        type: "weight"
       }
       this.props.addFeedStory(story);
     }
 
     onSleepPress() {
-      const {stories} = this.props;
+      const story = {
+        title: "Too little sleep.",
+        preposition: "",
+        value: "Please sleep more!",
+        time: Math.round((new Date()).getTime() / 1000),
+        type: "sleep"
+      }
+      this.props.addFeedStory(story);
+    }
 
-      const keys = Object.keys(stories);
-      const id = keys[keys.length-1];
-      this.props.removeFeedStory(id);
+    onHeartRatePress() {
+      const story = {
+        title: "Heart rate",
+        preposition: "was",
+        value: "67 bpm",
+        time: Math.round((new Date()).getTime() / 1000),
+        type: "heartrate"
+      }
+      this.props.addFeedStory(story);
     }
 
     renderProfileImage() {
@@ -444,6 +458,7 @@ class HealthView extends Component {
                     width= {activityCardWidth}
                     stories= {this.props.stories}
                     filters= {this.props.filters}
+                    onSwipe= {this.props.removeFeedStory}
                 />
             </View>
         )
@@ -562,7 +577,7 @@ class HealthView extends Component {
                   buttonColor="rgba(231,76,60,1)">
                   <ActionButton.Item 
                     buttonColor='#9b59b6' 
-                    title="Sleep" 
+                    title="Log your sleep" 
                     size={44}
                     onPress={() => this.onSleepPress()}>
                     <FontAwesome 
@@ -572,10 +587,10 @@ class HealthView extends Component {
                     </FontAwesome>
                   </ActionButton.Item>
                   <ActionButton.Item 
-                    buttonColor='#3498db' 
-                    title="Heart Rate"
+                    buttonColor='#f15b58' 
+                    title="Measure your heart rate"
                     size={44} 
-                    onPress={() => {}}>
+                    onPress={() => this.onHeartRatePress()}>
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
@@ -585,12 +600,12 @@ class HealthView extends Component {
                   <ActionButton.Item 
                     buttonColor='#1abc9c' 
                     size={44}
-                    title="Activity" 
-                    onPress={() => {this.onActivityPress()}}>
+                    title="Log your weight" 
+                    onPress={() => {this.onWeightPress()}}>
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
-                      {Icons.futbolO}  
+                      {Icons.balanceScale}  
                     </FontAwesome>
                   </ActionButton.Item>
                 </ActionButton>       

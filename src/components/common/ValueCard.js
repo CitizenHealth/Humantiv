@@ -3,13 +3,16 @@ import {
   Text, 
   View,
   StyleSheet,
-  Image
+  Image,
+  ImageBackground
 } from "react-native";
 import { theme, primaryBlueColor } from '../themes';
 import PropTypes from 'prop-types';
 import Images from "../../resources/images";
 import {Icon} from './Icon';
 import {Fonts} from '../../resources/fonts/Fonts'
+import LinearGradient from 'react-native-linear-gradient';
+import {primaryBackgroungColor} from '../themes/theme';
 
 
 class ValueCard extends Component {
@@ -39,6 +42,28 @@ class ValueCard extends Component {
     this.props.height = this.props.width / 2.40;
   }
 
+  getGradientConfig() {
+    const {icon} = this.props;
+    
+    switch(icon) {
+      case 'medit':
+        return {
+          colors: ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)'],
+          image: Images.img_medit_bg
+        }
+      case 'medex':
+        return {
+          colors: ['rgba(50, 211, 148,1)','rgba(144, 222, 75,0.7)'],
+          image: Images.img_medex_bg
+        }
+      default:
+        return {
+          colors: ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)'],
+          image: Images.img_medit_bg
+        }
+    }     
+  }
+
   render() {
     const {
         cardStyle,
@@ -57,15 +82,23 @@ class ValueCard extends Component {
         height
     } = this.props;
 
+    const config = this.getGradientConfig(icon);
+
     return (
-      <View style={[cardStyle, {
-          shadowColor: color,
-          borderColor: color,
-          backgroundColor: color,
-          width: width,
-          height: height
-      }]}>
-        <View style={valueContainerStyle}>
+      <LinearGradient 
+      style={[cardStyle, {
+        overflow: 'hidden',
+        width: width,
+        height: height
+      }]}
+          start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
+          colors={config.colors}
+        >
+      <ImageBackground 
+      style={valueContainerStyle}
+        source={config.image}
+      >
+        
           <View style={valueTextAlignStyle}>
             <Text style={valueTextStyle}>
                 {value}
@@ -84,21 +117,25 @@ class ValueCard extends Component {
             ]}>
                 {title}
             </Text>
-        </View>        
-      </View>
+            </ImageBackground>
+        </LinearGradient>        
+
     );
   }
 };
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex : 1,
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    overflow:'visible',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+  },
   cardStyle: {
-    borderWidth: 1,
-    borderRadius: 3,
-    borderBottomWidth: 0,
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
-    elevation: 10
+    borderRadius: 3
   },
   valueContainerStyle: {
     flex: 1,

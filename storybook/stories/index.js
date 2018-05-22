@@ -20,7 +20,8 @@ import {
   SettingsChoice,
   SettingsSection,
   SettingsDataSource,
-  SettingsJourney
+  SettingsJourney,
+  Date
 } from '../../src/components/common';
 import Feed from '../../src/components/common/Feed';
 import { 
@@ -204,6 +205,7 @@ storiesOf('Button', module)
       },
     ]}
     style={{flex:1}}
+    setSelected={(key)=>{console.log(key)}}
     />
     </ScrollView>
   ));
@@ -413,3 +415,11 @@ storiesOf('Button', module)
     </ScrollView>
   </View>
   ));
+  storiesOf('Manual Measurement', module)
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('Date Entry', () => (
+    < Date
+      
+    />
+  ))
+

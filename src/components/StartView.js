@@ -18,9 +18,20 @@ import {
 class StartView extends Component {
 
   componentWillUpdate(nextProps) {
-    if (nextProps.registered !== undefined && this.props.registered ===undefined) {
+    if (nextProps.registered !== undefined && 
+      Actions.currentScene !== 'journey' &&
+      Actions.currentScene !== 'settingsjourney'
+    ) {
       (nextProps.registered) ? Actions.main(): Actions.journey();
     }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if ((nextProps.registered !== this.props.registered) || 
+      ((nextProps.registered) && (this.props.registered))) {
+      return true;
+    }
+    return false;
   }
 
   componentWillMount() {
@@ -124,8 +135,13 @@ class StartView extends Component {
           || user.providerData[0].providerId === "google.com"
         ) {
           console.log('Email is verified');
-          this.props.dataExists({type: 'profile'});
-        }
+          this.props.dataExists({type: 'journey'});
+           console.log(this.props.registered);
+           console.log(Actions.currentScene);
+           if (Actions.currentScene === 'login') {
+            (this.props.registered) ? Actions.main(): Actions.journey();
+           }
+         }
         else {
           console.log('Email is not verified');
           firebase.auth().languageCode = 'en';
@@ -140,6 +156,7 @@ class StartView extends Component {
         }       
       } else {       
         console.log(`Route: ${Actions.currentScene}`);
+        this.props.registered = undefined;
         if (Actions.currentScene === "load"
             || Actions.currentScene === "login")
           Actions.auth();

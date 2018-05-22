@@ -155,6 +155,7 @@ class TabView extends React.Component<*, State> {
       renderBadge={this._renderBadge}
       renderIndicator={this._renderIndicator}
       renderLabel={this._renderLabel(props)}
+      scrollEnabled={false}
       tabStyle={styles.tab}
       style={styles.tabbar}
     />

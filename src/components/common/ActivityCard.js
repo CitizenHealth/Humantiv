@@ -77,6 +77,9 @@ class ActivityCard extends Component {
         case ActivityFeedTypes.Health.Sleep: {
           return "sleep";
         } 
+        case ActivityFeedTypes.Health.Weight: {
+          return "weight";
+        } 
         default: {
             return "";
         }
@@ -112,8 +115,11 @@ class ActivityCard extends Component {
           return "#ffae45";
         }
         case ActivityFeedTypes.Health.Sleep: {
-          return "#f15b58";
-        }   
+          return "#9b59b6";
+        }
+        case ActivityFeedTypes.Health.Weight: {
+          return "#1abc9c";
+        }     
         default: {
             return "#000";
         }
@@ -192,12 +198,11 @@ const styles = StyleSheet.create({
   cardStyle: {
     flexDirection: 'row',
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 5,
     backgroundColor: "#fff",
     shadowColor: "#000",
     borderColor: "#ddd",
-    borderBottomWidth: 0,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 1

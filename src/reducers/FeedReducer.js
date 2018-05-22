@@ -14,12 +14,12 @@ export default (state = INITIAL_STATE, action)  => {
     case FEED_FETCH:
       return {
         ...state,
-        stories : action.payload
+        stories : (action.payload != null) ? action.payload : {}
       }
     case FEED_FILTERS_FETCH:
       return {
         ...state,
-        filters : action.payload
+        filters : (action.payload != null) ? action.payload : {}
       }
     case FEED_FILTERS_UPDATE:
     return {

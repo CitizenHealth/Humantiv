@@ -8,14 +8,13 @@ export const addFeedStory = (story) => {
   var storyItem = {};
   storyItem[time] = story;
   return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/feed/stories`)
+    firebase.database().ref(`/users/${currentUser.uid}/feed/stories`).orderByChild('time')
     .update(storyItem)
     .then(() => {
       dispatch({ type: FEED_ADD });
     });
   };
 };
-
 
 export const removeFeedStory = (id) => {
   const { currentUser } = firebase.auth();

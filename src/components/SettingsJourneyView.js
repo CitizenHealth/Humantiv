@@ -93,7 +93,6 @@ class SettingsJourneyView extends Component {
               marginLeft: scale(60),
               marginRight: scale(60)
             }}
-            isDisabled= {!this.state.ready}
           >
             <Text style={theme.primaryWhiteTextStyle}> Accept </Text>
           </Button>
