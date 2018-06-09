@@ -8,6 +8,9 @@ export const primaryGreyColor = '#b6bbc4';
 export const secondaryGreyColor = '#545962';
 export const primaryGreenColor = '#36d491';
 export const primaryBackgroungColor = '#f9fafc';
+export const primaryWhiteColor = '#fff';
+
+export const hGraphColor = '#afedd3';
 
 export const highlightedGreenColor = '#57d777'
 export const highlightedGreyColor = '#c8ccd3'
@@ -62,7 +65,17 @@ export const modalMessages = {
   }
 
 };
-
+// Units
+export const Units = {
+  Weight: {
+    Pounds: "lb",
+    Kilograms: "kg"
+  },
+  Height: {
+    Feet: "ft",
+    Centimeters: "cm"
+  }
+}
 // Remote Configuration Candidate
 export const ActivityFeedTypes = {
   Activity: {

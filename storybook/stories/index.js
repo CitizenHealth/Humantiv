@@ -21,6 +21,8 @@ import {
   SettingsSection,
   SettingsDataSource,
   SettingsJourney,
+  SettingsDate,
+  SettingsTime,
   Date
 } from '../../src/components/common';
 import Feed from '../../src/components/common/Feed';
@@ -28,21 +30,24 @@ import {
   HealthView, 
   SignUpButton, 
   FacebookLoginButton, 
-  GoogleLoginButton 
+  GoogleLoginButton,
+  WeightManualLog,
+  SleepManualLog,
+  StressManualLog
 } from '../../src/components/custom';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
 import { 
-  theme, 
   primaryWhiteTextStyle, 
   primaryBlueColor, 
-  primaryGreyColor
+  primaryGreyColor,
+  primaryGreenColor,
+  Units
 } from '../../src/components/themes';
 import { scale } from "react-native-size-matters";
 import {Icon} from '../../src/components/common/Icon';
-import {primaryGreenColor} from '../../src/components/themes/theme';
-
+import {formatHoursMinutes} from "../../src/business/Helpers";
 
 const screenWidth = Dimensions.get('window').width;
 const graphCardWidth = (screenWidth - 30)/2;
@@ -248,6 +253,7 @@ storiesOf('Button', module)
       onSelect= {
         (value, label) => {console.log(value, label)}
       }
+      textStyle={{flex:4}}
       value = "Male"
       choices = {["Male","Female","I'd rather not say"]}
     />
@@ -275,6 +281,21 @@ storiesOf('Button', module)
       color= {primaryGreenColor}
       onPress={() => {console.log("Change Journey")}}
       width={screenWidth}
+    />
+  ))
+  .add('Date', () => (
+    <SettingsDate
+      label="Date"
+      value="Today"
+      onValidate={(date) => {console.log(`Change Date: ${date}`)}}
+      width={screenWidth}
+    />
+  ))
+  .add('Time', () => (
+    <SettingsTime
+    label="Time"
+    onValidate={(time) => {console.log(`Change Date: ${time}`)}}
+    width={screenWidth}
     />
   ))
 
@@ -312,6 +333,7 @@ storiesOf('Button', module)
         onSelect= {
           (value, label) => {console.log(value, label)}
         }
+        textStyle={{flex:4}}
         value = "Male"
         choices = {["Male","Female","I'd rather not say"]}
       />
@@ -348,6 +370,7 @@ storiesOf('Button', module)
           onSelect= {
             (value, label) => {console.log(value, label)}
           }
+          textStyle={{flex:4}}
           value = "Centimeters"
           choices = {["Centimeters","Inches"]}
         />
@@ -356,6 +379,7 @@ storiesOf('Button', module)
         onSelect= {
           (value, label) => {console.log(value, label)}
         }
+        textStyle={{flex:4}}
         value = "Kilograms"
         choices = {["Kilograms","Lbs"]}
         />
@@ -364,6 +388,7 @@ storiesOf('Button', module)
           onSelect= {
             (value, label) => {console.log(value, label)}
           }
+          textStyle={{flex:4}}
           value = "Meters"
           choices = {["Meters","Feet"]}
         />
@@ -417,9 +442,24 @@ storiesOf('Button', module)
   ));
   storiesOf('Manual Measurement', module)
   .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
-  .add('Date Entry', () => (
-    < Date
-      
+  .add('Weight', () => (
+    < WeightManualLog
+      value={50}
+      onValidate= {(time, value, unit) => {console.log(`Date: ${time - value - unit}`)}}
+      units={Units.Weight.Pounds}
     />
   ))
+  .add('Sleep', () => (
+    < SleepManualLog
+      onValidate= {(day, time) => {console.log(`Date: ${day} - ${formatHoursMinutes(time)}`)}}
+    />
+  ))
+  .add('Stress', () => (
+    < StressManualLog
+      value={50}
+      onValidate= {(time, value, unit) => {console.log(`Date: ${time - value - unit}`)}}
+      units={Units.Weight.Pounds}
+    />
+  ))
+
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
   View,
+  TouchableOpacity,
   TextInput,
   Text,
   Dimensions
@@ -10,55 +11,48 @@ import {
   highlightedGreyColor, 
   secondaryGreyColor,
   graphGreyColor, 
-  primaryBlueColor,
-  graphRedColor
+  primaryBlueColor
 } from '../themes'
 import { scale } from "react-native-size-matters";
 import PropTypes from 'prop-types';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import {primaryGreyColor} from '../themes/theme';
+import {formatDate} from '../../business/Helpers';
 
 const screenWidth = Dimensions.get('window').width;
 const componentHeight = 50;
 
-class SettingsTextEntry extends Component {
+class SettingsDate extends Component {
   static propTypes = {
     label: PropTypes.string,
-    placeholder: PropTypes.string,
-    onChangeText: PropTypes.func,
-    enablesReturnKeyAutomatically: PropTypes.bool,
-    returnKeyType: PropTypes.string,
-    keyboardType: PropTypes.string,
-    autoFocus: PropTypes.bool,
-    unit: PropTypes.string,
-    editable: PropTypes.bool,
-    value: PropTypes.string,
-    missing: PropTypes.string
+    onValidate: PropTypes.func,
+    value: PropTypes.string
   }
 
   static defaultProps = {
-    label: "Label",
-    placeholder: "",
-    enablesReturnKeyAutomatically: false,
-    autoFocus: false,
-    unit: "Units",
-    editable: true,
-    value: "Value",
-    missing: ""
+    label: "Date",
+    value: "Today"
   }
+  
   constructor(props) {
     super(props);
 
     this.state = {
       text: props.value,
-      missing: props.missing
+      isDateTimePickerVisible: false
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      text: nextProps.value,
-      missing: nextProps.missing
-    });
-  }
+  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  handleDatePicked = (date) => {
+    console.log('A date has been picked: ', date);
+    this.props.onValidate(date);
+    this.setState({text: formatDate(date)})
+    this.hideDateTimePicker();
+  };
   
   renderTextArea() {
     const {
@@ -73,47 +67,35 @@ class SettingsTextEntry extends Component {
     } = this.props;
     
     const {
-      inputStyle,
       valueContainerStyle,
-      unitLabelStyle
+      dateStyle,
+      buttonTextStyle,
+      datePickerContainerStyle
     } = styles;
 
     return (
       <View style={valueContainerStyle}>
-        <TextInput 
-          style={[
-            inputStyle,
-            {
-              color: (this.state.missing === "") ? highlightedGreyColor : graphRedColor
-            }]}
-          placeholder={placeholder}
-          autoCorrect={false}
-          value={(this.state.missing === "") ? this.state.text : this.state.missing }
-          onChangeText={(text) => {
-            var trimText = text;
-            if (text !== "") {
-              if (this.state.missing !== "") {
-                this.setState({missing: ""})
-                trimText = trimText.substr(trimText.length-1, 1)
-              }
-            } else {
-              this.setState({missing: this.props.missing})
-            }
-            
-            this.setState({text: trimText});
-            onChangeText(trimText);
-          }}
-          autoFocus={autoFocus}
-          keyboardType={keyboardType}
-          returnKeyType={returnKeyType}
-          autoCapitalize= "none"
-          editable= {editable}
-          enablesReturnKeyAutomatically= {enablesReturnKeyAutomatically}
-          underlineColorAndroid="transparent"
+        <TouchableOpacity 
+          onPress={this.showDateTimePicker}>
+          <Text
+            style = {dateStyle}
+          >
+            {this.state.text}
+          </Text>
+        </TouchableOpacity>
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+          onCancel={this.hideDateTimePicker}
+          confirmTextIOS="Ok"
+          cancelTextIOS="Cancel"
+          cancelTextStyle={buttonTextStyle}
+          confirmTextStyle={buttonTextStyle}
+          datePickerContainerStyleIOS={datePickerContainerStyle}
+          datePickerModeAndroid="calendar"
+          titleIOS="Pick a date"
+          titleStyle={buttonTextStyle}
         />
-        <Text style={unitLabelStyle}>
-          {(this.state.missing === "") ? ` ${unit}` : ""}
-        </Text>
       </View>
     );
   }
@@ -138,27 +120,41 @@ class SettingsTextEntry extends Component {
   }
 }
 const styles = {
+  datePickerContainerStyle: {
+    backgroundColor: 'white'
+  },
   containerStyle: {
-    flex:1,    
     height: componentHeight,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderBottomWidth: 0,
+    borderBottomWidth: 1,
     shadowColor: "#000",
     borderColor: "#ddd",
     elevation: 1
   },
+  dateStyle: {
+    fontSize: 18,
+    fontFamily: Fonts.regular,
+    fontWeight: "400",
+    color: primaryGreyColor,
+    marginLeft: scale(10)
+  },
   labelStyle: {
-    textAlignVertical: 'center',
     flex: 2,
     fontSize: 18,
     fontFamily: Fonts.regular,
     fontWeight: "400",
     color: graphGreyColor,
     marginLeft: scale(10)
+  },
+  buttonTextStyle: {
+    fontSize: 20,
+    fontFamily: Fonts.regular,
+    fontWeight: "400",
+    color: primaryBlueColor
   },
   valueContainerStyle: {
     flex: 4,
@@ -185,4 +181,4 @@ const styles = {
   }
 }
 
-export {SettingsTextEntry};
+export {SettingsDate};

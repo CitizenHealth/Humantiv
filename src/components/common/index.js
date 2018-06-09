@@ -33,5 +33,7 @@ export * from './SettingsChoice';
 export * from './SettingsSection';
 export * from './SettingsDataSource';
 export * from './SettingsJourney';
+export * from './SettingsDate';
+export * from './SettingsTime';
 export * from './Feed';
 export * from './Date';

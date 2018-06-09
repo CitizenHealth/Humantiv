@@ -25,6 +25,15 @@ export const removeFeedStory = (id) => {
   };
 }
 
+export const filtersSave = (filter) => {
+  const { currentUser } = firebase.auth();
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/feed/filters`)
+    .update(filter)
+  };
+};
+
 export const fetchFeedFilters = () => {
   const {currentUser} = firebase.auth();
 

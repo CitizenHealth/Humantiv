@@ -63,20 +63,34 @@ class GraphCard extends Component {
         rules
     } = props;
 
-    const latestValue = (data.length > 0 ) ? data[data.length -1].value : "-";
-    var selectedColor = graphGreyColor;
-
-    if (latestValue !== "-") {
-        if (latestValue < rules.healthyMin || latestValue > rules.healthyMax) {
-            selectedColor = graphRedColor;
-        } else {
-            selectedColor = graphGreenColor;
-        }
-    }
     this.state = {
-        value: latestValue,
-        color: selectedColor
+        value: "-",
+        color: graphGreyColor
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      data, 
+      rules
+    } = nextProps;
+
+    if (this.state.data !== data) { 
+      const latestValue = (data.length > 0 ) ? (data[data.length -1].value !== undefined) ? data[data.length -1].value : "-" : "-";
+      var selectedColor = graphGreyColor;
+
+      if (latestValue !== "-") {
+          if (latestValue < rules.healthyMin || latestValue > rules.healthyMax) {
+              selectedColor = graphRedColor;
+          } else {
+              selectedColor = graphGreenColor;
+          }
+      }
+      this.setState({
+          value: latestValue,
+          color: selectedColor
+      });
+    }
   }
 
   render() {
@@ -103,8 +117,11 @@ class GraphCard extends Component {
 
     // convert data to array
     var dataArray = []; 
-    for (var index = 0; index < data.length; index++) {
-      dataArray[index] = data[index].value;
+    let index = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].value !== undefined) {
+        dataArray[index++] = data[i].value;
+      }
     }
     const size = 24;
 
@@ -132,7 +149,7 @@ class GraphCard extends Component {
                 <Dot
                     size= {size}
                     color= {this.state.color}
-                    animate= {true}
+                    animate= {(this.state.color===graphGreyColor) ? false : true}
                 />
                 <Text style={[
                     titleTextStyle,

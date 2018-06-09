@@ -29,7 +29,6 @@ import { Actions } from 'react-native-router-flux';
 import { TextInput } from "./custom"
 import { 
   logoutUser,  
-  dataCreate, 
   dataSave,
   dataFetch,
   humanAPIFetch
@@ -266,6 +265,7 @@ class SettingsView extends Component {
             < SettingsChoice
               label="Gender"
               onSelect= {onGenderChange}
+              textStyle={{flex:4}}
               value = {(profile_gender !== "" && profile_gender !== undefined) ? profile_gender : ""}
               choices = {["I'd rather not say", "Male", "Female"]}
             />
@@ -300,18 +300,21 @@ class SettingsView extends Component {
             < SettingsChoice
               label="Height"
               onSelect= {onHeightUnitChange}
+              textStyle={{flex:4}}
               value = {(profile_height_unit !== "" && profile_height_unit !== undefined) ? profile_height_unit : ""}
               choices = {["Inches", "Centimeters"]}
             />
             < SettingsChoice
             label="Weight"
             onSelect= {onWeightUnitChange}
+            textStyle={{flex:4}}
             value = {(profile_weight_unit !== "" && profile_weight_unit !== undefined) ? profile_weight_unit : ""}
             choices = {["Lbs", "Kilograms"]}
             />
             < SettingsChoice
               label="Distance"
               onSelect= {onDistanceUnitChange}
+              textStyle={{flex:4}}
               value = {(profile_distance_units !== "" && profile_distance_units !== undefined) ? profile_distance_units : ""}
               choices = {["Feet", "Meters"]}
             />
@@ -386,7 +389,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   logoutUser, 
-  dataCreate, 
   dataSave,
   dataFetch,
   humanAPIFetch

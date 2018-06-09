@@ -44,6 +44,37 @@ class ScoreCard extends Component {
     super(props);
   }
 
+  renderFooter() {
+    const {
+      footerContainerStyle,
+      cardTitleContainerStyle,
+      cardFooterButtonTitleStyle
+      } = styles;
+
+    const {
+      iconStyle,
+      iconTextStyle
+    } = theme;
+
+    return (<View style={footerContainerStyle}>
+          {(this.props.title) ?
+            <View style={cardTitleContainerStyle}>
+            <IconButton
+                  onPress={this.props.onPressFooter}
+                  viewStyles={iconStyle}
+                  textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                >
+                <Icon name="plus_grey"/>
+              </IconButton>
+              <Text style={cardFooterButtonTitleStyle}>
+                {this.props.footerTitle}
+              </Text>
+            </View>
+          : null}
+        </View>
+    )
+  }
+
   render() {
     const {
       cardTitleStyle,
@@ -53,8 +84,6 @@ class ScoreCard extends Component {
       imageStyle,
       cardButtonTitleStyle,
       buttonStyle,
-      footerContainerStyle,
-      cardFooterButtonTitleStyle,
     } = styles;
 
     const {
@@ -88,22 +117,6 @@ class ScoreCard extends Component {
           : null}
         </View>
         {this.props.children}
-        <View style={footerContainerStyle}>
-          {(this.props.title) ?
-            <View style={cardTitleContainerStyle}>
-            <IconButton
-                  onPress={this.props.onPressFooter}
-                  viewStyles={iconStyle}
-                  textStyles={[iconTextStyle, {color:graphGreyColor}]}
-                >
-                <Icon name="plus_grey"/>
-              </IconButton>
-              <Text style={cardFooterButtonTitleStyle}>
-                {this.props.footerTitle}
-              </Text>
-            </View>
-          : null}
-        </View>
       </View>
     );
   }

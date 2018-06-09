@@ -11,6 +11,8 @@ import TabView from "./TabView";
 import SimplePage from "./SimplePage";
 import JourneyView from "./JourneyView";
 import SettingsJourneyView from "./SettingsJourneyView";
+import FeedFiltersView from "./FeedFiltersView";
+import ManualLogView from "./ManualLogView";
 
 const RouterComponent = () => {
   return (
@@ -49,6 +51,16 @@ const RouterComponent = () => {
           <Scene
             key="settingsjourney"
             component={SettingsJourneyView}
+            hideNavBar            
+          />
+          <Scene
+            key="feedfilters"
+            component={FeedFiltersView}
+            hideNavBar            
+          />
+          <Scene
+            key="manuallog"
+            component={ManualLogView}
             hideNavBar            
           />
         </Scene>

@@ -54,12 +54,27 @@ class SettingsChoice extends Component {
     });
   }
 
+  renderLabel() {
+    const {label} = this.props;
+    const {labelStyle} = styles;
+
+    if (label !== "" ) {
+      return(
+      <Text style={labelStyle}>
+       {label}
+      </Text>
+      )
+    }
+  }
+
   render() {
     const {
       label,
       choices,
       onChangeChoice,
-      value
+      value,
+      style,
+      textStyle
     } = this.props;
 
     const {
@@ -69,17 +84,15 @@ class SettingsChoice extends Component {
     } = styles;
     
     return(
-      <View style={containerStyle}>
-        <Text style={labelStyle}>
-          {label}
-        </Text>
+      <View style={[containerStyle, style]}>
+        {this.renderLabel()}
         <Select
             onSelect = {(value, label) => {
               this.setState({value : value});
               this.props.onSelect(value, label);
             }}
             defaultText  = {this.state.value}
-            textStyle = {inputStyle}
+            textStyle = {[inputStyle, textStyle]}
             transparent = {true}
             backdropStyle = {{
               borderWidth: 1,
@@ -91,7 +104,7 @@ class SettingsChoice extends Component {
               borderColor: "#ddd",
             }}
             style = {{
-              borderWidth: 0            
+              borderWidth: 0        
             }}
             optionListStyle = {{
               borderWidth: 0,
@@ -128,7 +141,7 @@ const styles = {
     borderBottomWidth: 0,
     shadowColor: "#000",
     borderColor: "#ddd",
-    elevation: 1
+    elevation: 1,
   },
   labelStyle: {
     textAlignVertical: 'center',
@@ -140,7 +153,6 @@ const styles = {
     marginLeft: scale(10)
   },
   inputStyle: {
-    flex: 4,
     justifyContent: 'flex-end',
     textAlign: 'right',
     fontSize: 18,
