@@ -104,6 +104,10 @@ android {
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
                 keyPassword MYAPP_RELEASE_KEY_PASSWORD
             }
+            keyAlias 'Humantiv'
+            keyPassword '*LakeSide@2018!'
+            storeFile file('../../android/keystore/android.jks')
+            storePassword '*LakeSide@2018!'
         }
     }
 
@@ -159,7 +163,7 @@ dependencies {
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-sentry')
     implementation project(':react-native-human-api')
-    implementation(project(":react-native-google-signin")){
+    implementation(project(':react-native-google-signin')) {
         exclude group: "com.google.android.gms" // very important
     }
     implementation(project(':react-native-firebase')) {
@@ -169,27 +173,26 @@ dependencies {
         transitive = true
     }
     // Firebase dependencies
-    implementation ('com.google.android.gms:play-services-gcm:11.8.0') {
+    implementation('com.google.android.gms:play-services-gcm:11.8.0') {
         force = true
     }
     implementation 'com.google.android.gms:play-services-base:11.8.0'
-    implementation ('com.google.android.gms:play-services-auth:11.8.0') {
+    implementation('com.google.android.gms:play-services-auth:11.8.0') {
         force = true
     }
-    implementation "com.google.firebase:firebase-core:11.8.0"
-    implementation "com.google.firebase:firebase-analytics:11.8.0"
-    implementation "com.google.firebase:firebase-auth:11.8.0"
-    implementation "com.google.firebase:firebase-database:11.8.0"
-    implementation "com.google.firebase:firebase-perf:11.8.0"
-    implementation "com.google.firebase:firebase-config:11.8.0"
-    implementation "com.google.firebase:firebase-storage:11.8.0"
-    implementation "com.google.firebase:firebase-messaging:11.8.0"
-
+    implementation 'com.google.firebase:firebase-core:11.8.0'
+    implementation 'com.google.firebase:firebase-analytics:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-database:11.8.0'
+    implementation 'com.google.firebase:firebase-perf:11.8.0'
+    implementation 'com.google.firebase:firebase-config:11.8.0'
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
+    implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
-
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:26.0.1"
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.0.1'
+    implementation 'com.facebook.react:react-native:+'
+    // From node_modules
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
 

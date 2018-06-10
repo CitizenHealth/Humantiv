@@ -54,7 +54,7 @@ export const dataEdit = ({profile}) => {
 export const dataFetch = ({type}) => {
   const { currentUser } = firebase.auth();
 
-  if (currentUser === undefined) {
+  if (currentUser == null) {
     return;
   }
   
