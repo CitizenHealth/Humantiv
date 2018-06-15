@@ -4,6 +4,7 @@ import {
   timeseriesActivityFetch,
   timeseriesSleepFetch,
   timeseriesHeartrateFetch,
+  timeseriesStepsFetch,
   timeseriesWeightFetch
 } from './TimeSeriesAction';
 
@@ -16,6 +17,10 @@ export const dataCreate = ({type, prop, value}) => {
 
 export const dataSave = ({type, data}) => {
   const { currentUser } = firebase.auth();
+
+  if (currentUser == null) {
+    return;
+  }
 
   return (dispatch) => {
     if (type === "messaging") {
@@ -67,6 +72,7 @@ export const dataFetch = ({type}) => {
 //        var testToken = "Zff8X6NFVDPdUf00z6g1QUVtHoQ=_nTu8Lvg45198035cecaa04124ab91663aa5e9a4fa43f6fb9d75637baa8533b22a44b7b202fe7ebce012413d5e667ad53b061e048c25805d96794e00f41166223cfb492e5ff81a16c0b210dda57e97c90eb27cc9042f9a9c568442386ad7672efb535961c0ce8caa450b852a8560e6127885ed2d"
         var testToken = data.access_token;
         dispatch(timeseriesActivityFetch({access_token: testToken}));
+        dispatch(timeseriesStepsFetch({access_token: testToken}));
         dispatch(timeseriesSleepFetch({access_token: testToken}));
         dispatch(timeseriesHeartrateFetch({access_token: testToken}));
         dispatch(timeseriesWeightFetch({access_token: testToken}));
@@ -78,6 +84,10 @@ export const dataFetch = ({type}) => {
 
 export const dataExists = ({type}) => {
   const { currentUser } = firebase.auth();
+
+  if (currentUser == null) {
+    return;
+  }
 
   return (dispatch) => {
     firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
@@ -91,6 +101,10 @@ export const dataExists = ({type}) => {
 export const humanAPIFetch = (publicToken) => {
   const { currentUser } = firebase.auth();
 
+  if (currentUser == null) {
+    return;
+  }
+  
   return (dispatch) => {
 
     // Move the data from the /humanapi database ...

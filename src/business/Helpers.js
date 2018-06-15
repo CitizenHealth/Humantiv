@@ -98,6 +98,14 @@ export const convertMinutesToHours = (minutes) => {
   // }
 }
 
+export const convertSecondsToMinutes = (seconds) => {
+  return parseFloat((seconds/60).toFixed(1));
+  // return {
+  //   hours: Math.floor(minutes/60),
+  //   minutes: minutes % 60
+  // }
+}
+
 export const convertArrayToTimeSeries = (array) => {
   var timeSeriesArray = [];
   array.map((item) => {

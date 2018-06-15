@@ -32,7 +32,7 @@ class ScoreCard extends Component {
   static defaultProps = {
     title: "Health graph",
     buttonTitle: "Add data source",
-    footerTitle: "Add manual activity",
+    footerTitle: "Sync with devices",
     backgroundColor: "#fff",
     titleColor: graphGreyColor,
     buttonTitleColor: primaryBlueColor,
@@ -117,6 +117,7 @@ class ScoreCard extends Component {
           : null}
         </View>
         {this.props.children}
+        {this.renderFooter()}
       </View>
     );
   }

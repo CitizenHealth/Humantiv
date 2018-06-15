@@ -1,11 +1,45 @@
 import axios from 'axios';
 import moment from 'moment';
-import {convertMinutesToHours} from '../Helpers';
+import {
+  convertMinutesToHours,
+  convertSecondsToMinutes
+} from '../Helpers';
 import convert from 'convert-units';
 
 const MAX_SERIES_NUMBER = 15;
 
 export const getActivityTimeSeries = (access_token) => {
+  const url = `https://api.humanapi.co/v1/human/activities/summaries?access_token=${access_token}`
+
+  return new Promise( (resolve, reject) => {
+    axios({
+      method:'get',
+      url:url,
+      responseType:'json'
+    })
+    .done(function(response) {
+      let val = [];
+      response.data.map( (item, index) => {
+        if (index< MAX_SERIES_NUMBER) {
+          let time_series = {
+            time: moment(item.date, "YYYY-MM-DD").unix(),
+            value: convertSecondsToMinutes(item.duration)
+          }
+          val.push(time_series);
+        }
+      })
+      resolve(val);
+
+      console.log(response.data);
+      console.log(response.status);
+      console.log(response.statusText);
+      console.log(response.headers);
+      console.log(response.config);
+    });
+  })
+}
+
+export const getStepsTimeSeries = (access_token) => {
   const url = `https://api.humanapi.co/v1/human/activities/summaries?access_token=${access_token}`
 
   return new Promise( (resolve, reject) => {
@@ -28,10 +62,6 @@ export const getActivityTimeSeries = (access_token) => {
       resolve(val);
 
       console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
     });
   })
 }

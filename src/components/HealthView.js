@@ -33,7 +33,8 @@ import {
     addFeedStory,
     removeFeedStory,
     humanAPIFetch,
-    fetchHealthTimeSeries
+    fetchHealthTimeSeries,
+    addHealthTimeSeries
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
@@ -49,7 +50,10 @@ import {formatNumbers} from '../business/Helpers';
 import ActionButton from 'react-native-action-button';
 import myStories from '../configuration/notifications.json'
 import {graphGreenColor} from './themes/theme';
-import {getHealthScore} from '../business/sources/CalculateHealthScore';
+import {
+  needToSaveHealthScore,
+  getHealthScore
+} from '../business/sources/CalculateHealthScore';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -68,7 +72,7 @@ class HealthView extends Component {
     }
 
     componentDidMount() {
-      this.props.dataFetch({type: "humanapi"});
+      this.refreshDataSources();
       this.props.dataFetch({type: "health"});
       this.props.dataFetch({type: "wallet"});
       this.props.dataFetch({type: "profile"});
@@ -127,6 +131,11 @@ class HealthView extends Component {
         }
         humanAPI.onConnect(options)
     }
+
+    refreshDataSources = () => {
+      this.props.dataFetch({type: "humanapi"});
+    }
+
     onSettingsPress() {
       Actions.profile();
     }
@@ -185,6 +194,7 @@ class HealthView extends Component {
         const {
           children, 
           activity,
+          steps,
           sleep,
           heartrate,
           weight,
@@ -207,21 +217,40 @@ class HealthView extends Component {
         const graphCardWidth = (screenWidth - 30)/2;
         const graphScoreCardWidth = screenWidth -20;
 
+        
         const healthData = getHealthScore(
           activity,
           sleep,
           weight,
-          heartrate);
+          heartrate,
+          steps
+        );
 
         let scores = []
         if (children.health && children.health.score) {
-          scores = Object.values(children.health.score).concat({time: Math.round((new Date()).getTime() / 1000), value: healthData.healthScore});
+          scores = children.health.score;
         }
+
+        // converrt the list of objects into an array
+        var arrayObj = Object.keys(scores).map((key) => {
+          return {time: Number(key), value: scores[key]};
+        });
+
+        if (needToSaveHealthScore(arrayObj)) {
+          this.props.addHealthTimeSeries("score", {time: Math.round((new Date()).getTime() / 1000), value: healthData.healthScore});
+        } else {
+          if (arrayObj.length>0) {
+            this.props.addHealthTimeSeries("score", {time: arrayObj[arrayObj.length - 1].time, value: healthData.healthScore});
+          }
+        }
+
         const activities = (activity) ? activity : [];
+        const stepss = (steps) ? steps : [];
         const sleeps = (sleep) ? sleep : [];
         const heartrates = (heartrate) ? heartrate : [];
         const weights = (weight) ? weight : [];
         const stresses = (stress) ? stress : [];
+        const scoress = arrayObj;
 
         return (
             <View>
@@ -246,7 +275,7 @@ class HealthView extends Component {
                         <GraphCard
                             title= "Health Score"
                             unit= ""
-                            data= {Object.values(scores)}
+                            data= {scoress}
                             rules= {{ 
                                 min: 0,
                                 max: 100,
@@ -260,17 +289,32 @@ class HealthView extends Component {
                       <View style={cardsStyle}>
                         <GraphCard
                             title= "Steps"
-                            unit= ""
-                            data= {activities}
+                            unit= "steps"
+                            data= {stepss}
                             rules= {{ 
                                 min: 0,
-                                max: 10000,
-                                healthyMin: 2000,
-                                healthyMax: 10000
+                                max: 1000000,
+                                healthyMin: 10000,
+                                healthyMax: 1000000
                             }}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
                         />
+                        <GraphCard
+                            title= "Activity"
+                            unit= "minutes"
+                            data= {activity}
+                            rules= {{ 
+                                min: 0,
+                                max: 1440,
+                                healthyMin: 45,
+                                healthyMax: 1440
+                            }}
+                            width= {graphCardWidth}
+                            height= {graphCardWidth}
+                        />
+                    </View>
+                    <View style={cardsStyle}>
                         <GraphCard
                             title= "Sleep"
                             unit= "hours"
@@ -284,8 +328,6 @@ class HealthView extends Component {
                             width= {graphCardWidth}
                             height= {graphCardWidth}
                         />
-                    </View>
-                    <View style={cardsStyle}>
                         <GraphCard
                             title= "Heart Rate"
                             unit= "bpm"
@@ -295,20 +337,6 @@ class HealthView extends Component {
                                 max: 200,
                                 healthyMin: 50,
                                 healthyMax: 120
-                            }}
-                            width= {graphCardWidth}
-                            height= {graphCardWidth}
-                        />
-
-                        <GraphCard
-                            title= "Weight"
-                            unit= "lbs"
-                            data= {weights}
-                            rules= {{ 
-                                min: 1,
-                                max: 1000,
-                                healthyMin: 120,
-                                healthyMax: 190
                             }}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
@@ -366,6 +394,7 @@ class HealthView extends Component {
           sleep,
           heartrate,
           weight,
+          steps,
           stress
           } = this.props;
 
@@ -377,7 +406,9 @@ class HealthView extends Component {
           activity,
           sleep,
           weight,
-          heartrate);
+          heartrate,
+          steps
+        );
 
         // Get humanId and accessToken from the humanapi table
          console.log(`WEBVIEW public_token: ${public_token}`);
@@ -414,11 +445,11 @@ class HealthView extends Component {
                         style={{
                         title: "Health Graph",
                         buttonTitle: "Add data source",
-                        footerTitle: "Add manual activity",
+                        footerTitle: "Sync with devices",
                         backgroundColor: "#fff",
                         }}
                         onPressHeader= {this.connectHumanAPI}
-                        onPressFooter= {this.addManualActivity}
+                        onPressFooter= {this.refreshDataSources}
                     >
                         <HGraph
                             scoreFontColor= {(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "#b7daff" : '#3ED295'}
@@ -594,10 +625,10 @@ const mapStateToProps = (state) => {
     const {user} = state.auth;
     const {children} = state.data;
     const {stories, filters} = state.feed;
-    const {activity, heartrate, sleep, weight, stress} = state.timeseries
+    const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries
 
     return {
-        user, children, stories, filters, activity, heartrate, sleep, weight, stress
+        user, children, stories, filters, activity, steps, heartrate, sleep, weight, stress
     }
 }
 export default connect(mapStateToProps, {
@@ -608,5 +639,6 @@ export default connect(mapStateToProps, {
   addFeedStory,
   removeFeedStory,
   humanAPIFetch,
-  fetchHealthTimeSeries
+  fetchHealthTimeSeries,
+  addHealthTimeSeries
   })(HealthView);

@@ -29,3 +29,4 @@ export const TIMESERIES_HEARTRATE_FETCH = "timeseries_heartrate_fetch";
 export const TIMESERIES_SLEEP_FETCH = "timeseries_sleep_fetch";
 export const TIMESERIES_WEIGHT_FETCH = "timeseries_weight_fetch";
 export const TIMESERIES_STRESS_FETCH = "timeseries_stress_fetch";
+export const TIMESERIES_STEPS_FETCH = "timeseries_steps_fetch";

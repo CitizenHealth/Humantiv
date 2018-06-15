@@ -3,6 +3,7 @@ import {
   getActivityTimeSeries,
   getHeartrateTimeSeries,
   getSleepTimeSeries,
+  getStepsTimeSeries,
   getWeightTimeSeries
 } from '../business/sources'
 import { 
@@ -10,6 +11,7 @@ import {
   TIMESERIES_HEARTRATE_FETCH,
   TIMESERIES_SLEEP_FETCH,
   TIMESERIES_WEIGHT_FETCH,
+  TIMESERIES_STEPS_FETCH,
   TIMESERIES_STRESS_FETCH,
   } from "./types";
 
@@ -19,6 +21,16 @@ export const timeseriesActivityFetch = ({access_token}) => {
     getActivityTimeSeries(access_token)
     .then((values) => {
       dispatch({ type: TIMESERIES_ACTIVITY_FETCH, payload: values });
+    })
+  };
+};
+
+export const timeseriesStepsFetch = ({access_token}) => {
+
+  return (dispatch) => {
+    getStepsTimeSeries(access_token)
+    .then((values) => {
+      dispatch({ type: TIMESERIES_STEPS_FETCH, payload: values });
     })
   };
 };

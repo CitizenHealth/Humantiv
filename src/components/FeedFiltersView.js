@@ -104,7 +104,7 @@ class FeedFiltersView extends Component {
               <IconButton onPress={() => {Actions.pop()}}>
                 <FontAwesome>{Icons.angleLeft}</FontAwesome>
               </IconButton> 
-              <Text style={textStyle}> Feed Filters </Text> 
+              <Text style={textStyle}> Activity Filters </Text> 
               <View style={{
                 height: 60,
                 width: 60

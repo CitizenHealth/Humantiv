@@ -1,5 +1,6 @@
 import { 
   TIMESERIES_ACTIVITY_FETCH,
+  TIMESERIES_STEPS_FETCH,
   TIMESERIES_HEARTRATE_FETCH,
   TIMESERIES_SLEEP_FETCH,
   TIMESERIES_WEIGHT_FETCH,
@@ -8,6 +9,7 @@ import {
   
 const INITIAL_STATE = {
   activity: [],
+  steps: [],
   heartrate: [],
   sleep: [],
   weight: [],
@@ -20,6 +22,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         activity : action.payload
+      };
+    case TIMESERIES_STEPS_FETCH:
+      return {
+        ...state,
+        steps : action.payload
       };
     case TIMESERIES_HEARTRATE_FETCH:
       return {
