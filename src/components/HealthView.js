@@ -18,7 +18,6 @@ import {
     Avatar, 
     IconButton,
     ScoreCard,
-    Card,
     ValueCard,
     GraphCard,
     Icon as HMIcon
@@ -40,20 +39,21 @@ import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
 import { 
   theme, 
-  primaryBlueColor, 
   primaryBackgroungColor,
   graphGreyColor,
   primaryWhiteColor,
   hGraphColor
  } from './themes';
-import {formatNumbers} from '../business/Helpers';
-import ActionButton from 'react-native-action-button';
-import myStories from '../configuration/notifications.json'
-import {graphGreenColor} from './themes/theme';
 import {
+  formatNumbers
+} from '../business/Helpers';
+import ActionButton from 'react-native-action-button';
+import {
+  isTwentyFourHours,
   needToSaveHealthScore,
   getHealthScore
 } from '../business/sources/CalculateHealthScore';
+import healthScores from '../configuration/healthscore.json';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -64,11 +64,20 @@ const closeURL = 'https://connect.humanapi.co/blank/hc-close';
 
 class HealthView extends Component {
 
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        healthScore: "",
+        healthData: {
+          healthData: [],
+          healthScore: 0
+        }
+      }
+    }
+
     componentWillMount () {       
       firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
-      this.setState({
-          healthScore: ""
-      });
     }
 
     componentDidMount() {
@@ -80,6 +89,17 @@ class HealthView extends Component {
       this.props.fetchFeedFilters();
       this.props.fetchFeedStories();
       this.props.dataFetch({type: "notifications"});     
+    }
+
+    componentWillReceiveProps(nextProps) {
+      const {activity, sleep, steps} = nextProps;
+      if (activity !== this.props.activity ||
+          sleep !== this.props.sleep ||
+          steps !== this.props.steps) {
+        this.setState({
+          healthData: getHealthScore(activity, sleep, steps)
+        });
+      }
     }
 
     saveHumanAPIPublicToken(token) {
@@ -114,6 +134,7 @@ class HealthView extends Component {
                 this.saveHumanAPIPublicToken(data.public_token);
 
                 console.log(`Human API Callback: ${data}`);
+                this.props.humanAPIFetch(data.public_token);
 
             },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
@@ -130,6 +151,25 @@ class HealthView extends Component {
             cancel: () => console.log('cancel')  // callback when cancel
         }
         humanAPI.onConnect(options)
+    }
+
+    cleanHealthScore(scoreObj) {
+      // Remove any score entry that is less than 24 hours from the previous one
+      // We only record at most one health score a day. The extra ones are due to a
+      // collateral effect from asynchronicity in getting the measurements time series
+      // Thus several temporary health scores are calculated
+      let newObj = {};
+      let previousKey;
+      for (var key in scoreObj) {
+        if (previousKey !== undefined) {
+          if (!isTwentyFourHours(key, previousKey)) {
+            delete newObj[previousKey]
+          }
+        }
+        previousKey = key;
+        newObj[key] = scoreObj[key];
+      };
+      return newObj;
     }
 
     refreshDataSources = () => {
@@ -217,15 +257,6 @@ class HealthView extends Component {
         const graphCardWidth = (screenWidth - 30)/2;
         const graphScoreCardWidth = screenWidth -20;
 
-        
-        const healthData = getHealthScore(
-          activity,
-          sleep,
-          weight,
-          heartrate,
-          steps
-        );
-
         let scores = []
         if (children.health && children.health.score) {
           scores = children.health.score;
@@ -234,15 +265,18 @@ class HealthView extends Component {
         // converrt the list of objects into an array
         var arrayObj = Object.keys(scores).map((key) => {
           return {time: Number(key), value: scores[key]};
-        });
+        }).reverse();
 
-        if (needToSaveHealthScore(arrayObj)) {
-          this.props.addHealthTimeSeries("score", {time: Math.round((new Date()).getTime() / 1000), value: healthData.healthScore});
-        } else {
-          if (arrayObj.length>0) {
-            this.props.addHealthTimeSeries("score", {time: arrayObj[arrayObj.length - 1].time, value: healthData.healthScore});
-          }
-        }
+//        if (needToSaveHealthScore(arrayObj)) {
+        // Overwrite the daily healthscore by setting the timestamp to the current day at 00:00:00 AM
+        let dayBaseTime = new Date();
+        dayBaseTime.setHours(0);
+        dayBaseTime.setMinutes(0);
+        dayBaseTime.setSeconds(0);
+        dayBaseTime.setMilliseconds(0);
+        this.props.addHealthTimeSeries("score", {time: Math.round(dayBaseTime.getTime() / 1000), value: this.state.healthData.healthScore});
+//        }
+        this.props.score = this.cleanHealthScore(this.props.score);
 
         const activities = (activity) ? activity : [];
         const stepss = (steps) ? steps : [];
@@ -262,10 +296,6 @@ class HealthView extends Component {
                         viewStyles={iconStyle}
                         textStyles={[iconTextStyle, {color:graphGreyColor}]}
                     >
-                        <HMIcon 
-                          name="sandwich"
-                          size= {16}
-                        />
                     </IconButton>
                 </View>
                 <View style={
@@ -276,12 +306,7 @@ class HealthView extends Component {
                             title= "Health Score"
                             unit= ""
                             data= {scoress}
-                            rules= {{ 
-                                min: 0,
-                                max: 100,
-                                healthyMin: 75,
-                                healthyMax: 100
-                            }}
+                            rules= {healthScores.healthscore}
                             width= {graphScoreCardWidth}
                             height= {graphCardWidth}
                         />
@@ -291,12 +316,7 @@ class HealthView extends Component {
                             title= "Steps"
                             unit= "steps"
                             data= {stepss}
-                            rules= {{ 
-                                min: 0,
-                                max: 1000000,
-                                healthyMin: 10000,
-                                healthyMax: 1000000
-                            }}
+                            rules= {healthScores.steps}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
                         />
@@ -304,12 +324,7 @@ class HealthView extends Component {
                             title= "Activity"
                             unit= "minutes"
                             data= {activity}
-                            rules= {{ 
-                                min: 0,
-                                max: 1440,
-                                healthyMin: 45,
-                                healthyMax: 1440
-                            }}
+                            rules= {healthScores.activity}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
                         />
@@ -319,12 +334,7 @@ class HealthView extends Component {
                             title= "Sleep"
                             unit= "hours"
                             data= {sleeps}
-                            rules= {{ 
-                                min: 0,
-                                max: 24,
-                                healthyMin: 7,
-                                healthyMax: 12
-                            }}
+                            rules= {healthScores.sleep}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
                         />
@@ -332,12 +342,7 @@ class HealthView extends Component {
                             title= "Heart Rate"
                             unit= "bpm"
                             data= {heartrates}
-                            rules= {{ 
-                                min: 20,
-                                max: 200,
-                                healthyMin: 50,
-                                healthyMax: 120
-                            }}
+                            rules= {healthScores.heartrate}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
                         />
@@ -386,97 +391,87 @@ class HealthView extends Component {
         )
     }
 
-    renderActivity() {
-        const {children} = this.props;
-        const {cardsStyle} = styles;
-        const {
-          activity,
-          sleep,
-          heartrate,
-          weight,
-          steps,
-          stress
-          } = this.props;
+  renderActivity() {
+    const {cardsStyle} = styles;
+    const {
+      activity,
+      sleep,
+      steps,
+      children
+      } = this.props;
 
-        const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
-        const human_id = (children.humanapi && children.humanapi.human_id) ? children.humanapi.human_id : null;
-        const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
- 
-        const healthData = getHealthScore(
-          activity,
-          sleep,
-          weight,
-          heartrate,
-          steps
-        );
+    const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
+    const human_id = (children.humanapi && children.humanapi.human_id) ? children.humanapi.human_id : null;
+    const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
 
-        // Get humanId and accessToken from the humanapi table
-         console.log(`WEBVIEW public_token: ${public_token}`);
-         console.log(`WEBVIEW human_id: ${human_id}`);
-         console.log(`WEBVIEW access_token: ${access_token}`);
+    // Get humanId and accessToken from the humanapi table
+    console.log(`WEBVIEW public_token: ${public_token}`);
+    console.log(`WEBVIEW human_id: ${human_id}`);
+    console.log(`WEBVIEW access_token: ${access_token}`);
 
 
-            const medits = (children.wallet) ? children.wallet.medits : "";
-            const mdx = (children.wallet) ? children.wallet.mdx : "";
-            const screenWidth = Dimensions.get('window').width;
-            const valueCardWidth = (screenWidth - 30)/2;
-            const hgraphWidth = screenWidth - 120;
-            return (
-                <View style={{flex: 1, marginTop: 5}}>
-                    <View style={cardsStyle}>
-                        <ValueCard 
-                            color= "#3ba4f9"
-                            icon= "medit"
-                            title= "Medit Balance"
-                            value= {formatNumbers(medits.toString())}
-                            width= {valueCardWidth}
-                        />
+    const medits = (children.wallet) ? children.wallet.medits : "";
+    const mdx = (children.wallet) ? children.wallet.mdx : "";
+    const screenWidth = Dimensions.get('window').width;
+    const valueCardWidth = (screenWidth - 30)/2;
+    const hgraphWidth = screenWidth - 120;
+    return (
+        <View style={{flex: 1, marginTop: 5}}>
+            <View style={cardsStyle}>
+                <ValueCard 
+                    color= "#3ba4f9"
+                    icon= "medit"
+                    title= "Medit Balance"
+                    value= {formatNumbers(medits.toString())}
+                    width= {valueCardWidth}
+                />
 
-                        <ValueCard
-                            color= "#34d392"
-                            icon= "medex"
-                            title= "MDX Balance"
-                            value= {formatNumbers(mdx.toString())}
-                            width= {valueCardWidth}
-                        />
+                <ValueCard
+                    color= "#34d392"
+                    icon= "medex"
+                    title= "MDX Balance"
+                    value= {formatNumbers(mdx.toString())}
+                    width= {valueCardWidth}
+                />
 
-                    </View>
-                    <ScoreCard 
-                        style={{
-                        title: "Health Graph",
-                        buttonTitle: "Add data source",
-                        footerTitle: "Sync with devices",
-                        backgroundColor: "#fff",
-                        }}
-                        onPressHeader= {this.connectHumanAPI}
-                        onPressFooter= {this.refreshDataSources}
-                    >
-                        <HGraph
-                            scoreFontColor= {(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "#b7daff" : '#3ED295'}
-                            scoreFontSize={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? 16 : 50}
-                            width= {hgraphWidth}
-                            height= {hgraphWidth}
-                            pathColor= "#b7daff"
-                            score={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "Add your first data source" : (healthData.healthScore === -1) ? "" : healthData.healthScore} 
-                            healthyRangeFillColor={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ?  primaryWhiteColor : hGraphColor}
-                            margin={
-                            {top: 50,
-                            right: 50, 
-                            bottom: 50, 
-                            left: 50}}
-                            showAxisLabel={true}
-                            fontSize={12}
-                            fontColor="#b6bbc4"
-                            pointRadius = {3}
-                            axisLabelOffset = {4}
-                            axisLabelWrapWidth = {5}
-                            donutHoleFactor = {.50}
-                            pointLabelOffset = {4}
-                            data= {healthData.healthData}
-                        />
-                    </ScoreCard>
-                 </View>
-            );
+            </View>
+            <ScoreCard 
+                style={{
+                title: "Health Graph",
+                buttonTitle: "Add data source",
+                footerTitle: "Sync with devices",
+                backgroundColor: "#fff",
+                }}
+                onPressHeader= {this.connectHumanAPI}
+                onPressFooter= {this.refreshDataSources}
+                footerDisabled= {(children.humanapi && children.humanapi.access_token) ? false : true}
+            >
+                <HGraph
+                    scoreFontColor= {(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "#b7daff" : '#3ED295'}
+                    scoreFontSize={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? 16 : 50}
+                    width= {hgraphWidth}
+                    height= {hgraphWidth}
+                    pathColor= "#b7daff"
+                    score={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "Add your first data source" : (this.state.healthData.healthScore === -1) ? "" : this.state.healthData.healthScore} 
+                    healthyRangeFillColor={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ?  primaryWhiteColor : hGraphColor}
+                    margin={
+                    {top: 50,
+                    right: 50, 
+                    bottom: 50, 
+                    left: 50}}
+                    showAxisLabel={true}
+                    fontSize={12}
+                    fontColor="#b6bbc4"
+                    pointRadius = {3}
+                    axisLabelOffset = {4}
+                    axisLabelWrapWidth = {5}
+                    donutHoleFactor = {.50}
+                    pointLabelOffset = {4}
+                    data= {this.state.healthData.healthData}
+                />
+            </ScoreCard>
+          </View>
+    );
     }
     render() {
         const {
@@ -625,10 +620,11 @@ const mapStateToProps = (state) => {
     const {user} = state.auth;
     const {children} = state.data;
     const {stories, filters} = state.feed;
-    const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries
+    const {score} = state.health.timeseries;
+    const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries;
 
     return {
-        user, children, stories, filters, activity, steps, heartrate, sleep, weight, stress
+        user, children, stories, score, filters, activity, steps, heartrate, sleep, weight, stress
     }
 }
 export default connect(mapStateToProps, {

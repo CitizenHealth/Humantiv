@@ -18,16 +18,6 @@ class IconInput extends Component {
         const { inputContainerStyle } = theme;
         return (
             <View style={inputContainerStyle}>
-                <FontAwesome 
-                    style={{
-                        color: primaryBlueColor,
-                        fontSize: 24,
-                        width: 44,
-                        textAlign: 'center'
-                    }}
-                >
-                    {this.props.icon}
-                </FontAwesome>
                 <Input 
                     style= {{
                       backgroundColor: '#3C6AB4', 

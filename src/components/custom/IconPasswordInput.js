@@ -88,16 +88,6 @@ class IconPasswordInput extends Component {
 
         return (
             <View style={inputContainerStyle}>
-                <FontAwesome 
-                    style={{
-                        color: primaryBlueColor,
-                        fontSize: 24,
-                        width: 44,
-                        textAlign: 'center'
-                    }}
-                >
-                    {this.props.icon}
-                </FontAwesome>
                 {this.renderInput()}            
                 {this.renderDisplayPassword()}
             </View>

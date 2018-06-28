@@ -2,19 +2,14 @@ import React, { Component } from "react";
 import { 
   Text, 
   View,
-  StyleSheet,
-  Image
+  StyleSheet
 } from "react-native";
 import { 
-    theme, 
-    primaryBlueColor, 
     graphGreenColor,
-    graphOrangeColor,
     graphRedColor,
     graphGreyColor
 } from '../themes';
 import PropTypes from 'prop-types';
-import Images from "../../resources/images";
 import {Fonts} from '../../resources/fonts/Fonts'
 import {Dot} from './Dot';
 import { 
@@ -28,6 +23,8 @@ import {
 import { LineChart, AreaChart} from 'react-native-svg-charts'
 import * as shape from 'd3-shape';
 import {primaryGreyColor} from '../themes/theme';
+import { scale } from "react-native-size-matters";
+import {convertUNIXTimeToSince} from "../../business/Helpers";
 
 class GraphCard extends Component {
   static propTypes = {
@@ -38,8 +35,8 @@ class GraphCard extends Component {
         value: PropTypes.number.isRequired
     })),
     rules: PropTypes.shape({
-        min: PropTypes.number.isRequired,
-        max: PropTypes.number.isRequired,
+        absoluteMin: PropTypes.number.isRequired,
+        absoluteMax: PropTypes.number.isRequired,
         healthyMin: PropTypes.number.isRequired,
         healthyMax: PropTypes.number.isRequired
     }),
@@ -65,6 +62,7 @@ class GraphCard extends Component {
 
     this.state = {
         value: "-",
+        timestamp: "",
         color: graphGreyColor
     };
   }
@@ -76,7 +74,8 @@ class GraphCard extends Component {
     } = nextProps;
 
     if (this.state.data !== data) { 
-      const latestValue = (data.length > 0 ) ? (data[data.length -1].value !== undefined) ? data[data.length -1].value : "-" : "-";
+      const latestValue = (data.length > 0 ) ? (data[0].value !== undefined) ? data[0].value : "-" : "-";
+      const latestTime = (data.length > 0 ) ? (data[0].time !== undefined) ? data[0].time : "" : "";
       var selectedColor = graphGreyColor;
 
       if (latestValue !== "-") {
@@ -88,6 +87,7 @@ class GraphCard extends Component {
       }
       this.setState({
           value: latestValue,
+          timestamp: (latestTime === "") ? "" : convertUNIXTimeToSince(latestTime),
           color: selectedColor
       });
     }
@@ -173,6 +173,16 @@ class GraphCard extends Component {
                 width ={(width || 100) -30}
                 height ={(height || 100)/2}
               >
+                <View
+                  style={{
+                    backgroundColor: primaryGreyColor,
+                    opacity: 0.3,
+                    position: "absolute",
+                    bottom: ((height || 100)/2)/3
+                  }}
+                  width ={(width || 100) -30}
+                  height ={((height || 100)/2)/3}                 
+                />
                 <LineChart
                     style = {{
                       height: height/2,
@@ -180,7 +190,7 @@ class GraphCard extends Component {
                     }} 
                     x={0}
                     y={0}          
-                    data={ dataArray }
+                    data={ dataArray.reverse() }
                     animate= {true}
                     animationDuration = {1000}
                     showGrid= {false}
@@ -194,7 +204,23 @@ class GraphCard extends Component {
                   </LineChart> 
               </View>
           </View>    
-        </View>      
+        </View> 
+        <View style={{
+          flexDirection: "row",
+          justifyContent:"flex-end",
+          position: 'absolute',
+          bottom: scale(3),
+          right: scale(3)
+        }}>
+          <Text style={{
+            fontSize: 10,
+            fontWeight: "400",
+            fontFamily: Fonts.regular,
+            color: graphGreyColor
+          }}>
+              {this.state.timestamp}
+          </Text>
+        </View>     
     </View>
     );
   }
@@ -221,12 +247,12 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   graphAreaStyle: {
-    opacity: 0.5
+    opacity: 1
   },
   graphContainerStyle: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   valueContainerStyle: {
     flex: 2,

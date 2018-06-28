@@ -4,10 +4,11 @@ import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
-import { Spinner, HeaderImage } from "./common";
+import { HeaderImage } from "./common";
 import { dataExists, fetchUser, getConfiguration, dataSave } from "../actions";
 import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
+import Spinner from "react-native-spinkit";
 import {
         Sentry,
         SentrySeverity,
@@ -50,20 +51,21 @@ class StartView extends Component {
         { cancelable: false }
       )
     });
-      // Connect Firebase Messaging
-      firebase.messaging().onMessage((payload) => {
-        const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
-        const body = Platform.OS === 'ios' ? payload.aps.alert.body : payload.fcm.body;
+    // Connect Firebase Messaging
+    firebase.messaging().onMessage((payload) => {
+      console.log(`ALERT PAYLOAD: ${JSON.stringify(payload)}`);
+      const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
+      const body = Platform.OS === 'ios' ? payload.aps.alert.body : payload.fcm.body;
 
-        Alert.alert(
-          title,
-          body,
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-          ],
-          { cancelable: false }
-        )
-      });
+      Alert.alert(
+        title,
+        body,
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+    });
 
       // Init Google Analytics
       firebase.analytics().setAnalyticsCollectionEnabled(true);
@@ -136,11 +138,8 @@ class StartView extends Component {
         ) {
           console.log('Email is verified');
           this.props.dataExists({type: 'journey'});
-           console.log(this.props.registered);
-           console.log(Actions.currentScene);
-           if (Actions.currentScene === 'login') {
-            (this.props.registered) ? Actions.main(): Actions.journey();
-           }
+          // check and routing to the Journey View or the Main View are handled
+          //in the callback of the dataExists() function
          }
         else {
           console.log('Email is not verified');
@@ -219,7 +218,13 @@ class StartView extends Component {
 
     return (
       <View style={starPageStyle}>
-        <Spinner size="large" style={startSpinnerStyle} />
+        <Spinner 
+          style={startSpinnerStyle}
+          isVisible={true}
+          size={scale(60)}
+          type='ThreeBounce' 
+          color="white"
+        />
       </View>
     );
   }

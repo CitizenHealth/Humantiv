@@ -1,21 +1,23 @@
 import moment from 'moment';
 import { hGraphConvert, calculateHealthScore }  from 'react-native-hgraph';
+import healthScores from '../../configuration/healthscore.json';
 
+const HOURS_TO_MILLISECONDS = 3600000;
 
-export const getHealthScore = (activity, sleep, weight, heartrate, steps) => {
+export const getHealthScore = (activity, sleep, steps) => {
     var healthData = [];
 
     if (activity && activity.length > 0 ) {
       healthData.push(
-        hGraphConvert('male', 'Activity',
+        hGraphConvert('male', 'exercise',
         {
           id          : 'activity',
           label       : 'Activity',
           value       : (activity[activity.length -1].value !== undefined) ? activity[activity.length -1].value : 0,
-          healthyMin  : 45, 
-          healthyMax  : 140,
-          absoluteMin : 0.1,
-          absoluteMax : 140,
+          healthyMin  : healthScores.activity.healthyMin, 
+          healthyMax  : healthScores.activity.healthyMax,
+          absoluteMin : healthScores.activity.absoluteMin,
+          absoluteMax : healthScores.activity.absoluteMax,
           weight      : 5,
           unitLabel   : 'minutes'
         })
@@ -24,87 +26,103 @@ export const getHealthScore = (activity, sleep, weight, heartrate, steps) => {
 
     if (sleep && sleep.length > 0 ) {
       healthData.push(
-        hGraphConvert('male', 'Activity',
+        hGraphConvert('male', 'exercise',
         {
           id          : 'sleep',
           label       : 'Sleep',
           value       : (sleep[sleep.length -1].value !== undefined) ? sleep[sleep.length -1].value : 0,
-          healthyMin  : 7, 
-          healthyMax  : 12,
-          absoluteMin : 0.1,
-          absoluteMax : 24,
+          healthyMin  : healthScores.sleep.healthyMin, 
+          healthyMax  : healthScores.sleep.healthyMax,
+          absoluteMin : healthScores.sleep.absoluteMin,
+          absoluteMax : healthScores.sleep.absoluteMax,
           weight      : 3,
           unitLabel   : 'hours'
         })
       )
     }
 
-    if (heartrate && heartrate.length > 0 ) {
-      healthData.push(
-        hGraphConvert('male', 'Activity',
-        {
-          id          : 'heartrate',
-          label       : 'Heart Rate',
-          value       : (heartrate[heartrate.length -1].value !== undefined) ? heartrate[heartrate.length -1].value : 0,
-          healthyMin  : 50, 
-          healthyMax  : 120,
-          absoluteMin : 20,
-          absoluteMax : 200,
-          weight      : 3,
-          unitLabel   : 'bpm'
-        })
-      )
-    }
+    // if (heartrate && heartrate.length > 0 ) {
+    //   healthData.push(
+    //     hGraphConvert('male', 'exercise',
+    //     {
+    //       id          : 'heartrate',
+    //       label       : 'Heart Rate',
+    //       value       : (heartrate[heartrate.length -1].value !== undefined) ? heartrate[heartrate.length -1].value : 0,
+    //       healthyMin  : healthScores.heartrate.healthyMin, 
+    //       healthyMax  : healthScores.heartrate.healthyMax,
+    //       absoluteMin : healthScores.heartrate.absoluteMin,
+    //       absoluteMax : healthScores.heartrate.absoluteMax,
+    //       weight      : 3,
+    //       unitLabel   : 'bpm'
+    //     })
+    //   )
+    // }
 
-    if (weight && weight.length) {
-      healthData.push(
-        hGraphConvert('male', 'Activity',
-        {
-          id          : 'weight',
-          label       : 'Weight',
-          value       : (weight[weight.length -1].value !== undefined) ? weight[weight.length -1].value : 0,
-          healthyMin  : 120, 
-          healthyMax  : 190,
-          absoluteMin : 0.1,
-          absoluteMax : 1000,
-          weight      : 3,
-          unitLabel   : 'lbs'
-        })
-      )
-    }
+    // if (weight && weight.length) {
+    //   healthData.push(
+    //     hGraphConvert('male', 'exercise',
+    //     {
+    //       id          : 'weight',
+    //       label       : 'Weight',
+    //       value       : (weight[weight.length -1].value !== undefined) ? weight[weight.length -1].value : 0,
+    //       healthyMin  : healthScores.weight.healthyMin, 
+    //       healthyMax  : healthScores.weight.healthyMax,
+    //       absoluteMin : healthScores.weight.absoluteMin,
+    //       absoluteMax : healthScores.weight.absoluteMax,
+    //       weight      : 3,
+    //       unitLabel   : 'lbs'
+    //     })
+    //   )
+    // }
 
     if (steps && steps.length) {
       healthData.push(
-        hGraphConvert('male', 'Activity',
+        hGraphConvert('male', 'exercise',
         {
           id          : 'steps',
           label       : 'Steps',
           value       : (steps[steps.length -1].value !== undefined) ? steps[steps.length -1].value : 0,
-          healthyMin  : 2000, 
-          healthyMax  : 10000,
-          absoluteMin : 1,
-          absoluteMax : 10000,
+          healthyMin  : healthScores.steps.healthyMin, 
+          healthyMax  : healthScores.steps.healthyMax,
+          absoluteMin : healthScores.steps.absoluteMin,
+          absoluteMax : healthScores.steps.absoluteMax,
           weight      : 5,
           unitLabel   : 'steps'
         })
       )
     }
 
-
-    return  {healthData: healthData, healthScore: Math.floor(calculateHealthScore(healthData))};  
+    // The healthscore represents the score for the user health data since last sync
+    return  {healthData: healthData, healthScore: (healthData.length === 0) ? "" : Math.floor(calculateHealthScore(healthData))};  
 }
 
 export const needToSaveHealthScore = (scores) => {
 
   if (scores.length <= 0) {
-    return false;
+    return true;
   }
   
   let currentTime = moment();
   let lastScoreTime = moment.unix(scores[scores.length-1].time);
 
   duration = moment.duration(currentTime.diff(lastScoreTime));
-  if (duration.hours > 24) {
+  durationMillisecond = duration.asMilliseconds();
+  durationHours = durationMillisecond/HOURS_TO_MILLISECONDS
+  if (durationHours > 24) {
+    return true;
+  }
+  return false;
+}
+
+export const isTwentyFourHours = (unixTime1, unixTime2) => {
+  
+  let time1 = moment.unix(unixTime1);
+  let time2 = moment.unix(unixTime2);
+
+  let duration = moment.duration(time1.diff(time2));
+  durationMillisecond = duration.asMilliseconds();
+  durationHours = durationMillisecond/HOURS_TO_MILLISECONDS
+  if (durationHours > 24) {
     return true;
   }
   return false;

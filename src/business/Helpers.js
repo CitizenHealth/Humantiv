@@ -14,7 +14,7 @@ export const convertUNIXTimeToString = (number) => {
   var hour = a.getHours();
   var min = a.getMinutes();
   var sec = a.getSeconds();
-  var time = month + ' ' + date + ' at ' + hour + ':' + min ;
+  var time = month + ' ' + date + ' at ' + pad(hour,2) + ':' + pad(min,2) ;
   return time;
 }
 
@@ -115,4 +115,14 @@ export const convertArrayToTimeSeries = (array) => {
     })
   });
   return timeSeriesArray;
+}
+
+export const convertUNIXTimeToSince = (utime) => {
+  return moment(utime * 1000).fromNow();
+}
+
+const pad = (num, size) => {
+  var s = num+"";
+  while (s.length < size) s = "0" + s;
+  return s;
 }

@@ -86,7 +86,7 @@ class SettingsView extends Component {
             this.saveHumanAPIPublicToken(data.public_token);
 
             console.log(`Human API Callback: ${data}`);
-
+            this.props.humanAPIFetch(data.public_token);
         },  // callback when success with auth_url
         cancel: () => console.log('cancel')  // callback when cancel
     } : {

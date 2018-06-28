@@ -9,6 +9,7 @@ import {
 import { 
   theme, 
   primaryBlueColor,
+  primaryGreyColor,
   graphGreyColor
  } from '../themes';
 import PropTypes from 'prop-types';
@@ -26,7 +27,8 @@ class ScoreCard extends Component {
     titleColor: PropTypes.string,
     buttonTitleColor: PropTypes.string,
     width: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    footerDisabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -36,6 +38,7 @@ class ScoreCard extends Component {
     backgroundColor: "#fff",
     titleColor: graphGreyColor,
     buttonTitleColor: primaryBlueColor,
+    footerDisabled: true,
     width: undefined,
     height: undefined
   }
@@ -63,10 +66,18 @@ class ScoreCard extends Component {
                   onPress={this.props.onPressFooter}
                   viewStyles={iconStyle}
                   textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                  disabled={this.props.footerDisabled}
                 >
-                <Icon name="plus_grey"/>
+                <Icon 
+                  name="plus_grey"
+                  color={(this.props.footerDisabled) ? primaryGreyColor : graphGreyColor}
+                />
               </IconButton>
-              <Text style={cardFooterButtonTitleStyle}>
+              <Text style={
+                [cardFooterButtonTitleStyle, {
+                  color: (this.props.footerDisabled) ? primaryGreyColor : graphGreyColor
+                }]
+                }>
                 {this.props.footerTitle}
               </Text>
             </View>

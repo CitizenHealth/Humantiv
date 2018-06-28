@@ -1,0 +1,44 @@
+{
+  "healthscore": {
+    "unit": "",
+    "absoluteMin": 0,
+    "absoluteMax": 100,
+    "healthyMin": 75,
+    "healthyMax": 100
+  },
+  "steps": {
+    "unit": "steps",
+    "absoluteMin": 1,
+    "absoluteMax": 1000000,
+    "healthyMin": 10000,
+    "healthyMax": 1000000
+  },
+  "activity": {
+    "unit": "minutes",
+    "absoluteMin": 0,
+    "absoluteMax": 140,
+    "healthyMin": 45,
+    "healthyMax": 140
+  },
+  "sleep": {
+    "unit": "hours",
+    "absoluteMin": 0,
+    "absoluteMax": 24,
+    "healthyMin": 7,
+    "healthyMax": 12
+  },
+  "heartrate": {
+    "unit": "bpm",
+    "absoluteMin": 20,
+    "absoluteMax": 200,
+    "healthyMin": 50,
+    "healthyMax": 120
+  },
+  "weight": {
+    "unit": "lbs",
+    "absoluteMin": 0,
+    "absoluteMax": 1000,
+    "healthyMin": 120,
+    "healthyMax": 190
+  }
+}

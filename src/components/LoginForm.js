@@ -219,7 +219,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-around",
     height: 80,
-    paddingBottom: 20
+    marginBottom: scale(20)
   },
   logoStyle: {
     flex: 3,

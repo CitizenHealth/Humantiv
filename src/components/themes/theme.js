@@ -204,13 +204,14 @@ export const theme = StyleSheet.create({
     color: primaryBlueColor
   },
   starPageStyle: {
-    justifyContent: "space-between",
-    backgroundColor: primaryBlueColor,
+    justifyContent: "space-around",
+    alignItems: 'center',
+    backgroundColor: primaryBackgroungColor,
     flexDirection: "column",
     flex: 1
   },
   startSpinnerStyle: {
-    color: "white"
+    color: primaryBlueColor
   },
   primaryWhiteTextStyle: {
     fontSize: 18,

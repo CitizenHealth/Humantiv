@@ -17,7 +17,7 @@ export const getActivityTimeSeries = (access_token) => {
       url:url,
       responseType:'json'
     })
-    .done(function(response) {
+    .then(function(response) {
       let val = [];
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
@@ -35,6 +35,9 @@ export const getActivityTimeSeries = (access_token) => {
       console.log(response.statusText);
       console.log(response.headers);
       console.log(response.config);
+    })
+    .catch(error => {
+      console.log(error)
     });
   })
 }
@@ -48,7 +51,7 @@ export const getStepsTimeSeries = (access_token) => {
       url:url,
       responseType:'json'
     })
-    .done(function(response) {
+    .then(function(response) {
       let val = [];
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
@@ -62,7 +65,11 @@ export const getStepsTimeSeries = (access_token) => {
       resolve(val);
 
       console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error)
     });
+
   })
 }
 
@@ -75,7 +82,7 @@ export const getSleepTimeSeries = (access_token) => {
       url:url,
       responseType:'json'
     })
-    .done(function(response) {
+    .then(function(response) {
       let val = [];
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
@@ -89,6 +96,9 @@ export const getSleepTimeSeries = (access_token) => {
       resolve(val);
 
       console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error)
     });
   })
 }
@@ -102,7 +112,7 @@ export const getHeartrateTimeSeries = (access_token) => {
       url:url,
       responseType:'json'
     })
-    .done(function(response) {
+    .then(function(response) {
       let val = [];
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
@@ -116,6 +126,9 @@ export const getHeartrateTimeSeries = (access_token) => {
       resolve(val);
 
       console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error)
     });
   })
 }
@@ -129,7 +142,7 @@ export const getWeightTimeSeries = (access_token) => {
       url:url,
       responseType:'json'
     })
-    .done(function(response) {
+    .then(function(response) {
       let val = [];
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
@@ -147,6 +160,9 @@ export const getWeightTimeSeries = (access_token) => {
       resolve(val);
 
       console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error)
     });
   })
 }
