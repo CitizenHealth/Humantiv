@@ -10,8 +10,7 @@ import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {Fonts} from '../../resources/fonts/Fonts'
 import {
   highlightedGreyColor, 
-  graphGreyColor, 
-  primaryBlueColor
+  graphGreyColor
 } from '../themes'
 import PropTypes from 'prop-types';
 import { scale } from "react-native-size-matters";
@@ -55,18 +54,7 @@ class SettingsHeader extends Component {
       <View style={upperContainerStyle}>
         </View>
         <View style={lowerContainer}>
-          <Image 
-            style={[
-              profileImageStyle,
-              {
-                width: imageSize,
-                height: imageSize,
-                marginTop: -imageSize/2,
-                borderRadius: imageSize/2
-              }
-            ]}
-            source={{uri: this.props.image}} />
-          <IconButton 
+          {/* <IconButton 
             viewStyles ={{
               height: imageSize/3,
               width: imageSize/3,
@@ -83,7 +71,7 @@ class SettingsHeader extends Component {
               }}
             >
               {Icons.pencil}</FontAwesome>
-          </IconButton>
+          </IconButton> */}
           <View style={upperTextContainer}>
             <Text style={nameStyle}>
               {this.props.name}
@@ -95,6 +83,20 @@ class SettingsHeader extends Component {
             </Text>
           </View>
         </View>
+        <Image 
+            style={[
+              profileImageStyle,
+              {
+                position: 'absolute',
+                width: imageSize,
+                height: imageSize,
+                top: 0,
+                left: Dimensions.get('window').width/2 - imageSize/2,        
+                borderRadius: imageSize/2
+              }
+            ]}
+      source={{uri: this.props.image}} />
+
       </View>
     )
   }
@@ -110,18 +112,19 @@ const styles = {
   },
   lowerContainer: {
     flex: 5,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: "#fff",
     overflow: 'visible'
   },
   upperTextContainer: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'flex-end',
+    alignItems: 'stretch'
   },
   lowerTextContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   profileImageStyle: {
     justifyContent: 'center',

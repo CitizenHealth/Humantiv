@@ -126,3 +126,18 @@ const pad = (num, size) => {
   while (s.length < size) s = "0" + s;
   return s;
 }
+
+export const areMeasurementArraysEquals = (array1, array2) => {
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  for (var index = 0; index < array1.length; index++) {
+    if (array1[index].time !== array2[index].time ||
+        array1[index].value !== array2[index].value) {
+        return false;
+    }
+  }
+
+  return true;
+}

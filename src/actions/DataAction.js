@@ -1,6 +1,6 @@
 import firebase from "react-native-firebase";
 import { Actions } from "react-native-router-flux";
-import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS } from "./types";
+import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS, TIMESTAMPS_EXISTS } from "./types";
 import {
   timeseriesActivityFetch,
   timeseriesSleepFetch,
@@ -37,6 +37,30 @@ export const dataSave = ({type, data}) => {
         dispatch({ type: DATA_SAVE });
       });
     }
+  };
+};
+
+export const dataAdd = ({type, item, data}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/${type}/${item}`)
+    .transaction(function(currentData) {
+        return currentData + data;
+    }, function(error, committed, snapshot) {
+      if (error) {
+        console.log('Transaction failed abnormally!', error);
+      } else if (!committed) {
+        console.log('We aborted the transaction (because ada already exists).');
+      } else {
+        console.log('User ada added!');
+      }
+      console.log("Ada's data: ", snapshot.val());
+    })
   };
 };
 
@@ -78,6 +102,9 @@ export const dataFetch = ({type}) => {
         dispatch(timeseriesHeartrateFetch({access_token: testToken}));
         dispatch(timeseriesWeightFetch({access_token: testToken}));
       }
+      if (type === "timestamps" ) {
+        dispatch(dataFetch({type: "humanapi"}));
+      }
       dispatch({ type: DATA_FETCH, payload: {type, data} });
     });
   };
@@ -92,7 +119,7 @@ export const dataExists = ({type}) => {
 
   return (dispatch) => {
     firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
-    .on("value", snapshot => {
+    .once("value", snapshot => {
       let exists = snapshot.exists();
       console.log(exists);
       console.log(Actions.currentScene);
@@ -100,6 +127,27 @@ export const dataExists = ({type}) => {
        (exists) ? Actions.main(): Actions.journey();
       }
       dispatch({ type: DATA_EXISTS, payload: {type, exists} });
+    });
+  };
+};
+
+export const timestampExists = ({type}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/timestamps/${type}`)
+    .once("value", snapshot => {
+      let exists = snapshot.exists();
+      if (exists) {
+        dispatch(dataFetch({type: "timestamps"}));
+      } else {
+        dispatch(dataFetch({type: "humanapi"}));
+      }
+      dispatch({ type: TIMESTAMPS_EXISTS, payload: {type, exists} });
     });
   };
 };

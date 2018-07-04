@@ -26,6 +26,7 @@ import { Actions } from "react-native-router-flux";
 import RNHumanAPI from 'react-native-human-api';
 import { 
     dataSave,
+    dataAdd,
     dataFetch,
     fetchFeedFilters,
     fetchFeedStories,
@@ -33,7 +34,8 @@ import {
     removeFeedStory,
     humanAPIFetch,
     fetchHealthTimeSeries,
-    addHealthTimeSeries
+    addHealthTimeSeries,
+    timestampExists
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
@@ -45,7 +47,8 @@ import {
   hGraphColor
  } from './themes';
 import {
-  formatNumbers
+  formatNumbers,
+  areMeasurementArraysEquals
 } from '../business/Helpers';
 import ActionButton from 'react-native-action-button';
 import {
@@ -54,6 +57,11 @@ import {
   getHealthScore
 } from '../business/sources/CalculateHealthScore';
 import healthScores from '../configuration/healthscore.json';
+import {
+  getActivityMedits,
+  getSleepMedits,
+  getStepMedits
+} from '../business/sources/GenerateMedits';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -81,25 +89,123 @@ class HealthView extends Component {
     }
 
     componentDidMount() {
-      this.refreshDataSources();
+  //    this.refreshDataSources();
+      this.props.timestampExists({type: 'steps'});
+      this.props.timestampExists({type: 'activity'});
+      this.props.timestampExists({type: 'sleep'});
       this.props.dataFetch({type: "health"});
       this.props.dataFetch({type: "wallet"});
       this.props.dataFetch({type: "profile"});
       this.props.fetchHealthTimeSeries({type: "score"});
       this.props.fetchFeedFilters();
       this.props.fetchFeedStories();
-      this.props.dataFetch({type: "notifications"});     
+      this.props.dataFetch({type: "notifications"});
     }
 
     componentWillReceiveProps(nextProps) {
-      const {activity, sleep, steps} = nextProps;
-      if (activity !== this.props.activity ||
-          sleep !== this.props.sleep ||
-          steps !== this.props.steps) {
+      const {
+        activity, 
+        sleep, 
+        steps,
+        children,
+        stepsExist,
+        activityExists,
+        sleepExists
+      } = nextProps;
+
+      const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
+      const activityTimestamp = (children.timestamps && children.timestamps.activity) ? children.timestamps.activity : null;
+      const sleepTimestamp = (children.timestamps && children.timestamps.sleep) ? children.timestamps.sleep : null;
+//      const heartrateTimestamp = (children.timestamps && children.timestamps.heartrate) ? children.timestamps.heartrate : null;
+
+      let propsChanged = (activity !== this.props.activity || sleep !== this.props.sleep || steps !== this.props.steps);
+      let timeStampsExist = stepsTimestamp || activityTimestamp || sleepTimestamp;
+ 
+      if (propsChanged)
+      {
         this.setState({
           healthData: getHealthScore(activity, sleep, steps)
         });
       }
+
+      let medits = 0;
+      if (!areMeasurementArraysEquals(steps, this.props.steps)) {
+        if (stepsTimestamp) {
+          let stepMedits = getStepMedits(steps, children.timestamps.steps)
+          // Generate Medits
+          medits += parseInt(stepMedits.medits);
+          if (parseInt(stepMedits.medits) > 0) {
+            this.props.dataAdd({type: "wallet", item: "medits", data: medits});
+            // Add medit to feed
+            const story = {
+              title: "Your steps earned you",
+              preposition: "",
+              value: `${stepMedits.medits} Medits`,
+              time: Math.round((new Date()).getTime() / 1000),
+              type: "medits"
+            }
+            this.props.addFeedStory(story);
+          }
+          this.props.dataSave({type: "timestamps", data: {steps: stepMedits.timestamp}});
+        } else {
+          this.setTimestamp('steps', steps);
+        }
+      }
+
+      if ( !areMeasurementArraysEquals(sleep, this.props.sleep)) {
+        if (sleepTimestamp) {
+          let sleepMedits = getSleepMedits(sleep, children.timestamps.sleep)
+          // Generate Medits
+          medits += parseInt(sleepMedits.medits);
+          if (parseInt(sleepMedits.medits) > 0) {
+            this.props.dataAdd({type: "wallet", item: "medits", data: medits});
+            // Add medit to feed
+            const story = {
+              title: "Your sleep earned you",
+              preposition: "",
+              value: `${sleepMedits.medits} Medits`,
+              time: Math.round((new Date()).getTime() / 1000),
+              type: "medits"
+            }
+            this.props.addFeedStory(story);
+          }
+          this.props.dataSave({type: "timestamps", data: {sleep: sleepMedits.timestamp}});
+        } else {
+          this.setTimestamp('sleep', sleep);
+        }
+      }
+
+      if ( !areMeasurementArraysEquals(activity, this.props.activity)) {
+        if (activityTimestamp) {
+          let activityMedits = getActivityMedits(activity, children.timestamps.sleep)
+          // Generate Medits
+          medits += parseInt(activityMedits.medits);
+          if (parseInt(activityMedits.medits) > 0) {
+            this.props.dataAdd({type: "wallet", item: "medits", data: medits});
+            // Add medit to feed
+            const story = {
+              title: "Your activity earned you",
+              preposition: "",
+              value: `${activityMedits.medits} Medits`,
+              time: Math.round((new Date()).getTime() / 1000),
+              type: "medits"
+            }
+            this.props.addFeedStory(story);
+          }
+          this.props.dataSave({type: "timestamps", data: {activity: activityMedits.timestamp}});     
+        } else {
+          this.setTimestamp('activity', activity);
+        }
+      }
+    }
+
+    setTimestamp(type, data) {
+
+      let timestamp = data[0].time;
+      // Set timestamp
+      var obj = {};
+      obj[type] = timestamp;
+      this.props.dataSave({type: "timestamps", data: obj});
     }
 
     saveHumanAPIPublicToken(token) {
@@ -173,7 +279,9 @@ class HealthView extends Component {
     }
 
     refreshDataSources = () => {
-      this.props.dataFetch({type: "humanapi"});
+      this.props.timestampExists({type: 'steps'});
+      this.props.timestampExists({type: 'activity'});
+      this.props.timestampExists({type: 'sleep'});
     }
 
     onSettingsPress() {
@@ -262,7 +370,7 @@ class HealthView extends Component {
           scores = children.health.score;
         }
 
-        // converrt the list of objects into an array
+        // convert the list of objects into an array
         var arrayObj = Object.keys(scores).map((key) => {
           return {time: Number(key), value: scores[key]};
         }).reverse();
@@ -276,7 +384,7 @@ class HealthView extends Component {
         dayBaseTime.setMilliseconds(0);
         this.props.addHealthTimeSeries("score", {time: Math.round(dayBaseTime.getTime() / 1000), value: this.state.healthData.healthScore});
 //        }
-        this.props.score = this.cleanHealthScore(this.props.score);
+//        this.props.score = this.cleanHealthScore(this.props.score);
 
         const activities = (activity) ? activity : [];
         const stepss = (steps) ? steps : [];
@@ -504,7 +612,7 @@ class HealthView extends Component {
                     {this.renderGraphTiles()}
                     {this.renderActivityFeed()}                  
                 </ScrollView > 
-                <ActionButton 
+                {/* <ActionButton 
                   size={44}
                   offsetX={20}
                   offsetY={20}
@@ -542,7 +650,7 @@ class HealthView extends Component {
                       {Icons.balanceScale}  
                     </FontAwesome>
                   </ActionButton.Item>
-                </ActionButton>       
+                </ActionButton>        */}
             </View>
             );
     }
@@ -618,23 +726,25 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     const {user} = state.auth;
-    const {children} = state.data;
+    const {children, stepsExist, activityExists, sleepExists} = state.data;
     const {stories, filters} = state.feed;
     const {score} = state.health.timeseries;
     const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries;
 
     return {
-        user, children, stories, score, filters, activity, steps, heartrate, sleep, weight, stress
+        user, children, stepsExist, activityExists, sleepExists, stories, score, filters, activity, steps, heartrate, sleep, weight, stress
     }
 }
 export default connect(mapStateToProps, {
   dataFetch, 
   dataSave, 
+  dataAdd,
   fetchFeedFilters,
   fetchFeedStories,
   addFeedStory,
   removeFeedStory,
   humanAPIFetch,
   fetchHealthTimeSeries,
-  addHealthTimeSeries
+  addHealthTimeSeries,
+  timestampExists
   })(HealthView);
