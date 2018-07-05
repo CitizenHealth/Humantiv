@@ -60,6 +60,7 @@ export const dataAdd = ({type, item, data}) => {
         console.log('User ada added!');
       }
       console.log("Ada's data: ", snapshot.val());
+      dispatch({ type: DATA_SAVE });
     })
   };
 };

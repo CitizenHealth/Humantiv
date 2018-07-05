@@ -6,7 +6,8 @@ export default function CurrentStateIndicator({ state, style }: *) {
     <View style={[styles.page, style]}>
       <View style={styles.container}>
         <Text style={styles.text}>
-          Current route is: {state.routes[state.index].title || state.index}
+        Coming Soon
+          {/* Coming Soon {state.routes[state.index].title || state.index} */}
         </Text>
       </View>
     </View>

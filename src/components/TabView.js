@@ -135,13 +135,13 @@ class TabView extends React.Component<*, State> {
   };
 
   _renderBadge = ({ route }) => {
-    if (route.key === '3') {
-      return (
-        <View style={styles.badge}>
-          <Text style={styles.count}>2</Text>
-        </View>
-      );
-    }
+    // if (route.key === '3') {
+    //   return (
+    //     <View style={styles.badge}>
+    //       <Text style={styles.count}>2</Text>
+    //     </View>
+    //   );
+    // }
     return null;
   };
 
