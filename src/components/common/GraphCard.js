@@ -75,7 +75,7 @@ class GraphCard extends Component {
 
     if (this.state.data !== data) { 
       const latestValue = (data.length > 0 ) ? (data[0].value !== undefined) ? data[0].value : "-" : "-";
-      const latestTime = (data.length > 0 ) ? (data[0].time !== undefined) ? data[0].time : "" : "";
+      const latestTime = (data.length > 0 ) ? (data[0].timestamp !== undefined) ? data[0].timestamp : "" : "";
       var selectedColor = graphGreyColor;
 
       if (latestValue !== "-") {

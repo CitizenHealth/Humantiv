@@ -50,7 +50,10 @@ export const dataAdd = ({type, item, data}) => {
   return (dispatch) => {
     firebase.database().ref(`/users/${currentUser.uid}/${type}/${item}`)
     .transaction(function(currentData) {
-        return currentData + data;
+        if (!currentData)
+          return currentData + data;
+        else
+          return
     }, function(error, committed, snapshot) {
       if (error) {
         console.log('Transaction failed abnormally!', error);

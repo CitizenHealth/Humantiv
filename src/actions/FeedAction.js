@@ -4,11 +4,12 @@ import {FEED_FILTERS_FETCH, FEED_FILTERS_UPDATE, FEED_FETCH, FEED_ADD, FEED_DELE
 export const addFeedStory = (story) => {
   const { currentUser } = firebase.auth();
 
-  const time = story.time;
+  const id = Math.round((new Date()).getTime());
   var storyItem = {};
-  storyItem[time] = story;
+  story["id"] = id;
+  storyItem[id] = story;
   return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/feed/stories`).orderByChild('time')
+    firebase.database().ref(`/users/${currentUser.uid}/feed/stories`).orderByChild('id')
     .update(storyItem)
     .then(() => {
       dispatch({ type: FEED_ADD });

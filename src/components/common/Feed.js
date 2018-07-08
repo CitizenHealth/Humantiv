@@ -77,11 +77,15 @@ class Feed extends Component {
         }
       });
     }
+    let keys = Object.keys(stories).sort();
 
-    const storiesArray = Object.values(stories);
+    const storiesArray = [];
+    for (var key = 0; key < keys.length; key++) {
+      storiesArray.push(stories[keys[key]]);
+    }
     const storiesFeed = storiesArray.reverse().map( (story, index) => {
       if (!filteredOutStories.includes(story.type)) { 
-        const id = story.time;     
+        const id = story.id;     
         return (          
           <View 
             style = {cardContainerStyle}

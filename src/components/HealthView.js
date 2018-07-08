@@ -116,6 +116,9 @@ class HealthView extends Component {
       const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
       const activityTimestamp = (children.timestamps && children.timestamps.activity) ? children.timestamps.activity : null;
       const sleepTimestamp = (children.timestamps && children.timestamps.sleep) ? children.timestamps.sleep : null;
+      const stepsTimestampValue = (children.timestamps && children.timestamps.steps_value) ? children.timestamps.steps_value : 0;
+      const activityTimestampValue = (children.timestamps && children.timestamps.activity_value) ? children.timestamps.activity_value : 0;
+      const sleepTimestampValue = (children.timestamps && children.timestamps.sleep_value) ? children.timestamps.sleep_value : 0;
 //      const heartrateTimestamp = (children.timestamps && children.timestamps.heartrate) ? children.timestamps.heartrate : null;
 
       let propsChanged = (activity !== this.props.activity || sleep !== this.props.sleep || steps !== this.props.steps);
@@ -131,7 +134,7 @@ class HealthView extends Component {
       let medits = 0;
       if (!areMeasurementArraysEquals(steps, this.props.steps)) {
         if (stepsTimestamp) {
-          let stepMedits = getStepMedits(steps, children.timestamps.steps)
+          let stepMedits = getStepMedits(steps, stepsTimestamp, stepsTimestampValue)
           // Generate Medits
           medits += parseInt(stepMedits.medits);
           if (parseInt(stepMedits.medits) > 0) {
@@ -146,7 +149,10 @@ class HealthView extends Component {
             }
             this.props.addFeedStory(story);
           }
-          this.props.dataSave({type: "timestamps", data: {steps: stepMedits.timestamp}});
+          this.props.dataSave({type: "timestamps", data: {
+            steps: stepMedits.timestamp,
+            steps_value: stepMedits.value
+          }});
         } else {
           this.setTimestamp('steps', steps);
         }
@@ -154,7 +160,7 @@ class HealthView extends Component {
 
       if ( !areMeasurementArraysEquals(sleep, this.props.sleep)) {
         if (sleepTimestamp) {
-          let sleepMedits = getSleepMedits(sleep, children.timestamps.sleep)
+          let sleepMedits = getSleepMedits(sleep, sleepTimestamp, sleepTimestampValue)
           // Generate Medits
           medits += parseInt(sleepMedits.medits);
           if (parseInt(sleepMedits.medits) > 0) {
@@ -169,7 +175,10 @@ class HealthView extends Component {
             }
             this.props.addFeedStory(story);
           }
-          this.props.dataSave({type: "timestamps", data: {sleep: sleepMedits.timestamp}});
+          this.props.dataSave({type: "timestamps", data: {
+            sleep: sleepMedits.timestamp,
+            sleep_value: sleepMedits.value
+          }});
         } else {
           this.setTimestamp('sleep', sleep);
         }
@@ -177,7 +186,7 @@ class HealthView extends Component {
 
       if ( !areMeasurementArraysEquals(activity, this.props.activity)) {
         if (activityTimestamp) {
-          let activityMedits = getActivityMedits(activity, children.timestamps.sleep)
+          let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)
           // Generate Medits
           medits += parseInt(activityMedits.medits);
           if (parseInt(activityMedits.medits) > 0) {
@@ -192,7 +201,10 @@ class HealthView extends Component {
             }
             this.props.addFeedStory(story);
           }
-          this.props.dataSave({type: "timestamps", data: {activity: activityMedits.timestamp}});     
+          this.props.dataSave({type: "timestamps", data: {
+            activity: activityMedits.timestamp,
+            activity_value: activityMedits.value
+          }});     
         } else {
           this.setTimestamp('activity', activity);
         }

@@ -22,6 +22,7 @@ export const getActivityTimeSeries = (access_token) => {
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
           let time_series = {
+            timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
             value: convertSecondsToMinutes(item.duration)
           }
@@ -56,6 +57,7 @@ export const getStepsTimeSeries = (access_token) => {
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
           let time_series = {
+            timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
             value: item.steps
           }
@@ -87,6 +89,7 @@ export const getSleepTimeSeries = (access_token) => {
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
           let time_series = {
+            timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
             value: convertMinutesToHours(item.timeAsleep)
           }
@@ -117,6 +120,7 @@ export const getHeartrateTimeSeries = (access_token) => {
       response.data.map( (item, index) => {
         if (index< MAX_SERIES_NUMBER) {
           let time_series = {
+            timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
             value: item.restingHR
           }
@@ -151,6 +155,7 @@ export const getWeightTimeSeries = (access_token) => {
             weight = parseFloat(convert(weight).from('kg').to('lb').toFixed(2));
           }
           let time_series = {
+            timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
             value: weight
           }

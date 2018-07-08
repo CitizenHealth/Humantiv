@@ -42,8 +42,12 @@ class App extends Component {
   }
 
   render() {
-    const store = createStore(reducers, {}, composeWithDevTools(
-      applyMiddleware(ReduxThunk)));
+    const store = createStore(
+      reducers, 
+      {}, 
+      composeWithDevTools(
+        applyMiddleware(ReduxThunk))
+      );
 
     return (
       <Provider store={store}>
