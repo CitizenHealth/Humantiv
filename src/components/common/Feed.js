@@ -33,9 +33,7 @@ class Feed extends Component {
         }
       )
     ),
-    filters: PropTypes.oneOfType(
-      PropTypes.boolean
-    )
+    filters: PropTypes.object
   };
 
   static defaultProps = {
