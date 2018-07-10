@@ -102,6 +102,10 @@ class HealthView extends Component {
       this.props.dataFetch({type: "notifications"});
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+      return true;
+    }
+
     componentWillReceiveProps(nextProps) {
       const {
         activity, 
@@ -443,7 +447,7 @@ class HealthView extends Component {
                         <GraphCard
                             title= "Activity"
                             unit= "minutes"
-                            data= {activity}
+                            data= {activities}
                             rules= {healthScores.activity}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
@@ -525,9 +529,9 @@ class HealthView extends Component {
     const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null;
 
     // Get humanId and accessToken from the humanapi table
-    console.log(`WEBVIEW public_token: ${public_token}`);
-    console.log(`WEBVIEW human_id: ${human_id}`);
-    console.log(`WEBVIEW access_token: ${access_token}`);
+    // console.log(`WEBVIEW public_token: ${public_token}`);
+    // console.log(`WEBVIEW human_id: ${human_id}`);
+    // console.log(`WEBVIEW access_token: ${access_token}`);
 
 
     const medits = (children.wallet) ? children.wallet.medits : "";

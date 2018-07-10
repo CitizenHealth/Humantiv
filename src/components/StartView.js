@@ -212,7 +212,7 @@ class StartView extends Component {
   }
 
   render() {
-    console.log(`Routes states: ${Actions._state.routes}`);
+//    console.log(`Routes states: ${Actions._state.routes}`);
  
     const { starPageStyle, startSpinnerStyle} = theme;
 

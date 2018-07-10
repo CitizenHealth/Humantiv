@@ -31,11 +31,11 @@ export const getActivityTimeSeries = (access_token) => {
       })
       resolve(val);
 
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
+      // console.log(response.data);
+      // console.log(response.status);
+      // console.log(response.statusText);
+      // console.log(response.headers);
+      // console.log(response.config);
     })
     .catch(error => {
       console.log(error)
@@ -66,7 +66,7 @@ export const getStepsTimeSeries = (access_token) => {
       })
       resolve(val);
 
-      console.log(response.data);
+//      console.log(response.data);
     })
     .catch(error => {
       console.log(error)
@@ -98,7 +98,7 @@ export const getSleepTimeSeries = (access_token) => {
       })
       resolve(val);
 
-      console.log(response.data);
+//      console.log(response.data);
     })
     .catch(error => {
       console.log(error)
@@ -129,7 +129,7 @@ export const getHeartrateTimeSeries = (access_token) => {
       })
       resolve(val);
 
-      console.log(response.data);
+//      console.log(response.data);
     })
     .catch(error => {
       console.log(error)
@@ -164,7 +164,7 @@ export const getWeightTimeSeries = (access_token) => {
       })
       resolve(val);
 
-      console.log(response.data);
+  //    console.log(response.data);
     })
     .catch(error => {
       console.log(error)

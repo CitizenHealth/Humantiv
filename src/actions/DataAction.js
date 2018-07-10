@@ -58,13 +58,14 @@ export const dataAdd = ({type, item, data}) => {
       if (error) {
         console.log('Transaction failed abnormally!', error);
       } else if (!committed) {
-        console.log('We aborted the transaction (because ada already exists).');
+        console.log('The transaction was transaction.');
       } else {
-        console.log('User ada added!');
+        console.log('Data added succesfully');
       }
-      console.log("Ada's data: ", snapshot.val());
+      console.log("Data added is: ", snapshot.val());
       dispatch({ type: DATA_SAVE });
-    })
+    },
+    false)
   };
 };
 
@@ -93,8 +94,10 @@ export const dataFetch = ({type}) => {
   }
   
   return (dispatch) => {
+    console.log(`Try: ${type}`);
     firebase.database().ref(`/users/${currentUser.uid}/${type}`)
     .on("value", snapshot => {
+      console.log(`Yay!`);
       let data = snapshot.val();
       if (type === "humanapi" && data != null ) {
 //        dispatch(timeseriesActivityFetch({access_token: data.access_token}));
@@ -110,6 +113,8 @@ export const dataFetch = ({type}) => {
         dispatch(dataFetch({type: "humanapi"}));
       }
       dispatch({ type: DATA_FETCH, payload: {type, data} });
+    }, error => {
+      console.log(`Error: ${error}`);
     });
   };
 };
