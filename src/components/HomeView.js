@@ -5,6 +5,7 @@ import { scale } from "react-native-size-matters";
 import { 
   dataCreate, 
   dataSave,
+  walletFetch,
   dataFetch
 } from "../actions";
 import { Avatar, IconButton } from "./common";
@@ -46,7 +47,7 @@ class HomeView extends Component {
     this.setState({url: connectURL});
     this.props.dataFetch({type: "profile"});
     this.props.dataFetch({type: "health"});
-    this.props.dataFetch({type: "wallet"});
+    this.props.walletFetch({type: "wallet"});
   }
 
   onSettingsPress() {
@@ -176,5 +177,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   dataCreate, 
   dataSave,
+  walletFetch,
   dataFetch
 })(HomeView);

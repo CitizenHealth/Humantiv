@@ -27,6 +27,7 @@ import { Actions } from "react-native-router-flux";
 import { 
     dataSave,
     dataFetch,
+    walletFetch,
     humanAPIFetch
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
@@ -54,7 +55,7 @@ class WalletView extends Component {
       }
     }
     componentWillMount () {
-        this.props.dataFetch({type: "wallet"});
+        this.props.walletFetch({type: "wallet"});
         firebase.analytics().setCurrentScreen('My Wallet Screen', 'WalletView');
         this.refreshData();
     }
@@ -221,4 +222,4 @@ const mapStateToProps = (state) => {
         user, children
     }
 }
-export default connect(mapStateToProps, {dataFetch, dataSave, humanAPIFetch})(WalletView);
+export default connect(mapStateToProps, {dataFetch, dataSave, walletFetch, humanAPIFetch})(WalletView);

@@ -9,6 +9,7 @@ import {
   logoutUser,  
   dataCreate, 
   dataSave,
+  walletFetch,
   dataFetch
 } from "../actions";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
@@ -18,7 +19,7 @@ class ProfileView extends Component {
   componentWillMount () {
     this.props.dataFetch({type: "profile"});
     this.props.dataFetch({type: "health"});
-    this.props.dataFetch({type: "wallet"});
+    this.props.walletFetch({type: "wallet"});
   }
 
   onLogOutButtonPress() {
@@ -288,5 +289,6 @@ export default connect(mapStateToProps, {
   logoutUser, 
   dataCreate, 
   dataSave,
+  walletFetch,
   dataFetch
 })(ProfileView);

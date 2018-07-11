@@ -28,6 +28,7 @@ import {
     dataSave,
     dataAdd,
     dataFetch,
+    walletFetch,
     fetchFeedFilters,
     fetchFeedStories,
     addFeedStory,
@@ -94,7 +95,7 @@ class HealthView extends Component {
       this.props.timestampExists({type: 'activity'});
       this.props.timestampExists({type: 'sleep'});
       this.props.dataFetch({type: "health"});
-      this.props.dataFetch({type: "wallet"});
+      this.props.walletFetch({type: "wallet"});
       this.props.dataFetch({type: "profile"});
       this.props.fetchHealthTimeSeries({type: "score"});
       this.props.fetchFeedFilters();
@@ -755,6 +756,7 @@ export default connect(mapStateToProps, {
   dataFetch, 
   dataSave, 
   dataAdd,
+  walletFetch,
   fetchFeedFilters,
   fetchFeedStories,
   addFeedStory,

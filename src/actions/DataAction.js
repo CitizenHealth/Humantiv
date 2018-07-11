@@ -65,7 +65,7 @@ export const dataAdd = ({type, item, data}) => {
       console.log("Data added is: ", snapshot.val());
       dispatch({ type: DATA_SAVE });
     },
-    false)
+    true)
   };
 };
 
@@ -94,10 +94,10 @@ export const dataFetch = ({type}) => {
   }
   
   return (dispatch) => {
-    console.log(`Try: ${type}`);
+//    console.log(`Try: ${type}`);
     firebase.database().ref(`/users/${currentUser.uid}/${type}`)
     .on("value", snapshot => {
-      console.log(`Yay!`);
+//      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
       let data = snapshot.val();
       if (type === "humanapi" && data != null ) {
 //        dispatch(timeseriesActivityFetch({access_token: data.access_token}));
@@ -112,6 +112,26 @@ export const dataFetch = ({type}) => {
       if (type === "timestamps" ) {
         dispatch(dataFetch({type: "humanapi"}));
       }
+      dispatch({ type: DATA_FETCH, payload: {type, data} });
+    }, error => {
+//      console.log(`Error: ${error}`);
+    });
+  };
+};
+
+export const walletFetch = ({type}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+  
+  return (dispatch) => {
+    console.log(`Try: ${type}`);
+    firebase.database().ref(`/users/${currentUser.uid}/${type}`)
+    .on("value", snapshot => {
+      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
+      let data = snapshot.val();
       dispatch({ type: DATA_FETCH, payload: {type, data} });
     }, error => {
       console.log(`Error: ${error}`);
