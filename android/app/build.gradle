@@ -104,7 +104,7 @@ android {
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
                 keyPassword MYAPP_RELEASE_KEY_PASSWORD
             }
-            keyAlias 'Humantiv'
+            keyAlias 'mykey'
             keyPassword '*LakeSide@2018!'
             storeFile file('../../android/keystore/android.jks')
             storePassword '*LakeSide@2018!'
