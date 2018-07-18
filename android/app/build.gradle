@@ -104,18 +104,18 @@ android {
                 keyAlias MYAPP_RELEASE_KEY_ALIAS
                 keyPassword MYAPP_RELEASE_KEY_PASSWORD
             }
-            keyAlias 'mykey'
+            keyAlias 'upload'
             keyPassword '*LakeSide@2018!'
-            storeFile file('../../android/keystore/android.jks')
+            storeFile file('../../android/keystore/keystore.jks')
             storePassword '*LakeSide@2018!'
         }
     }
-
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
         applicationId "io.citizenhealth.humantiv"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
         versionName "1.1"
         ndk {
@@ -156,6 +156,16 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-sentry')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-human-api')
+    compile project(':react-native-hgraph')
+    compile project(':react-native-google-signin')
+    compile project(':react-native-gesture-handler')
+    compile project(':react-native-firebase')
+    compile project(':react-native-fbsdk')
+    compile project(':react-native-svg')
+    compile project(':react-native-spinkit')
     implementation project(':react-native-spinkit')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-svg')
