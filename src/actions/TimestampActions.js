@@ -1,5 +1,5 @@
 import firebase from 'react-native-firebase';
-import {TIMESTAMP_FETCH, TIMESTAMP_ADD, TIMESTAMP_EXISTS} from './types';
+import {TIMESTAMP_FETCH, TIMESTAMP_ADD} from './types';
 
 export const addTimestamp = (type, timestamp) => {
   const { currentUser } = firebase.auth();

@@ -35,6 +35,7 @@
 //  }
   
   [FIRApp configure];
+  [FIRDatabase database].persistenceEnabled = YES;
   [RNFirebaseNotifications configure];
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
   

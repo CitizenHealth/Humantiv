@@ -1,6 +1,6 @@
 import firebase from "react-native-firebase";
 import { Actions } from "react-native-router-flux";
-import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS, TIMESTAMPS_EXISTS } from "./types";
+import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS, TIMESTAMP_EXISTS } from "./types";
 import {
   timeseriesActivityFetch,
   timeseriesSleepFetch,
@@ -176,7 +176,7 @@ export const timestampExists = ({type}) => {
       } else {
         dispatch(dataFetch({type: "humanapi"}));
       }
-      dispatch({ type: TIMESTAMPS_EXISTS, payload: {type, exists} });
+      dispatch({ type: TIMESTAMP_EXISTS, payload: {type, exists} });
     });
   };
 };

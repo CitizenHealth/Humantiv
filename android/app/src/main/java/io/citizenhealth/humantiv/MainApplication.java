@@ -35,6 +35,8 @@ import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -107,6 +109,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
