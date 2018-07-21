@@ -116,7 +116,7 @@ android {
         applicationId "io.citizenhealth.humantiv"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 4
         versionName "1.3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
