@@ -65,7 +65,7 @@
     "@storybook/ui": "^3.4.8",
     "babel-core": "7.0.0-beta.2",
     "babel-jest": "22.2.2",
-    "babel-preset-react-native": "^5.0.0",
+    "babel-preset-react-native": "^5.0.2",
     "babel-runtime": "^6.26.0",
     "jest": "22.2.2",
     "prop-types": "^15.6.2",
