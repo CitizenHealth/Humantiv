@@ -96,39 +96,39 @@ class TutorialView extends Component {
       {
         key: 'intelligence',
         title: 'Your personal health journey',
-        text: 'Select what Personal Health Journey best describes your needs.',
-        image: Images.img_tutorial_1,
+        text: 'Choose what Personal Health Journey best describes your needs. Each journey functions as a way to engage with your health. Consult your doctor before beginning any new routine.',
+        image: Images.img_tutorial_2,
         imageStyle: styles.image,
         backgroundColor: this.props.tutorial_background_color,
       },
       {
-        key: 'cryptocurrency',
-        title: 'Cryptocurrency rewards',
-        text: 'From your wallet you can view your Medit and Medex balance and redeem tokens on our partners stores.',
-        image: Images.img_tutorial_1,
+        key: 'datasources',
+        title: 'Connect your wearables',
+        text: 'Connect your data sources, like your watch, wearable or health tracker on your mobile device. More devices and data coming soon.',
+        image: Images.img_tutorial_3,
         imageStyle: styles.image,
         backgroundColor: this.props.tutorial_background_color,
       },
       {
-        key: 'vote',
-        title: 'Every vote counts',
-        text: 'Citizen Health is vested in you - the people. You have voting rights and privileges that help govern this organization. ',
-        image: Images.img_tutorial_1,
+        key: 'healthview',
+        title: 'Stay healthy',
+        text: 'Your activity, sleep, and steps generate a Health Score. This score changes with your activity and produces Health Event Notifications.',
+        image: Images.img_tutorial_4,
         imageStyle: styles.image,
         backgroundColor: this.props.tutorial_background_color,
       },
       {
-        key: 'change',
-        title: 'Change is coming!',
-        text: 'Be part of the growing movement changing healthcare from the ground up.',
-        image: Images.img_tutorial_1,
+        key: 'medit',
+        title: 'Your activity generates Medit',
+        text: 'Medit is a reward token that is stored in your personal wallet. The future uses for  Medit include paying for products, health services, and investment.',
+        image: Images.img_tutorial_5,
         imageStyle: styles.image,
         backgroundColor: this.props.tutorial_background_color,
       }
     ];
 
     return (
-      <View style={[containerStyle, {backgroundColor: this.props.tutorial_background_color}]}>
+      <View style={[containerStyle, {backgroundColor: "#fff"}]}>
        <TutorialSlider style={{flex:1, alignItems: 'stretch'}}
           slides={slides}
           onSlideChange={(a, b) => console.log(`Active slide changed from ${b} to ${a}`)}
@@ -140,7 +140,7 @@ class TutorialView extends Component {
             style={buttonStyle} 
             onPress={() => Actions.login()}
           >
-            <Text style={[buttonTextStyle, {color: this.props.tutorial_background_color}]}>
+            <Text style={[buttonTextStyle, {color: "#fff"}]}>
                 GET STARTED
             </Text>
           </TouchableOpacity>
@@ -152,8 +152,8 @@ class TutorialView extends Component {
 
 const styles = StyleSheet.create({
     image: {
-      width: 320,
-      height: 200,
+      width: scale(320),
+      height: scale(320),
     },
     containerStyle: {
       flex: 1
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
       height: scale(50),
       justifyContent: 'center',
       alignItems: 'stretch',
-      backgroundColor: 'white'
+      backgroundColor: primaryBlueColor
     },
     buttonTextStyle: {
       textAlign: 'center',

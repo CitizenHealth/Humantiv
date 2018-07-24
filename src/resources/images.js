@@ -22,6 +22,11 @@ const Images = {
   img_settings_disabled: require("./images/tabs/settings_disabled.png"),
 
   img_tutorial_1: require("./images/tutorial/tutorial1.png"),
+  img_tutorial_2: require("./images/tutorial/tutorial2.png"),
+  img_tutorial_3: require("./images/tutorial/tutorial3.png"),
+  img_tutorial_4: require("./images/tutorial/tutorial4.png"),
+  img_tutorial_5: require("./images/tutorial/tutorial5.png"),
+
   
   img_medit_bg: require("./images/health/medit_card.png"),
   img_medex_bg: require("./images/health/medex_card.png"),

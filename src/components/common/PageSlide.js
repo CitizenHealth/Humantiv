@@ -7,6 +7,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import {primaryBlueColor} from '../themes/theme';
 
 class PageSlide extends PureComponent {
   render() {
@@ -32,8 +33,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: 'rgba(255, 255, 255, .7)',
-    fontSize: 18,
+    color: primaryBlueColor,
+    fontSize: 16,
     textAlign: 'center',
     fontWeight: '300',
     paddingHorizontal: 16,
@@ -44,8 +45,8 @@ const styles = StyleSheet.create({
     })
   },
   title: {
-    fontSize: 26,
-    color: 'rgba(255, 255, 255, .7)',
+    fontSize: 24,
+    color: primaryBlueColor,
     fontWeight: '400',
     paddingHorizontal: 16,
     ...Platform.select({

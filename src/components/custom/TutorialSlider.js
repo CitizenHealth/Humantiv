@@ -11,7 +11,7 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
-import {primaryBlueColor} from '../themes/theme';
+import {primaryBlueColor, primaryGreyColor} from '../themes/theme';
 import {PageSlide} from '../common';
 
 
@@ -27,8 +27,8 @@ const isIphoneX = (
 
 class TutorialSlider extends Component {
   static defaultProps = {
-    activeDotColor: 'rgba(255, 255, 255, .9)',
-    dotColor: 'rgba(0, 0, 0, .2)',
+    activeDotColor: primaryBlueColor,
+    dotColor: primaryGreyColor,
     skipLabel: 'Skip',
     doneLabel: 'Done',
     nextLabel: 'Next',
