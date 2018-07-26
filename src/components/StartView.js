@@ -98,23 +98,27 @@ class StartView extends Component {
         .then(enabled => {
           if (enabled) {
             // user has permissions
+            console.log(`User has messaging permission`);
           } else {
-            firebase.messaging().requestPermission()
-            .then(() => {
-              // gets the device's push token
-              firebase.messaging().getToken()
-              .then(token => {      
-                // stores the token in the user's document
-                console.log(`FCM Token: ${token}`);
-                if(token && token != undefined) {                
-                  this.props.dataSave({type: 'messaging', data: token});
-                }
-              })
-            })
-            .catch(error => {
-              // User has rejected permissions  
-            });
+            console.log(`    User is requesting messaging permission`);            
           } 
+          firebase.messaging().requestPermission()
+          .then(() => {
+            // gets the device's push token
+            console.log(`    Requesting messaging permission succeeded`);
+            firebase.messaging().getToken()
+            .then(token => {      
+              // stores the token in the user's document
+              console.log(`FCM Token: ${token}`);
+              if(token && token != undefined) {
+                console.log(`    Token: ${token}`);                
+                this.props.dataSave({type: 'messaging', data: token});
+              }
+            })
+          })
+          .catch(error => {
+            // User has rejected permissions  
+          });
         });
         
         // Set Google analytics

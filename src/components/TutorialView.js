@@ -13,7 +13,7 @@ import {TutorialSlider} from '../components/custom';
 import Images from '../resources/images';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {primaryBlueColor} from './themes/theme';
+import {primaryBlueColor, primaryWhiteColor} from './themes/theme';
 import firebase from "react-native-firebase";
 import {
   Sentry,
@@ -91,7 +91,7 @@ class TutorialView extends Component {
         text: this.props.tutorial_text,
         image: Images.img_tutorial_1,
         imageStyle: styles.image,
-        backgroundColor: this.props.tutorial_background_color,
+        backgroundColor: primaryWhiteColor,
       },
       {
         key: 'intelligence',
@@ -99,7 +99,7 @@ class TutorialView extends Component {
         text: 'Choose what Personal Health Journey best describes your needs. Each journey functions as a way to engage with your health. Consult your doctor before beginning any new routine.',
         image: Images.img_tutorial_2,
         imageStyle: styles.image,
-        backgroundColor: this.props.tutorial_background_color,
+        backgroundColor: primaryWhiteColor,
       },
       {
         key: 'datasources',
@@ -107,7 +107,7 @@ class TutorialView extends Component {
         text: 'Connect your data sources, like your watch, wearable or health tracker on your mobile device. More devices and data coming soon.',
         image: Images.img_tutorial_3,
         imageStyle: styles.image,
-        backgroundColor: this.props.tutorial_background_color,
+        backgroundColor: primaryWhiteColor,
       },
       {
         key: 'healthview',
@@ -115,7 +115,7 @@ class TutorialView extends Component {
         text: 'Your activity, sleep, and steps generate a Health Score. This score changes with your activity and produces Health Event Notifications.',
         image: Images.img_tutorial_4,
         imageStyle: styles.image,
-        backgroundColor: this.props.tutorial_background_color,
+        backgroundColor: primaryWhiteColor,
       },
       {
         key: 'medit',
@@ -123,7 +123,7 @@ class TutorialView extends Component {
         text: 'Medit is a reward token that is stored in your personal wallet. The future uses for  Medit include paying for products, health services, and investment.',
         image: Images.img_tutorial_5,
         imageStyle: styles.image,
-        backgroundColor: this.props.tutorial_background_color,
+        backgroundColor: primaryWhiteColor,
       }
     ];
 

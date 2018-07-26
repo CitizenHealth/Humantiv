@@ -103,6 +103,7 @@ export const fetchUser = (user) => {
   // Add configuration settings here:
   return GoogleSignin.configure({
     iosClientId: "847047929311-ibked2hj6k5263b55bcjfnpiemrbpans.apps.googleusercontent.com", // only for iOS
+    forceConsentPrompt: true,
   })
   .then(() => {
     GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {

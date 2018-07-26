@@ -48,7 +48,7 @@ export const modalMessages = {
   emailSent: {
     title: "",
     message: "An email with password change instructions was sent!",
-    cancel: "CANCEL",
+    cancel: "OK",
     accept: ""
   },
   continue: {
