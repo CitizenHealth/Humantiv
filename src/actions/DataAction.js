@@ -1,12 +1,13 @@
 import firebase from "react-native-firebase";
 import { Actions } from "react-native-router-flux";
-import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS, TIMESTAMP_EXISTS } from "./types";
+import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS, TIMESTAMP_EXISTS, NATIVE_HEALTH } from "./types";
 import {
   timeseriesActivityFetch,
   timeseriesSleepFetch,
   timeseriesHeartrateFetch,
   timeseriesStepsFetch,
-  timeseriesWeightFetch
+  timeseriesWeightFetch,
+  nativeTimeSeries
 } from './TimeSeriesAction';
 
 export const dataCreate = ({type, prop, value}) => {
@@ -86,7 +87,7 @@ export const dataEdit = ({profile}) => {
   };
 };
 
-export const dataFetch = ({type}) => {
+export const dataFetch = ({type, isnative}) => {
   const { currentUser } = firebase.auth();
 
   if (currentUser === null) {
@@ -110,7 +111,11 @@ export const dataFetch = ({type}) => {
         dispatch(timeseriesWeightFetch({access_token: testToken}));
       }
       if (type === "timestamps" ) {
-        dispatch(dataFetch({type: "humanapi"}));
+        if (isnative) {
+          dispatch(nativeTimeSeries());
+        } else {
+          dispatch(dataFetch({type: "humanapi"}));
+        }
       }
       dispatch({ type: DATA_FETCH, payload: {type, data} });
     }, error => {
@@ -139,6 +144,44 @@ export const walletFetch = ({type}) => {
   };
 };
 
+export const nativeHealthFetch = ({type}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
+    .on("value", snapshot => {
+      let data = snapshot.val();
+      let isNativeTracking = false;
+      if (data) {
+        isNativeTracking = true; 
+      } 
+      dispatch(timestampExists({type: 'steps', isnative: isNativeTracking}));
+      dispatch(timestampExists({type: 'activity', isnative: isNativeTracking}));
+      dispatch(timestampExists({type: 'sleep', isnative: isNativeTracking}));
+      dispatch({ type: NATIVE_HEALTH, payload: {type: "isNativeTracking", data} });
+    });
+  };
+};
+
+export const nativeTimeStampsExists = ({isNative}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+
+  return (dispatch) => {
+    dispatch(timestampExists({type: 'steps', isnative: isNative}));
+    dispatch(timestampExists({type: 'activity', isnative: isNative}));
+    dispatch(timestampExists({type: 'sleep', isnative: isNative}));
+  };
+};
+
+
 export const dataExists = ({type}) => {
   const { currentUser } = firebase.auth();
 
@@ -160,7 +203,7 @@ export const dataExists = ({type}) => {
   };
 };
 
-export const timestampExists = ({type}) => {
+export const timestampExists = ({type, isnative}) => {
   const { currentUser } = firebase.auth();
 
   if (currentUser === null) {
@@ -172,9 +215,32 @@ export const timestampExists = ({type}) => {
     .once("value", snapshot => {
       let exists = snapshot.exists();
       if (exists) {
-        dispatch(dataFetch({type: "timestamps"}));
+        dispatch(dataFetch({type: "timestamps", isnative: isnative}));
       } else {
         dispatch(dataFetch({type: "humanapi"}));
+      }
+      dispatch({ type: TIMESTAMP_EXISTS, payload: {type, exists} });
+    });
+  };
+};
+
+export const nativeHealthExists = ({type}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
+    .once("value", snapshot => {
+      let exists = snapshot.exists();
+      if (exists) {
+        dispatch(nativeHealthFetch({type: type}));
+      } else {
+        dispatch(timestampExists({type: 'steps', isnative: false}));
+        dispatch(timestampExists({type: 'activity', isnative: false}));
+        dispatch(timestampExists({type: 'sleep', isnative: false}));
       }
       dispatch({ type: TIMESTAMP_EXISTS, payload: {type, exists} });
     });

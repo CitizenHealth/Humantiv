@@ -4,7 +4,11 @@ import {
   getHeartrateTimeSeries,
   getSleepTimeSeries,
   getStepsTimeSeries,
-  getWeightTimeSeries
+  getWeightTimeSeries,
+  getNativeActivityTimeSeries,
+  getNativeStepsTimeSeries,
+  getNativeHeartrateTimeSeries,
+  getNativeSleepTimeSeries
 } from '../business/sources'
 import { 
   TIMESERIES_ACTIVITY_FETCH,
@@ -64,3 +68,24 @@ export const timeseriesWeightFetch = ({access_token}) => {
     })
   };
 };
+
+export const nativeTimeSeries = () => {
+  return (dispatch) => {
+    getNativeActivityTimeSeries()
+    .then((values) => {
+      dispatch({ type: TIMESERIES_ACTIVITY_FETCH, payload: values });
+    });
+    getNativeStepsTimeSeries()
+    .then((values) => {
+      dispatch({ type: TIMESERIES_STEPS_FETCH, payload: values });
+    });
+    getNativeHeartrateTimeSeries()
+    .then((values) => {
+      dispatch({ type: TIMESERIES_HEARTRATE_FETCH, payload: values });
+    });
+    getNativeSleepTimeSeries()
+    .then((values) => {
+      dispatch({ type: TIMESERIES_SLEEP_FETCH, payload: values });
+    });
+  };
+}

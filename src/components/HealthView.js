@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Platform,
     ScrollView,
-    Dimensions       
+    Dimensions,
+    Alert       
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
@@ -33,10 +34,13 @@ import {
     fetchFeedStories,
     addFeedStory,
     removeFeedStory,
+    removeAllFeedStories,
     humanAPIFetch,
     fetchHealthTimeSeries,
     addHealthTimeSeries,
-    timestampExists
+    timestampExists,
+    nativeHealthExists,
+    nativeTimeStampsExists
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
@@ -63,6 +67,13 @@ import {
   getSleepMedits,
   getStepMedits
 } from '../business/sources/GenerateMedits';
+import {primaryGreyColor} from './themes/theme';
+import {
+  ModalScreen 
+} from './custom'; 
+import {modalMessages} from './themes';
+import AppleHealthKit from 'rn-apple-healthkit';
+
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -77,6 +88,9 @@ class HealthView extends Component {
       super(props);
 
       this.state = {
+        visibleModal: false,
+        didUserChooseSource: false,
+        textModal: "",
         healthScore: "",
         healthData: {
           healthData: [],
@@ -90,10 +104,9 @@ class HealthView extends Component {
     }
 
     componentDidMount() {
-  //    this.refreshDataSources();
-      this.props.timestampExists({type: 'steps'});
-      this.props.timestampExists({type: 'activity'});
-      this.props.timestampExists({type: 'sleep'});
+      const {children} = this.props;
+      //    this.refreshDataSources();
+      
       this.props.dataFetch({type: "health"});
       this.props.walletFetch({type: "wallet"});
       this.props.dataFetch({type: "profile"});
@@ -124,16 +137,54 @@ class HealthView extends Component {
       const stepsTimestampValue = (children.timestamps && children.timestamps.steps_value) ? children.timestamps.steps_value : 0;
       const activityTimestampValue = (children.timestamps && children.timestamps.activity_value) ? children.timestamps.activity_value : 0;
       const sleepTimestampValue = (children.timestamps && children.timestamps.sleep_value) ? children.timestamps.sleep_value : 0;
+
+      const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
+      const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
 //      const heartrateTimestamp = (children.timestamps && children.timestamps.heartrate) ? children.timestamps.heartrate : null;
 
       let propsChanged = (activity !== this.props.activity || sleep !== this.props.sleep || steps !== this.props.steps);
       let timeStampsExist = stepsTimestamp || activityTimestamp || sleepTimestamp;
- 
+      let isNativeChanged = (children.profile && children.profile[nativeTracker] && this.props.children.profile && this.props.children.profile[nativeTracker]) 
+                            ? (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
+
       if (propsChanged)
       {
         this.setState({
           healthData: getHealthScore(activity, sleep, steps)
         });
+      }
+
+      if (children.profile && this.props.children.profile && !this.state.didUserChooseSource) {
+        // Ask the user for Apple Health and Google Fit authorizations
+        this.setState({didUserChooseSource: true});
+        if (Platform.OS === 'ios') {
+          if (isNativeTracker === undefined) {
+            this.setState({visibleModal: true, textModal: modalMessages.applehealth});
+           } else {
+            if (isNativeTracker) {
+              this.initNativeSource();
+            } else {
+              this.initOtherSources();
+            }
+          }
+        } else {
+          if (isNativeTracker === undefined) {
+            this.setState({visibleModal: true, textModal: modalMessages.googlefit});
+           } else {
+            if (isNativeTracker) {
+              this.initNativeSource();
+            } else {
+              this.initOtherSources();
+            }
+          }
+        }
+      } else if (children.profile && this.props.children.profile && this.state.didUserChooseSource && isNativeChanged) {
+        if (Platform.OS === 'ios') {
+          this.props.nativeHealthExists({type: 'apple_health'});
+        }
+        if (Platform.OS === 'android') {
+          this.props.nativeHealthExists({type: 'google_fit'});
+        }  
       }
 
       let medits = 0;
@@ -214,6 +265,56 @@ class HealthView extends Component {
           this.setTimestamp('activity', activity);
         }
       }
+    }
+
+    dismissNativeSource() {
+      this.setState({visibleModal: false});
+      this.initOtherSources()
+    }
+  
+    acceptNativeSource() {
+      this.setState({visibleModal: false});
+      this.initNativeSource();
+    }
+  
+    initNativeSource() {
+        // If Apple Health is connected then use it
+        if (Platform.OS === 'ios') {
+          let options = {
+            permissions: {
+                read: ["Height", "Weight", "DateOfBirth", "StepCount", "HeartRate", "SleepAnalysis", "ActiveEnergyBurned", "BiologicalSex"]
+           }
+          };
+          
+          AppleHealthKit.initHealthKit(options: Object, (err: string, results: Object) => {
+            if (err) {
+                console.log("error initializing Healthkit: ", err);
+                this.props.dataSave({type: "profile", data: {apple_health: false}});
+                return;
+            }
+        
+            this.props.dataSave({type: "profile", data: {apple_health: true}});
+            this.props.nativeTimeStampsExists({isNative: true});
+            
+
+            // Height Example
+            AppleHealthKit.getDateOfBirth(null, (err: Object, results: Object) => {
+            if (err) {
+              console.log(`Date of Birth ERROR: ${err}`);
+              return;
+            }
+            console.log(`Date of Birth: ${results}`);
+            }); 
+        });
+      }
+      if (Platform.OS === 'android') {
+        this.props.nativeTimeStampsExists({isNative: false});
+      }
+    }
+  
+    initOtherSources() {
+      this.props.dataSave({type: "profile", data: {apple_health: false}});
+      this.props.nativeTimeStampsExists({isNative: false});
     }
 
     setTimestamp(type, data) {
@@ -494,16 +595,34 @@ class HealthView extends Component {
                     <Text style={sectionTitleStyle}>
                         Activity
                     </Text>
-                    <IconButton
-                        onPress={() => {Actions.feedfilters()}}
-                        viewStyles={iconStyle}
-                        textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end',
+                        alignContent: 'flex-end'
+                      }}
                     >
-                        <HMIcon 
-                          name="sandwich"
-                          size= {16}
-                        />
-                    </IconButton>
+                      <IconButton
+                          onPress={() => {this.props.removeAllFeedStories()}}
+                          viewStyles={iconStyle}
+                          textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                      >
+                          <FontAwesome
+                            style={{color: graphGreyColor}}
+                          > 
+                            {Icons.trash}
+                          </FontAwesome>
+                      </IconButton>
+                      <IconButton
+                          onPress={() => {Actions.feedfilters()}}
+                          viewStyles={iconStyle}
+                          textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                      >
+                          <HMIcon 
+                            name="sandwich"
+                            size= {16}
+                          />
+                      </IconButton>
+                    </View>
                 </View>
                 <Feed 
                     height= {activityCardWidth/5}
@@ -540,6 +659,8 @@ class HealthView extends Component {
     const screenWidth = Dimensions.get('window').width;
     const valueCardWidth = (screenWidth - 30)/2;
     const hgraphWidth = screenWidth - 120;
+    const applehealth = (children.profile) ? children.profile.apple_health : false;
+
     return (
         <View style={{flex: 1, marginTop: 5}}>
             <View style={cardsStyle}>
@@ -572,13 +693,13 @@ class HealthView extends Component {
                 footerDisabled= {(children.humanapi && children.humanapi.access_token) ? false : true}
             >
                 <HGraph
-                    scoreFontColor= {(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "#b7daff" : '#3ED295'}
-                    scoreFontSize={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? 16 : 50}
+                    scoreFontColor= {(applehealth) ? "#3ED295" : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "#b7daff" : '#3ED295'}
+                    scoreFontSize={(applehealth) ? 50 : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? 16 : 50}
                     width= {hgraphWidth}
                     height= {hgraphWidth}
                     pathColor= "#b7daff"
-                    score={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "Add your first data source" : (this.state.healthData.healthScore === -1) ? "" : this.state.healthData.healthScore} 
-                    healthyRangeFillColor={(((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ?  primaryWhiteColor : hGraphColor}
+                    score={(applehealth) ? this.state.healthData.healthScore : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "Add your first data source" : (this.state.healthData.healthScore === -1) ? "" : this.state.healthData.healthScore} 
+                    healthyRangeFillColor={(applehealth) ? hGraphColor : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ?  primaryWhiteColor : hGraphColor}
                     margin={
                     {top: 50,
                     right: 50, 
@@ -629,6 +750,16 @@ class HealthView extends Component {
                     {this.renderGraphTiles()}
                     {this.renderActivityFeed()}                  
                 </ScrollView > 
+                <ModalScreen
+                  visible={this.state.visibleModal}
+                  label={this.state.textModal.message}
+                  cancelLabel={this.state.textModal.cancel}
+                  acceptLabel={this.state.textModal.accept}
+                  onCancelPress={this.dismissNativeSource.bind(this)}
+                  onAcceptPress={this.acceptNativeSource.bind(this)}
+                >
+                </ModalScreen>
+
                 {/* <ActionButton 
                   size={44}
                   offsetX={20}
@@ -725,7 +856,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: "space-between",
         alignItems: "center",
-        padding: 10,
+        paddingLeft: 10,
     },
     sectionTitleStyle: {
         fontSize: 18,
@@ -761,8 +892,11 @@ export default connect(mapStateToProps, {
   fetchFeedStories,
   addFeedStory,
   removeFeedStory,
+  removeAllFeedStories,
   humanAPIFetch,
   fetchHealthTimeSeries,
   addHealthTimeSeries,
-  timestampExists
+  timestampExists,
+  nativeHealthExists,
+  nativeTimeStampsExists
   })(HealthView);

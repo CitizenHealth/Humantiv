@@ -31,7 +31,7 @@ export const getStepMedits = (steps, lastTimestamp, lastValue) => {
   return {
     medits: medits,
     timestamp: timestamp,
-    value: steps[0].value
+    value: (steps.length > 0) ? steps[0].value : 0
   };
 }
 
@@ -61,7 +61,7 @@ export const getActivityMedits = (activities, lastTimestamp, lastValue) => {
   return {
     medits: medits,
     timestamp: timestamp,
-    value: activities[0].value
+    value: (activities.length > 0) ? activities[0].value : 0
   };
 }
 
@@ -81,20 +81,20 @@ export const getSleepMedits = (sleeps, lastTimestamp, lastValue) => {
       break;
     }
     if (sleeps[index].time === lastTimestamp) {
-      value = lastValue;
+      value = lastValue*MINUTES_IN_HOUR;
     }
     if (sleeps[index].time > timestamp) {
       timestamp = sleeps[index].time;
     }
     let sleepMinutes = sleeps[index].value*MINUTES_IN_HOUR;
     if (sleepMinutes >= SLEEP_MINIMUM) {
-      medits += Math.round((sleepMinutes-value-SLEEP_MINIMUM)/SLEEP_FACTOR);
+      medits += Math.round((sleepMinutes-value)/SLEEP_FACTOR);
     }
   }
   return {
     medits: medits,
     timestamp: timestamp,
-    value: sleeps[0].value
+    value: (sleeps.length > 0) ? sleeps[0].value : 0
   };
 }
 

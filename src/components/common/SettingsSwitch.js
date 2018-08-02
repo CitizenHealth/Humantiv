@@ -26,11 +26,13 @@ class SettingsSwitch extends Component {
     label: PropTypes.string,
     value: PropTypes.bool,
     onValueChange: PropTypes.func,
+    disabled: PropTypes.bool
   }
 
   static defaultProps = {
     label: "",
-    value: false
+    value: false,
+    disabled: false
   }
 
   constructor(props) {
@@ -75,6 +77,7 @@ class SettingsSwitch extends Component {
           }}
           value={this.state.value}
           style = {switchStyle}
+          disabled = {this.props.disabled}
         />
     );
   }

@@ -31,3 +31,4 @@ export const TIMESERIES_WEIGHT_FETCH = "timeseries_weight_fetch";
 export const TIMESERIES_STRESS_FETCH = "timeseries_stress_fetch";
 export const TIMESERIES_STEPS_FETCH = "timeseries_steps_fetch";
 export const TIMESTAMP_EXISTS = "timestamp_exists";
+export const NATIVE_HEALTH  = "native_health";

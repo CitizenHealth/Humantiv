@@ -19,26 +19,26 @@ export const addTimestamp = (type, timestamp) => {
   };
 };
 
-export const timestampExists = ({type}) => {
-  const { currentUser } = firebase.auth();
+// export const timestampExists = ({type}) => {
+//   const { currentUser } = firebase.auth();
 
-  if (currentUser === null) {
-    return;
-  }
+//   if (currentUser === null) {
+//     return;
+//   }
 
-  return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/health/${type}`)
-    .on("value", snapshot => {
-      let exists = snapshot.exists();
-      console.log(exists);
-      console.log(Actions.currentScene);
-      if (Actions.currentScene === 'login') {
-       (exists) ? Actions.main(): Actions.journey();
-      }
-      dispatch({ type: DATA_EXISTS, payload: {type, exists} });
-    });
-  };
-};
+//   return (dispatch) => {
+//     firebase.database().ref(`/users/${currentUser.uid}/health/${type}`)
+//     .on("value", snapshot => {
+//       let exists = snapshot.exists();
+//       console.log(exists);
+//       console.log(Actions.currentScene);
+//       if (Actions.currentScene === 'login') {
+//        (exists) ? Actions.main(): Actions.journey();
+//       }
+//       dispatch({ type: DATA_EXISTS, payload: {type, exists} });
+//     });
+//   };
+// };
 
 export const fetchTimestamp = ({type}) => {
   const {currentUser} = firebase.auth();

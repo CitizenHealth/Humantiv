@@ -10,10 +10,10 @@ import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
 import Spinner from "react-native-spinkit";
 import {
-        Sentry,
-        SentrySeverity,
-        SentryLog
-      } from 'react-native-sentry';
+  Sentry,
+  SentrySeverity,
+  SentryLog
+} from 'react-native-sentry';
     
 
 class StartView extends Component {
@@ -92,7 +92,10 @@ class StartView extends Component {
       console.log(user);
       if (user) {
         this.props.fetchUser(user);
- 
+
+        //
+        
+
         // requests permissions from the user
         firebase.messaging().hasPermission()
         .then(enabled => {
@@ -134,8 +137,8 @@ class StartView extends Component {
           extra: {
             "is_admin": false
           }
-        });
-
+        });   
+        
         if (user.emailVerified 
           || user.providerData[0].providerId === "facebook.com"
           || user.providerData[0].providerId === "google.com"
@@ -156,7 +159,7 @@ class StartView extends Component {
             console.log(`SV - Error sending verification email: ${error}`);
           }); 
           Actions.verify();
-        }       
+        }  
       } else {       
         console.log(`Route: ${Actions.currentScene}`);
         this.props.registered = undefined;

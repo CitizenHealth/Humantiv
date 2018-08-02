@@ -47,7 +47,7 @@ export const modalMessages = {
   },
   emailSent: {
     title: "",
-    message: "An email with password change instructions was sent!",
+    message: "An email with password change instructions was sent! Please check your spam folder in needed.",
     cancel: "OK",
     accept: ""
   },
@@ -62,8 +62,29 @@ export const modalMessages = {
     message:"A new confirmation email was just sent!",
     cancel: "CANCEL",
     accept: ""
+  },
+  applehealth: {
+    title: "",
+    message:"What wearables do you want to sync with? \n\n\n"+
+            "Humantiv allows you to connect your health and fitness devices in two different ways:\n\n"+
+            "APPLE HEALTH: Humantiv will sync with The Apple Health app in your iPhone and will pull data from any device you already connected to Apple Health."+
+            "\nExamples of devices supported are: Apple Watch, Beddit 3, Xiaomi Mi Band 2, Nike+, RunKeeper, Lark, and Weight Watchers." +
+            "\n\nHUMAN API: You will not need the Apple Health App and can sync directly with your device or app data." +
+            "\nExamples of devices supported are: FitBit, Misfit, Strava, Nokia-Withings, and MapMyFitness.",
+    cancel: "HUMAN API",
+    accept: "APPLE HEALTH"
+  },
+  googlefit: {
+    title: "",
+    message:"What wearables do you want to sync with? \n\n\n"+
+            "Humantiv allows you to connect your health and fitness devices in two different ways:\n\n"+
+            "GOOGLE FIT: Humantiv will sync with The Google Fit app in your Android phone and will pull data from any device you already connected to Google Fit."+
+            "\nExamples of devices supported are: Wear OS, LG Watch Sport, Xiaomi Mi Band 2, Huawei Watch 2, Nike+, RunKeeper, and 7 Minutes Workout." +
+            "\n\nHUMAN API: You will not need the Google Fit App and can sync directly with your device or app data." +
+            "\nExamples of devices supported are: FitBit, Misfit, Strava, Nokia-Withings, and MapMyFitness.",
+    cancel: "HUMAN API",
+    accept: "GOOGLE FIT"
   }
-
 };
 // Units
 export const Units = {
@@ -261,13 +282,14 @@ export const theme = StyleSheet.create({
  dialogTextButtonStyle: {
     flex: 1,
     fontWeight: 'normal',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
     backgroundColor: 'transparent',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    color: primaryBlueColor
+    color: primaryBlueColor,
+    fontFamily: Fonts.regular
   },
   iconStyle: {
     alignItems: "center",

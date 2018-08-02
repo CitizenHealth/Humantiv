@@ -1,4 +1,4 @@
-import { DATA_CREATE, DATA_SAVE, DATA_EDIT, DATA_FETCH, DATA_EXISTS, HUMANAPI_DATA_FETCH, TIMESTAMP_EXISTS } from "../actions/types";
+import { DATA_CREATE, DATA_SAVE, DATA_EDIT, DATA_FETCH, DATA_EXISTS, HUMANAPI_DATA_FETCH, TIMESTAMP_EXISTS, NATIVE_HEALTH } from "../actions/types";
 
 const INITIAL_STATE = {
   children: {},
@@ -6,11 +6,17 @@ const INITIAL_STATE = {
   registered: undefined,
   stepsExist: false,
   activityExists: false,
-  sleepExists: false
+  sleepExists: false,
+  nativeSourceExists: false,
+  isNativeTracking: undefined
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case NATIVE_HEALTH:
+    return {...state,
+      [action.payload.type]: action.payload.data
+    }
     case TIMESTAMP_EXISTS:
       return {...state,
         [action.payload.type]: action.payload.exists

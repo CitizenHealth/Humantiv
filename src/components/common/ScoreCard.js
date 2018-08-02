@@ -128,7 +128,6 @@ class ScoreCard extends Component {
           : null}
         </View>
         {this.props.children}
-        {this.renderFooter()}
       </View>
     );
   }

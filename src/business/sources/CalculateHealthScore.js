@@ -93,7 +93,7 @@ export const getHealthScore = (activity, sleep, steps) => {
     }
 
     // The healthscore represents the score for the user health data since last sync
-    return  {healthData: healthData, healthScore: (healthData.length === 0) ? "" : Math.floor(calculateHealthScore(healthData))};  
+    return  {healthData: healthData, healthScore: (healthData.length === 0) ? 0 : Math.floor(calculateHealthScore(healthData))};  
 }
 
 export const needToSaveHealthScore = (scores) => {

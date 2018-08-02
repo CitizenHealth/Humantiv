@@ -42,7 +42,8 @@ import {
   saveHeightToMetric,
   saveWeightToMetric
 } from '../business/Helpers';
-
+import AppleHealthKit from 'rn-apple-healthkit';
+import PasswordLostView from './PasswordLostView';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -53,8 +54,28 @@ const closeURL = 'https://connect.humanapi.co/blank/hc-close';
 
 class SettingsView extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      appleHealthIsAvailable: false,
+      googleFitIsAvailable: false
+    }
+  }
+
   componentWillMount () {
-    firebase.analytics().setCurrentScreen('Settings Screen', 'SettingsView');
+    if (Platform.OS === 'ios') {
+      firebase.analytics().setCurrentScreen('Settings Screen', 'SettingsView');
+      AppleHealthKit.isAvailable((err: Object, available: boolean) => {
+        if (err) {
+          console.log("error initializing Healthkit: ", err);
+          return;
+        }
+        this.setState({appleHealthIsAvailable: true});
+      });
+    } else {
+
+    }
   }
 
   onLogOutButtonPress() {
@@ -183,6 +204,14 @@ class SettingsView extends Component {
     this.props.dataSave({type: "profile", data: {wallet_notification: value}});
   }
 
+  onAppleHealthNotificationChange(value) {
+    this.props.dataSave({type: "profile", data: {apple_health: value}});
+  }
+
+  onGoogleFitNotificationChange(value) {
+    this.props.dataSave({type: "profile", data: {google_fit: value}});
+  }
+
   render() {
     const {
       headerStyle,
@@ -190,6 +219,11 @@ class SettingsView extends Component {
     } = styles;
 
     const {children} = this.props;
+
+    const {
+      appleHealthIsAvailable, 
+      googleFitIsAvailable
+    } = this.state;
 
     // Only call the save function every 300 ms so we don't save to the server every user action
     const saveAge = _.debounce((text) => this.saveAge(text), 300);
@@ -206,6 +240,9 @@ class SettingsView extends Component {
     const onVotesNotificationChange = _.debounce((value) => this.onVotesNotificationChange(value), 300);
     const onWalletNotificationChange = _.debounce((value) => this.onWalletNotificationChange(value), 300);
 
+    const onAppleHealthNotificationChange = _.debounce((value) => this.onAppleHealthNotificationChange(value), 300);
+    const onGoogleFitNotificationChange = _.debounce((value) => this.onAppleHealthNotificationChange(value), 300);
+    
     const profile_journey = (children.profile) ? children.profile.journey : "";
     const profile_age = (children.profile) ? children.profile.age : "";
 
@@ -220,6 +257,11 @@ class SettingsView extends Component {
     const notifications_goals = (children.profile) ? children.profile.goal_notification : "";
     const notifications_votes = (children.profile) ? children.profile.votes_notification : "";
     const notifications_wallet = (children.profile) ? children.profile.wallet_notification : "";
+
+
+    const notifications_applehealth = (children.profile) ? children.profile.apple_health : "";
+    const notifications_googlefit = (children.profile) ? children.profile.notifications_google_fit : "";
+
     const needed_message = "Needed for the health score";
 
     const weight_unit = (profile_weight_unit !== "" && profile_weight_unit !== undefined) ? profile_weight_unit : "";
@@ -341,6 +383,16 @@ class SettingsView extends Component {
           < SettingsSection
             title="Data Sources"
           >
+          < SettingsSwitch
+            label={(Platform.OS === 'ios') ? "Apple Health" : "Google Fit"}
+            onValueChange= {(Platform.OS === 'ios') ? onAppleHealthNotificationChange : onGoogleFitNotificationChange}
+            value = {(Platform.OS === 'ios') ? 
+            ((notifications_applehealth !== "" && notifications_applehealth !== undefined) ? notifications_applehealth : false) :
+            ((notifications_googlefit !== "" && notifications_googlefit !== undefined) ? notifications_googlefit : false)
+          }
+            disabled= {(Platform.OS === 'ios') ? appleHealthIsAvailable : googleFitIsAvailable}
+          />
+
           <SettingsDataSource
             label= "Add data source"
             icon= "plus_blue"

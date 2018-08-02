@@ -110,5 +110,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Humantiv reads your health data to track your activity and sleep. You can also allow to read personal data for your profile.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Humantiv reads your health data to track your activity and sleep. You can also allow to read personal data for your profile.</string>
 </dict>
 </plist>

@@ -26,6 +26,14 @@ export const removeFeedStory = (id) => {
   };
 }
 
+export const removeAllFeedStories = () => {
+  const { currentUser } = firebase.auth();
+
+  return (dispatch) => {
+    const ref = firebase.database().ref(`/users/${currentUser.uid}/feed/stories`)
+    ref.remove();
+  };
+} 
 export const filtersSave = (filter) => {
   const { currentUser } = firebase.auth();
 
