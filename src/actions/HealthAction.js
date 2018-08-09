@@ -1,5 +1,5 @@
 import firebase from 'react-native-firebase';
-import {HEALTH_FETCH, HEALTH_ADD, HEALTH_DELETE} from './types';
+import {HEALTH_FETCH, HEALTH_ADD, HEALTH_DELETE, HEALTH_SCORE_SAVE} from './types';
 
 export const addHealthTimeSeries = (type, time_series) => {
   const { currentUser } = firebase.auth();
@@ -51,3 +51,19 @@ export const fetchHealthTimeSeries = ({type}) => {
     });
   }
 }
+
+export const healthScoreSave = ({healthscore, total}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+
+  return (dispatch) => {
+    firebase.database().ref(`/users/${currentUser.uid}/health/score`)
+    .update({healthscore, total})
+    .then(() => {
+      dispatch({ type: HEALTH_SCORE_SAVE });
+    });
+  };
+};

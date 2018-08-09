@@ -65,7 +65,10 @@ class ActivityCard extends Component {
         case ActivityFeedTypes.Activity.Workout: {
             return "bench";
         }
-        case ActivityFeedTypes.Wallet.Medits: {
+        case ActivityFeedTypes.Wallet.Medits:
+        case ActivityFeedTypes.Wallet.ActivityMedits:
+        case ActivityFeedTypes.Wallet.SleepMedits:
+        case ActivityFeedTypes.Wallet.StepsMedits: {
             return "medit";
         }
         case ActivityFeedTypes.Wallet.Medex: {
@@ -90,10 +93,12 @@ class ActivityCard extends Component {
     const {type} = this.props;
 
     switch(type) {
-        case ActivityFeedTypes.Vital.HeartRate: {
+        case ActivityFeedTypes.Vital.HeartRate:
+        case ActivityFeedTypes.Wallet.StepsMedits:  {
             return "#f15b58";
         }
-        case ActivityFeedTypes.Activity.Run: {
+        case ActivityFeedTypes.Activity.Run:
+        case ActivityFeedTypes.Wallet.ActivityMedits: {
             return "#36d391";
         }
         case ActivityFeedTypes.Activity.Swim: {
@@ -114,7 +119,8 @@ class ActivityCard extends Component {
         case ActivityFeedTypes.Health.Workout: {
           return "#ffae45";
         }
-        case ActivityFeedTypes.Health.Sleep: {
+        case ActivityFeedTypes.Health.Sleep:
+        case ActivityFeedTypes.Wallet.SleepMedits: {
           return "#9b59b6";
         }
         case ActivityFeedTypes.Health.Weight: {

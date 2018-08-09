@@ -21,6 +21,7 @@ import {
     ScoreCard,
     ValueCard,
     GraphCard,
+    GraphBarCard,
     Icon as HMIcon
 } from './common';
 import { Actions } from "react-native-router-flux";
@@ -37,10 +38,15 @@ import {
     removeAllFeedStories,
     humanAPIFetch,
     fetchHealthTimeSeries,
+    healthScoreSave,
     addHealthTimeSeries,
     timestampExists,
     nativeHealthExists,
-    nativeTimeStampsExists
+    nativeTimeStampsExists,
+    timeseriesMeditFetch,
+    timeseriesScoreFetch,
+    addMeditTimeSeries,
+    addHealthScoreTimeSeries
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
@@ -53,12 +59,13 @@ import {
  } from './themes';
 import {
   formatNumbers,
-  areMeasurementArraysEquals
+  areMeasurementArraysEquals,
+  convertTimeArrayToObject,
+  convertMeditFromObjectToArray
 } from '../business/Helpers';
 import ActionButton from 'react-native-action-button';
 import {
   isTwentyFourHours,
-  needToSaveHealthScore,
   getHealthScore
 } from '../business/sources/CalculateHealthScore';
 import healthScores from '../configuration/healthscore.json';
@@ -67,6 +74,10 @@ import {
   getSleepMedits,
   getStepMedits
 } from '../business/sources/GenerateMedits';
+import {
+  processDailyMedit,
+  processDailyHealthScore
+} from '../business/sources';
 import {primaryGreyColor} from './themes/theme';
 import {
   ModalScreen 
@@ -81,6 +92,7 @@ const clientSecret = '1de96f660418ba961d6f2de259f01aaed5da3445';
 const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
 const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
 const closeURL = 'https://connect.humanapi.co/blank/hc-close';
+const NUMBER_OF_METRICS_USED = 3;
 
 class HealthView extends Component {
 
@@ -88,6 +100,7 @@ class HealthView extends Component {
       super(props);
 
       this.state = {
+        metricsPulled: 0,
         visibleModal: false,
         didUserChooseSource: false,
         textModal: "",
@@ -110,7 +123,9 @@ class HealthView extends Component {
       this.props.dataFetch({type: "health"});
       this.props.walletFetch({type: "wallet"});
       this.props.dataFetch({type: "profile"});
-      this.props.fetchHealthTimeSeries({type: "score"});
+//      this.props.fetchHealthTimeSeries({type: "score"});
+      this.props.timeseriesScoreFetch();
+      this.props.timeseriesMeditFetch();
       this.props.fetchFeedFilters();
       this.props.fetchFeedStories();
       this.props.dataFetch({type: "notifications"});
@@ -118,6 +133,27 @@ class HealthView extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
       return true;
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+
+      const {children} = this.props;
+
+      const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
+      const propNativeTracker = (children.profile && children.profile[nativeTracker] !== undefined ) ? children.profile[nativeTracker] : undefined;
+      const nextPropNativeTracker = (nextProps.children.profile && 
+                                    nextProps.children.profile[nativeTracker] !== undefined) ? nextProps.children.profile[nativeTracker] : undefined;
+
+      if (propNativeTracker !== nextPropNativeTracker && 
+        propNativeTracker !== undefined &&
+        nextPropNativeTracker !== undefined
+      ) {
+        if (nextPropNativeTracker) {
+          this.initNativeSource();
+        } else {
+          this.initOtherSources();
+        }
+      }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -134,25 +170,24 @@ class HealthView extends Component {
       const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
       const activityTimestamp = (children.timestamps && children.timestamps.activity) ? children.timestamps.activity : null;
       const sleepTimestamp = (children.timestamps && children.timestamps.sleep) ? children.timestamps.sleep : null;
+      const meditTimestamp = (children.timestamps && children.timestamps.medit) ? children.timestamps.medit : null;
+      const scoreTimestamp = (children.timestamps && children.timestamps.score) ? children.timestamps.score : null;
+      const healthscore = (children.health && children.health.score && children.health.score.healthscore) ? children.health.score.healthscore : 0;
       const stepsTimestampValue = (children.timestamps && children.timestamps.steps_value) ? children.timestamps.steps_value : 0;
       const activityTimestampValue = (children.timestamps && children.timestamps.activity_value) ? children.timestamps.activity_value : 0;
       const sleepTimestampValue = (children.timestamps && children.timestamps.sleep_value) ? children.timestamps.sleep_value : 0;
+      const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
+      const total = (children.health && children.health.score && children.health.score.total) ? children.health.score.total : 0;
 
       const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
       const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
 //      const heartrateTimestamp = (children.timestamps && children.timestamps.heartrate) ? children.timestamps.heartrate : null;
 
-      let propsChanged = (activity !== this.props.activity || sleep !== this.props.sleep || steps !== this.props.steps);
+      let propsChanged = (!areMeasurementArraysEquals(activity, this.props.activity) || !areMeasurementArraysEquals(sleep, this.props.sleep) || !areMeasurementArraysEquals(steps, this.props.steps));
       let timeStampsExist = stepsTimestamp || activityTimestamp || sleepTimestamp;
       let isNativeChanged = (children.profile && children.profile[nativeTracker] && this.props.children.profile && this.props.children.profile[nativeTracker]) 
                             ? (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
 
-      if (propsChanged)
-      {
-        this.setState({
-          healthData: getHealthScore(activity, sleep, steps)
-        });
-      }
 
       if (children.profile && this.props.children.profile && !this.state.didUserChooseSource) {
         // Ask the user for Apple Health and Google Fit authorizations
@@ -168,17 +203,18 @@ class HealthView extends Component {
             }
           }
         } else {
-          if (isNativeTracker === undefined) {
-            this.setState({visibleModal: true, textModal: modalMessages.googlefit});
-           } else {
-            if (isNativeTracker) {
-              this.initNativeSource();
-            } else {
-              this.initOtherSources();
-            }
-          }
+          // if (isNativeTracker === undefined) {
+          //   this.setState({visibleModal: true, textModal: modalMessages.googlefit});
+          //  } else {
+          //   if (isNativeTracker) {
+          //     this.initNativeSource();
+          //   } else {
+          //     this.initOtherSources();
+          //   }
+          // }
+          this.initOtherSources();
         }
-      } else if (children.profile && this.props.children.profile && this.state.didUserChooseSource && isNativeChanged) {
+      } else if (children.profile && this.props.children.profile && isNativeChanged) {
         if (Platform.OS === 'ios') {
           this.props.nativeHealthExists({type: 'apple_health'});
         }
@@ -187,21 +223,25 @@ class HealthView extends Component {
         }  
       }
 
-      let medits = 0;
+      let totalMedits = 0;
       if (!areMeasurementArraysEquals(steps, this.props.steps)) {
+        // The steps timeseries data has been pulled.
+        let metricsNumber = this.state.metricsPulled + 1;
+        this.setState({metricsPulled: metricsNumber}); 
+
         if (stepsTimestamp) {
           let stepMedits = getStepMedits(steps, stepsTimestamp, stepsTimestampValue)
           // Generate Medits
-          medits += parseInt(stepMedits.medits);
+          totalMedits += parseInt(stepMedits.medits);
           if (parseInt(stepMedits.medits) > 0) {
-            this.props.dataAdd({type: "wallet", item: "medits", data: medits});
+            this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
             // Add medit to feed
             const story = {
               title: "Your steps earned you",
               preposition: "",
               value: `${stepMedits.medits} Medits`,
               time: Math.round((new Date()).getTime() / 1000),
-              type: "medits"
+              type: "stepsmedits"
             }
             this.props.addFeedStory(story);
           }
@@ -215,19 +255,23 @@ class HealthView extends Component {
       }
 
       if ( !areMeasurementArraysEquals(sleep, this.props.sleep)) {
+        // The steps timeseries data has been pulled.
+        let metricsNumber = this.state.metricsPulled + 1;
+        this.setState({metricsPulled: metricsNumber}); 
+
         if (sleepTimestamp) {
           let sleepMedits = getSleepMedits(sleep, sleepTimestamp, sleepTimestampValue)
           // Generate Medits
-          medits += parseInt(sleepMedits.medits);
+          totalMedits += parseInt(sleepMedits.medits);
           if (parseInt(sleepMedits.medits) > 0) {
-            this.props.dataAdd({type: "wallet", item: "medits", data: medits});
+            this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
             // Add medit to feed
             const story = {
               title: "Your sleep earned you",
               preposition: "",
               value: `${sleepMedits.medits} Medits`,
               time: Math.round((new Date()).getTime() / 1000),
-              type: "medits"
+              type: "sleepmedits"
             }
             this.props.addFeedStory(story);
           }
@@ -241,19 +285,23 @@ class HealthView extends Component {
       }
 
       if ( !areMeasurementArraysEquals(activity, this.props.activity)) {
+        // The steps timeseries data has been pulled.
+        let metricsNumber = this.state.metricsPulled + 1;
+        this.setState({metricsPulled: metricsNumber}); 
+
         if (activityTimestamp) {
           let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)
           // Generate Medits
-          medits += parseInt(activityMedits.medits);
+          totalMedits += parseInt(activityMedits.medits);
           if (parseInt(activityMedits.medits) > 0) {
-            this.props.dataAdd({type: "wallet", item: "medits", data: medits});
+            this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
             // Add medit to feed
             const story = {
               title: "Your activity earned you",
               preposition: "",
               value: `${activityMedits.medits} Medits`,
               time: Math.round((new Date()).getTime() / 1000),
-              type: "medits"
+              type: "activitymedits"
             }
             this.props.addFeedStory(story);
           }
@@ -265,6 +313,35 @@ class HealthView extends Component {
           this.setTimestamp('activity', activity);
         }
       }
+
+      // When all timeseries data have been pulled then we can start calculating the daily Medit count earned
+      if (this.state.metricsPulled === NUMBER_OF_METRICS_USED) {
+        // After all physical metrics are pulled, we calculate the daily Medit earned ...
+        let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, steps, activity, sleep);
+        this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
+        this.props.dataSave({type: "timestamps", data: {
+          medit: dailyMedit.meditTimeStamp,
+          medit_value: dailyMedit.meditTimeStampValue
+        }}); 
+            
+        // ... then we calculate the daily health scores and total health score
+        
+        let dailyHealthScore = processDailyHealthScore(scoreTimestamp, healthscore, total, steps, activity, sleep);
+        this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
+        this.props.dataSave({type: "timestamps", data: {
+          score: dailyHealthScore.scoreTimeStamp,
+        }}); 
+        this.props.healthScoreSave({
+          healthscore: dailyHealthScore.healthscore,
+          total: dailyHealthScore.total
+        }); 
+
+        this.setState({
+          healthData: getHealthScore(activity, sleep, steps)
+        });
+
+        this.setState({metricsPulled: 0}); 
+      } 
     }
 
     dismissNativeSource() {
@@ -278,6 +355,10 @@ class HealthView extends Component {
     }
   
     initNativeSource() {
+      // We are resetting the metrics pulled counter to 0. This counter will increment by one for each metric
+      // timeseries pulled (steps, sleep, activity, ...). We are effectively waiting for all the metrics to be
+      // pulled to calculate the daily healthScore and the daily Medit earned.
+      this.setState({metricsPulled: 0}); 
         // If Apple Health is connected then use it
         if (Platform.OS === 'ios') {
           let options = {
@@ -313,6 +394,10 @@ class HealthView extends Component {
     }
   
     initOtherSources() {
+      // We are resetting the metrics pulled counter to 0. This counter will increment by one for each metric
+      // timeseries pulled (steps, sleep, activity, ...). We are effectively waiting for all the metrics to be
+      // pulled to calculate the daily healthScore and the daily Medit earned.
+      this.setState({metricsPulled: 0}); 
       this.props.dataSave({type: "profile", data: {apple_health: false}});
       this.props.nativeTimeStampsExists({isNative: false});
     }
@@ -375,25 +460,6 @@ class HealthView extends Component {
             cancel: () => console.log('cancel')  // callback when cancel
         }
         humanAPI.onConnect(options)
-    }
-
-    cleanHealthScore(scoreObj) {
-      // Remove any score entry that is less than 24 hours from the previous one
-      // We only record at most one health score a day. The extra ones are due to a
-      // collateral effect from asynchronicity in getting the measurements time series
-      // Thus several temporary health scores are calculated
-      let newObj = {};
-      let previousKey;
-      for (var key in scoreObj) {
-        if (previousKey !== undefined) {
-          if (!isTwentyFourHours(key, previousKey)) {
-            delete newObj[previousKey]
-          }
-        }
-        previousKey = key;
-        newObj[key] = scoreObj[key];
-      };
-      return newObj;
     }
 
     refreshDataSources = () => {
@@ -464,7 +530,9 @@ class HealthView extends Component {
           sleep,
           heartrate,
           weight,
-          stress
+          stress,
+          medit,
+          score
           } = this.props;
 
         const {
@@ -483,6 +551,8 @@ class HealthView extends Component {
         const graphCardWidth = (screenWidth - 30)/2;
         const graphScoreCardWidth = screenWidth -20;
 
+        const meditTimestamp = (children.timestamps && children.timestamps.medit) ? children.timestamps.medit : null;
+
         let scores = []
         if (children.health && children.health.score) {
           scores = children.health.score;
@@ -500,17 +570,17 @@ class HealthView extends Component {
         dayBaseTime.setMinutes(0);
         dayBaseTime.setSeconds(0);
         dayBaseTime.setMilliseconds(0);
-        this.props.addHealthTimeSeries("score", {time: Math.round(dayBaseTime.getTime() / 1000), value: this.state.healthData.healthScore});
+//        this.props.addHealthTimeSeries("score", {time: Math.round(dayBaseTime.getTime() / 1000), value: this.state.healthData.healthScore});
 //        }
-//        this.props.score = this.cleanHealthScore(this.props.score);
 
         const activities = (activity) ? activity : [];
         const stepss = (steps) ? steps : [];
         const sleeps = (sleep) ? sleep : [];
         const heartrates = (heartrate) ? heartrate : [];
+        const medits = (medit) ? medit : [];
         const weights = (weight) ? weight : [];
         const stresses = (stress) ? stress : [];
-        const scoress = arrayObj;
+        const scoress = (score) ? score : [];;
 
         return (
             <View>
@@ -526,12 +596,12 @@ class HealthView extends Component {
                 </View>
                 <View style={
                     [cardsContainer,
-                    {height: 3*graphCardWidth+20}]}>
+                    {height: 4*graphCardWidth+20}]}>
                     <View style={cardsStyle}>
                         <GraphCard
                             title= "Health Score"
                             unit= ""
-                            data= {scoress}
+                            data= {convertMeditFromObjectToArray(scoress)}
                             rules= {healthScores.healthscore}
                             width= {graphScoreCardWidth}
                             height= {graphCardWidth}
@@ -570,6 +640,17 @@ class HealthView extends Component {
                             data= {heartrates}
                             rules= {healthScores.heartrate}
                             width= {graphCardWidth}
+                            height= {graphCardWidth}
+                        />
+                    </View>
+                    <View style={cardsStyle}>
+                        <GraphBarCard
+                            title= "Daily Medit Earnings"
+                            unit= ""
+                            data= {convertMeditFromObjectToArray(medits)}
+                            timestamp= {meditTimestamp}
+                            rules= {healthScores.healthscore}
+                            width= {graphScoreCardWidth}
                             height= {graphCardWidth}
                         />
                     </View>
@@ -641,6 +722,7 @@ class HealthView extends Component {
       activity,
       sleep,
       steps,
+      score,
       children
       } = this.props;
 
@@ -660,6 +742,8 @@ class HealthView extends Component {
     const valueCardWidth = (screenWidth - 30)/2;
     const hgraphWidth = screenWidth - 120;
     const applehealth = (children.profile) ? children.profile.apple_health : false;
+    const scoress = convertMeditFromObjectToArray(score);
+    const latestHealthScore = (scoress) ? (scoress.length > 0 ? Math.round(scoress[0].value) : 0) : "Add your first data source";
 
     return (
         <View style={{flex: 1, marginTop: 5}}>
@@ -698,7 +782,7 @@ class HealthView extends Component {
                     width= {hgraphWidth}
                     height= {hgraphWidth}
                     pathColor= "#b7daff"
-                    score={(applehealth) ? this.state.healthData.healthScore : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "Add your first data source" : (this.state.healthData.healthScore === -1) ? "" : this.state.healthData.healthScore} 
+                    score={(applehealth) ? latestHealthScore : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "Add your first data source" : (latestHealthScore === -1) ? "" : latestHealthScore} 
                     healthyRangeFillColor={(applehealth) ? hGraphColor : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ?  primaryWhiteColor : hGraphColor}
                     margin={
                     {top: 50,
@@ -876,11 +960,11 @@ const mapStateToProps = (state) => {
     const {user} = state.auth;
     const {children, stepsExist, activityExists, sleepExists} = state.data;
     const {stories, filters} = state.feed;
-    const {score} = state.health.timeseries;
+    const {medit, score} = state.timeseries;
     const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries;
 
     return {
-        user, children, stepsExist, activityExists, sleepExists, stories, score, filters, activity, steps, heartrate, sleep, weight, stress
+        user, children, stepsExist, activityExists, sleepExists, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress
     }
 }
 export default connect(mapStateToProps, {
@@ -895,8 +979,13 @@ export default connect(mapStateToProps, {
   removeAllFeedStories,
   humanAPIFetch,
   fetchHealthTimeSeries,
+  healthScoreSave,
   addHealthTimeSeries,
   timestampExists,
   nativeHealthExists,
-  nativeTimeStampsExists
+  nativeTimeStampsExists,
+  timeseriesMeditFetch,
+  timeseriesScoreFetch,
+  addMeditTimeSeries,
+  addHealthScoreTimeSeries
   })(HealthView);

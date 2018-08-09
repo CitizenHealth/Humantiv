@@ -15,6 +15,7 @@ import {
   SettingsSection,
   SettingsDataSource,
   SettingsJourney,
+  SettingsButton,
   IconButton
  } from "./common";
  import { 
@@ -279,14 +280,7 @@ class SettingsView extends Component {
           horizontal={false}
           >
           <View style={headerStyle}>
-              <View style={{
-                height: 60,
-                width: 60
-              }}/>
-              <Text style={textStyle}> Settings </Text>   
-              <IconButton onPress={this.onLogOutButtonPress.bind(this)}>
-                <FontAwesome>{Icons.powerOff}</FontAwesome>
-              </IconButton>                   
+            <Text style={textStyle}> Settings </Text>                   
           </View>
           {this.renderHeader()}
           < SettingsSection
@@ -408,6 +402,10 @@ class SettingsView extends Component {
               color= {primaryGreenColor}
               onPress={() => {Actions.settingsjourney()}}
             />
+            < SettingsButton
+              label="Sign out"
+              onPress= {this.onLogOutButtonPress.bind(this)}
+            />
           </SettingsSection>
         </ScrollView>
       </View>
@@ -418,7 +416,7 @@ class SettingsView extends Component {
 const styles ={
   headerStyle: {
     flexDirection: 'row',
-    justifyContent: "space-between",
+    justifyContent: "center",
     height: scale(60),
     alignItems: 'center',
     alignContent: 'stretch'

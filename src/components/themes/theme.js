@@ -123,6 +123,9 @@ export const ActivityFeedTypes = {
   },
   Wallet: {
     Medits: 'medits',
+    StepsMedits: "stepsmedits",
+    SleepMedits: 'sleepmedits',
+    ActivityMedits: 'activitymedits',
     Medex: 'medex'
   },
   Market: {

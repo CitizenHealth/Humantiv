@@ -1,4 +1,4 @@
-import {HEALTH_FETCH, HEALTH_ADD, HEALTH_DELETE, HEALTH_SCORE_SET} from '../actions/types';
+import {HEALTH_FETCH, HEALTH_ADD, HEALTH_DELETE, HEALTH_SCORE_SET, HEALTH_SCORE_SAVE} from '../actions/types';
 
 const INITIAL_STATE = {
   healthscore: -1,
@@ -8,7 +8,9 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action)  => {
   switch (action.type) {
     case HEALTH_ADD:
-    return state;
+      return state;
+    case HEALTH_SCORE_SAVE:
+      return state;
     case HEALTH_DELETE:
       return state;
     case HEALTH_FETCH:

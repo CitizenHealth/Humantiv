@@ -47,7 +47,8 @@ class WalletView extends Component {
 
       var dataArray = new Array();
       for (var i = 0; i<200; i++) {
-        dataArray[i] = 3000+(500*Math.round(Math.random()*100)/100-250)+ 3*i;
+//        dataArray[i] = 3000+(500*Math.round(Math.random()*100)/100-250)+ 3*i;
+        dataArray[i] = 1;
       }
 
       this.state = {
@@ -63,7 +64,7 @@ class WalletView extends Component {
     refreshData() {
       var dataArray = new Array();
       for (var i = 0; i<200; i++) {
-        dataArray[i] = 3000+(300*Math.random().toFixed(4)-150)+ 3*i;
+         dataArray[i] = 1;
       }
       this.setState({data: dataArray});
     }

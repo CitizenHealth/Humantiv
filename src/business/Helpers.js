@@ -127,6 +127,10 @@ const pad = (num, size) => {
   return s;
 }
 
+export const convertUnixTimeToDay = (utime) => {
+  return moment(utime * 1000).format("MM/D");
+}
+
 export const areMeasurementArraysEquals = (array1, array2) => {
   if (array1.length !== array2.length) {
     return false;
@@ -140,4 +144,23 @@ export const areMeasurementArraysEquals = (array1, array2) => {
   }
 
   return true;
+}
+
+export const convertTimeArrayToObject = (data, key) => {
+
+  let objectFromArray = {};
+  for (var index = 0; index < data.length; index++) {
+    objectFromArray[data[index].time] = data[index][key];
+  }
+  return objectFromArray;
+}
+
+export const convertMeditFromObjectToArray = (obj) => {
+
+  let arrayOfObjs = [];
+  arrayOfObjs = Object.keys(obj).map((key) => {
+    return {time: parseInt(key), value: obj[key]}
+  }).reverse();
+
+  return arrayOfObjs;
 }

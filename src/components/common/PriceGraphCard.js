@@ -76,7 +76,7 @@ class PriceGraphCard extends Component {
     let lastValue = data[data.length-2];
 
     let diffValue = (currentValue - lastValue).toFixed(2);
-    let sign = (diffValue > 0) ? "+" : "";
+    let sign = (diffValue >= 0) ? "+" : "";
     let diffPercentage = ((100*diffValue)/lastValue).toFixed(2);
 
     return (

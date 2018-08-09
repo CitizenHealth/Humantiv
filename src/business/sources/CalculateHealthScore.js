@@ -4,6 +4,79 @@ import healthScores from '../../configuration/healthscore.json';
 
 const HOURS_TO_MILLISECONDS = 3600000;
 
+export const getDailyHealthScore = (activity, sleep, steps, journey) => {
+  // This is the function that has all the logic of calculating the daily health score
+
+  let stepsScore = getMetricScore(
+    steps, 
+    healthScores.steps.absoluteMin, 
+    healthScores.steps.healthyMin, 
+    healthScores.steps.healthyMax, 
+    healthScores.steps.absoluteMax
+  );
+  let activityScore = getMetricScore(
+    activity, 
+    healthScores.activity.absoluteMin, 
+    healthScores.activity.healthyMin, 
+    healthScores.activity.healthyMax, 
+    healthScores.activity.absoluteMax
+  );
+  let sleepScore = getMetricScore(
+    sleep, 
+    healthScores.sleep.absoluteMin, 
+    healthScores.sleep.healthyMin, 
+    healthScores.sleep.healthyMax, 
+    healthScores.sleep.absoluteMax
+  );
+
+  let stepsWeight = getMetricWeight("steps", journey)
+  let activityWeight = getMetricWeight("activity", journey)
+  let sleepWeight = getMetricWeight("sleep", journey)
+  
+  return (stepsWeight*stepsScore + activityWeight*activityScore + sleepWeight*sleepScore)/(stepsWeight + activityWeight + sleepWeight);
+}
+
+const getMetricScore =  (metric, absoluteMin, healthyMin, healthyMax, absoluteMax) => {
+  let metricScore = 0;
+
+  if (metric) {
+    // 
+    if (metric < absoluteMin || metric > absoluteMax) {
+      metricScore = 0;
+    }
+    if (metric >= healthyMin && metric <= healthyMax) {
+      metricScore = 100;
+    }
+    if (metric >= absoluteMin && metric < healthyMin) {
+      metricScore = 100 * (metric - absoluteMin)/(healthyMin - absoluteMin);;
+    }
+    if (metric > healthyMax && metric <= absoluteMax) {
+      metricScore = 100 * (metric - absoluteMax)/(healthyMax - absoluteMax);
+    }
+  }
+  return metricScore;
+}
+
+const getMetricWeight =  (metric, journey) => {
+  let metricWeight = 0;
+
+  switch (metric) {
+    case "steps": 
+      metricWeight = 4;
+      break;
+    case "activity": 
+      metricWeight = 8;
+      break;
+    case "sleep": 
+      metricWeight = 6;
+      break;
+    default: 
+      metricWeight = 4;
+      break;
+  }
+  return metricWeight; 
+}
+
 export const getHealthScore = (activity, sleep, steps) => {
     var healthData = [];
 

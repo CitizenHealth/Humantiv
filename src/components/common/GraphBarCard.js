@@ -20,13 +20,15 @@ import {
   Svg,
   Rect
 } from 'react-native-svg'
-import { LineChart, AreaChart} from 'react-native-svg-charts'
+import { YAxis, XAxis, BarChart, Grid} from 'react-native-svg-charts'
 import * as shape from 'd3-shape';
-import {primaryGreyColor} from '../themes/theme';
+import {primaryGreyColor, primaryBlueColor, primaryWhiteColor} from '../themes/theme';
 import { scale } from "react-native-size-matters";
-import {convertUNIXTimeToSince} from "../../business/Helpers";
+import {convertUNIXTimeToSince, convertUnixTimeToDay} from "../../business/Helpers";
 
-class GraphCard extends Component {
+const MAX_SERIES_NUMBER = 15;
+
+class GraphBarCard extends Component {
   static propTypes = {
     title: PropTypes.string,
     unit: PropTypes.string,
@@ -41,7 +43,8 @@ class GraphCard extends Component {
         healthyMax: PropTypes.number.isRequired
     }),
     width: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    timestamp: PropTypes.number
   };
 
   static defaultProps = {
@@ -50,7 +53,8 @@ class GraphCard extends Component {
     data: [],
     rules: {},
     width: 200,
-    height: 200
+    height: 200,
+    timestamp: null
   }
 
   constructor(props) {
@@ -74,20 +78,19 @@ class GraphCard extends Component {
     } = nextProps;
 
     if (this.state.data !== data) { 
-      const latestValue = (data.length > 0 ) ? (data[0].value !== undefined) ? Math.round(data[0].value) : "-" : "-";
-      const latestTime = (data.length > 0 ) ? (data[0].timestamp !== undefined) ? data[0].timestamp : "" : "";
-      var selectedColor = graphGreyColor;
+      const latestValue = (data.length > 0 ) ? (data[0].value !== undefined) ? data[0].value : "-" : "-";
+      var selectedColor = primaryBlueColor;
+      // var selectedColor = graphGreyColor;
 
-      if (latestValue !== "-") {
-          if (latestValue < rules.healthyMin || latestValue > rules.healthyMax) {
-              selectedColor = graphRedColor;
-          } else {
-              selectedColor = graphGreenColor;
-          }
-      }
+      // if (latestValue !== "-") {
+      //     if (latestValue < rules.healthyMin || latestValue > rules.healthyMax) {
+      //         selectedColor = graphRedColor;
+      //     } else {
+      //         selectedColor = graphGreenColor;
+      //     }
+      // }
       this.setState({
           value: latestValue,
-          timestamp: (latestTime === "") ? "" : convertUNIXTimeToSince(latestTime),
           color: selectedColor
       });
     }
@@ -118,12 +121,14 @@ class GraphCard extends Component {
     // convert data to array
     var dataArray = []; 
     let index = 0;
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < Math.min(MAX_SERIES_NUMBER, data.length); i++) {
       if (data[i].value !== undefined) {
         dataArray[index++] = data[i].value;
       }
     }
     const size = 24;
+
+    const dataFinal = dataArray.reverse();
 
     return (
     <View style={[cardStyle, {
@@ -171,37 +176,40 @@ class GraphCard extends Component {
             ]}>
               <View
                 width ={(width || 100) -30}
-                height ={(height || 100)/2}
+                height ={(height || 100)/2}               
               >
                 <View
                   style={{
                     backgroundColor: primaryGreyColor,
                     opacity: 0.3,
                     position: "absolute",
-                    bottom: ((height || 100)/2)/3
+                    bottom: 15
                   }}
                   width ={(width || 100) -30}
-                  height ={((height || 100)/2)/3}                 
+                  height = {1}                
                 />
-                <LineChart
+                
+                <BarChart
                     style = {{
                       height: height/2,
                       width: width -30
                     }} 
                     x={0}
                     y={0}          
-                    data={ dataArray.reverse() }
+                    data={ (dataArray.length === 0) ? [1] : dataFinal }
                     animate= {true}
                     animationDuration = {1000}
-                    showGrid= {false}
-                    contentInset={ { top: 25, bottom: 25 } }
-                    curve= {shape.curveNatural}
+                    showGrid= {true}
+                    contentInset={ { top: 5, bottom: 26 } }
+                    numberOfTicks= {1}
+                    spacingInner= {scale(0.5)}
+                    spacingOuter= {scale(0.0)}
                     svg={{
-                        strokeWidth: 2,
-                        stroke: graphGreyColor,
+                      fill: primaryBlueColor,
                     }}
                   >
-                  </LineChart> 
+                  <Grid />
+                </BarChart>
               </View>
           </View>    
         </View> 
@@ -218,7 +226,7 @@ class GraphCard extends Component {
             fontFamily: Fonts.regular,
             color: graphGreyColor
           }}>
-              {this.state.timestamp}
+              {(this.props.timestamp) ? convertUNIXTimeToSince(this.props.timestamp) : ""}
           </Text>
         </View>     
     </View>
@@ -287,4 +295,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export { GraphCard };
+export { GraphBarCard };

@@ -5,6 +5,8 @@ import {
   TIMESERIES_SLEEP_FETCH,
   TIMESERIES_WEIGHT_FETCH,
   TIMESERIES_STRESS_FETCH,
+  TIMESERIES_MEDIT_FETCH,
+  TIMESERIES_SCORE_FETCH
   } from "../actions/types";
   
 const INITIAL_STATE = {
@@ -14,6 +16,8 @@ const INITIAL_STATE = {
   sleep: [],
   weight: [],
   stress: [],
+  medit: [],
+  score: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -48,6 +52,17 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         stress : action.payload
       };
+    case TIMESERIES_MEDIT_FETCH:
+      return {
+        ...state,
+        medit : action.payload
+      };
+    case TIMESERIES_SCORE_FETCH:
+      return {
+        ...state,
+        score : action.payload
+      };
+
     default:
       return state;
   }
