@@ -158,9 +158,10 @@ export const convertTimeArrayToObject = (data, key) => {
 export const convertMeditFromObjectToArray = (obj) => {
 
   let arrayOfObjs = [];
-  arrayOfObjs = Object.keys(obj).map((key) => {
-    return {time: parseInt(key), value: obj[key]}
-  }).reverse();
-
+  if (obj) {
+    arrayOfObjs = Object.keys(obj).map((key) => {
+      return {time: parseInt(key), value: obj[key]}
+    }).reverse();
+  }
   return arrayOfObjs;
 }
