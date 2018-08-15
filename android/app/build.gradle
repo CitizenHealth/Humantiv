@@ -156,6 +156,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-version-number')
     compile project(':react-native-sentry')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-human-api')

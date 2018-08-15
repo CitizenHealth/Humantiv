@@ -45,6 +45,7 @@ import {
 } from '../business/Helpers';
 import AppleHealthKit from 'rn-apple-healthkit';
 import PasswordLostView from './PasswordLostView';
+import VersionNumber from 'react-native-version-number';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -216,7 +217,8 @@ class SettingsView extends Component {
   render() {
     const {
       headerStyle,
-      textStyle
+      textStyle,
+      footerStyle
     } = styles;
 
     const {children} = this.props;
@@ -406,6 +408,11 @@ class SettingsView extends Component {
               label="Sign out"
               onPress= {this.onLogOutButtonPress.bind(this)}
             />
+            <Text
+              style = {footerStyle}
+            >
+             {`Version: ${VersionNumber.appVersion} | Build: ${VersionNumber.buildVersion}`}
+            </Text>
           </SettingsSection>
         </ScrollView>
       </View>
@@ -427,6 +434,14 @@ const styles ={
     fontSize: 20,
     color: graphGreyColor,
     fontFamily: Fonts.regular
+  },
+  footerStyle: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: graphGreyColor,
+    fontFamily: Fonts.regular,
+    marginTop: 40,
+    marginBottom: 10
   }
 }
 

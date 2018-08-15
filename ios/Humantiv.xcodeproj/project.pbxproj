@@ -60,6 +60,7 @@
 		4A27D48320D8D133000D5C64 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A27D46A20D8D133000D5C64 /* FirebaseCoreDiagnostics.framework */; };
 		4A27D48420D8D29A000D5C64 /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A27D44B20D8D132000D5C64 /* FirebaseDatabase.framework */; };
 		4A27D4D520D8E047000D5C64 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A27D4D020D8DFEC000D5C64 /* libRNSpinkit.a */; };
+		4A478B7E21240E0300901EB0 /* libRNVersionNumber.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A478B7B2124065C00901EB0 /* libRNVersionNumber.a */; };
 		4A5063D6210BE8E8006E8824 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5063D5210BE8E8006E8824 /* HealthKit.framework */; };
 		4A52645A20AE352000BC834D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A52642B20AE34CB00BC834D /* libBVLinearGradient.a */; };
 		4A88425A207B2D8800C04E91 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A884249207B2D1500C04E91 /* libRNSVG.a */; };
@@ -298,6 +299,20 @@
 			remoteGlobalIDString = 641194871EC9FD4A00D4FC03;
 			remoteInfo = "RNSpinkit-tvOS";
 		};
+		4A478B7A2124065C00901EB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNVersionNumber;
+		};
+		4A478B7C2124065C00901EB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2858ECD01F8B91B400610575;
+			remoteInfo = "RNVersionNumber-tvOS";
+		};
 		4A5063D3210BE5CF006E8824 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 113B75E19F3E48F5904CDC4E /* RCTAppleHealthKit.xcodeproj */;
@@ -519,6 +534,7 @@
 		4A27D46920D8D133000D5C64 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseInstanceID.framework; sourceTree = "<group>"; };
 		4A27D46A20D8D133000D5C64 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
 		4A27D49C20D8DFEC000D5C64 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
+		4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVersionNumber.xcodeproj; path = "../node_modules/react-native-version-number/ios/RNVersionNumber.xcodeproj"; sourceTree = "<group>"; };
 		4A5063D5210BE8E8006E8824 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4A5382E020469BB000D2FFBA /* Humantiv.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Humantiv.entitlements; path = Humantiv/Humantiv.entitlements; sourceTree = "<group>"; };
@@ -608,6 +624,7 @@
 				4A27D47B20D8D133000D5C64 /* Protobuf.framework in Frameworks */,
 				4A27D46B20D8D133000D5C64 /* leveldb-library.framework in Frameworks */,
 				4A27D48020D8D133000D5C64 /* nanopb.framework in Frameworks */,
+				4A478B7E21240E0300901EB0 /* libRNVersionNumber.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				4A88425A207B2D8800C04E91 /* libRNSVG.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -933,6 +950,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4A478B432124065B00901EB0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A478B7B2124065C00901EB0 /* libRNVersionNumber.a */,
+				4A478B7D2124065C00901EB0 /* libRNVersionNumber-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4A5063D0210BE5CE006E8824 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1037,6 +1063,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -1290,6 +1317,10 @@
 					ProductGroup = 4A884244207B2D1500C04E91 /* Products */;
 					ProjectRef = 4A884243207B2D1500C04E91 /* RNSVG.xcodeproj */;
 				},
+				{
+					ProductGroup = 4A478B432124065B00901EB0 /* Products */;
+					ProjectRef = 4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1501,6 +1532,20 @@
 			fileType = archive.ar;
 			path = libRNSpinkit.a;
 			remoteRef = 4A27D4D120D8DFEC000D5C64 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A478B7B2124065C00901EB0 /* libRNVersionNumber.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNVersionNumber.a;
+			remoteRef = 4A478B7A2124065C00901EB0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A478B7D2124065C00901EB0 /* libRNVersionNumber-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNVersionNumber-tvOS.a";
+			remoteRef = 4A478B7C2124065C00901EB0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4A5063D4210BE5CF006E8824 /* libRCTAppleHealthKit.a */ = {
@@ -1955,6 +2000,7 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
 					"$(SRCROOT)/../node_modules/rn-apple-healthkit/RCTAppleHealthKit",
+					"$(SRCROOT)/../node_morules/react-native-version-number/ios",
 				);
 				INFOPLIST_FILE = Humantiv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2006,6 +2052,7 @@
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
 					"$(SRCROOT)/../node_modules/rn-apple-healthkit/RCTAppleHealthKit",
+					"$(SRCROOT)/../node_morules/react-native-version-number/ios",
 				);
 				INFOPLIST_FILE = Humantiv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

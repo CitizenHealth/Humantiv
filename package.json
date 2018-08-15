@@ -41,6 +41,7 @@
     "react-native-svg-charts": "^5.2.0",
     "react-native-swipeout": "^2.3.3",
     "react-native-tab-view": "^0.0.74",
+    "react-native-version-number": "^0.3.4",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.5",

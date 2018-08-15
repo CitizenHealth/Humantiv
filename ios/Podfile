@@ -26,6 +26,8 @@ target 'Humantiv' do
 
 #  pod 'react-native-spinkit', :path => '../node_modules/react-native-spinkit'
 
+#  pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
+
 end
 
 target 'HumantivTests' do

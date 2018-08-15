@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.facebook.react.ReactApplication;
+import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
@@ -73,6 +74,7 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
+            new RNVersionNumberPackage(),
                 new RNSpinkitPackage(),
                 new LinearGradientPackage(),
                 new SvgPackage(),

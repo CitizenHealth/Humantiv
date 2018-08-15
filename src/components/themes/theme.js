@@ -65,12 +65,11 @@ export const modalMessages = {
   },
   applehealth: {
     title: "",
-    message:"What wearables do you want to sync with? \n\n\n"+
-            "Humantiv allows you to connect your health and fitness devices in two different ways:\n\n"+
+    message:"Humantiv allows you to connect your health and fitness devices in two different ways:\n\n"+
             "APPLE HEALTH: Humantiv will sync with The Apple Health app in your iPhone and will pull data from any device you already connected to Apple Health."+
-            "\nExamples of devices supported are: Apple Watch, Beddit 3, Xiaomi Mi Band 2, Nike+, RunKeeper, Lark, and Weight Watchers." +
+            "\nExamples of devices supported are: Apple Watch, Beddit 3, Xiaomi Mi Band 2, Nike+, and RunKeeper" +
             "\n\nHUMAN API: You will not need the Apple Health App and can sync directly with your device or app data." +
-            "\nExamples of devices supported are: FitBit, Misfit, Strava, Nokia-Withings, and MapMyFitness.",
+            "\nExamples of devices supported are: FitBit, Misfit, Strava, Nokia(Withings), and MapMyFitness.",
     cancel: "HUMAN API",
     accept: "APPLE HEALTH"
   },
