@@ -11,7 +11,10 @@ import {
   JourneyChoice,
   Icon,
   Button
-} from './common'
+} from './common';
+import {
+  ModalTerms 
+} from './custom'; 
 import {
   primaryGreenColor,
   primaryBackgroungColor,
@@ -28,7 +31,8 @@ class JourneyView extends Component {
     super(props);
 
     this.state = {
-      ready: false
+      ready: false,
+      visibleModal: true
     }
   }
   componentWillMount() {
@@ -41,6 +45,19 @@ class JourneyView extends Component {
       this.setState({ready: true});
     }
     this.props.dataSave({type: "profile", data: {journey: key}});
+  }
+
+  acceptTerms = () => {
+    this.setState({visibleModal: false});
+  }
+
+  linkPress = (url, text) => {
+    Actions.termswebview({url: url, backPress: this.backFromTerms.bind(this)});
+    this.setState({visibleModal: false});
+  }
+
+  backFromTerms = () => {
+    this.setState({visibleModal: true});
   }
 
   render() {
@@ -98,6 +115,14 @@ class JourneyView extends Component {
             <Text style={theme.primaryWhiteTextStyle}> Accept </Text>
           </Button>
         </View>
+        <ModalTerms
+          url="https://citizenhealth.io/privacy-policy"
+          visible={this.state.visibleModal}
+          onLinkPress={this.linkPress.bind(this)}
+          onAcceptPress={this.acceptTerms.bind(this)}
+        >
+        </ModalTerms>
+
       </ScrollView>
     );
   }

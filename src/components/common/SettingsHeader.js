@@ -14,6 +14,8 @@ import {
 } from '../themes'
 import PropTypes from 'prop-types';
 import { scale } from "react-native-size-matters";
+import Images from "../../resources/images";
+
 
 class SettingsHeader extends Component {
   static propTypes = {
@@ -24,7 +26,7 @@ class SettingsHeader extends Component {
   static defaultProps = {
     name: "",
     email: "",
-    image: "https://www.ienglishstatus.com/wp-content/uploads/2018/04/Anonymous-Whatsapp-profile-picture.jpg"
+    image: ""
   }
 
   render() {
@@ -95,7 +97,7 @@ class SettingsHeader extends Component {
                 borderRadius: imageSize/2
               }
             ]}
-      source={{uri: this.props.image}} />
+      source={(this.props.image === "" )? Images.img_user_profile : {uri: this.props.image}} />
 
       </View>
     )

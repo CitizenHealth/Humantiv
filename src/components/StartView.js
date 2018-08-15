@@ -77,12 +77,16 @@ class StartView extends Component {
         firebase.config().enableDeveloperMode();
       }
       firebase.config().setDefaults({
+        share_title: configData.share_title,
+        share_message: configData.share_message,
         tutorial_title: configData.tutorial_title,
         tutorial_text: configData.tutorial_text,
         tutorial_background_color: configData.tutorial_background_color
       });
 
       // Fetch remote configuration parameters
+      this.props.getConfiguration('share_title');
+      this.props.getConfiguration('share_message');
       this.props.getConfiguration('tutorial_title');
       this.props.getConfiguration('tutorial_text');
       this.props.getConfiguration('tutorial_background_color');
@@ -240,8 +244,8 @@ class StartView extends Component {
 const mapStateToProps = state => {
   const { user, loggedin } = state.auth;
   const { children, registered } = state.data;
-  const { tutorial_title, tutorial_text} = state.config;
-  return { user, loggedin, children, registered, tutorial_title, tutorial_text};
+  const { share_title, share_message, tutorial_title, tutorial_text} = state.config.configuration;
+  return { user, loggedin, children, registered, share_title, share_message, tutorial_title, tutorial_text};
 };
 
 export default connect(mapStateToProps, { 

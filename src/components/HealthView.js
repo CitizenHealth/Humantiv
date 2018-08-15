@@ -1,14 +1,13 @@
 import React, {Component} from "react";
 import { 
-    WebView, 
     StyleSheet, 
     View, 
     Text, 
-    TouchableOpacity,
     Platform,
     ScrollView,
     Dimensions,
-    Alert       
+    TouchableOpacity,
+    Linking       
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
@@ -178,7 +177,8 @@ class HealthView extends Component {
       const sleepTimestampValue = (children.timestamps && children.timestamps.sleep_value) ? children.timestamps.sleep_value : 0;
       const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
       const total = (children.health && children.health.score && children.health.score.total) ? children.health.score.total : 0;
-
+      const scores = (children.health && children.health.score) ? children.health.score : [];
+      
       const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
       const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
 //      const heartrateTimestamp = (children.timestamps && children.timestamps.heartrate) ? children.timestamps.heartrate : null;
@@ -326,7 +326,7 @@ class HealthView extends Component {
             
         // ... then we calculate the daily health scores and total health score
         
-        let dailyHealthScore = processDailyHealthScore(scoreTimestamp, healthscore, total, steps, activity, sleep);
+        let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, total, steps, activity, sleep);
         this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
         this.props.dataSave({type: "timestamps", data: {
           score: dailyHealthScore.scoreTimeStamp,
@@ -736,8 +736,8 @@ class HealthView extends Component {
     // console.log(`WEBVIEW access_token: ${access_token}`);
 
 
-    const medits = (children.wallet) ? children.wallet.medits : "";
-    const mdx = (children.wallet) ? children.wallet.mdx : "";
+    const medits = (children.wallet) ? (children.wallet.medits ? children.wallet.medits : 0) : 0;
+    const mdx = (children.wallet) ? (children.wallet.mdx ? children.wallet.mdx : 0) : 0 ;
     const screenWidth = Dimensions.get('window').width;
     const valueCardWidth = (screenWidth - 30)/2;
     const hgraphWidth = screenWidth - 120;
@@ -755,14 +755,19 @@ class HealthView extends Component {
                     value= {formatNumbers(medits.toString())}
                     width= {valueCardWidth}
                 />
-
-                <ValueCard
-                    color= "#34d392"
-                    icon= "medex"
-                    title= "MDX Balance"
-                    value= {formatNumbers(mdx.toString())}
-                    width= {valueCardWidth}
-                />
+                <TouchableOpacity 
+                  style={{width: valueCardWidth}} 
+                  onPress={() => Linking.openURL('https://www.startengine.com/citizenhealth')}
+                >
+                  <ValueCard
+                      color= "#34d392"
+                      icon= "medex"
+                      title= "MDX Balance"
+                      value= "Invest"
+                      width= {valueCardWidth}
+                      logo= {false}
+                  />
+                </TouchableOpacity>
 
             </View>
             <ScoreCard 

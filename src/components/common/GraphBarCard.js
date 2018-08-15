@@ -183,7 +183,7 @@ class GraphBarCard extends Component {
                     backgroundColor: primaryGreyColor,
                     opacity: 0.3,
                     position: "absolute",
-                    bottom: 15
+                    bottom: 20
                   }}
                   width ={(width || 100) -30}
                   height = {1}                

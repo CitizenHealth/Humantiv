@@ -86,7 +86,7 @@ export const getHealthScore = (activity, sleep, steps) => {
         {
           id          : 'activity',
           label       : 'Activity',
-          value       : (activity[activity.length -1].value !== undefined) ? activity[activity.length -1].value : 0,
+          value       : (activity[0].value !== undefined) ? activity[0].value : 0,
           healthyMin  : healthScores.activity.healthyMin, 
           healthyMax  : healthScores.activity.healthyMax,
           absoluteMin : healthScores.activity.absoluteMin,
@@ -103,7 +103,7 @@ export const getHealthScore = (activity, sleep, steps) => {
         {
           id          : 'sleep',
           label       : 'Sleep',
-          value       : (sleep[sleep.length -1].value !== undefined) ? sleep[sleep.length -1].value : 0,
+          value       : (sleep[0].value !== undefined) ? sleep[0].value : 0,
           healthyMin  : healthScores.sleep.healthyMin, 
           healthyMax  : healthScores.sleep.healthyMax,
           absoluteMin : healthScores.sleep.absoluteMin,
@@ -154,7 +154,7 @@ export const getHealthScore = (activity, sleep, steps) => {
         {
           id          : 'steps',
           label       : 'Steps',
-          value       : (steps[steps.length -1].value !== undefined) ? steps[steps.length -1].value : 0,
+          value       : (steps[0].value !== undefined) ? steps[0].value : 0,
           healthyMin  : healthScores.steps.healthyMin, 
           healthyMax  : healthScores.steps.healthyMax,
           absoluteMin : healthScores.steps.absoluteMin,

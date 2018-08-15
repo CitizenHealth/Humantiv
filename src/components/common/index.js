@@ -39,3 +39,4 @@ export * from './SettingsTime';
 export * from './SettingsButton';
 export * from './Feed';
 export * from './Date';
+export * from './EarnMedits';

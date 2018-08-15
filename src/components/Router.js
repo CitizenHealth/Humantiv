@@ -13,6 +13,7 @@ import JourneyView from "./JourneyView";
 import SettingsJourneyView from "./SettingsJourneyView";
 import FeedFiltersView from "./FeedFiltersView";
 import ManualLogView from "./ManualLogView";
+import WebPageView from "./WebPageView";
 
 const RouterComponent = () => {
   return (
@@ -35,11 +36,9 @@ const RouterComponent = () => {
           <Scene key="personal" component={SimplePage} hideNavBar/>
           <Scene key="humanapi" component={SimplePage} hideNavBar/>
         </Scene>
-        <Scene 
-          key="journey"
-          component={JourneyView}
-          hideNavBar
-        >
+        <Scene key="journeyflow">
+          <Scene  key="journey" component={JourneyView} hideNavBar />         
+          <Scene key="termswebview" component={WebPageView} hideNavBar />
         </Scene>
         <Scene key="main">
           <Scene

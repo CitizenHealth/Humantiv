@@ -1,6 +1,6 @@
 import {getDailyHealthScore} from "./CalculateHealthScore";
 
-export const processDailyHealthScore = (scoreTimestamp, healthscore, total, steps, activity, sleep) => {
+export const processDailyHealthScore = (scores, scoreTimestamp, healthscore, total, steps, activity, sleep) => {
    
   let dailyHealthScores = [];
 
@@ -50,11 +50,21 @@ export const processDailyHealthScore = (scoreTimestamp, healthscore, total, step
 
     let score = getDailyHealthScore(dailyActivity, dailySleep, dailySteps, "journey placeholder");
 
-    localHealthscore = (localHealthscore*localTotal + score)/(localTotal + 1);
-    localTotal++;
+    if (scoreTimestamp && oldestDay > scoreTimestamp
+        || !scoreTimestamp) {
+      localHealthscore = (localHealthscore*localTotal + score)/(localTotal + 1);
+      localTotal++;
+    } else if (scoreTimestamp) {
+      if (scores.history && scores.history.length !== 0) {
+        let keys = Object.keys(scores.history);
+        let index = keys.indexOf(`${scoreTimestamp}`)-1;
+        let time = keys[index];
+        localHealthscore = ( scores.history[time]*(localTotal-1) + score)/(localTotal);
+      }
+    }
 
     dailyHealthScores.push({
-      score: score,
+      score: localHealthscore,
       timestamp: Math.round((new Date()).getTime() / 1000),
       time: oldestDay
     });
