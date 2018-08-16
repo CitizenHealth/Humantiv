@@ -86,10 +86,8 @@ class WalletView extends Component {
           dialogTitle: "Share Humantiv"
         }).then(result =>  {
             const {children} = this.props;
-            const medits = (children.wallet) ? children.wallet.medits : "";
             
-            let newMedits = medits+10;
-            this.props.dataAdd({type: "wallet", item: "medits", data: newMedits});
+            this.props.dataAdd({type: "wallet", item: "medits", data: 10});
             // Add medit to feed
             const story = {
               title: "Your sharing earned you",

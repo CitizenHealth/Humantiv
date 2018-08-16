@@ -54,17 +54,17 @@ class StartView extends Component {
     // Connect Firebase Messaging
     firebase.messaging().onMessage((payload) => {
       console.log(`ALERT PAYLOAD: ${JSON.stringify(payload)}`);
-      const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
-      const body = Platform.OS === 'ios' ? payload.aps.alert.body : payload.fcm.body;
+      // const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
+      // const body = Platform.OS === 'ios' ? payload.aps.alert.body : payload.fcm.body;
 
-      Alert.alert(
-        title,
-        body,
-        [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        { cancelable: false }
-      )
+      // Alert.alert(
+      //   title,
+      //   body,
+      //   [
+      //     {text: 'OK', onPress: () => console.log('OK Pressed')},
+      //   ],
+      //   { cancelable: false }
+      // )
     });
 
       // Init Google Analytics
