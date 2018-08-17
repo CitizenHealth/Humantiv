@@ -77,7 +77,7 @@ const getMetricWeight =  (metric, journey) => {
   return metricWeight; 
 }
 
-export const getHealthScore = (activity, sleep, steps) => {
+export const getHealthScore = (activity, sleep, steps, heartrate) => {
     var healthData = [];
 
     if (activity && activity.length > 0 ) {
@@ -114,22 +114,22 @@ export const getHealthScore = (activity, sleep, steps) => {
       )
     }
 
-    // if (heartrate && heartrate.length > 0 ) {
-    //   healthData.push(
-    //     hGraphConvert('male', 'exercise',
-    //     {
-    //       id          : 'heartrate',
-    //       label       : 'Heart Rate',
-    //       value       : (heartrate[heartrate.length -1].value !== undefined) ? heartrate[heartrate.length -1].value : 0,
-    //       healthyMin  : healthScores.heartrate.healthyMin, 
-    //       healthyMax  : healthScores.heartrate.healthyMax,
-    //       absoluteMin : healthScores.heartrate.absoluteMin,
-    //       absoluteMax : healthScores.heartrate.absoluteMax,
-    //       weight      : 3,
-    //       unitLabel   : 'bpm'
-    //     })
-    //   )
-    // }
+    if (heartrate && heartrate.length > 0 ) {
+      healthData.push(
+        hGraphConvert('male', 'exercise',
+        {
+          id          : 'heartrate',
+          label       : 'Heart Rate',
+          value       : (heartrate[heartrate.length -1].value !== undefined) ? heartrate[heartrate.length -1].value : 0,
+          healthyMin  : healthScores.heartrate.healthyMin, 
+          healthyMax  : healthScores.heartrate.healthyMax,
+          absoluteMin : healthScores.heartrate.absoluteMin,
+          absoluteMax : healthScores.heartrate.absoluteMax,
+          weight      : 3,
+          unitLabel   : 'bpm'
+        })
+      )
+    }
 
     // if (weight && weight.length) {
     //   healthData.push(

@@ -32,6 +32,7 @@ class IconPasswordInput extends Component {
                 <Input 
                     style= {inputStyle}
                     {...this.props}
+                    secureTextEntry={false} 
                 />   
             );
         } else {
@@ -39,7 +40,7 @@ class IconPasswordInput extends Component {
                 <Input 
                     style= {inputStyle}
                     {...this.props}
-                    secureTextEntry 
+                    secureTextEntry={true} 
                 />   
             );
         }

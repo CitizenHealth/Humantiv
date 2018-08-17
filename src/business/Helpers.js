@@ -132,6 +132,11 @@ export const convertUnixTimeToDay = (utime) => {
 }
 
 export const areMeasurementArraysEquals = (array1, array2) => {
+  // This is the case of one of the values being undefined which is the default value
+  if (!array1 || !array2) {
+    return (array1 !== array2) ?  false : true;
+  }
+
   if (array1.length !== array2.length) {
     return false;
   }

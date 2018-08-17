@@ -214,7 +214,7 @@ export const timestampExists = ({type, isnative}) => {
     firebase.database().ref(`/users/${currentUser.uid}/timestamps/${type}`)
     .once("value", snapshot => {
       let exists = snapshot.exists();
-      if (exists) {
+      if (isnative) {
         dispatch(dataFetch({type: "timestamps", isnative: isnative}));
       } else {
         dispatch(dataFetch({type: "humanapi"}));

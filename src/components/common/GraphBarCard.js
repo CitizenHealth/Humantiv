@@ -201,7 +201,7 @@ class GraphBarCard extends Component {
                     animationDuration = {1000}
                     showGrid= {true}
                     contentInset={ { top: 5, bottom: 26 } }
-                    numberOfTicks= {1}
+                    numberOfTicks= {0}
                     spacingInner= {scale(0.5)}
                     spacingOuter= {scale(0.0)}
                     svg={{

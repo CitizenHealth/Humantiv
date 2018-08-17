@@ -91,7 +91,7 @@ const clientSecret = '1de96f660418ba961d6f2de259f01aaed5da3445';
 const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
 const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
 const closeURL = 'https://connect.humanapi.co/blank/hc-close';
-const NUMBER_OF_METRICS_USED = 3;
+const NUMBER_OF_METRICS_USED = 4;
 
 class HealthView extends Component {
 
@@ -160,6 +160,7 @@ class HealthView extends Component {
         activity, 
         sleep, 
         steps,
+        heartrate,
         children,
         stepsExist,
         activityExists,
@@ -183,7 +184,10 @@ class HealthView extends Component {
       const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
 //      const heartrateTimestamp = (children.timestamps && children.timestamps.heartrate) ? children.timestamps.heartrate : null;
 
-      let propsChanged = (!areMeasurementArraysEquals(activity, this.props.activity) || !areMeasurementArraysEquals(sleep, this.props.sleep) || !areMeasurementArraysEquals(steps, this.props.steps));
+      let propsChanged = (!areMeasurementArraysEquals(activity, this.props.activity) 
+      || !areMeasurementArraysEquals(sleep, this.props.sleep) 
+      || !areMeasurementArraysEquals(steps, this.props.steps)
+      || !areMeasurementArraysEquals(heartrate, this.props.heartrate));
       let timeStampsExist = stepsTimestamp || activityTimestamp || sleepTimestamp;
       let isNativeChanged = (children.profile && children.profile[nativeTracker] && this.props.children.profile && this.props.children.profile[nativeTracker]) 
                             ? (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
@@ -314,6 +318,12 @@ class HealthView extends Component {
         }
       }
 
+      if ( !areMeasurementArraysEquals(heartrate, this.props.heartrate)) {
+        // The steps timeseries data has been pulled.
+        let metricsNumber = this.state.metricsPulled + 1;
+        this.setState({metricsPulled: metricsNumber}); 
+      }
+
       // When all timeseries data have been pulled then we can start calculating the daily Medit count earned
       if (this.state.metricsPulled === NUMBER_OF_METRICS_USED) {
         // After all physical metrics are pulled, we calculate the daily Medit earned ...
@@ -337,7 +347,7 @@ class HealthView extends Component {
         }); 
 
         this.setState({
-          healthData: getHealthScore(activity, sleep, steps)
+          healthData: getHealthScore(activity, sleep, steps, heartrate)
         });
 
         this.setState({metricsPulled: 0}); 
@@ -403,7 +413,9 @@ class HealthView extends Component {
     }
 
     setTimestamp(type, data) {
-
+      if (!data || data.length === 0) {
+        return;
+      }
       let timestamp = data[0].time;
       // Set timestamp
       var obj = {};

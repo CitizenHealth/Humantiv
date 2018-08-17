@@ -27,21 +27,24 @@ export const processDailyMedit = (meditTimestamp, meditTimestampValue, steps, ac
   
   let seriesNumber = 0;
 
-  while (localSteps.length > stepsIndex && 
-         localSleep.length > sleepIndex && 
+  while (localSteps.length > stepsIndex || 
+         localSleep.length > sleepIndex || 
          localActivity.length > activityIndex ) { 
-           
-    let oldestDay = Math.min(localSteps[stepsIndex].time, localSleep[sleepIndex].time, localActivity[activityIndex].time);
+    
+    let stepsTime =  (localSteps.length > stepsIndex) ? localSteps[stepsIndex].time  : Math.min();
+    let sleepTime =  (localSleep.length > sleepIndex) ? localSleep[sleepIndex].time  : Math.min();
+    let activityTime =  (localActivity.length > activityIndex) ? localActivity[activityIndex].time  : Math.min();
+
+    let oldestDay = Math.min(stepsTime, sleepTime, activityTime);
 
     let medit = 0;
-    let timeStamp = 0;
 
-    if (localSteps[stepsIndex].time === oldestDay) {
+    if (stepsTime === oldestDay) {
       medit += Math.round(localSteps[stepsIndex].value/STEPS_FACTOR);
       stepsIndex++;
     }
 
-    if (localSleep[sleepIndex].time === oldestDay) {
+    if (sleepTime === oldestDay) {
       let sleepMinutes = localSleep[sleepIndex].value*MINUTES_IN_HOUR;
       if (sleepMinutes >= SLEEP_MINIMUM) {
         medit += Math.round(sleepMinutes/SLEEP_FACTOR);
@@ -49,7 +52,7 @@ export const processDailyMedit = (meditTimestamp, meditTimestampValue, steps, ac
       sleepIndex++;
     }
 
-    if (localActivity[activityIndex].time === oldestDay) {
+    if (activityTime === oldestDay) {
       medit += Math.round(localActivity[activityIndex].value/ACTIVITY_FACTOR);
       activityIndex++;
     }

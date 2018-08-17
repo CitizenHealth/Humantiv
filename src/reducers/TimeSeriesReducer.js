@@ -10,14 +10,14 @@ import {
   } from "../actions/types";
   
 const INITIAL_STATE = {
-  activity: [],
-  steps: [],
-  heartrate: [],
-  sleep: [],
-  weight: [],
-  stress: [],
-  medit: [],
-  score: []
+  activity: undefined,
+  steps: undefined,
+  heartrate: undefined,
+  sleep: undefined,
+  weight: undefined,
+  stress: undefined,
+  medit: undefined,
+  score: undefined
 };
 
 export default (state = INITIAL_STATE, action) => {
