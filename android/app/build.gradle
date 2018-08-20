@@ -116,8 +116,9 @@ android {
         applicationId "io.citizenhealth.humantiv"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
-        versionName "1.10"
+        versionCode 11
+        versionName "1.11"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -156,17 +157,10 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-version-number')
-    compile project(':react-native-sentry')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-human-api')
-    compile project(':react-native-hgraph')
-    compile project(':react-native-google-signin')
-    compile project(':react-native-gesture-handler')
-    compile project(':react-native-firebase')
-    compile project(':react-native-fbsdk')
-    compile project(':react-native-svg')
-    compile project(':react-native-spinkit')
+    implementation project(':react-native-version-number')
+    compile 'io.intercom.android:intercom-sdk-base:5.+'
+    compile 'io.intercom.android:intercom-sdk-fcm:5.+'
+    implementation project(':react-native-intercom')
     implementation project(':react-native-spinkit')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-svg')
@@ -175,6 +169,7 @@ dependencies {
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-sentry')
     implementation project(':react-native-human-api')
+    compile 'com.android.support:multidex:1.0.3'
     implementation(project(':react-native-google-signin')) {
         exclude group: "com.google.android.gms" // very important
     }

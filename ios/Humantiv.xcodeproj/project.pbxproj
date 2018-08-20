@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -70,6 +69,9 @@
 		4AA195FF2036361A001ABB7F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA195FC20363619001ABB7F /* Bolts.framework */; };
 		4AA196002036361A001ABB7F /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA195FD2036361A001ABB7F /* FBSDKShareKit.framework */; };
 		4AA196012036361A001ABB7F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AA195FE2036361A001ABB7F /* FBSDKLoginKit.framework */; };
+		4AB3FF1D2128B29F00588479 /* libRNIntercom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB3FF132128B28700588479 /* libRNIntercom.a */; };
+		4AB3FF222128C2C900588479 /* Intercom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB3FF202128C26900588479 /* Intercom.framework */; };
+		4AB3FF232128C2C900588479 /* Intercom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB3FF202128C26900588479 /* Intercom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4B2AA1CBE1804A1EA0CC0949 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E63881D4C25F4551A9649A08 /* SystemConfiguration.framework */; };
 		532DF9DB34864DD0A8B2C1DB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 283647C17456448981553C10 /* fontawesome-webfont.ttf */; };
 		5CAB85E4952AE3F015F068C3 /* libPods-HumantivTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21929EBCD93CE3C37E1D7D18 /* libPods-HumantivTests.a */; };
@@ -425,6 +427,13 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		4AB3FF122128B28700588479 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4AB3FEE22128B28600588479 /* RNIntercom.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 112EE36D1CC0AB8A00BF6BB8;
+			remoteInfo = RNIntercom;
+		};
 		4AB6BCAA2044E00E0058FD83 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 11A88EA5FE674F6C95B678AA /* RNGoogleSignin.xcodeproj */;
@@ -468,6 +477,20 @@
 			remoteInfo = RCTBlob;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4AB3FF242128C2C900588479 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4AB3FF232128C2C900588479 /* Intercom.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
@@ -545,6 +568,8 @@
 		4AA195FC20363619001ABB7F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Facebook/Bolts.framework; sourceTree = "<group>"; };
 		4AA195FD2036361A001ABB7F /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Facebook/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		4AA195FE2036361A001ABB7F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		4AB3FEE22128B28600588479 /* RNIntercom.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNIntercom.xcodeproj; path = "../node_modules/react-native-intercom/iOS/RNIntercom.xcodeproj"; sourceTree = "<group>"; };
+		4AB3FF202128C26900588479 /* Intercom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Intercom.framework; sourceTree = "<group>"; };
 		4FD6690B806D4B74AB45745C /* Sofia-Pro-UltraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Sofia-Pro-UltraLight.ttf"; path = "../assets/fonts/Sofia-Pro-UltraLight.ttf"; sourceTree = "<group>"; };
 		53129C441FDC41538ABAF0B2 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		53C67D8C0A814E068346885F /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -590,6 +615,7 @@
 				4A27D47320D8D133000D5C64 /* FirebaseABTesting.framework in Frameworks */,
 				4A27D47A20D8D133000D5C64 /* FirebasePerformance.framework in Frameworks */,
 				4A27D47020D8D133000D5C64 /* FirebaseAuth.framework in Frameworks */,
+				4AB3FF222128C2C900588479 /* Intercom.framework in Frameworks */,
 				4A27D47220D8D133000D5C64 /* FirebaseRemoteConfig.framework in Frameworks */,
 				4A27D48120D8D133000D5C64 /* FirebaseNanoPB.framework in Frameworks */,
 				4A27D48320D8D133000D5C64 /* FirebaseCoreDiagnostics.framework in Frameworks */,
@@ -624,6 +650,7 @@
 				4A27D47B20D8D133000D5C64 /* Protobuf.framework in Frameworks */,
 				4A27D46B20D8D133000D5C64 /* leveldb-library.framework in Frameworks */,
 				4A27D48020D8D133000D5C64 /* nanopb.framework in Frameworks */,
+				4AB3FF1D2128B29F00588479 /* libRNIntercom.a in Frameworks */,
 				4A478B7E21240E0300901EB0 /* libRNVersionNumber.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				4A88425A207B2D8800C04E91 /* libRNSVG.a in Frameworks */,
@@ -777,6 +804,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4AB3FF202128C26900588479 /* Intercom.framework */,
 				4A5063D5210BE8E8006E8824 /* HealthKit.framework */,
 				4AA195FC20363619001ABB7F /* Bolts.framework */,
 				4AA195FE2036361A001ABB7F /* FBSDKLoginKit.framework */,
@@ -1023,6 +1051,14 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		4AB3FEE32128B28600588479 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4AB3FF132128B28700588479 /* libRNIntercom.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4AB6BCA72044E00D0058FD83 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1063,6 +1099,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4AB3FEE22128B28600588479 /* RNIntercom.xcodeproj */,
 				4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -1173,6 +1210,8 @@
 				AC37B9439B166D91CAA3ED4E /* [CP] Embed Pods Frameworks */,
 				BB05DC95D202EE5AF2722FD0 /* [CP] Copy Pods Resources */,
 				B242CC78F8E945D4959BE8D2 /* Upload Debug Symbols to Sentry */,
+				4AB3FF242128C2C900588479 /* Embed Frameworks */,
+				4AB3FF252128C41000588479 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1296,6 +1335,10 @@
 				{
 					ProductGroup = 4AB6BCA72044E00D0058FD83 /* Products */;
 					ProjectRef = 11A88EA5FE674F6C95B678AA /* RNGoogleSignin.xcodeproj */;
+				},
+				{
+					ProductGroup = 4AB3FEE32128B28600588479 /* Products */;
+					ProjectRef = 4AB3FEE22128B28600588479 /* RNIntercom.xcodeproj */;
 				},
 				{
 					ProductGroup = 4A88423E207B288100C04E91 /* Products */;
@@ -1660,6 +1703,13 @@
 			remoteRef = 4AA195A820362968001ABB7F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		4AB3FF132128B28700588479 /* libRNIntercom.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNIntercom.a;
+			remoteRef = 4AB3FF122128B28700588479 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4AB6BCAB2044E00E0058FD83 /* libRNGoogleSignin.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1745,6 +1795,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		4AB3FF252128C41000588479 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Intercom.framework/strip-frameworks.sh\"";
 		};
 		52FB7CE551A4650BB451062C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1989,6 +2052,7 @@
 					"$(PROJECT_DIR)/Firebase/Storage",
 					"$(PROJECT_DIR)/Firebase/ABTesting",
 					"$(PROJECT_DIR)/Firebase/Messaging",
+					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2041,6 +2105,7 @@
 					"$(PROJECT_DIR)/Firebase/Storage",
 					"$(PROJECT_DIR)/Firebase/ABTesting",
 					"$(PROJECT_DIR)/Firebase/Messaging",
+					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

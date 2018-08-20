@@ -4,45 +4,40 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
-import com.facebook.react.ReactApplication;
-import com.apsl.versionnumber.RNVersionNumberPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.horcrux.svg.SvgPackage;
-import io.citizenhealth.RNReactNativeHgraphPackage;
-import io.sentry.RNSentryPackage;
-import io.citizenhealth.humanapi.RNReactNativeHumanApiPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.swmansion.gesturehandler.react.BuildConfig;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.apsl.versionnumber.RNVersionNumberPackage;
+import com.facebook.CallbackManager;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
+import com.google.firebase.database.FirebaseDatabase;
+import com.horcrux.svg.SvgPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import io.citizenhealth.humanapi.RNReactNativeHumanApiPackage;
+import io.citizenhealth.RNReactNativeHgraphPackage;
+import com.robinpowered.react.Intercom.IntercomPackage;
+import io.intercom.android.sdk.Intercom;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
-import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
-import io.invertase.firebase.database.RNFirebaseDatabasePackage;
-import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
-import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;
+import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
-
-import com.google.firebase.database.FirebaseDatabase;
-
-import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-
-import com.facebook.appevents.AppEventsLogger;
+import io.invertase.firebase.perf.RNFirebasePerformancePackage;
+import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.sentry.RNSentryPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -93,7 +88,8 @@ public class MainApplication extends Application implements ReactApplication {
                 new RNFirebaseRemoteConfigPackage(),
                 new RNFirebaseStoragePackage(),
                 new RNFirebaseMessagingPackage(),
-                new RNFirebaseNotificationsPackage()
+                new RNFirebaseNotificationsPackage(),
+                new IntercomPackage()
             );
     }
 
@@ -112,6 +108,8 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    Intercom.initialize(this, "android_sdk-1660208d9812b6cb93f37fe6d20b6e021e3d58a7", "tkfzhske");
+    Intercom.client().registerUnidentifiedUser();
     AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
   }

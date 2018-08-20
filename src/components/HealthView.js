@@ -77,13 +77,16 @@ import {
   processDailyMedit,
   processDailyHealthScore
 } from '../business/sources';
-import {primaryGreyColor} from './themes/theme';
+import {
+  primaryGreyColor,
+  primaryBlueColor
+} from './themes/theme';
 import {
   ModalScreen 
 } from './custom'; 
 import {modalMessages} from './themes';
 import AppleHealthKit from 'rn-apple-healthkit';
-
+import Intercom from 'react-native-intercom';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -111,14 +114,37 @@ class HealthView extends Component {
       }
     }
 
-    componentWillMount () {       
+    componentWillMount () {  
+      const { user } = this.props; 
+      
+      Intercom.registerIdentifiedUser({ userId: user.uid });
+      Intercom.updateUser({
+        // Pre-defined user attributes
+        email: user.email,
+        name: user.displayName,
+      });
+      Intercom.logEvent('viewed_screen', { extra: 'metadata' });
+      Intercom.handlePushMessage();
       firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
     }
 
-    componentDidMount() {
+    componentWillUnmount() {
+       Intercom.removeEventListener(
+       Intercom.Notifications.UNREAD_COUNT, this._onUnreadChange);      
+   }
+  
+  _onUnreadChange = ({ count }) => {
+      console.log(`INTERCOM COUNT: ${count}`);    
+  }
+
+  componentDidMount() {
       const {children} = this.props;
       //    this.refreshDataSources();
-      
+      // Init Intercom
+      Intercom.registerForPush();   
+      Intercom.addEventListener(
+      Intercom.Notifications.UNREAD_COUNT, this._onUnreadChange);       
+
       this.props.dataFetch({type: "health"});
       this.props.walletFetch({type: "wallet"});
       this.props.dataFetch({type: "profile"});
@@ -423,6 +449,9 @@ class HealthView extends Component {
       this.props.dataSave({type: "timestamps", data: obj});
     }
 
+    launchIntercom() {
+      Intercom.displayMessenger();
+    }
     saveHumanAPIPublicToken(token) {
         const {children} = this.props;
     
@@ -837,15 +866,16 @@ class HealthView extends Component {
                         {this.renderProfileImage()}
                         <Text style={textStyle}> My health </Text>
                         <IconButton
-                            onPress={this.onSettingsPress.bind(this)}
-                            viewStyles={iconStyle}
-                            textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                          onPress={() => {this.launchIntercom()}}
+                          viewStyles={iconStyle}
+                          textStyles={[iconTextStyle, {color:graphGreyColor}]}
                         >
-                            <HMIcon 
-                              name="bell"
-                              size= {20}
-                            />
-                        </IconButton>                 
+                          <FontAwesome
+                            style={{color: primaryBlueColor}}
+                          > 
+                            {Icons.comments}
+                          </FontAwesome>
+                      </IconButton>                 
                     </View>                  
                     {this.renderActivity()}
                     {this.renderGraphTiles()}

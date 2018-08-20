@@ -19,6 +19,7 @@
 #import <RNGoogleSignin/RNGoogleSignin.h>
 #import "RNFirebaseMessaging.h"
 #import "RNFirebaseNotifications.h"
+#import "Intercom/intercom.h"
 
 @implementation AppDelegate
 
@@ -38,7 +39,9 @@
   [FIRDatabase database].persistenceEnabled = YES;
   [RNFirebaseNotifications configure];
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
-  
+  // Intercom
+  [Intercom setApiKey:@"ios_sdk-41400f9122c34e1651f2202b7e59ed24c1d5eb61" forAppId:@"tkfzhske"];
+  [Intercom registerUnidentifiedUser];
 #ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
@@ -80,4 +83,10 @@ fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHand
   [[RNFirebaseNotifications instance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  
+  // Intercom
+  [Intercom setDeviceToken:deviceToken];
+  
+}
 @end
