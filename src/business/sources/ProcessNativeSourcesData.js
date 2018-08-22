@@ -7,7 +7,7 @@ import {
 import convert from 'convert-units';
 import AppleHealthKit from 'rn-apple-healthkit';
 
-const MAX_SERIES_NUMBER = 15;
+const MAX_SERIES_NUMBER = 10;
 
 export const getNativeActivityTimeSeries = () => {
   let options = {

@@ -176,22 +176,11 @@ class GraphBarCard extends Component {
             ]}>
               <View
                 width ={(width || 100) -30}
-                height ={(height || 100)/2}               
+                height ={(height || 100)/2 -14}          
               >
-                <View
-                  style={{
-                    backgroundColor: primaryGreyColor,
-                    opacity: 0.3,
-                    position: "absolute",
-                    bottom: 20
-                  }}
-                  width ={(width || 100) -30}
-                  height = {1}                
-                />
-                
                 <BarChart
                     style = {{
-                      height: height/2,
+                      height: height/2-20,
                       width: width -30
                     }} 
                     x={0}
@@ -200,7 +189,7 @@ class GraphBarCard extends Component {
                     animate= {true}
                     animationDuration = {1000}
                     showGrid= {true}
-                    contentInset={ { top: 5, bottom: 26 } }
+                    contentInset={ { top: 0, bottom: 0 } }
                     numberOfTicks= {0}
                     spacingInner= {scale(0.5)}
                     spacingOuter= {scale(0.0)}
@@ -210,25 +199,32 @@ class GraphBarCard extends Component {
                   >
                   <Grid />
                 </BarChart>
+                <View
+                  style={{
+                    backgroundColor: primaryGreyColor,
+                    opacity: 0.3,
+                    marginTop: 2 
+                  }}
+                  width ={(width || 100) -30}
+                  height = {1}                
+                />
               </View>
+              <View style={{
+                flexDirection: "row",
+                justifyContent:"flex-end",
+                bottom: scale(3)
+              }}>
+                <Text style={{
+                  fontSize: 10,
+                  fontWeight: "400",
+                  fontFamily: Fonts.regular,
+                  color: graphGreyColor
+                }}>
+                    {(this.props.timestamp) ? convertUNIXTimeToSince(this.props.timestamp) : ""}
+                </Text>
+              </View>     
           </View>    
         </View> 
-        <View style={{
-          flexDirection: "row",
-          justifyContent:"flex-end",
-          position: 'absolute',
-          bottom: scale(3),
-          right: scale(3)
-        }}>
-          <Text style={{
-            fontSize: 10,
-            fontWeight: "400",
-            fontFamily: Fonts.regular,
-            color: graphGreyColor
-          }}>
-              {(this.props.timestamp) ? convertUNIXTimeToSince(this.props.timestamp) : ""}
-          </Text>
-        </View>     
     </View>
     );
   }

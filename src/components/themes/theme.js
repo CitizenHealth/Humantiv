@@ -246,7 +246,9 @@ export const theme = StyleSheet.create({
     fontSize: 16,
     color: primaryGreyColor,
     textAlign: "center",
-    fontFamily: Fonts.regular
+    fontFamily: Fonts.regular,
+    marginLeft: 15,
+    marginRight: 15
   },
   modalContent: {
     alignItems: 'stretch',

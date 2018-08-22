@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Platform} from "react-native";
+import { View, Text, SafeAreaView} from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import {Button, HeaderImage, LinkText } from "./common";
@@ -84,6 +84,7 @@ class EmailConfirmation extends Component {
     firebase.analytics().setCurrentScreen('Email Confirmation Screen', 'EmailConfirmationView')
 
     return (
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={pageStyle}>
           <View style={ImageContainerStyle} >
             <HeaderImage source={Images.img_login_email}/>
@@ -124,6 +125,7 @@ class EmailConfirmation extends Component {
           >
           </ModalDialog>
         </View>
+      </SafeAreaView>  
     );
   }
 }
@@ -143,7 +145,7 @@ const styles = {
   },
   ImageContainerStyle: {
     flex: 4,
-    padding: scale(40),
+    padding: scale(120),
   },
   textContainerStyle: {
     flex: 4,
@@ -158,8 +160,8 @@ const styles = {
     flex: 2,
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: scale(10),
-    paddingRight: scale(10)
+    paddingLeft: scale(15),
+    paddingRight: scale(15)
   },
   linkContainerStyle: {
     flexDirection: "row",

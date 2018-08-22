@@ -5,7 +5,7 @@ import {
   Text,
   Dimensions,
   TouchableNativeFeedback,
-  Platform,
+  SafeAreaView,
   StyleSheet
 } from 'react-native';
 import { scale } from "react-native-size-matters";
@@ -66,21 +66,23 @@ class ModalScreen extends Component {
       } = styles;
       
       return (
-        <ModalWrapper
-          onRequestClose={this.props.onCancel}
-          style= {modalContent}
-          visible={this.props.visible}>
-            <View 
-              style={dialogTextContainerStyle}
-            >
-              <Text 
-                style= {buttonTextStyle}
-              > 
-                {this.props.label}
-              </Text>  
-            </View>      
-            {this._renderInnerText()}
-        </ModalWrapper>
+        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+          <ModalWrapper
+            onRequestClose={this.props.onCancel}
+            style= {modalContent}
+            visible={this.props.visible}>
+              <View 
+                style={dialogTextContainerStyle}
+              >
+                <Text 
+                  style= {buttonTextStyle}
+                > 
+                  {this.props.label}
+                </Text>  
+              </View>      
+              {this._renderInnerText()}
+          </ModalWrapper>
+        </SafeAreaView>
         );
     } 
 }

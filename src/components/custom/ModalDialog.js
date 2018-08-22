@@ -12,6 +12,7 @@ import { scale } from "react-native-size-matters";
 import { ModalWrapper } from '../common';
 import { theme, primaryGreyTextStyle } from '../themes';
 import {Fonts} from '../../resources/fonts/Fonts'
+import {primaryGreyColor, graphGreyColor} from '../themes/theme';
 
 class ModalDialog extends Component {
 
@@ -111,7 +112,8 @@ class ModalDialog extends Component {
                     justifyContent: 'flex-start',
                     alignContent: 'center',
                     textAlign: 'left',
-                    fontFamily: Fonts.regular
+                    fontFamily: Fonts.regular,
+                    color: graphGreyColor
                   }]
                 }
               > 

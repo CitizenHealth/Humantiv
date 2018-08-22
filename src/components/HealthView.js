@@ -215,7 +215,7 @@ class HealthView extends Component {
       || !areMeasurementArraysEquals(steps, this.props.steps)
       || !areMeasurementArraysEquals(heartrate, this.props.heartrate));
       let timeStampsExist = stepsTimestamp || activityTimestamp || sleepTimestamp;
-      let isNativeChanged = (children.profile && children.profile[nativeTracker] && this.props.children.profile && this.props.children.profile[nativeTracker]) 
+      let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined) && this.props.children.profile && (this.props.children.profile[nativeTracker] !== undefined)) 
                             ? (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
 
 
@@ -507,10 +507,6 @@ class HealthView extends Component {
       this.props.timestampExists({type: 'steps'});
       this.props.timestampExists({type: 'activity'});
       this.props.timestampExists({type: 'sleep'});
-    }
-
-    onSettingsPress() {
-      Actions.profile();
     }
     
     onWeightPress() {

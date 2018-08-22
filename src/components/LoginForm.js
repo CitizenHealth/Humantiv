@@ -3,7 +3,8 @@ import {
   View, 
   Text, 
   Linking, 
-  TextField, 
+  TextField,
+  SafeAreaView, 
   MDButton
  } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -123,6 +124,7 @@ class LoginForm extends Component {
         contentContainerStyle={pageStyle}
         scrollEnabled={false}
       >
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={logoStyle}>
           <HeaderImage
             source={Images.img_login_header}
@@ -193,7 +195,8 @@ class LoginForm extends Component {
           onAcceptPress={this.dismissModal.bind(this)}
         >
         </ModalDialog>
-      </KeyboardAwareScrollView>   
+        </SafeAreaView> 
+      </KeyboardAwareScrollView>  
     );
   }
 }

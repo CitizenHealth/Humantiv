@@ -20,8 +20,7 @@ const MyStatusBar = ({backgroundColor, ...props}) => (
     render() {
       return (
         <View style={styles.container}>
-          <MyStatusBar backgroundColor="#000" barStyle="light-content" />
-          <App />
+            <App />
         </View>
       );
     }

@@ -4,17 +4,15 @@ import {
   TouchableOpacity,
   Text,
   Dimensions,
-  TouchableNativeFeedback,
-  Platform,
-  StyleSheet
+
+  StyleSheet,
+  Linking
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import { ModalWrapper } from '../common';
 import { primaryBlueColor, primaryWhiteColor } from '../themes';
 import {Fonts} from '../../resources/fonts/Fonts';
 import {graphGreyColor} from '../themes/theme';
-import Hyperlink from 'react-native-hyperlink';
-import { Actions } from "react-native-router-flux";
 
 class ModalTerms extends Component {
 
@@ -68,13 +66,11 @@ class ModalTerms extends Component {
               > 
                 In order to start using Humantiv, please agree to our
               </Text> 
-              <Hyperlink
-                onPress={ (url, text) => this.props.onLinkPress (url,text) }
-                linkStyle={ { color: primaryBlueColor } }
-                linkText={ url => url === this.props.url ? 'Terms & Privacy Policy' : url }
+              <TouchableOpacity 
+                onPress={() => Linking.openURL(this.props.url)}
               >
-                <Text style= {buttonTextStyle}>{this.props.url}</Text>
-              </Hyperlink>  
+                <Text style= {[buttonTextStyle, {color: primaryBlueColor}]}>Terms & Privacy Policy</Text>
+              </TouchableOpacity>  
             </View>      
             {this._renderInnerText()}
         </ModalWrapper>

@@ -1,12 +1,18 @@
 import * as React from 'react';
-import { Animated, View, Text, StyleSheet, Image } from 'react-native';
+import { 
+  Animated, 
+  View, 
+  Text, 
+  StyleSheet, 
+  Image,
+  SafeAreaView,
+  BackHandler
+} from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import SimplePage from './SimplePage';
-import HomeView from './HomeView';
 import HealthView from './HealthView';
 import WalletView from './WalletView';
 import SettingsView from './SettingsView';
-import Images from '../resources/images';
 import {primaryBlueColor} from './themes/theme';
 import {
   Icon  
@@ -30,10 +36,20 @@ class TabView extends React.Component<*, State> {
     var i = 2;
   }
 
-  componentWillUnmount() {
-
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
   }
   
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+  
+  handleBackPress = () => {
+    // Exit the app 
+    BackHandler.exitApp();
+    return true;
+  }
+
   state = {
     index: 0,
     routes: [
@@ -193,13 +209,15 @@ class TabView extends React.Component<*, State> {
 
   render() {
     return (
-      <TabViewAnimated
-        style={this.props.style}
-        navigationState={this.state}
-        renderScene={this._renderScene}
-        renderFooter={this._renderFooter}
-        onIndexChange={this._handleIndexChange}
-      />
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+        <TabViewAnimated
+          style={this.props.style}
+          navigationState={this.state}
+          renderScene={this._renderScene}
+          renderFooter={this._renderFooter}
+          onIndexChange={this._handleIndexChange}
+        />
+      </SafeAreaView>
     );
   }
 }

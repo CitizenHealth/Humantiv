@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Platform} from "react-native";
+import { View, Text, Platform, SafeAreaView} from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import {
@@ -104,56 +104,59 @@ class PasswordLostView extends Component {
           contentContainerStyle={pageStyle}
           scrollEnabled={false}
         >
-          <View style={navigationBarStyle}>
-            <IconButton onPress={() => {Actions.pop()}}>
-              <FontAwesome>{Icons.chevronLeft}</FontAwesome>
-            </IconButton>
-          </View>
-          <View style={ImageContainerStyle} >
-            <HeaderImage source={Images.img_login_password}/>
-          </View>
-          <View style={textContainerStyle} >
-              <Text style={[textStyle, {fontSize: 24, fontWeight: 'bold', flex: 1}]}>
-                Forgot your password?
-              </Text>
-              <Text style={[textStyle, {
-                flex: 1,               
-                paddingLeft: scale(20),
-                paddingRight: scale(20)
-              }]}>
-                Enter your email below to receive your password reset instructions
-              </Text>
-              <View style={{
-                flex: 2,
-                paddingLeft: scale(20),
-                paddingRight: scale(20)
-              }}>
-                  <CardSection>
-                    <IconInput
-                      icon={Icons.envelopeO}
-                      placeholder="Email address"
-                      onChangeText={this.onMailChangeText.bind(this)}
-                      keyboardType="email-address"
-                      returnKeyType={ "next" }
-                    />
-                  </CardSection>
-              </View>
+          <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+            <View style={navigationBarStyle}>
+              <IconButton onPress={() => {Actions.pop()}}>
+                <FontAwesome>{Icons.chevronLeft}</FontAwesome>
+              </IconButton>
             </View>
-          <View style={buttonContainerStyle} >
-            <Button
-              onPress={this.sendPasswordInstructions.bind(this)}>
-              Recover Password
-            </Button>
-          </View>
-            <ModalDialog
-            visible={this.state.visibleModal}
-            label={this.state.textModal.message}
-            cancelLabel={this.state.textModal.cancel}
-            acceptLabel={this.state.textModal.accept}
-            onCancelPress={this.dismissModal.bind(this)}
-            onAcceptPress={this.dismissModal.bind(this)}
-          >
-          </ModalDialog>
+            <View style={ImageContainerStyle} >
+              <HeaderImage source={Images.img_login_password}/>
+            </View>
+            <View style={textContainerStyle} >
+                <Text style={[textStyle, {fontSize: 24, fontWeight: 'bold', flex: 1}]}>
+                  Forgot your password?
+                </Text>
+                <Text style={[textStyle, {
+                  flex: 1,               
+                  paddingLeft: scale(15),
+                  paddingRight: scale(15),
+                  marginBottom: scale(20)
+                }]}>
+                  Enter your email below to receive your password reset instructions
+                </Text>
+                <View style={{
+                  flex: 2,
+                  paddingLeft: scale(15),
+                  paddingRight: scale(15)
+                }}>
+                    <CardSection>
+                      <IconInput
+                        icon={Icons.envelopeO}
+                        placeholder="Email address"
+                        onChangeText={this.onMailChangeText.bind(this)}
+                        keyboardType="email-address"
+                        returnKeyType={ "next" }
+                      />
+                    </CardSection>
+                </View>
+              </View>
+            <View style={buttonContainerStyle} >
+              <Button
+                onPress={this.sendPasswordInstructions.bind(this)}>
+                Recover Password
+              </Button>
+            </View>
+              <ModalDialog
+              visible={this.state.visibleModal}
+              label={this.state.textModal.message}
+              cancelLabel={this.state.textModal.cancel}
+              acceptLabel={this.state.textModal.accept}
+              onCancelPress={this.dismissModal.bind(this)}
+              onAcceptPress={this.dismissModal.bind(this)}
+            >
+            </ModalDialog>
+          </SafeAreaView>
         </KeyboardAwareScrollView>
     );
   }
@@ -173,8 +176,8 @@ const styles = {
     flex: 1
   },
   ImageContainerStyle: {
-    flex: 4,
-    padding: scale(40),
+    flex: 2,
+    padding: scale(100),
   },
   textContainerStyle: {
     flex: 4,
@@ -196,12 +199,12 @@ const styles = {
     flex: 2,
     alignItems: 'flex-end',
     justifyContent: "space-around",
-    paddingLeft: scale(20),
-    paddingRight: scale(20)
+    paddingLeft: scale(15),
+    paddingRight: scale(15)
   },
 
   textStyle: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#808080",
     textAlign: "center",
     ...Platform.select({
