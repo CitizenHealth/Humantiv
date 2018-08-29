@@ -2,8 +2,10 @@ const Images = {
 
   // Login View
   img_login_header: require("./images/login/logo.png"),
+  img_login_logo: require("./images/login/logo_horizontal.png"),
   img_login_google: require("./images/login/google.png"),
   img_login_facebook: require("./images/login/facebook.png"),
+  img_login_email1: require("./images/login/email1.png"),
   img_login_email: require("./images/login/email.png"),
   img_login_password: require("./images/login/password.png"),
   img_login_back: require("./images/login/left-arrow.png"),

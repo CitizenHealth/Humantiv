@@ -134,7 +134,16 @@ class HealthView extends Component {
    }
   
   _onUnreadChange = ({ count }) => {
-      console.log(`INTERCOM COUNT: ${count}`);    
+      console.log(`INTERCOM COUNT: ${count}`);  
+      // const notification = new firebase.notifications.Notification()
+      // .setNotificationId('notificationId')
+      // .setTitle('Test')
+      // .setBody('You have a message from the Humentiv team')
+      // .setData({
+      //   key1: 'value1',
+      //   key2: 'value2',
+      // });
+      // firebase.notifications().displayNotification(notification);  
   }
 
   componentDidMount() {
@@ -257,7 +266,9 @@ class HealthView extends Component {
       if (!areMeasurementArraysEquals(steps, this.props.steps)) {
         // The steps timeseries data has been pulled.
         let metricsNumber = this.state.metricsPulled + 1;
+        console.log(metricsNumber);
         this.setState({metricsPulled: metricsNumber}); 
+        console.log(this.state.metricsPulled);
 
         if (stepsTimestamp) {
           let stepMedits = getStepMedits(steps, stepsTimestamp, stepsTimestampValue)
@@ -287,7 +298,9 @@ class HealthView extends Component {
       if ( !areMeasurementArraysEquals(sleep, this.props.sleep)) {
         // The steps timeseries data has been pulled.
         let metricsNumber = this.state.metricsPulled + 1;
+        console.log(metricsNumber);
         this.setState({metricsPulled: metricsNumber}); 
+        console.log(this.state.metricsPulled);
 
         if (sleepTimestamp) {
           let sleepMedits = getSleepMedits(sleep, sleepTimestamp, sleepTimestampValue)
@@ -317,7 +330,9 @@ class HealthView extends Component {
       if ( !areMeasurementArraysEquals(activity, this.props.activity)) {
         // The steps timeseries data has been pulled.
         let metricsNumber = this.state.metricsPulled + 1;
+        console.log(metricsNumber);
         this.setState({metricsPulled: metricsNumber}); 
+        console.log(this.state.metricsPulled);
 
         if (activityTimestamp) {
           let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)
@@ -347,37 +362,10 @@ class HealthView extends Component {
       if ( !areMeasurementArraysEquals(heartrate, this.props.heartrate)) {
         // The steps timeseries data has been pulled.
         let metricsNumber = this.state.metricsPulled + 1;
+        console.log(metricsNumber);
         this.setState({metricsPulled: metricsNumber}); 
+        console.log(this.state.metricsPulled);
       }
-
-      // When all timeseries data have been pulled then we can start calculating the daily Medit count earned
-      if (this.state.metricsPulled === NUMBER_OF_METRICS_USED) {
-        // After all physical metrics are pulled, we calculate the daily Medit earned ...
-        let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, steps, activity, sleep);
-        this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
-        this.props.dataSave({type: "timestamps", data: {
-          medit: dailyMedit.meditTimeStamp,
-          medit_value: dailyMedit.meditTimeStampValue
-        }}); 
-            
-        // ... then we calculate the daily health scores and total health score
-        
-        let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, total, steps, activity, sleep);
-        this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
-        this.props.dataSave({type: "timestamps", data: {
-          score: dailyHealthScore.scoreTimeStamp,
-        }}); 
-        this.props.healthScoreSave({
-          healthscore: dailyHealthScore.healthscore,
-          total: dailyHealthScore.total
-        }); 
-
-        this.setState({
-          healthData: getHealthScore(activity, sleep, steps, heartrate)
-        });
-
-        this.setState({metricsPulled: 0}); 
-      } 
     }
 
     dismissNativeSource() {
@@ -507,6 +495,7 @@ class HealthView extends Component {
       this.props.timestampExists({type: 'steps'});
       this.props.timestampExists({type: 'activity'});
       this.props.timestampExists({type: 'sleep'});
+      this.props.timestampExists({type: 'heartrate'});
     }
     
     onWeightPress() {
@@ -854,6 +843,50 @@ class HealthView extends Component {
             iconStyle,
             iconTextStyle
         } = styles;
+
+        const {
+          activity, 
+          sleep, 
+          steps,
+          heartrate,
+          children,
+        } = this.props;  
+  
+        // When all timeseries data have been pulled then we can start calculating the daily Medit count earned
+        if (this.state.metricsPulled === NUMBER_OF_METRICS_USED) {
+          const meditTimestamp = (children.timestamps && children.timestamps.medit) ? children.timestamps.medit : null;
+          const scoreTimestamp = (children.timestamps && children.timestamps.score) ? children.timestamps.score : null;
+          const healthscore = (children.health && children.health.score && children.health.score.healthscore) ? children.health.score.healthscore : 0;
+          const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
+          const total = (children.health && children.health.score && children.health.score.total) ? children.health.score.total : 0;
+          const scores = (children.health && children.health.score) ? children.health.score : [];
+
+          // After all physical metrics are pulled, we calculate the daily Medit earned ...
+          let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, steps, activity, sleep);
+          this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
+          this.props.dataSave({type: "timestamps", data: {
+            medit: dailyMedit.meditTimeStamp,
+            medit_value: dailyMedit.meditTimeStampValue
+          }}); 
+              
+          // ... then we calculate the daily health scores and total health score
+          
+          let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, total, steps, activity, sleep);
+          this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
+          this.props.dataSave({type: "timestamps", data: {
+            score: dailyHealthScore.scoreTimeStamp,
+          }}); 
+          this.props.healthScoreSave({
+            healthscore: dailyHealthScore.healthscore,
+            total: dailyHealthScore.total
+          }); 
+
+          this.setState({
+            healthData: getHealthScore(activity, sleep, steps, heartrate)
+          });
+
+          this.setState({metricsPulled: 0}); 
+        } 
 
         return (
             <View style={pageStyle}>

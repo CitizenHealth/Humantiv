@@ -20,6 +20,7 @@
 #import "RNFirebaseMessaging.h"
 #import "RNFirebaseNotifications.h"
 #import "Intercom/intercom.h"
+#import "RNFirebaseInvites.h"
 
 @implementation AppDelegate
 
@@ -63,10 +64,24 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
   return YES;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            sourceApplication:(NSString *)sourceApplication
+            annotation:(id)annotation {
   
   return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *, id> *)options {
+  return [[RNFirebaseInvites instance] application:application openURL:url options:options];
+}
+
+- (BOOL)application:(UIApplication *)application
+            continueUserActivity:(NSUserActivity *)userActivity
+            restorationHandler:(void (^)(NSArray *))restorationHandler {
+  return [[RNFirebaseInvites instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {

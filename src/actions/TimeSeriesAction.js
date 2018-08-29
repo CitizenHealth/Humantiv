@@ -145,23 +145,35 @@ export const addHealthScoreTimeSeries = (data) => {
   };
 }
 
-export const nativeTimeSeries = () => {
-  return (dispatch) => {
-    getNativeActivityTimeSeries()
-    .then((values) => {
-      dispatch({ type: TIMESERIES_ACTIVITY_FETCH, payload: values });
-    });
-    getNativeStepsTimeSeries()
-    .then((values) => {
-      dispatch({ type: TIMESERIES_STEPS_FETCH, payload: values });
-    });
-    getNativeHeartrateTimeSeries()
-    .then((values) => {
-      dispatch({ type: TIMESERIES_HEARTRATE_FETCH, payload: values });
-    });
-    getNativeSleepTimeSeries()
-    .then((values) => {
-      dispatch({ type: TIMESERIES_SLEEP_FETCH, payload: values });
-    });
-  };
+export const nativeTimeSeries = ({type}) => {
+  switch (type) {
+    case 'activity':
+      return (dispatch) => {
+        getNativeActivityTimeSeries()
+        .then((values) => {
+          dispatch({ type: TIMESERIES_ACTIVITY_FETCH, payload: values });
+        });
+      }
+    case 'steps':
+      return (dispatch) => {
+        getNativeStepsTimeSeries()
+        .then((values) => {
+          dispatch({ type: TIMESERIES_STEPS_FETCH, payload: values });
+        });
+      }
+    case 'sleep':
+      return (dispatch) => {
+        getNativeSleepTimeSeries()
+        .then((values) => {
+          dispatch({ type: TIMESERIES_SLEEP_FETCH, payload: values });
+        });
+      }
+    case 'heartrate':
+      return (dispatch) => {
+        getNativeHeartrateTimeSeries()
+        .then((values) => {
+          dispatch({ type: TIMESERIES_HEARTRATE_FETCH, payload: values });
+        });
+      }
+  }
 }

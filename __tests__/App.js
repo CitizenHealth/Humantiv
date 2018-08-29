@@ -4,7 +4,7 @@ import App from '../src/App';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
-import { LoginForm } from '../src/components';
+import { RegisterForm } from '../src/components';
 
 it('renders correctly', () => {
   const tree = renderer.create(
@@ -14,7 +14,7 @@ it('renders correctly', () => {
 
 test( 'Login view renders correctly', () => {
   const tree = renderer.create(
-    <LoginForm />
+    <RegisterForm />
   ).toJSON()
 
   expect( tree ).toMatchSnapshot();
@@ -22,7 +22,7 @@ test( 'Login view renders correctly', () => {
 
 test( 'Login view renders with invalid login credentials', () => {
   const tree = renderer.create(
-    <LoginForm
+    <RegisterForm
       error="The email and password you entered did not match our records. Please try again!"
     />
   ).toJSON()

@@ -2,7 +2,9 @@ import firebase from "react-native-firebase";
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
-import { EMAIL_CHANGED,
+import { 
+  NAME_CHANGED,
+  EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
@@ -13,6 +15,12 @@ import { EMAIL_CHANGED,
   FACEBOOK_LOGIN_USER
 } from "./types";
 
+export const nameChanged = (text) => {
+  return {
+    type: NAME_CHANGED,
+    payload: text
+  };
+};
 export const emailChanged = (text) => {
   return {
     type: EMAIL_CHANGED,
@@ -27,23 +35,32 @@ export const passwordChanged = (text) => {
   };
 };
 
+export const registerUser = ({ name, email, password }) => {
+  return (dispatch) => {
+    dispatch({ type: CREATE_USER });
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      firebase.analytics().logEvent('user_register', {provider: 'Email SignIn'});
+      const user = firebase.auth().currentUser
+      if (user) {
+          user.updateProfile({ displayName: name })
+      }
+      loginUserSuccess(dispatch, user);
+    })
+    .catch((error) => { loginUserFail(dispatch, error); });
+  };
+};
+
 export const loginUser = ({ email, password }) => {
   return (dispatch) => {
+    dispatch({ type: LOGIN_USER });
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
       firebase.analytics().logEvent('user_login', {provider: 'Email Login'});
-      dispatch({ type: LOGIN_USER });
+      const user = firebase.auth().currentUser
+      loginUserSuccess(dispatch, user);
     })
-    .catch(() => {
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        firebase.analytics().logEvent('user_login', {provider: 'Email SignIn'});
-        dispatch({ type: CREATE_USER });
-        // Create user database
-        
-      })
-      .catch((error) => { loginUserFail(dispatch, error); });
-    });
+    .catch((error) => { loginUserFail(dispatch, error); });
   };
 };
 
@@ -63,6 +80,13 @@ const loginUserFail = (dispatch, error) => {
       payload: error.message
     });
 };
+
+export const loginClearError = () => {
+  return {
+    type: LOGIN_USER_FAIL,
+    payload: ""
+  }
+}
 
 export const loginGoogleUser = () => {
   return (dispatch) => {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Platform, SafeAreaView} from "react-native";
+import { View, Text, Image, SafeAreaView} from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import {
@@ -21,6 +21,8 @@ import firebase from "react-native-firebase";
 import Images from "../resources/images";
 import { checkEmail } from '../business';
 import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
+import {Fonts} from '../resources/fonts/Fonts';
+import {primaryWhiteColor} from './themes/theme';
 
 class PasswordLostView extends Component {
   
@@ -99,19 +101,28 @@ class PasswordLostView extends Component {
 
     return (
         <KeyboardAwareScrollView
-          style={{ backgroundColor: '#4c69a5' }}
+          style={{ backgroundColor: primaryWhiteColor }}
           resetScrollToCoords={{ x: 0, y: 0 }}
           contentContainerStyle={pageStyle}
-          scrollEnabled={false}
+          scrollEnabled={true}
         >
           <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
             <View style={navigationBarStyle}>
               <IconButton onPress={() => {Actions.pop()}}>
-                <FontAwesome>{Icons.chevronLeft}</FontAwesome>
-              </IconButton>
+                <FontAwesome>{Icons.angleLeft}</FontAwesome>
+              </IconButton> 
+              <View style={{
+                height: 60,
+                width: 60
+              }}/>                   
             </View>
             <View style={ImageContainerStyle} >
-              <HeaderImage source={Images.img_login_password}/>
+              <Image 
+                style={{
+                  height: scale(100),
+                  width: scale(100)
+                }}
+                source={Images.img_login_password}/>
             </View>
             <View style={textContainerStyle} >
                 <Text style={[textStyle, {fontSize: 24, fontWeight: 'bold', flex: 1}]}>
@@ -127,8 +138,8 @@ class PasswordLostView extends Component {
                 </Text>
                 <View style={{
                   flex: 2,
-                  paddingLeft: scale(15),
-                  paddingRight: scale(15)
+                  paddingLeft: scale(40),
+                  paddingRight: scale(40)
                 }}>
                     <CardSection>
                       <IconInput
@@ -170,20 +181,21 @@ const styles = {
     backgroundColor: "#fff"
   },
   navigationBarStyle: {
-    height: 60,
-    paddingTop: 10,
-    paddingLeft: 10,
-    flex: 1
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    height: scale(60),
+    alignItems: 'center',
+    alignContent: 'stretch'
   },
   ImageContainerStyle: {
-    flex: 2,
-    padding: scale(100),
+    flex: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   textContainerStyle: {
     flex: 4,
     alignItems: 'stretch',
-    justifyContent: "center",
- //   backgroundColor: "yellow",
+    justifyContent: "space-between"
   },
   modalContent: {
     alignItems: 'center',
@@ -198,19 +210,16 @@ const styles = {
   buttonContainerStyle: {
     flex: 2,
     alignItems: 'flex-end',
-    justifyContent: "space-around",
-    paddingLeft: scale(15),
-    paddingRight: scale(15)
+    justifyContent: "flex-start",
+    paddingLeft: scale(40),
+    paddingRight: scale(40)
   },
 
   textStyle: {
     fontSize: 16,
     color: "#808080",
     textAlign: "center",
-    ...Platform.select({
-      ios: { fontFamily: "Arial", },
-      android: { fontFamily: "Roboto" }
-    })
+    fontFamily: Fonts.regular
   },
   linkContainerStyle: {
     flexDirection: "row",

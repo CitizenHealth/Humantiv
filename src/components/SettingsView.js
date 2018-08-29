@@ -404,6 +404,7 @@ class SettingsView extends Component {
               color= {primaryGreenColor}
               onPress={() => {Actions.settingsjourney()}}
             />
+            <View style={{height: 50}}/>
             < SettingsButton
               label="Sign out"
               onPress= {this.onLogOutButtonPress.bind(this)}

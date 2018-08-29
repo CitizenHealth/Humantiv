@@ -6,7 +6,8 @@ import {
     Text, 
     Image ,
     TouchableOpacity,
-    Platform
+    Platform,
+    SafeAreaView
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import {TutorialSlider} from '../components/custom';
@@ -128,24 +129,26 @@ class TutorialView extends Component {
     ];
 
     return (
-      <View style={[containerStyle, {backgroundColor: "#fff"}]}>
-       <TutorialSlider style={{flex:1, alignItems: 'stretch'}}
-          slides={slides}
-          onSlideChange={(a, b) => console.log(`Active slide changed from ${b} to ${a}`)}
-          renderNextButton={this.renderNextButton}
-          renderDoneButton={this.renderDoneButton}
-        />
-        <View style={buttonContainerstyle}> 
-          <TouchableOpacity 
-            style={buttonStyle} 
-            onPress={() => Actions.login()}
-          >
-            <Text style={[buttonTextStyle, {color: "#fff"}]}>
-                GET STARTED
-            </Text>
-          </TouchableOpacity>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+        <View style={[containerStyle, {backgroundColor: "#fff"}]}>
+        <TutorialSlider style={{flex:1, alignItems: 'stretch'}}
+            slides={slides}
+            onSlideChange={(a, b) => console.log(`Active slide changed from ${b} to ${a}`)}
+            renderNextButton={this.renderNextButton}
+            renderDoneButton={this.renderDoneButton}
+          />
+          <View style={buttonContainerstyle}> 
+            <TouchableOpacity 
+              style={buttonStyle} 
+              onPress={() => Actions.register()}
+            >
+              <Text style={[buttonTextStyle, {color: "#fff"}]}>
+                  GET STARTED
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

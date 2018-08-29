@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, SafeAreaView} from "react-native";
+import { View, Text, SafeAreaView, Image} from "react-native";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
 import {Button, HeaderImage, LinkText } from "./common";
@@ -13,7 +13,7 @@ import Images from "../resources/images";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import { dataFetch, fetchUser } from "../actions";
 import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
-
+import {Fonts} from '../resources/fonts/Fonts';
 
 class EmailConfirmation extends Component {
   
@@ -78,7 +78,8 @@ class EmailConfirmation extends Component {
       buttonStyle,
       linkContainerStyle,
       modalContent,
-      modalStyle
+      modalStyle,
+      linkTextStyle
     } = styles;
 
     firebase.analytics().setCurrentScreen('Email Confirmation Screen', 'EmailConfirmationView')
@@ -87,7 +88,12 @@ class EmailConfirmation extends Component {
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={pageStyle}>
           <View style={ImageContainerStyle} >
-            <HeaderImage source={Images.img_login_email}/>
+            <Image 
+              style={{
+                height: scale(100),
+                width: scale(100)
+              }}
+              source={Images.img_login_email}/>
           </View>
           <View style={textContainerStyle} >
               <Text style={[theme.primaryGreyTextStyle, {fontSize: 24, fontWeight: 'bold', flex: 1}]}>
@@ -110,6 +116,7 @@ class EmailConfirmation extends Component {
           </View>
           <View style={linkContainerStyle} >
             <LinkText
+              style={linkTextStyle}
               onPress={this.resendConfirmationEmail.bind(this)}
             >
               Resend confirmation email
@@ -137,6 +144,13 @@ const styles = {
     backgroundColor: '#fff',
     flex: 1
   },
+  linkTextStyle: {
+    textAlign: "center",
+    fontSize: 14,
+    color: "white",
+    fontWeight: "800",
+    fontFamily: Fonts.regular
+  },
   navigationBarStyle: {
     height: 60,
     paddingTop: 10,
@@ -145,13 +159,15 @@ const styles = {
   },
   ImageContainerStyle: {
     flex: 4,
-    padding: scale(120),
+    justifyContent: 'center',
+    alignItems: 'center',
+//    backgroundColor: 'blue'
   },
   textContainerStyle: {
-    flex: 4,
+    flex: 3,
     alignItems: 'center',
     justifyContent: "center",
- //   backgroundColor: "yellow",
+//    backgroundColor: "yellow",
   },
   buttonStyle: {
     alignSelf: "stretch"
@@ -160,8 +176,9 @@ const styles = {
     flex: 2,
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: scale(15),
-    paddingRight: scale(15)
+    paddingLeft: scale(40),
+    paddingRight: scale(40),
+//    backgroundColor: 'red'
   },
   linkContainerStyle: {
     flexDirection: "row",

@@ -7,6 +7,7 @@ export const primaryBlueColor = '#3C9AFB';
 export const primaryGreyColor = '#b6bbc4';
 export const secondaryGreyColor = '#545962';
 export const primaryGreenColor = '#36d491';
+export const secondaryGreenColor = '#39b54a';
 export const primaryBackgroungColor = '#f9fafc';
 export const primaryWhiteColor = '#fff';
 
@@ -148,7 +149,6 @@ export const theme = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 45,
-    marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
     backgroundColor: primaryBlueColor,
@@ -171,7 +171,6 @@ export const theme = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 45,
-    marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
     opacity: 0.4,
@@ -183,7 +182,10 @@ export const theme = StyleSheet.create({
   opacity: {
     opacity: 0.5,
   },
-  
+  inputTitleStyle: {
+    fontSize: 10, 
+    fontFamily: Fonts.regular,
+  },
   inputStyle: {
     color: secondaryGreyColor,
     paddingRight: 5,
@@ -298,8 +300,10 @@ export const theme = StyleSheet.create({
   iconStyle: {
     alignItems: "center",
     justifyContent: "center",
-    height: 44,
-    width: 44
+    height: 50,
+    width: 50,
+    marginLeft: 5,
+    marginRight: 5
   },
   iconTextStyle: {
     margin: 2, 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Scene, Router } from "react-native-router-flux";
+import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import TutorialView from "./TutorialView";
 import ProfileView from "./ProfileView";
@@ -27,6 +28,7 @@ const RouterComponent = () => {
         </Scene>
           <Scene key="auth">
           <Scene key="tutorial" component={TutorialView} animation='fade' hideNavBar initial/>
+          <Scene key="register" component={RegisterForm} animation='fade' hideNavBar />
           <Scene key="login" component={LoginForm} animation='fade' hideNavBar />
           <Scene key="verify" component={EmailConfirmationView} hideNavBar />
           <Scene key="password" component={PasswordLostView} hideNavBar />

@@ -97,10 +97,7 @@ class StartView extends Component {
       if (user) {
         this.props.fetchUser(user);
 
-        //
-        
-
-        // requests permissions from the user
+        // Requests messaging permissions from the user
         firebase.messaging().hasPermission()
         .then(enabled => {
           if (enabled) {
@@ -132,6 +129,7 @@ class StartView extends Component {
         console.log(`USER ID: ${user.uid}`)
         firebase.analytics().setUserId(user.uid);
         firebase.analytics().setUserProperty('email', user.email);
+
         // Set Sentry crash reporting context
         // set the user context
         Sentry.setUserContext({

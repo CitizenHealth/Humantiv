@@ -3,45 +3,67 @@ import {
   View, 
   Text, 
   SafeAreaView, 
-  TouchableOpacity
-} from "react-native";
+  TouchableOpacity,
+  Image
+ } from "react-native";
+import _ from 'lodash';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { scale } from "react-native-size-matters";
 import Hyperlink from 'react-native-hyperlink';
-import _ from 'lodash';
 import Spinner from "react-native-spinkit";
 import { 
+  Card, 
+  CardSection, 
+  RoundButton, 
+  HeaderImage, 
   IconButton  
 } from "./common";
 import { 
+  SignInButton,
+  FacebookLoginButton, 
+  GoogleLoginButton, 
   SignUpButton,
+  IconInput,
+  IconPasswordInput,
   ModalDialog,
+  PasswordInputStrengthIndicator
 } from './custom'; 
 import { 
   nameChanged,
   emailChanged, 
   passwordChanged, 
-  loginUser, 
+  registerUser, 
   loginGoogleUser, 
   loginFacebookUser,
-  loginClearError
+  loginClearError 
 } from "../actions";
+import Images from "../resources/images";
 import { theme, graphGreyColor, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import firebase from "react-native-firebase";
 import { TextField } from 'react-native-material-textfield';
 import {Fonts} from '../resources/fonts/Fonts';
-import {primaryWhiteColor} from './themes/theme';
+import {
+  primaryGreenColor, 
+  graphGreenColor, 
+  graphOrangeColor,
+  secondaryGreenColor, 
+  primaryBackgroungColor, 
+  primaryWhiteColor
+} from './themes/theme';
 import { 
-  checkEmail
+  checkEmail,
+  checkPassword
 } from '../business';
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
+
   constructor(props) {
     super(props);
 
+    this.nameRef = this.updateRef.bind(this, 'name');
     this.emailRef = this.updateRef.bind(this, 'email');
     this.passwordRef = this.updateRef.bind(this, 'password');
 
@@ -52,13 +74,18 @@ class LoginForm extends Component {
       secureTextEntry: true,
       errors: {}
     };
-  }
+    }
 
   // Text Input handlers
   updateRef(name, ref) {
     this[name] = ref;
   }
 
+  onNameChangeText(text) {
+    this.props.nameChanged(text);
+    this.onChangeText(text);
+  }
+  
   onMailChangeText(text) {
     this.props.emailChanged(text);
     this.onChangeText(text);
@@ -70,7 +97,7 @@ class LoginForm extends Component {
   }
 
   onChangeText(text) {
-    ['email', 'password']
+    ['name', 'email', 'password']
       .map((name) => ({ name, ref: this[name] }))
       .forEach(({ name, ref }) => {
         if (ref.isFocused()) {
@@ -79,6 +106,10 @@ class LoginForm extends Component {
       });
   }
 
+  onSubmitName() {
+    this.email.focus();
+  }
+  
   onSubmitEmail() {
     this.password.focus();
   }
@@ -126,39 +157,47 @@ class LoginForm extends Component {
   // Button press handlers
 
   onSignInButtonPress() {
-    const { email, password } = this.props;
+    const { name, email, password } = this.props;
 
     let errors = {};
 
-      ['email', 'password']
-      .forEach((name) => {
-        let value = this[name].value();
-  
-        if (!value) {
-          errors[name] = 'Should not be empty';
-        } else {
-          if ('email' === name && !checkEmail(value)) {
-            errors[name] = 'The email format is wrong';
+    ['name', 'email', 'password']
+    .forEach((name) => {
+      let value = this[name].value();
+
+      if (!value) {
+        errors[name] = 'Should not be empty';
+      } else {
+        if ('email' === name && !checkEmail(value)) {
+          errors[name] = 'The email format is wrong';
+        }
+        if ('password' === name) {
+          let passwordCheck = checkPassword(value);
+          if(!passwordCheck.valid) {
+            errors[name] = passwordCheck.message;
           }
         }
-      });
-  
-      this.setState({ errors });
-      if (_.isEmpty(errors)) {
-        this.props.loginUser({ email, password });
       }
+    });
+
+    this.setState({ errors });
+    if (_.isEmpty(errors)) {
+      this.props.registerUser({ name, email, password });
+    }
+  }
+
+  onGoogleSignInButtonPress() {
+    this.props.loginGoogleUser();
+  }
+
+  onFacebookSignInButtonPress() {
+    this.props.loginFacebookUser();
   }
 
   //////////////////////
   dismissModal() {
     this.setState({signUpModalVisible: !this.state.signUpModalVisible});
   }
-
-  createAccount() {
-
-  }
-
-  
 
   renderError() {
     const { error } = this.props;
@@ -174,30 +213,30 @@ class LoginForm extends Component {
   }
   renderButton() {
     const { loading } = this.props;
-    const {primaryWhiteTextStyle, startSpinnerStyle} = theme;
+    const {primaryWhiteTextStyle} = theme;
 
     if (loading) {
       return (
-        <View style={{
-          justifyContent: "space-around",
-          alignItems: 'center',
-          flexDirection: "column",
-          flex: 1
-        }}>
-          <Spinner 
-            isVisible={true}
-            size={scale(60)}
-            type='ThreeBounce' 
-            color={primaryBlueColor}
-          />
-        </View>
-        );
+      <View style={{
+        justifyContent: "space-around",
+        alignItems: 'center',
+        flexDirection: "column",
+        flex: 1
+      }}>
+        <Spinner 
+          isVisible={true}
+          size={scale(60)}
+          type='ThreeBounce' 
+          color={primaryBlueColor}
+        />
+      </View>
+      );
     }
     return (
       <SignUpButton
         onPress={this.onSignInButtonPress.bind(this)}
       >
-        <Text style={[primaryWhiteTextStyle, {fontSize: 14}]}>LOGIN</Text>
+          <Text style={[primaryWhiteTextStyle, {fontSize: 14}]}>CREATE MY ACCOUNT</Text>
       </SignUpButton>
     );
   }
@@ -213,8 +252,7 @@ class LoginForm extends Component {
       buttonContainerStyle,
       submitButtonStyle,
       titleTextStyle,
-      headerStyle,
-      textStyle
+      imageStyle
     } = styles;
     const { 
       iconStyle,
@@ -229,43 +267,56 @@ class LoginForm extends Component {
 
     const { errors , secureTextEntry } = this.state;
 
-    firebase.analytics().setCurrentScreen('Login Screen', 'RegisterForm')
+    firebase.analytics().setCurrentScreen('Register Screen', 'RegisterForm')
 
     if (this.state.loggedIn) {
       (children.profile && children.profile.journey) ? Actions.main(): Actions.journey();
       return (<View />);
     }
     return (
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <KeyboardAwareScrollView
         style={{ backgroundColor: primaryWhiteColor }}
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={pageStyle}
         scrollEnabled={true}
       >
-      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={logoStyle}>
-          <View style={headerStyle}>
-            <IconButton onPress={() => {Actions.pop()}}>
-              <FontAwesome>{Icons.angleLeft}</FontAwesome>
-            </IconButton> 
-            <View style={{
-              height: 60,
-              width: 60
-            }}/>                   
-          </View>
+          <HeaderImage
+            source={Images.img_login_logo}
+          />
         </View>
         <View style={{
           flex: 3, 
           marginRight: scale(40)
           }}>
           <Text style={titleTextStyle}>
-            Health
+            Health 
           </Text>
           <Text style={titleTextStyle}>
             is a journey 
           </Text>
         </View>
         <View style={loginCardStyle}>
+            <TextField
+              ref={this.nameRef}
+              label='Name'
+              value={name}
+              onChangeText={this.onNameChangeText.bind(this)}
+              keyboardType="default"          
+              autoCorrect={false}
+              autoCapitalize='words'
+              enablesReturnKeyAutomatically={true}
+              onFocus={this.onFocus.bind(this)}
+              onSubmitEditing={this.onSubmitName.bind(this)}
+              returnKeyType='next'
+              error={errors.name}
+              textColor={graphGreyColor}
+              baseColor={graphGreyColor}
+              tintColor={primaryGreyColor}
+              labelTextStyle={inputStyle}
+              titleTextStyle={inputTitleStyle}
+            />
              <TextField
               ref={this.emailRef}
               label='Email address'
@@ -316,16 +367,36 @@ class LoginForm extends Component {
             {this.renderButton()}
           </View>
           <View style={separatorStyle}>
-          <Hyperlink
-            linkStyle={ { color: primaryBlueColor } }
-            onPress={ (url, text) => Actions.password()}
-            linkText={ url => url === 'http://citizenhealth.io' ? 'password?' : url }
-          >
-            <Text style= {[primaryGreyTextStyle, {color: primaryGreyColor}]}>Forgot your http://citizenhealth.io</Text>
-          </Hyperlink>
-
+            <Text style={[primaryGreyTextStyle, {color: primaryGreyColor}]} >or login with</Text>
           </View>      
           <View style={socialContainer}>
+            <TouchableOpacity 
+              style={iconStyle} 
+              onPress={this.onFacebookSignInButtonPress.bind(this)}
+            >
+              <Image
+                style={imageStyle}
+                source={Images.img_login_facebook}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={iconStyle} 
+              onPress={this.onGoogleSignInButtonPress.bind(this)}
+            >
+              <Image
+                style={imageStyle}
+                source={Images.img_login_google}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={iconStyle} 
+              onPress={() => Actions.login()}
+            >
+              <Image
+                style={imageStyle}
+                source={Images.img_login_email1}
+              />
+            </TouchableOpacity>
           </View>
           {this.renderError()}   
         <ModalDialog
@@ -337,8 +408,8 @@ class LoginForm extends Component {
           onAcceptPress={this.dismissModal.bind(this)}
         >
         </ModalDialog>
-        </SafeAreaView> 
-      </KeyboardAwareScrollView>  
+        </KeyboardAwareScrollView>  
+      </SafeAreaView> 
     );
   }
 }
@@ -368,8 +439,9 @@ const styles = {
   },
   logoStyle: {
     flex: 3,
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
+    justifyContent: 'center',
+    alignContent: 'flex-end',
+    paddingLeft: scale(40),
   },
   logoTextStyle: {
     flex: 1,
@@ -378,7 +450,7 @@ const styles = {
     paddingRight: scale(80)
   },
   loginCardStyle: {
-    height: 170,
+    height: 200,
 //    backgroundColor: "red",
     justifyContent: "space-around",
     paddingLeft: scale(40),
@@ -399,9 +471,7 @@ const styles = {
   },
   socialContainer: {
     flexDirection: "row",
-    height: 100,
-    paddingLeft: scale(40),
-    paddingRight: scale(40),
+    height: 80,
     justifyContent: "center",
     alignItems: 'center'
   },
@@ -417,7 +487,6 @@ const styles = {
     fontSize: 14,
     color: "white",
     fontWeight: "800",
-    flexWrap: 'wrap',
     fontFamily: Fonts.regular
   },
   buttonContainerstyle: {
@@ -432,13 +501,13 @@ const styles = {
     marginBottom: 5,
     fontFamily: Fonts.regular
   },
-  headerStyle: {
-    flexDirection: 'row',
-    justifyContent: "space-between",
-    height: scale(60),
-    alignItems: 'center',
-    alignContent: 'stretch'
-  },
+  imageStyle: {
+    height: 44,
+    width: 44
+    // shadowOffset:{  width: 5,  height: 5,  },
+    // shadowColor: "grey",
+    // shadowOpacity: 0.7
+  }
 };
 
 const mapStateToProps = state => {
@@ -451,8 +520,8 @@ export default connect(mapStateToProps, {
   nameChanged,
   emailChanged,
   passwordChanged,
-  loginUser,
+  registerUser,
   loginGoogleUser,
   loginFacebookUser,
   loginClearError
-})(LoginForm);
+})(RegisterForm);

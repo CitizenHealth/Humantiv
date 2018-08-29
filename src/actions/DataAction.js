@@ -87,6 +87,32 @@ export const dataEdit = ({profile}) => {
   };
 };
 
+
+export const timestampFetch = ({type, isnative}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+  
+  return (dispatch) => {
+//    console.log(`Try: ${type}`);
+    firebase.database().ref(`/users/${currentUser.uid}/timestamps/${type}`)
+    .on("value", snapshot => {
+//      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
+      let data = snapshot.val();
+      if (isnative) {
+        dispatch(nativeTimeSeries({type: type}));
+      } else {
+        dispatch(dataFetch({type: "humanapi"}));
+      }
+      dispatch({ type: DATA_FETCH, payload: {type: 'timestamps', data} });
+    }, error => {
+//      console.log(`Error: ${error}`);
+    });
+  };
+};
+
 export const dataFetch = ({type, isnative}) => {
   const { currentUser } = firebase.auth();
 
@@ -162,6 +188,7 @@ export const nativeHealthFetch = ({type}) => {
       dispatch(timestampExists({type: 'steps', isnative: isNativeTracking}));
       dispatch(timestampExists({type: 'activity', isnative: isNativeTracking}));
       dispatch(timestampExists({type: 'sleep', isnative: isNativeTracking}));
+      dispatch(timestampExists({type: 'heartrate', isnative: isNativeTracking}));
       dispatch({ type: NATIVE_HEALTH, payload: {type: "isNativeTracking", data} });
     });
   };
@@ -178,6 +205,7 @@ export const nativeTimeStampsExists = ({isNative}) => {
     dispatch(timestampExists({type: 'steps', isnative: isNative}));
     dispatch(timestampExists({type: 'activity', isnative: isNative}));
     dispatch(timestampExists({type: 'sleep', isnative: isNative}));
+    dispatch(timestampExists({type: 'heartrate', isnative: isNative}));
   };
 };
 
@@ -195,7 +223,8 @@ export const dataExists = ({type}) => {
       let exists = snapshot.exists();
       console.log(exists);
       console.log(Actions.currentScene);
-      if (Actions.currentScene === 'login') {
+      if (Actions.currentScene === 'login' ||
+          Actions.currentScene === 'register') {
        (exists) ? Actions.main(): Actions.journey();
       }
       dispatch({ type: DATA_EXISTS, payload: {type, exists} });
@@ -215,10 +244,10 @@ export const timestampExists = ({type, isnative}) => {
     .once("value", snapshot => {
       let exists = snapshot.exists();
       if (exists) {
-        dispatch(dataFetch({type: "timestamps", isnative: isnative}));
+        dispatch(timestampFetch({type: type, isnative: isnative}));
       } else {
         if (isnative) {
-          dispatch(nativeTimeSeries());
+          dispatch(nativeTimeSeries({type}));
         } else {
           dispatch(dataFetch({type: "humanapi"}));
         }
@@ -245,6 +274,7 @@ export const nativeHealthExists = ({type}) => {
         dispatch(timestampExists({type: 'steps', isnative: false}));
         dispatch(timestampExists({type: 'activity', isnative: false}));
         dispatch(timestampExists({type: 'sleep', isnative: false}));
+        dispatch(timestampExists({type: 'heartrate', isnative: false}));
       }
       dispatch({ type: TIMESTAMP_EXISTS, payload: {type, exists} });
     });

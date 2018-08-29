@@ -5,7 +5,10 @@ const HeaderImage = ({ source }) => {
   const { imageStyle } = styles;
 
   return (
-    <View style={{ flex: 1 }} >
+    <View style={{ 
+        alignItems: 'flex-start'
+      }} 
+    >
       <Image
         style={imageStyle}
         source={source}
@@ -16,9 +19,8 @@ const HeaderImage = ({ source }) => {
 
 const styles = {
   imageStyle: {
-    flex: 1,
-    height: undefined,
-    width: undefined,
+    height: 40,
+    width: 160,
     resizeMode: "contain"
     // shadowOffset:{  width: 5,  height: 5,  },
     // shadowColor: "grey",
