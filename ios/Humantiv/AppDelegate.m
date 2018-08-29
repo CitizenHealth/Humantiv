@@ -72,17 +72,17 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
   return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-            options:(NSDictionary<NSString *, id> *)options {
-  return [[RNFirebaseInvites instance] application:application openURL:url options:options];
-}
-
-- (BOOL)application:(UIApplication *)application
-            continueUserActivity:(NSUserActivity *)userActivity
-            restorationHandler:(void (^)(NSArray *))restorationHandler {
-  return [[RNFirebaseInvites instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
-}
+//- (BOOL)application:(UIApplication *)application
+//            openURL:(NSURL *)url
+//            options:(NSDictionary<NSString *, id> *)options {
+//  return [[RNFirebaseInvites instance] application:application openURL:url options:options];
+//}
+//
+//- (BOOL)application:(UIApplication *)application
+//            continueUserActivity:(NSUserActivity *)userActivity
+//            restorationHandler:(void (^)(NSArray *))restorationHandler {
+//  return [[RNFirebaseInvites instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
+//}
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
 //  [RNFirebaseMessaging didReceiveLocalNotification:notification];
