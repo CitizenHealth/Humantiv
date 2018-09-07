@@ -24,7 +24,8 @@ export const getActivityTimeSeries = (access_token) => {
           let time_series = {
             timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
-            value: convertSecondsToMinutes(item.duration)
+            value: convertSecondsToMinutes(item.duration),
+            source: item.source
           }
           val.push(time_series);
         }
@@ -59,7 +60,8 @@ export const getStepsTimeSeries = (access_token) => {
           let time_series = {
             timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
-            value: item.steps
+            value: item.steps,
+            source: item.source
           }
           val.push(time_series);
         }
@@ -91,7 +93,8 @@ export const getSleepTimeSeries = (access_token) => {
           let time_series = {
             timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
-            value: convertMinutesToHours(item.timeAsleep)
+            value: convertMinutesToHours(item.timeAsleep),
+            source: item.source
           }
           val.push(time_series);
         }
@@ -122,7 +125,8 @@ export const getHeartrateTimeSeries = (access_token) => {
           let time_series = {
             timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
-            value: item.restingHR
+            value: item.restingHR,
+            source: item.source
           }
           val.push(time_series);
         }
@@ -157,7 +161,8 @@ export const getWeightTimeSeries = (access_token) => {
           let time_series = {
             timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
-            value: weight
+            value: weight,
+            source: item.source
           }
           val.push(time_series);
         }

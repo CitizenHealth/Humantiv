@@ -21,6 +21,7 @@
 #import "RNFirebaseNotifications.h"
 #import "Intercom/intercom.h"
 #import "RNFirebaseInvites.h"
+#import "RNFirebaseLinks.h"
 
 @implementation AppDelegate
 
@@ -35,7 +36,7 @@
 //      NSLog(@" %@", name);
 //    }
 //  }
-  
+  [FIROptions defaultOptions].deepLinkURLScheme = @"io.share.citizenhealth.humantiv";
   [FIRApp configure];
   [FIRDatabase database].persistenceEnabled = YES;
   [RNFirebaseNotifications configure];
@@ -72,6 +73,17 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
   return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *, id> *)options {
+  return [[RNFirebaseLinks instance] application:application openURL:url options:options];
+}
+
+- (BOOL)application:(UIApplication *)application
+continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray *))restorationHandler {
+  return [[RNFirebaseLinks instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
+}
 //- (BOOL)application:(UIApplication *)application
 //            openURL:(NSURL *)url
 //            options:(NSDictionary<NSString *, id> *)options {

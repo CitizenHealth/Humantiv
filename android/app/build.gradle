@@ -116,8 +116,8 @@ android {
         applicationId "io.citizenhealth.humantiv"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 12
-        versionName "1.12"
+        versionCode 13
+        versionName "1.13"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -157,6 +157,18 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-version-number')
+    compile project(':react-native-svg')
+    compile project(':react-native-spinkit')
+    compile project(':react-native-sentry')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-intercom')
+    compile project(':react-native-human-api')
+    compile project(':react-native-hgraph')
+    compile project(':react-native-gesture-handler')
+    compile project(':react-native-firebase')
+    compile project(':react-native-fbsdk')
+    compile project(':react-native-google-signin')
     implementation project(':react-native-version-number')
     compile 'io.intercom.android:intercom-sdk-base:5.+'
     compile 'io.intercom.android:intercom-sdk-fcm:5.+'

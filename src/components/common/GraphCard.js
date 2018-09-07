@@ -24,15 +24,20 @@ import { LineChart, AreaChart} from 'react-native-svg-charts'
 import * as shape from 'd3-shape';
 import {primaryGreyColor} from '../themes/theme';
 import { scale } from "react-native-size-matters";
-import {convertUNIXTimeToSince} from "../../business/Helpers";
+import {
+  capitalLetter,
+  convertUNIXTimeToSince
+} from "../../business/Helpers";
 
 class GraphCard extends Component {
   static propTypes = {
     title: PropTypes.string,
     unit: PropTypes.string,
     data: PropTypes.arrayOf(PropTypes.shape({
+        timestamp: PropTypes.number.isRequired,
         time: PropTypes.number.isRequired,
-        value: PropTypes.number.isRequired
+        value: PropTypes.number.isRequired,
+        source: PropTypes.string.isRequired
     })),
     rules: PropTypes.shape({
         absoluteMin: PropTypes.number.isRequired,
@@ -63,7 +68,8 @@ class GraphCard extends Component {
     this.state = {
         value: "-",
         timestamp: "",
-        color: graphGreyColor
+        color: graphGreyColor,
+        source: ""
     };
   }
 
@@ -76,6 +82,8 @@ class GraphCard extends Component {
     if (this.state.data !== data) { 
       const latestValue = (data.length > 0 ) ? (data[0].value !== undefined) ? Math.round(data[0].value) : "-" : "-";
       const latestTime = (data.length > 0 ) ? (data[0].timestamp !== undefined) ? data[0].timestamp : "" : "";
+      const source = (data.length > 0 ) ? (data[0].source !== undefined) ? data[0].source : "" : "";
+      
       var selectedColor = graphGreyColor;
 
       if (latestValue !== "-") {
@@ -88,7 +96,8 @@ class GraphCard extends Component {
       this.setState({
           value: latestValue,
           timestamp: (latestTime === "") ? "" : convertUNIXTimeToSince(latestTime),
-          color: selectedColor
+          color: selectedColor,
+          source: source
       });
     }
   }
@@ -206,12 +215,22 @@ class GraphCard extends Component {
           </View>    
         </View> 
         <View style={{
+          flex: 1,
           flexDirection: "row",
-          justifyContent:"flex-end",
+          justifyContent:"space-between",
           position: 'absolute',
           bottom: scale(3),
-          right: scale(3)
+          right: scale(3),
+          left: scale(3)
         }}>
+          <Text style={{
+            fontSize: 10,
+            fontWeight: "400",
+            fontFamily: Fonts.regular,
+            color: graphGreyColor
+          }}>
+            {(this.state.source === "" || this.state.source === undefined) ? "" : capitalLetter(this.state.source)}
+          </Text>
           <Text style={{
             fontSize: 10,
             fontWeight: "400",

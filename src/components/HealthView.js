@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import { 
     StyleSheet, 
     View, 
-    Text, 
+    Text,
+    Image, 
     Platform,
     ScrollView,
     Dimensions,
@@ -31,6 +32,7 @@ import {
     dataFetch,
     walletFetch,
     fetchFeedFilters,
+    timestampFetch,
     fetchFeedStories,
     addFeedStory,
     removeFeedStory,
@@ -87,6 +89,7 @@ import {
 import {modalMessages} from './themes';
 import AppleHealthKit from 'rn-apple-healthkit';
 import Intercom from 'react-native-intercom';
+import Images from "../resources/images";
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -160,6 +163,8 @@ class HealthView extends Component {
 //      this.props.fetchHealthTimeSeries({type: "score"});
       this.props.timeseriesScoreFetch();
       this.props.timeseriesMeditFetch();
+      this.props.timestampFetch({type: "medit"});
+      this.props.timestampFetch({type: "score"});
       this.props.fetchFeedFilters();
       this.props.fetchFeedStories();
       this.props.dataFetch({type: "notifications"});
@@ -705,20 +710,27 @@ class HealthView extends Component {
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'flex-end',
-                        alignContent: 'flex-end'
+                        alignItems: 'center'
                       }}
                     >
-                      <IconButton
-                          onPress={() => {this.props.removeAllFeedStories()}}
-                          viewStyles={iconStyle}
-                          textStyles={[iconTextStyle, {color:graphGreyColor}]}
+                    <TouchableOpacity 
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: 44,
+                        width: 44,
+                        marginLeft: 5,
+                        marginRight: 5} }
+                      onPress={() => {this.props.removeAllFeedStories()}}
                       >
-                          <FontAwesome
-                            style={{color: graphGreyColor}}
-                          > 
-                            {Icons.trash}
-                          </FontAwesome>
-                      </IconButton>
+                        <Image 
+                            style={{ 
+                              width: 28, 
+                              height: 28
+                            }} 
+                            source={Images.img_dismiss_all} 
+                          /> 
+                      </TouchableOpacity>                   
                       <IconButton
                           onPress={() => {Actions.feedfilters()}}
                           viewStyles={iconStyle}
@@ -1049,6 +1061,7 @@ export default connect(mapStateToProps, {
   dataAdd,
   walletFetch,
   fetchFeedFilters,
+  timestampFetch,
   fetchFeedStories,
   addFeedStory,
   removeFeedStory,

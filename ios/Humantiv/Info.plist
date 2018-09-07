@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.12</string>
+	<string>1.13</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -26,7 +26,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string/>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb1768168920145823</string>
@@ -50,6 +50,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>io.citizenhealth.humantiv</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>io.share.citizenhealth.humantiv</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>io.share.citizenhealth.humantiv</string>
 			</array>
 		</dict>
 	</array>
@@ -86,7 +96,7 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Humantiv reads your health data to track your activity and sleep. You can also allow to read personal data for your profile.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Send photos to help resolve app issues</string>
 	<key>UIAppFonts</key>

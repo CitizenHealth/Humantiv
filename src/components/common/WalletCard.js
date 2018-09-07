@@ -68,7 +68,8 @@ class WalletCard extends Component {
         cardStyle,
         valueContainerStyle,
         valueTextStyle,
-        titleTextStyle
+        titleTextStyle,
+        containerStyle
     } = styles;
 
     const {
@@ -82,41 +83,54 @@ class WalletCard extends Component {
 
     const config = this.getGradientConfig(icon);
     return (
-      <LinearGradient style={[cardStyle, {
-        overflow: 'hidden',
-        width: width,
-        height: height
-      }]}
-        start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
-          colors={config.colors}>
-        <ImageBackground 
-          style={valueContainerStyle}
-          source={config.image}
-        >
-          <Icon
-            name={icon}
-            color= "#fff"
-            size= {24}/>
-          <Text style={valueTextStyle}>
-              {value}
-          </Text>
-            
-          <Text style={[
-            titleTextStyle,
-            {
-              color: "#fff", 
-              opacity: 0.8
-            }
-          ]}>
-              {title}
-          </Text>
-        </ImageBackground>        
-      </LinearGradient>
+      <View
+        style={[containerStyle,{shadowColor: color}]}
+      >
+        <LinearGradient style={[cardStyle, {
+          overflow: 'hidden',
+          width: width,
+          height: height
+        }]}
+          start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
+            colors={config.colors}>
+          <ImageBackground 
+            style={valueContainerStyle}
+            source={config.image}
+          >
+            <Icon
+              name={icon}
+              color= "#fff"
+              size= {24}/>
+            <Text style={valueTextStyle}>
+                {value}
+            </Text>
+              
+            <Text style={[
+              titleTextStyle,
+              {
+                color: "#fff", 
+                opacity: 0.8
+              }
+            ]}>
+                {title}
+            </Text>
+          </ImageBackground>        
+        </LinearGradient>
+      </View>
     );
   }
 };
 
 const styles = StyleSheet.create({
+  containerStyle: {
+    borderRadius: 3,
+    borderBottomWidth: 0,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+    elevation: 8,
+    flex: 1
+  },
   cardStyle: {
     borderRadius: 3
   },

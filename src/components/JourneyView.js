@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from 'react-native';
 import {
   JourneyChoice,
@@ -76,6 +77,7 @@ class JourneyView extends Component {
     const profile_journey = (children.profile) ? children.profile.journey : "";
 
     return (
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView style={scrollViewStyle}>
         <View style={headerContainerStyle}>
         <View style={iconContainerStyle}>
@@ -124,6 +126,7 @@ class JourneyView extends Component {
         </ModalTerms>
 
       </ScrollView>
+      </SafeAreaView>
     );
   }
 

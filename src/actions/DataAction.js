@@ -88,7 +88,7 @@ export const dataEdit = ({profile}) => {
 };
 
 
-export const timestampFetch = ({type, isnative}) => {
+export const timestampFetch = ({type, isnative = false}) => {
   const { currentUser } = firebase.auth();
 
   if (currentUser === null) {
@@ -101,12 +101,37 @@ export const timestampFetch = ({type, isnative}) => {
     .on("value", snapshot => {
 //      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
       let data = snapshot.val();
-      if (isnative) {
-        dispatch(nativeTimeSeries({type: type}));
-      } else {
-        dispatch(dataFetch({type: "humanapi"}));
+      if (type != "score") {
+        dispatch(timestampValueFetch({type, isnative}));
       }
-      dispatch({ type: DATA_FETCH, payload: {type: 'timestamps', data} });
+      dispatch({ type: DATA_CREATE, payload: {type: 'timestamps', prop: type, value:  data}});
+    }, error => {
+//      console.log(`Error: ${error}`);
+    });
+  };
+};
+
+export const timestampValueFetch = ({type, isnative = false}) => {
+  const { currentUser } = firebase.auth();
+
+  if (currentUser === null) {
+    return;
+  }
+  
+  return (dispatch) => {
+//    console.log(`Try: ${type}`);
+    firebase.database().ref(`/users/${currentUser.uid}/timestamps/${type}_value`)
+    .on("value", snapshot => {
+//      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
+      let data = snapshot.val();
+      if ( type != "medit" && type != "score") {
+        if (isnative) {
+          dispatch(nativeTimeSeries({type: type}));
+        } else {
+          dispatch(dataFetch({type: "humanapi"}));
+        }
+      }
+      dispatch({ type: DATA_CREATE, payload: {type: 'timestamps', prop: `${type}_value`, value:  data}});
     }, error => {
 //      console.log(`Error: ${error}`);
     });

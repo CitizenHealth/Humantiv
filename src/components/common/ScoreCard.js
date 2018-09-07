@@ -113,7 +113,10 @@ class ScoreCard extends Component {
             </View>
           : null}
           {(this.props.buttonTitle) ?
-            <View style={cardTitleContainerStyle}>
+            <TouchableOpacity 
+              style={cardTitleContainerStyle}
+              onPress={this.props.onPressHeader}
+            >
                 <IconButton
                   onPress={this.props.onPressHeader}
                   viewStyles={iconStyle}
@@ -124,7 +127,7 @@ class ScoreCard extends Component {
               <Text style={cardButtonTitleStyle}>
                 {this.props.buttonTitle}
               </Text>
-            </View>
+            </TouchableOpacity>
           : null}
         </View>
         {this.props.children}

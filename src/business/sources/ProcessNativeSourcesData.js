@@ -57,7 +57,8 @@ export const getNativeStepsTimeSeries = () => {
         let time_series = {
           timestamp: moment(new Date()).unix(),
           time: moment(item.startDate, "YYYY-MM-DD").unix(),
-          value: item.value
+          value: item.value,
+          source: "Apple Health"
         }
         val.push(time_series);
       }
@@ -93,7 +94,8 @@ export const getNativeSleepTimeSeries = () => {
         let time_series = {
           timestamp: moment(new Date()).unix(),
           time: moment(item.startDate, "YYYY-MM-DD").unix(),
-          value: convertMinutesToHours(duration)
+          value: convertMinutesToHours(duration),
+          source: "Apple Health"
         }
         val.push(time_series);
       }
@@ -126,7 +128,8 @@ export const getNativeHeartrateTimeSeries = () => {
         let time_series = {
           timestamp: moment(new Date()).unix(),
           time: moment(item.startDate, "YYYY-MM-DD").unix(),
-          value: item.value
+          value: item.value,
+          source: "Apple Health"
         }
         val.push(time_series);
       }
@@ -156,7 +159,8 @@ export const getNativeWeightTimeSeries = (access_token) => {
           let time_series = {
             timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
             time: moment(item.date, "YYYY-MM-DD").unix(),
-            value: weight
+            value: weight,
+            source: "Apple Health"
           }
           val.push(time_series);
         }

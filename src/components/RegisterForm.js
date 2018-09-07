@@ -353,7 +353,6 @@ class RegisterForm extends Component {
               title='Between 8 and 20 characters'
               titleFontSize={8}
               maxLength={20}
-              characterRestriction={20}
               renderAccessory={this.renderPasswordAccessory.bind(this)}
               textColor={graphGreyColor}
               baseColor={graphGreyColor}

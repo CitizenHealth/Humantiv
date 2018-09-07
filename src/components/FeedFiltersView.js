@@ -4,7 +4,7 @@ import {
   ScrollView, 
   View, 
   Text, 
-  Platform, 
+  SafeAreaView, 
   StyleSheet 
 } from 'react-native';
 import { 
@@ -89,6 +89,7 @@ class FeedFiltersView extends Component {
 
 
    return (
+        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
           <View style={{
             flex: 1,
             backgroundColor: primaryBackgroungColor
@@ -113,6 +114,7 @@ class FeedFiltersView extends Component {
           {this.renderFilters()}
         </ScrollView>
       </View>
+      </SafeAreaView>
     );
   }
 }

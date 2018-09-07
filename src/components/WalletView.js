@@ -44,6 +44,7 @@ import {
  } from './themes';
 import {formatNumbers} from '../business/Helpers';
 import {primaryWhiteColor, primaryGreyColor} from './themes/theme';
+import LinearGradient from 'react-native-linear-gradient';
 
 class WalletView extends Component {
 
@@ -148,27 +149,47 @@ class WalletView extends Component {
             </View>
             );
     }
+
     renderEarnMedits() {
       const {
+        earnMeditsGradientContainerStyle,
         earnMeditsContainerStyle,
-        earnMeditsTextStyle
+        earnMeditsTextStyle,
+        cardStyle
     } = styles;
 
       return (
-        <View style={{flex: 1}}>
-          <TouchableOpacity 
-            style={earnMeditsContainerStyle} 
-            onPress={() => this.share()}
+        <View style={{
+            borderRadius: 3,
+            borderBottomWidth: 0,
+            shadowOffset: { width: 2, height: 2 },
+            shadowOpacity: 0.8,
+            shadowColor: "#3ba4f9",
+            shadowRadius: 5,
+            elevation: 8,
+            flex: 1}}
           >
-             <FontAwesome
-              style={{fontSize: 24, color: primaryWhiteColor}}
-            > 
-              {Icons.shareAlt}
-            </FontAwesome>
-            <Text style={earnMeditsTextStyle}>
-              Share and Earn Free Medits
-            </Text>
-          </TouchableOpacity>
+          <LinearGradient 
+            style={[earnMeditsGradientContainerStyle, {
+              overflow: 'hidden'
+            }]}
+            start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
+            colors={['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)']}
+          >
+            <TouchableOpacity 
+              style={earnMeditsContainerStyle} 
+              onPress={() => this.share()}
+            >
+              <FontAwesome
+                style={{fontSize: 24, color: primaryWhiteColor}}
+              > 
+                {Icons.shareAlt}
+              </FontAwesome>
+              <Text style={earnMeditsTextStyle}>
+                Share and Earn Free Medits
+              </Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       )
     }
@@ -242,6 +263,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'stretch'
     },
+    cardStyle: {
+      borderRadius: 3
+    },  
     textStyle: {
         flex: 4,
         textAlign: 'center',
@@ -259,6 +283,12 @@ const styles = StyleSheet.create({
     },
     earnMeditsContainerStyle: {
       flex: 1,
+      justifyContent: "space-around",
+      alignItems: "center",
+      flexDirection: "row",
+    },
+    earnMeditsGradientContainerStyle: {
+      flex: 1,
       borderRadius: 5,
       justifyContent: "space-around",
       alignItems: "center",
@@ -267,8 +297,7 @@ const styles = StyleSheet.create({
       marginRight: 10,
       marginTop: 10,
       height: 45,
-      elevation: 1,
-      backgroundColor: primaryBlueColor
+      elevation: 1
     },
     earnMeditsTextStyle: {
       fontSize: 18,
@@ -285,7 +314,7 @@ const styles = StyleSheet.create({
     cardFooterButtonTitleStyle: {
       fontSize: 14,
       fontWeight: "400",
-      color: primaryBlueColor,
+      color: graphGreyColor,
       fontFamily: Fonts.regular
     },
     footerContainerStyle: {

@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   Text,
   Dimensions,
-
+  SafeAreaView,
   StyleSheet,
   Linking
 } from 'react-native';
@@ -49,6 +49,7 @@ class ModalTerms extends Component {
       } = styles;
       
       return (
+        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <ModalWrapper
           onRequestClose={this.props.onCancel}
           style= {modalContent}
@@ -74,6 +75,7 @@ class ModalTerms extends Component {
             </View>      
             {this._renderInnerText()}
         </ModalWrapper>
+        </SafeAreaView>
         );
     } 
 }

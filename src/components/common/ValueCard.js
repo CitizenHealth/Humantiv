@@ -70,7 +70,8 @@ class ValueCard extends Component {
         valueContainerStyle,
         valueTextStyle,
         titleTextStyle,
-        valueTextAlignStyle
+        valueTextAlignStyle,
+        containerStyle
     } = styles;
 
     const {
@@ -85,6 +86,9 @@ class ValueCard extends Component {
     const config = this.getGradientConfig(icon);
 
     return (
+      <View
+        style={[containerStyle,{shadowColor: color}]}
+      >
       <LinearGradient 
       style={[cardStyle, {
         overflow: 'hidden',
@@ -119,12 +123,21 @@ class ValueCard extends Component {
             </Text>
             </ImageBackground>
         </LinearGradient>        
-
+      </View>
     );
   }
 };
 
 const styles = StyleSheet.create({
+  containerStyle: {
+    borderRadius: 3,
+    borderBottomWidth: 0,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+    elevation: 8,
+    flex: 1
+  },
   contentContainer: {
     flex : 1,
     paddingTop: 50,
@@ -135,7 +148,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   cardStyle: {
-    borderRadius: 3
+    borderRadius: 3,
   },
   valueContainerStyle: {
     flex: 1,

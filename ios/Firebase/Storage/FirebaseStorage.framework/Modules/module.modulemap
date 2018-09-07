@@ -2,4 +2,5 @@ framework module FirebaseStorage {
   umbrella header "FirebaseStorage.h"
   export *
   module * { export *}
+  link framework "MobileCoreServices"
 }
