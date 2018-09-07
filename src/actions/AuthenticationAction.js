@@ -125,38 +125,40 @@ export const fetchUser = (user) => {
 // Calling this function will open Google for login.
  const googleLogin = (dispatch) => {
   // Add configuration settings here:
-  return GoogleSignin.configure({
-    iosClientId: "847047929311-ibked2hj6k5263b55bcjfnpiemrbpans.apps.googleusercontent.com", // only for iOS
-    forceConsentPrompt: true,
+  GoogleSignin.configure({
+//    scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+    webClientId: '847047929311-ibked2hj6k5263b55bcjfnpiemrbpans.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+//    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+//    hostedDomain: '', // specifies a hosted domain restriction
+    forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
+    accountName: '', // [Android] specifies an account name on the device that should be used
   })
-  .then(() => {
-    GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
-      // play services are available. can now configure library
-      GoogleSignin.signIn()
-      .then((data) => {
-        
-        // create a new firebase credential with the token
-        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
-        dispatch({ type: GOOGLE_LOGIN_USER });
-  
-        // login with credential
-        return firebase.auth().signInWithCredential(credential);
-      })
-      .then((user) => {
-        console.info(JSON.stringify(user.toJSON()));
-        firebase.analytics().logEvent('user_login', {provider: 'Google'});
-        loginUserSuccess(dispatch, user);
-        console.log("Signed In with Google");
-      })
-      .catch((error) => {
-        console.log(`Login fail with error: ${error}`);
-        loginUserFail(dispatch, error);
-      });
+  return GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+    // play services are available. can now configure library
+    GoogleSignin.signIn()
+    .then((data) => {
+      
+      // create a new firebase credential with the token
+      const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+      dispatch({ type: GOOGLE_LOGIN_USER });
+
+      // login with credential
+      return firebase.auth().signInWithCredential(credential);
     })
-    .catch((err) => {
-      console.log("Play services error", err.code, err.message);
+    .then((user) => {
+      console.info(JSON.stringify(user.toJSON()));
+      firebase.analytics().logEvent('user_login', {provider: 'Google'});
+      loginUserSuccess(dispatch, user);
+      console.log("Signed In with Google");
+    })
+    .catch((error) => {
+      console.log(`Login fail with error: ${error}`);
+      loginUserFail(dispatch, error);
     });
-   });
+  })
+  .catch((err) => {
+    console.log("Play services error", err.code, err.message);
+  });
 };
 
 // Calling the following function will open the FB login dialogue:

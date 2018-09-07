@@ -76,7 +76,13 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<NSString *, id> *)options {
-  return [[RNFirebaseLinks instance] application:application openURL:url options:options];
+  return [[RNFirebaseLinks instance] application:application
+                                     openURL:url options:options]
+         ||
+         [RNGoogleSignin application:application
+                          openURL:url
+                          sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                          annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
 }
 
 - (BOOL)application:(UIApplication *)application
