@@ -76,7 +76,7 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<NSString *, id> *)options {
-  return [[RNFirebaseLinks instance] application:application
+  return [[RNFirebaseInvites instance] application:application
                                      openURL:url options:options]
          ||
          [RNGoogleSignin application:application
@@ -88,7 +88,7 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
 - (BOOL)application:(UIApplication *)application
 continueUserActivity:(NSUserActivity *)userActivity
  restorationHandler:(void (^)(NSArray *))restorationHandler {
-  return [[RNFirebaseLinks instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
+  return [[RNFirebaseInvites instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
 //- (BOOL)application:(UIApplication *)application
 //            openURL:(NSURL *)url

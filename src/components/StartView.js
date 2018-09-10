@@ -173,7 +173,16 @@ class StartView extends Component {
         }
       }
     });
-
+    // Handle invites
+    firebase.invites()
+    .getInitialInvitation()
+    .then((invitation) => {
+        if (invitation) {
+            // app opened from an Invitation
+        } else {
+           // app NOT opened from an invitation
+        }
+    });
     // disable stacktrace merging
     Sentry.config("https://0999f8401b0844a7b4279508d1d5bac9:5f9c3a1bdca04884aea7634085ce459e@sentry.io/275892", {
       deactivateStacktraceMerging: false, // default: true | Deactivates the stacktrace merging feature

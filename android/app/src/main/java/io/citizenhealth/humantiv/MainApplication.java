@@ -9,13 +9,10 @@ import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.horcrux.svg.SvgPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import io.sentry.RNSentryPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.robinpowered.react.Intercom.IntercomPackage;
-import co.humanapi.connectsdk.RNReactNativeHumanApiPackage;
 import io.citizenhealth.RNReactNativeHgraphPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -24,22 +21,14 @@ import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.google.firebase.database.FirebaseDatabase;
-import com.horcrux.svg.SvgPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.citizenhealth.humanapi.RNReactNativeHumanApiPackage;
-import io.citizenhealth.RNReactNativeHgraphPackage;
-import com.robinpowered.react.Intercom.IntercomPackage;
 import io.intercom.android.sdk.Intercom;
-import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
@@ -49,7 +38,7 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
-import io.sentry.RNSentryPackage;
+import io.invertase.firebase.links.RNFirebaseLinksPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -81,19 +70,6 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
-            new RNVersionNumberPackage(),
-            new SvgPackage(),
-            new RNSpinkitPackage(),
-            new RNSentryPackage(MainApplication.this),
-            new LinearGradientPackage(),
-            new IntercomPackage(),
-            new RNReactNativeHumanApiPackage(),
-            new RNReactNativeHgraphPackage(),
-            new RNGestureHandlerPackage(),
-            new RNFirebasePackage(),
-            new FBSDKPackage(),
-            new RNGoogleSigninPackage(),
-            new RNVersionNumberPackage(),
                 new RNSpinkitPackage(),
                 new LinearGradientPackage(),
                 new SvgPackage(),
@@ -113,6 +89,7 @@ public class MainApplication extends Application implements ReactApplication {
                 new RNFirebaseStoragePackage(),
                 new RNFirebaseMessagingPackage(),
                 new RNFirebaseNotificationsPackage(),
+                new RNFirebaseLinksPackage(),
                 new IntercomPackage()
             );
     }

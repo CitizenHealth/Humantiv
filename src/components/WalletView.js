@@ -80,28 +80,35 @@ class WalletView extends Component {
     }
 
     share = () => {
-      Share.share(
-        {
-          title: this.props.share_title,
-          message: this.props.share_message,
-          dialogTitle: "Share Humantiv"
-        }).then(result =>  {
-            const {children} = this.props;
+      // create invitation
+      const invitation = new firebase.invites.Invitation(this.props.share_title, this.props.share_message);
+      invitation.setDeepLink('https://je786.app.goo.gl/testing');
+      // send the invitation
+      const invitationIds = await firebase.invites().sendInvitation(invitation);
+      // use the invitationIds as you see fit
+
+        // Share.share(
+        // {
+        //   title: this.props.share_title,
+        //   message: this.props.share_message,
+        //   dialogTitle: "Share Humantiv"
+        // }).then(result =>  {
+        //     const {children} = this.props;
             
-            this.props.dataAdd({type: "wallet", item: "medits", data: 10});
-            // Add medit to feed
-            const story = {
-              title: "Your sharing earned you",
-              preposition: "",
-              value: `10 Medits`,
-              time: Math.round((new Date()).getTime() / 1000),
-              type: "medits"
-            }
-            this.props.addFeedStory(story);
-            console.log(result)
-        }).catch(errorMsg => {
-          console.log(errorMsg)
-        });
+        //     this.props.dataAdd({type: "wallet", item: "medits", data: 10});
+        //     // Add medit to feed
+        //     const story = {
+        //       title: "Your sharing earned you",
+        //       preposition: "",
+        //       value: `10 Medits`,
+        //       time: Math.round((new Date()).getTime() / 1000),
+        //       type: "medits"
+        //     }
+        //     this.props.addFeedStory(story);
+        //     console.log(result)
+        // }).catch(errorMsg => {
+        //   console.log(errorMsg)
+        // });
     }
     
     renderGraphCard() {
@@ -161,17 +168,17 @@ class WalletView extends Component {
       return (
         <View style={{
             borderRadius: 3,
+            borderTopWidth: 0,
             borderBottomWidth: 0,
             shadowOffset: { width: 2, height: 2 },
             shadowOpacity: 0.8,
             shadowColor: "#3ba4f9",
             shadowRadius: 5,
-            elevation: 8,
             flex: 1}}
           >
           <LinearGradient 
             style={[earnMeditsGradientContainerStyle, {
-              overflow: 'hidden'
+              overflow: 'hidden',
             }]}
             start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
             colors={['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)']}

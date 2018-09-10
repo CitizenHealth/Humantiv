@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 5,
-    elevation: 8,
     flex: 1
   },
   cardStyle: {
@@ -136,6 +135,7 @@ const styles = StyleSheet.create({
   },
   valueContainerStyle: {
     flex: 1,
+    elevation: 5,
     justifyContent: 'center',
     alignItems: 'center'
   },
