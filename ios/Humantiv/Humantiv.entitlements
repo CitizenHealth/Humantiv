@@ -9,6 +9,7 @@
 		<string>io.citizenhealth.humantiv
 io.citizenhealth.humantiv
 applinks:humantiv.page.link.app.goo.gl</string>
+		<string>applinks:humantiv.page.link.app.goo.gl</string>
 	</array>
 	<key>com.apple.developer.healthkit</key>
 	<true/>

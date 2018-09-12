@@ -3,7 +3,7 @@
     "unit": "",
     "absoluteMin": 0,
     "absoluteMax": 100,
-    "healthyMin": 75,
+    "healthyMin": 70,
     "healthyMax": 100
   },
   "steps": {
@@ -16,9 +16,9 @@
   "activity": {
     "unit": "minutes",
     "absoluteMin": 0,
-    "absoluteMax": 140,
+    "absoluteMax": 1400,
     "healthyMin": 45,
-    "healthyMax": 140
+    "healthyMax": 1400
   },
   "sleep": {
     "unit": "hours",

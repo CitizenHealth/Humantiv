@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "847047929311-tq29erqnihhorkn1pmhjcr1htokbvori.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.citizenhealth.humantiv",
+            "certificate_hash": "34fd3d3740f0667e50de1d7326da922400e55792"
+          }
+        },
+        {
           "client_id": "847047929311-000onflcjvek73029cbgskd496e69h0l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -23,11 +31,19 @@
           }
         },
         {
-          "client_id": "847047929311-tq29erqnihhorkn1pmhjcr1htokbvori.apps.googleusercontent.com",
+          "client_id": "847047929311-dogb5ns1hdmiu3tf4i0q6lkma4n922rq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "io.citizenhealth.humantiv",
-            "certificate_hash": "34fd3d3740f0667e50de1d7326da922400e55792"
+            "certificate_hash": "900e7e521950da05615c6e5f615d229358dbd50f"
+          }
+        },
+        {
+          "client_id": "847047929311-2ik4t0eqffe9fh2mggdpo1siusbsposo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.citizenhealth.humantiv",
+            "certificate_hash": "7a1c182a1a200911575e2b990847e0292ef7bae3"
           }
         },
         {

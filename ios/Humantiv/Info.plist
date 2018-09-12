@@ -55,11 +55,13 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string/>
 			<key>CFBundleURLName</key>
-			<string>io.share.citizenhealth.humantiv</string>
+			<string>io.citizenhealth.humantiv.share</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>io.share.citizenhealth.humantiv</string>
+				<string>io.citizenhealth.humantiv.share</string>
 			</array>
 		</dict>
 	</array>

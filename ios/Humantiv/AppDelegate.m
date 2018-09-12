@@ -36,7 +36,7 @@
 //      NSLog(@" %@", name);
 //    }
 //  }
-  [FIROptions defaultOptions].deepLinkURLScheme = @"io.share.citizenhealth.humantiv";
+  [FIROptions defaultOptions].deepLinkURLScheme = @"io.citizenhealth.humantiv.share";
   [FIRApp configure];
   [FIRDatabase database].persistenceEnabled = YES;
   [RNFirebaseNotifications configure];
@@ -76,19 +76,31 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
             options:(NSDictionary<NSString *, id> *)options {
-  return [[RNFirebaseInvites instance] application:application
-                                     openURL:url options:options]
-         ||
-         [RNGoogleSignin application:application
-                          openURL:url
-                          sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                          annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+  return
+    [[RNFirebaseLinks instance] application:application
+                                openURL:url options:options]
+  
+    ||
+    [[RNFirebaseInvites instance] application:application
+                                  openURL:url options:options]
+    ||
+    [RNGoogleSignin application:application
+                    openURL:url
+                    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
 }
 
 - (BOOL)application:(UIApplication *)application
 continueUserActivity:(NSUserActivity *)userActivity
  restorationHandler:(void (^)(NSArray *))restorationHandler {
-  return [[RNFirebaseInvites instance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
+  return
+  [[RNFirebaseLinks instance] application:application
+                              continueUserActivity:userActivity
+                              restorationHandler:restorationHandler]
+  ||
+  [[RNFirebaseInvites instance] application:application
+                                continueUserActivity:userActivity
+                                restorationHandler:restorationHandler];
 }
 //- (BOOL)application:(UIApplication *)application
 //            openURL:(NSURL *)url

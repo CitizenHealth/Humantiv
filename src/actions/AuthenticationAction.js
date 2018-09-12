@@ -127,13 +127,17 @@ export const fetchUser = (user) => {
   // Add configuration settings here:
   GoogleSignin.configure({
 //    scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-    webClientId: '847047929311-ibked2hj6k5263b55bcjfnpiemrbpans.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+    webClientId: '847047929311-me465as3kdc6un1u0g68r5q0bnko677b.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
 //    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 //    hostedDomain: '', // specifies a hosted domain restriction
     forceConsentPrompt: true, // [Android] if you want to show the authorization prompt at each login
     accountName: '', // [Android] specifies an account name on the device that should be used
   })
-  return GoogleSignin.hasPlayServices({ autoResolve: true }).then(() => {
+  return GoogleSignin.hasPlayServices({ 
+      autoResolve: true,
+      showPlayServicesUpdateDialog: true 
+    })
+    .then(() => {
     // play services are available. can now configure library
     GoogleSignin.signIn()
     .then((data) => {

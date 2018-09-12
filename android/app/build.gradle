@@ -187,7 +187,8 @@ dependencies {
     implementation('com.google.android.gms:play-services-auth:16.0.0') {
         force = true
     }
-    implementation 'com.google.firebase:firebase-invites:16.0.1'
+    implementation 'com.google.firebase:firebase-lin'
+    implementation 'com.google.firebase:firebase-invites:16.0.3'
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-analytics:16.0.3'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
@@ -198,7 +199,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.1'
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.facebook.react:react-native:+'
     // From node_modules
     implementation 'com.facebook.android:facebook-android-sdk:4.36.0'

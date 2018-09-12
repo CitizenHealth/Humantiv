@@ -5,40 +5,40 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import com.horcrux.svg.SvgPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import io.sentry.RNSentryPackage;
-import com.robinpowered.react.Intercom.IntercomPackage;
-import io.citizenhealth.RNReactNativeHgraphPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.google.firebase.database.FirebaseDatabase;
+import com.horcrux.svg.SvgPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.robinpowered.react.Intercom.IntercomPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
+import io.citizenhealth.RNReactNativeHgraphPackage;
 import io.citizenhealth.humanapi.RNReactNativeHumanApiPackage;
 import io.intercom.android.sdk.Intercom;
+import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
+import io.invertase.firebase.invites.RNFirebaseInvitesPackage;
+import io.invertase.firebase.links.RNFirebaseLinksPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
-import io.invertase.firebase.links.RNFirebaseLinksPackage;
+import io.sentry.RNSentryPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -90,6 +90,7 @@ public class MainApplication extends Application implements ReactApplication {
                 new RNFirebaseMessagingPackage(),
                 new RNFirebaseNotificationsPackage(),
                 new RNFirebaseLinksPackage(),
+                new RNFirebaseInvitesPackage(),
                 new IntercomPackage()
             );
     }
