@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { 
-    WebView, 
+    Platform, 
     StyleSheet, 
     View, 
     Text, 
@@ -206,6 +206,7 @@ class WalletView extends Component {
             <TouchableOpacity 
               style={earnMeditsContainerStyle} 
               onPress={() => this.share()}
+              disabled={(Platform.OS === 'android')}
             >
               <FontAwesome
                 style={{fontSize: 24, color: primaryWhiteColor}}

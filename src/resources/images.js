@@ -28,6 +28,7 @@ const Images = {
   img_tutorial_3: require("./images/tutorial/tutorial3.png"),
   img_tutorial_4: require("./images/tutorial/tutorial4.png"),
   img_tutorial_5: require("./images/tutorial/tutorial5.png"),
+  img_tutorial_6: require("./images/tutorial/tutorial6.png"),
 
   
   img_medit_bg: require("./images/health/medit_card.png"),

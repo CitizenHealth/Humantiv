@@ -121,8 +121,16 @@ class TutorialView extends Component {
       {
         key: 'medit',
         title: 'Your activity generates Medit',
-        text: 'Medit is a reward token that is stored in your personal wallet. The future uses for  Medit include paying for products, health services, and investment.',
+        text: 'Medit is a reward token that is stored in your personal wallet. The future uses for Medit include paying for products, health services, and investment.',
         image: Images.img_tutorial_5,
+        imageStyle: styles.image,
+        backgroundColor: primaryWhiteColor,
+      },
+      {
+        key: 'chat',
+        title: 'Your can now talk to us',
+        text: 'If you have a question, comment or just want to connect with us, we made it easy to do. Simply tap the message icon in the upper right corner.',
+        image: Images.img_tutorial_6,
         imageStyle: styles.image,
         backgroundColor: primaryWhiteColor,
       }
