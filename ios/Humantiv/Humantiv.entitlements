@@ -6,9 +6,6 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>io.citizenhealth.humantiv
-io.citizenhealth.humantiv
-applinks:humantiv.page.link.app.goo.gl</string>
 		<string>applinks:humantiv.page.link.app.goo.gl</string>
 	</array>
 	<key>com.apple.developer.healthkit</key>

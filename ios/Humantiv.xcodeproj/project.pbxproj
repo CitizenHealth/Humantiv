@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -1309,6 +1310,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = G5F7PPHVSF;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -2113,6 +2115,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Humantiv/Humantiv.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = G5F7PPHVSF;
@@ -2159,6 +2163,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.citizenhealth.humantiv;
 				PRODUCT_NAME = Humantiv;
+				PROVISIONING_PROFILE = "c54e4024-a342-4492-ae60-9fef3caa1263";
+				PROVISIONING_PROFILE_SPECIFIER = "App Store Distribution";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2169,6 +2175,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Humantiv/Humantiv.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G5F7PPHVSF;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2214,6 +2222,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.citizenhealth.humantiv;
 				PRODUCT_NAME = Humantiv;
+				PROVISIONING_PROFILE = "65327544-9d49-4efe-9506-407e47229416";
+				PROVISIONING_PROFILE_SPECIFIER = "App Store Distribution";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
