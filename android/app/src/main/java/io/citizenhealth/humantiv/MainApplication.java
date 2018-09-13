@@ -19,6 +19,7 @@ import com.horcrux.svg.SvgPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.robinpowered.react.Intercom.IntercomPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.apsl.versionnumber.RNVersionNumberPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,7 @@ public class MainApplication extends Application implements ReactApplication {
                 new RNSpinkitPackage(),
                 new LinearGradientPackage(),
                 new SvgPackage(),
+                new RNVersionNumberPackage(),
                 new RNReactNativeHgraphPackage(),
                 new RNSentryPackage(MainApplication.this),
                 new RNReactNativeHumanApiPackage(),

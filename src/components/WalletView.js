@@ -201,7 +201,7 @@ class WalletView extends Component {
               overflow: 'hidden',
             }]}
             start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
-            colors={['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)']}
+            colors={(Platform.OS === 'android') ? [graphGreyColor, primaryGreyColor] : ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)']}
           >
             <TouchableOpacity 
               style={earnMeditsContainerStyle} 
