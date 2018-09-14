@@ -14,7 +14,6 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* HumantivTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* HumantivTests.m */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
-		1378266D780A4B208370C5EF /* libRCTAppleHealthKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C35A40B3A3D49368C29F987 /* libRCTAppleHealthKit.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -101,6 +100,7 @@
 		D8C6F9F8BC4349E6A36D880D /* libRNReactNativeHumanApi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B410E20CD26441B297DABB11 /* libRNReactNativeHumanApi.a */; };
 		DAA85372BB284E98A8D0B31B /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 319D1445DDB74963ABA01F9B /* SafariServices.framework */; };
 		E371F9DD6E4B485EA5996242 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C67D8C0A814E068346885F /* libz.tbd */; };
+		FCF752BB942C43E99E0A9C05 /* libRCTAppleHealthKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B5B61B98B4E40A8AA06DF24 /* libRCTAppleHealthKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -328,13 +328,6 @@
 			remoteGlobalIDString = 2858ECD01F8B91B400610575;
 			remoteInfo = "RNVersionNumber-tvOS";
 		};
-		4A5063D3210BE5CF006E8824 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 113B75E19F3E48F5904CDC4E /* RCTAppleHealthKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3774C88D1D2092F20000B3F3;
-			remoteInfo = RCTAppleHealthKit;
-		};
 		4A52642820AE34CB00BC834D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */;
@@ -348,6 +341,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 64AA15081EF7F30100718508;
 			remoteInfo = "BVLinearGradient-tvOS";
+		};
+		4A55F4B3214AD8AA0082FBB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C89701C78E2E44C8A226B080 /* RCTAppleHealthKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3774C88D1D2092F20000B3F3;
+			remoteInfo = RCTAppleHealthKit;
 		};
 		4A7BBFF8204FCD3500C253C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -515,7 +515,7 @@
 		00E356EE1AD99517003FC87E /* HumantivTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumantivTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* HumantivTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HumantivTests.m; sourceTree = "<group>"; };
-		113B75E19F3E48F5904CDC4E /* RCTAppleHealthKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAppleHealthKit.xcodeproj; path = "../node_modules/rn-apple-healthkit/RCTAppleHealthKit.xcodeproj"; sourceTree = "<group>"; };
+		0B5B61B98B4E40A8AA06DF24 /* libRCTAppleHealthKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTAppleHealthKit.a; sourceTree = "<group>"; };
 		11A88EA5FE674F6C95B678AA /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -610,10 +610,10 @@
 		83EB4664C5FFE46349CEE26F /* Pods-HumantivTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumantivTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HumantivTests/Pods-HumantivTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8AD450AC75E0427DA0DE5A93 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		8CFB834829464409AA2E9C1E /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		9C35A40B3A3D49368C29F987 /* libRCTAppleHealthKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTAppleHealthKit.a; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B410E20CD26441B297DABB11 /* libRNReactNativeHumanApi.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeHumanApi.a; sourceTree = "<group>"; };
 		BED67D63428440C4A56E2A15 /* FontAwesome.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.otf; path = ../assets/fonts/FontAwesome.otf; sourceTree = "<group>"; };
+		C89701C78E2E44C8A226B080 /* RCTAppleHealthKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAppleHealthKit.xcodeproj; path = "../node_modules/rn-apple-healthkit/RCTAppleHealthKit.xcodeproj"; sourceTree = "<group>"; };
 		D29AC51E13484EB891275CD9 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		D6FF1E9C364548889EB99604 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		E63881D4C25F4551A9649A08 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -695,7 +695,6 @@
 				1CD3865B004E4ED5AD5E8DA0 /* libRCTFBSDK.a in Frameworks */,
 				4A5883132141FB24007E4017 /* FirebaseRemoteConfig.framework in Frameworks */,
 				4A58839821424C84007E4017 /* GoogleUtilities.framework in Frameworks */,
-				1378266D780A4B208370C5EF /* libRCTAppleHealthKit.a in Frameworks */,
 				4A58831B2141FB24007E4017 /* Protobuf.framework in Frameworks */,
 				4A5883122141FB24007E4017 /* Protobuf.framework in Frameworks */,
 				4A58831D2141FB24007E4017 /* GoogleAppMeasurement.framework in Frameworks */,
@@ -712,6 +711,7 @@
 				4A58830D2141FB23007E4017 /* Protobuf.framework in Frameworks */,
 				E371F9DD6E4B485EA5996242 /* libz.tbd in Frameworks */,
 				4A5883202141FB24007E4017 /* FirebaseAnalytics.framework in Frameworks */,
+				FCF752BB942C43E99E0A9C05 /* libRCTAppleHealthKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,19 +912,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4A5063D0210BE5CE006E8824 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4A5063D4210BE5CF006E8824 /* libRCTAppleHealthKit.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		4A52642420AE34CB00BC834D /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				4A52642920AE34CB00BC834D /* libBVLinearGradient.a */,
 				4A52642B20AE34CB00BC834D /* libBVLinearGradient.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4A55F4B0214AD8AA0082FBB6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A55F4B4214AD8AA0082FBB6 /* libRCTAppleHealthKit.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1118,7 +1118,7 @@
 				D6FF1E9C364548889EB99604 /* libRNGoogleSignin.a */,
 				B410E20CD26441B297DABB11 /* libRNReactNativeHumanApi.a */,
 				FA8BFF4E945C4CDAB3137956 /* libRNReactNativeHgraph.a */,
-				9C35A40B3A3D49368C29F987 /* libRCTAppleHealthKit.a */,
+				0B5B61B98B4E40A8AA06DF24 /* libRCTAppleHealthKit.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1195,7 +1195,7 @@
 				11A88EA5FE674F6C95B678AA /* RNGoogleSignin.xcodeproj */,
 				2399776D47AA419C90FA436D /* RNReactNativeHumanApi.xcodeproj */,
 				7B226DAA58F44D2CA1A206FE /* RNReactNativeHgraph.xcodeproj */,
-				113B75E19F3E48F5904CDC4E /* RCTAppleHealthKit.xcodeproj */,
+				C89701C78E2E44C8A226B080 /* RCTAppleHealthKit.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1310,7 +1310,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = G5F7PPHVSF;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1353,8 +1353,8 @@
 					ProjectRef = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
 				},
 				{
-					ProductGroup = 4A5063D0210BE5CE006E8824 /* Products */;
-					ProjectRef = 113B75E19F3E48F5904CDC4E /* RCTAppleHealthKit.xcodeproj */;
+					ProductGroup = 4A55F4B0214AD8AA0082FBB6 /* Products */;
+					ProjectRef = C89701C78E2E44C8A226B080 /* RCTAppleHealthKit.xcodeproj */;
 				},
 				{
 					ProductGroup = ADBDB9201DFEBF0600ED6528 /* Products */;
@@ -1667,13 +1667,6 @@
 			remoteRef = 4A478B7C2124065C00901EB0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4A5063D4210BE5CF006E8824 /* libRCTAppleHealthKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTAppleHealthKit.a;
-			remoteRef = 4A5063D3210BE5CF006E8824 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		4A52642920AE34CB00BC834D /* libBVLinearGradient.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1686,6 +1679,13 @@
 			fileType = archive.ar;
 			path = libBVLinearGradient.a;
 			remoteRef = 4A52642A20AE34CB00BC834D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A55F4B4214AD8AA0082FBB6 /* libRCTAppleHealthKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAppleHealthKit.a;
+			remoteRef = 4A55F4B3214AD8AA0082FBB6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4A7BBFF9204FCD3500C253C5 /* libRNReactNativeHumanApi.a */ = {
@@ -2115,11 +2115,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Humantiv/Humantiv.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = G5F7PPHVSF;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Facebook",
@@ -2145,8 +2145,8 @@
 					"$(SRCROOT)/../node_modules/react-native-human-api/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
-					"$(SRCROOT)/../node_modules/rn-apple-healthkit/RCTAppleHealthKit",
 					"$(SRCROOT)/../node_morules/react-native-version-number/ios",
+					"$(SRCROOT)/../node_modules/rn-apple-healthkit/RCTAppleHealthKit",
 				);
 				INFOPLIST_FILE = Humantiv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2163,8 +2163,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.citizenhealth.humantiv;
 				PRODUCT_NAME = Humantiv;
-				PROVISIONING_PROFILE = "c54e4024-a342-4492-ae60-9fef3caa1263";
-				PROVISIONING_PROFILE_SPECIFIER = "App Store Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2175,10 +2175,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Humantiv/Humantiv.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = G5F7PPHVSF;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Facebook",
@@ -2204,8 +2204,8 @@
 					"$(SRCROOT)/../node_modules/react-native-human-api/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-hgraph/ios/**",
-					"$(SRCROOT)/../node_modules/rn-apple-healthkit/RCTAppleHealthKit",
 					"$(SRCROOT)/../node_morules/react-native-version-number/ios",
+					"$(SRCROOT)/../node_modules/rn-apple-healthkit/RCTAppleHealthKit",
 				);
 				INFOPLIST_FILE = Humantiv/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2222,8 +2222,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.citizenhealth.humantiv;
 				PRODUCT_NAME = Humantiv;
-				PROVISIONING_PROFILE = "65327544-9d49-4efe-9506-407e47229416";
-				PROVISIONING_PROFILE_SPECIFIER = "App Store Distribution";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

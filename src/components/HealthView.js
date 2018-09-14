@@ -392,7 +392,7 @@ class HealthView extends Component {
         if (Platform.OS === 'ios') {
           let options = {
             permissions: {
-                read: ["Height", "Weight", "DateOfBirth", "StepCount", "HeartRate", "SleepAnalysis", "ActiveEnergyBurned", "BiologicalSex"]
+                read: ["Height", "Weight", "DateOfBirth", "StepCount", "HeartRate", "SleepAnalysis", "AppleExerciseTime", "BiologicalSex"]
            }
           };
           

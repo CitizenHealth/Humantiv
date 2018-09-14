@@ -47,7 +47,7 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.5",
     "redux-thunk": "^2.3.0",
-    "rn-apple-healthkit": "^0.6.3",
+    "rn-apple-healthkit": "github:CitizenHealth/rn-apple-healthkit#master",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {

@@ -12,12 +12,6 @@ export const getStepMedits = (steps, lastTimestamp, lastValue) => {
   //  12904829: 3012
   // }
   
-  // Temporary fix for the 1.12 Medit generation problem
-  // If timestamp is between 1535698800 (8/31/2018-00:00:00 PST) and 
-  // 1536822000 (9/13/2018-00:00:00 PST)
-  if (lastTimestamp >= 1535698800 && lastTimestamp <= 1536822000) {
-    lastTimestamp = 1535698800;
-  }
   let medits = 0;
   let timestamp = lastTimestamp;
 
@@ -48,13 +42,6 @@ export const getActivityMedits = (activities, lastTimestamp, lastValue) => {
   //  12904829: 26
   // }
   
-  // Temporary fix for the 1.12 Medit generation problem
-  // If timestamp is between 1535698800 (8/31/2018-00:00:00 PST) and 
-  // 1536822000 (9/13/2018-00:00:00 PST)
-  if (lastTimestamp >= 1535698800 && lastTimestamp <= 1536822000) {
-    lastTimestamp = 1535698800;
-  }
-
   let medits = 0;
   let timestamp = lastTimestamp;
 
@@ -84,14 +71,7 @@ export const getSleepMedits = (sleeps, lastTimestamp, lastValue) => {
   //  12904673: 360
   //  12904829: 480
   // }
-  
-  // Temporary fix for the 1.12 Medit generation problem
-  // If timestamp is between 1535698800 (8/31/2018-00:00:00 PST) and 
-  // 1536822000 (9/13/2018-00:00:00 PST)
-  if (lastTimestamp >= 1535698800 && lastTimestamp <= 1536822000) {
-    lastTimestamp = 1535698800;
-  }
-  
+    
   let medits = 0;
   let timestamp = lastTimestamp;
 

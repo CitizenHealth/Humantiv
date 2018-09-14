@@ -52,7 +52,7 @@ export const dataAdd = ({type, item, data}) => {
     firebase.database().ref(`/users/${currentUser.uid}/${type}/${item}`)
     .transaction(function(currentData) {
         if (!currentData)
-          return 
+          return data;
         else
           return currentData + data;
     }, function(error, committed, snapshot) {

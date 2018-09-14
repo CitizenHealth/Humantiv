@@ -29,6 +29,8 @@ import {
   convertUNIXTimeToSince
 } from "../../business/Helpers";
 
+const MAX_SERIES_NUMBER = 10;
+
 class GraphCard extends Component {
   static propTypes = {
     title: PropTypes.string,
@@ -127,7 +129,7 @@ class GraphCard extends Component {
     // convert data to array
     var dataArray = []; 
     let index = 0;
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < Math.min(MAX_SERIES_NUMBER, data.length); i++) {
       if (data[i].value !== undefined) {
         dataArray[index++] = data[i].value;
       }

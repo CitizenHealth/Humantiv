@@ -6,7 +6,7 @@ import {
 } from '../Helpers';
 import convert from 'convert-units';
 
-const MAX_SERIES_NUMBER = 10;
+const MAX_SERIES_NUMBER = 30;
 
 export const getActivityTimeSeries = (access_token) => {
   const url = `https://api.humanapi.co/v1/human/activities/summaries?access_token=${access_token}`

@@ -7,7 +7,7 @@ import {
 import convert from 'convert-units';
 import AppleHealthKit from 'rn-apple-healthkit';
 
-const MAX_SERIES_NUMBER = 10;
+const MAX_SERIES_NUMBER = 30;
 
 export const getNativeActivityTimeSeries = () => {
   let options = {
@@ -16,19 +16,28 @@ export const getNativeActivityTimeSeries = () => {
 
 
   return new Promise( (resolve, reject) => {
-    AppleHealthKit.getActiveEnergyBurned(options: Object, (err: Object, results: Object) => {
+    AppleHealthKit.getAppleExerciseTime(options: Object, (err: Object, results: Object) => {
       if (err) {
           return;
       }
       let val = [];
 
-      // let time_series = {
-      //   timestamp: moment(item.updatedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix(),
-      //   time: moment(item.date, "YYYY-MM-DD").unix(),
-      //   value: convertSecondsToMinutes(item.duration)
-      // }
-      // val.push(time_series);
+      for (var index = 0; index< Math.min(results.length,MAX_SERIES_NUMBER); index++) {
+        let item = results[index];
 
+        let startDateUnix = moment(item.startDate, "YYYY-MM-DDThh:mm:ss.SSSZ").unix()
+        let endDateUnix = moment(item.endDate, "YYYY-MM-DDThh:mm:ss.SSSZ").unix()
+
+        let duration = (endDateUnix-startDateUnix)/60;
+
+        let time_series = {
+          timestamp: moment(new Date()).unix(),
+          time: moment(item.startDate, "YYYY-MM-DD").unix(),
+          value: duration,
+          source: "Apple Health"
+        }
+        val.push(time_series);
+      }
       console.log(results)
       resolve(val);
     });
