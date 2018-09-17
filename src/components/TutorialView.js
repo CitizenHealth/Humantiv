@@ -4,7 +4,8 @@ import {
     StyleSheet, 
     View, 
     Text, 
-    Image ,
+    UIManager ,
+    LayoutAnimation,
     TouchableOpacity,
     Platform,
     SafeAreaView
@@ -25,6 +26,11 @@ import {
 
 
 class TutorialView extends Component {
+
+  componentWillUpdate() {
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    LayoutAnimation.spring();
+  }
 
   componentWillMount() {
     // set a custom message

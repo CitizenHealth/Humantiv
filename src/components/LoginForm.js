@@ -3,7 +3,10 @@ import {
   View, 
   Text, 
   SafeAreaView, 
-  TouchableOpacity
+  TouchableOpacity,
+  Animated,
+  Easing,
+  Dimensions
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Actions } from "react-native-router-flux";
@@ -38,6 +41,9 @@ import {
   checkEmail
 } from '../business';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const ANIMATION_DURATION = 1250;
+
 class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -45,13 +51,44 @@ class LoginForm extends Component {
     this.emailRef = this.updateRef.bind(this, 'email');
     this.passwordRef = this.updateRef.bind(this, 'password');
 
+    const buttonOpacityValue = new Animated.Value(0); // declare animated value
+
+    const titlePositionValue = new Animated.Value(-SCREEN_WIDTH); // declare animated value
+    const subTitlePositionValue = new Animated.Value(-SCREEN_WIDTH); // declare animated value
+
     this.state = { 
       signUpModalVisible: false,
       dialogState: modalMessages.noEmail,
       signInEnabled: false,
       secureTextEntry: true,
+      titlePosition: titlePositionValue,
+      subTitlePosition: subTitlePositionValue,
+      buttonOpacity: buttonOpacityValue,
       errors: {}
     };
+  }
+
+  componentDidMount() {
+    Animated.parallel([
+      Animated.timing(this.state.titlePosition, {
+        toValue: 40,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        delay: 0
+      }),
+      Animated.timing(this.state.subTitlePosition, {
+        toValue: 40,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        delay: 250
+      }),
+      Animated.timing(this.state.buttonOpacity, {
+        toValue: 1,
+        duration: 2*ANIMATION_DURATION,
+        easing: Easing.linear,
+        delay: 500
+      })
+    ]).start();   
   }
 
   // Text Input handlers
@@ -216,6 +253,7 @@ class LoginForm extends Component {
       headerStyle,
       textStyle
     } = styles;
+
     const { 
       iconStyle,
       iconTextStyle,
@@ -225,9 +263,20 @@ class LoginForm extends Component {
       primaryGreyTextStyle 
     } = theme;
 
-    const { name, email, password, children } = this.props;
+    const { 
+      errors, 
+      secureTextEntry, 
+      titlePosition,
+      subTitlePosition,
+      buttonOpacity
+    } = this.state;
 
-    const { errors , secureTextEntry } = this.state;
+    const { 
+      name, 
+      email, 
+      password, 
+      children 
+    } = this.props;
 
     firebase.analytics().setCurrentScreen('Login Screen', 'RegisterForm')
 
@@ -255,15 +304,26 @@ class LoginForm extends Component {
           </View>
         </View>
         <View style={{
-          flex: 3, 
-          marginRight: scale(40)
+          flex: 3
           }}>
-          <Text style={titleTextStyle}>
-            Health
-          </Text>
-          <Text style={titleTextStyle}>
-            is a journey 
-          </Text>
+          <Animated.View style=
+            {{
+              marginRight: titlePosition
+            }}
+          >
+            <Text style={titleTextStyle}>
+              Health 
+            </Text>
+          </Animated.View>
+          <Animated.View style=
+            {{
+              marginRight: subTitlePosition
+            }}
+          >
+            <Text style={titleTextStyle}>
+              is a journey 
+            </Text>
+          </Animated.View>
         </View>
         <View style={loginCardStyle}>
              <TextField
@@ -312,9 +372,9 @@ class LoginForm extends Component {
               titleFontSize={14}
             />
           </View>
-          <View style={submitButtonStyle}>
+          <Animated.View style={[submitButtonStyle, {opacity: buttonOpacity}]}>
             {this.renderButton()}
-          </View>
+          </Animated.View>
           <View style={separatorStyle}>
           <Hyperlink
             linkStyle={ { color: primaryBlueColor } }

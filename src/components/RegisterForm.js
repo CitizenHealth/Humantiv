@@ -4,7 +4,12 @@ import {
   Text, 
   SafeAreaView, 
   TouchableOpacity,
-  Image
+  Image,
+  UIManager,
+  LayoutAnimation,
+  Animated,
+  Easing,
+  Dimensions
  } from "react-native";
 import _ from 'lodash';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -58,6 +63,9 @@ import {
   checkPassword
 } from '../business';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const ANIMATION_DURATION = 1250;
+
 class RegisterForm extends Component {
 
   constructor(props) {
@@ -67,14 +75,89 @@ class RegisterForm extends Component {
     this.emailRef = this.updateRef.bind(this, 'email');
     this.passwordRef = this.updateRef.bind(this, 'password');
 
+    // Animation values
+    this.scalingFacebookValue = new Animated.Value(0); // declare animated value
+    this.scalingGoogleValue = new Animated.Value(0); // declare animated value
+    this.scalingEmailValue = new Animated.Value(0); // declare animated value
+
+    const imagePositionValue = new Animated.Value(-SCREEN_WIDTH); // declare animated value
+
+    const titlePositionValue = new Animated.Value(-SCREEN_WIDTH); // declare animated value
+    const subTitlePositionValue = new Animated.Value(-SCREEN_WIDTH); // declare animated value
+
+    const buttonOpacityValue = new Animated.Value(0); // declare animated value
+
+    const facebookIconPositionValue = new Animated.Value(scale(-200)); // declare animated value
+    const googleIconPositionValue = new Animated.Value(scale(-200)); // declare animated value
+    const emailIconPositionValue = new Animated.Value(scale(-200)); // declare animated value
+
     this.state = { 
       signUpModalVisible: false,
       dialogState: modalMessages.noEmail,
       signInEnabled: false,
       secureTextEntry: true,
-      errors: {}
+      titlePosition: titlePositionValue,
+      subTitlePosition: subTitlePositionValue,
+      facebookIconPosition: facebookIconPositionValue,
+      googleIconPosition: googleIconPositionValue,
+      emailIconPosition: emailIconPositionValue,
+      imagePosition: imagePositionValue,
+      buttonOpacity: buttonOpacityValue,
+      errors: {},
     };
-    }
+  }
+
+  componentWillUpdate() {
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    LayoutAnimation.spring();
+  }
+
+  componentDidMount() {
+    Animated.parallel([
+      Animated.timing(this.state.imagePosition, {
+        toValue: 40,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        delay: 0
+      }),
+      Animated.timing(this.state.titlePosition, {
+        toValue: 40,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        delay: 0
+      }),
+      Animated.timing(this.state.subTitlePosition, {
+        toValue: 40,
+        duration: ANIMATION_DURATION,
+        easing: Easing.linear,
+        delay: 250
+      }),
+      Animated.timing(this.state.buttonOpacity, {
+        toValue: 1,
+        duration: 2*ANIMATION_DURATION,
+        easing: Easing.linear,
+        delay: 500
+      }),
+      Animated.timing(this.state.facebookIconPosition, {
+        toValue: 0,
+        duration: ANIMATION_DURATION/2,
+        easing: Easing.linear,
+        delay: 0
+      }),
+      Animated.timing(this.state.googleIconPosition, {
+        toValue: 0,
+        duration: ANIMATION_DURATION/2,
+        easing: Easing.linear,
+        delay: 500
+      }),
+      Animated.timing(this.state.emailIconPosition, {
+        toValue: 0,
+        duration: ANIMATION_DURATION/2,
+        easing: Easing.linear,
+        delay: 1000
+      })
+    ]).start();  
+  }
 
   // Text Input handlers
   updateRef(name, ref) {
@@ -241,6 +324,7 @@ class RegisterForm extends Component {
     );
   }
   render() {
+
     const { 
       pageStyle,
       logoStyle,
@@ -254,6 +338,7 @@ class RegisterForm extends Component {
       titleTextStyle,
       imageStyle
     } = styles;
+
     const { 
       iconStyle,
       iconTextStyle,
@@ -263,9 +348,24 @@ class RegisterForm extends Component {
       primaryGreyTextStyle 
     } = theme;
 
-    const { name, email, password, children } = this.props;
+    const { 
+      name, 
+      email, 
+      password, 
+      children 
+    } = this.props;
 
-    const { errors , secureTextEntry } = this.state;
+    const { 
+      errors, 
+      secureTextEntry, 
+      titlePosition,
+      subTitlePosition,
+      facebookIconPosition,
+      googleIconPosition,
+      emailIconPosition,
+      imagePosition,
+      buttonOpacity
+    } = this.state;
 
     firebase.analytics().setCurrentScreen('Register Screen', 'RegisterForm')
 
@@ -273,6 +373,26 @@ class RegisterForm extends Component {
       (children.profile && children.profile.journey) ? Actions.main(): Actions.journey();
       return (<View />);
     }
+
+    // Social buttons Animation
+    let scalingFacebook = this.scalingFacebookValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1.25] // degree of rotation
+    });
+    let transformFacebookStyle = { transform: [{ scale: scalingFacebook }] };
+
+    let scalingGoogle = this.scalingGoogleValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1.25] // degree of rotation
+    });
+    let transformGoogleStyle = { transform: [{ scale: scalingGoogle }] };
+    
+    let scalingEmail = this.scalingEmailValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1.25] // degree of rotation
+    });
+    let transformEmailStyle = { transform: [{ scale: scalingEmail }] };
+
     return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <KeyboardAwareScrollView
@@ -281,21 +401,34 @@ class RegisterForm extends Component {
         contentContainerStyle={pageStyle}
         scrollEnabled={true}
       >
-        <View style={logoStyle}>
+        <Animated.View 
+          style={[logoStyle, {marginLeft: imagePosition}]}
+        >
           <HeaderImage
             source={Images.img_login_logo}
           />
-        </View>
-        <View style={{
-          flex: 3, 
-          marginRight: scale(40)
-          }}>
-          <Text style={titleTextStyle}>
-            Health 
-          </Text>
-          <Text style={titleTextStyle}>
-            is a journey 
-          </Text>
+        </Animated.View>
+        <View
+          style = {{flex: 3}}
+        >
+          <Animated.View style=
+            {{
+              marginRight: titlePosition
+            }}
+          >
+            <Text style={titleTextStyle}>
+              Health 
+            </Text>
+          </Animated.View>
+          <Animated.View style=
+            {{
+              marginRight: subTitlePosition
+            }}
+          >
+            <Text style={titleTextStyle}>
+              is a journey 
+            </Text>
+          </Animated.View>
         </View>
         <View style={loginCardStyle}>
             <TextField
@@ -362,40 +495,100 @@ class RegisterForm extends Component {
               titleFontSize={14}
             />
           </View>
-          <View style={submitButtonStyle}>
+          <Animated.View style={[submitButtonStyle, {opacity: buttonOpacity}]}>
             {this.renderButton()}
-          </View>
+          </Animated.View>
           <View style={separatorStyle}>
             <Text style={[primaryGreyTextStyle, {color: primaryGreyColor}]} >or login with</Text>
           </View>      
           <View style={socialContainer}>
-            <TouchableOpacity 
-              style={iconStyle} 
-              onPress={this.onFacebookSignInButtonPress.bind(this)}
+            <Animated.View
+              style={{marginBottom: facebookIconPosition}}
             >
-              <Image
-                style={imageStyle}
-                source={Images.img_login_facebook}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={iconStyle} 
-              onPress={this.onGoogleSignInButtonPress.bind(this)}
+              <TouchableOpacity 
+                style={iconStyle} 
+                onPress={() => {
+                  Animated.timing(this.scalingFacebookValue, {
+                    toValue: 1,
+                    duration: 100,
+                    easing: Easing.linear
+                  }).start(()=>{
+                    Animated.timing(this.scalingFacebookValue, {
+                      toValue: 0,
+                      duration: 100,
+                      easing: Easing.linear
+                    }).start(this.onFacebookSignInButtonPress.bind(this));
+                  });                
+                }}
+              >
+                <Animated.View
+                  style={transformFacebookStyle}
+                >
+                  <Image
+                    style={imageStyle}
+                    source={Images.img_login_facebook}
+                  />
+                </Animated.View>
+              </TouchableOpacity>
+            </Animated.View>
+            <Animated.View
+              style={{marginBottom: googleIconPosition}}
             >
-              <Image
-                style={imageStyle}
-                source={Images.img_login_google}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={iconStyle} 
-              onPress={() => Actions.login()}
+              <TouchableOpacity 
+                style={iconStyle} 
+                onPress={() => {
+                  Animated.timing(this.scalingGoogleValue, {
+                    toValue: 1,
+                    duration: 100,
+                    easing: Easing.linear
+                  }).start(()=>{
+                    Animated.timing(this.scalingGoogleValue, {
+                      toValue: 0,
+                      duration: 100,
+                      easing: Easing.linear
+                    }).start(this.onGoogleSignInButtonPress.bind(this));
+                  });                
+                }}
+              >
+                <Animated.View
+                  style={transformGoogleStyle}
+                >
+                  <Image
+                    style={imageStyle}
+                    source={Images.img_login_google}
+                  />
+                </Animated.View>
+              </TouchableOpacity>
+            </Animated.View>
+            <Animated.View
+              style={{marginBottom: emailIconPosition}}
             >
-              <Image
-                style={imageStyle}
-                source={Images.img_login_email1}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity 
+                style={iconStyle} 
+                onPress={() => {
+                  Animated.timing(this.scalingEmailValue, {
+                    toValue: 1,
+                    duration: 100,
+                    easing: Easing.linear
+                  }).start(()=>{
+                    Animated.timing(this.scalingEmailValue, {
+                      toValue: 0,
+                      duration: 100,
+                      easing: Easing.linear
+                    }).start(Actions.login());
+                  });                
+                }}
+              >
+                <Animated.View
+                  style={transformEmailStyle}
+                >
+                  <Image
+                    style={imageStyle}
+                    source={Images.img_login_email1}
+                  />
+                </Animated.View>
+              </TouchableOpacity>
+              </Animated.View>
           </View>
           {this.renderError()}   
         <ModalDialog
@@ -439,8 +632,7 @@ const styles = {
   logoStyle: {
     flex: 3,
     justifyContent: 'center',
-    alignContent: 'flex-end',
-    paddingLeft: scale(40),
+    alignContent: 'flex-end'
   },
   logoTextStyle: {
     flex: 1,

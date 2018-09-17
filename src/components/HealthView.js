@@ -120,14 +120,16 @@ class HealthView extends Component {
     componentWillMount () {  
       const { user } = this.props; 
       
-      Intercom.registerIdentifiedUser({ userId: user.uid });
-      Intercom.updateUser({
-        // Pre-defined user attributes
-        email: user.email,
-        name: user.displayName,
-      });
-      Intercom.logEvent('viewed_screen', { extra: 'metadata' });
-      Intercom.handlePushMessage();
+      if (user) {
+        Intercom.registerIdentifiedUser({ userId: user.uid });
+        Intercom.updateUser({
+          // Pre-defined user attributes
+          email: user.email,
+          name: user.displayName,
+        });
+        Intercom.logEvent('viewed_screen', { extra: 'metadata' });
+        Intercom.handlePushMessage();
+      }
       firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
     }
 

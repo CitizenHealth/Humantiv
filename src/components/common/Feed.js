@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import {convertUNIXTimeToString} from "../../business/Helpers";
 import { 
   View,
-  FlatList
+  UIManager,
+  LayoutAnimation
 } from "react-native";
 import { 
     theme, 
@@ -48,6 +49,11 @@ class Feed extends Component {
       activeRowKey: null
     }
   }
+  componentWillUpdate() {
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+    LayoutAnimation.spring();
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.stories != this.props.stories || 
         nextProps.filters != this.props.filters )

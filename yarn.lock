@@ -7494,9 +7494,9 @@ react-native-drawer-layout@1.3.2:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-fbsdk@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-0.7.0.tgz#263dfe5845205de7b80efb0f18ed5c1ded025291"
+react-native-fbsdk@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-0.8.0.tgz#4ee95ebb7be4b00fa9f871ca594f068c9782c7de"
   dependencies:
     adm-zip "^0.4.7"
     fastfall "^1.5.1"
@@ -7506,13 +7506,13 @@ react-native-fbsdk@^0.7.0:
     pump "^1.0.2"
     xcode "^0.9.3"
 
-react-native-firebase@^4.3.0:
-  version "4.3.7"
-  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-4.3.7.tgz#3f8323f22a3a4286797f2424800b58df5aaedbb7"
+react-native-firebase@^5.0.0-rc1:
+  version "5.0.0-rc1"
+  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.0.0-rc1.tgz#300eda8cd82085f687a08d0fa795e1cef27eacf8"
   dependencies:
     opencollective "^1.0.3"
     postinstall-build "^5.0.1"
-    prop-types "^15.6.1"
+    prop-types "^15.6.2"
 
 react-native-fontawesome@^5.7.0:
   version "5.7.0"
@@ -7526,9 +7526,9 @@ react-native-gesture-handler@^1.0.6:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
-react-native-google-signin@^1.0.0-rc4:
-  version "1.0.0-rc4"
-  resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-1.0.0-rc4.tgz#9e80ec23aa606ddd9d60b6ded7e691b1fbb830fc"
+react-native-google-signin@^1.0.0-rc5:
+  version "1.0.0-rc5"
+  resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-1.0.0-rc5.tgz#bc8ffa27297c0ba1e06230c0cad2dee71819175c"
 
 react-native-hgraph@^0.3.0:
   version "0.3.0"
@@ -8317,9 +8317,9 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^2.0.0"
     inherits "^2.0.1"
 
-rn-apple-healthkit@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/rn-apple-healthkit/-/rn-apple-healthkit-0.6.3.tgz#0dbd77a33930eb2496ad678cfb9cba29dcbfac6e"
+"rn-apple-healthkit@github:CitizenHealth/rn-apple-healthkit#master":
+  version "0.6.5"
+  resolved "https://codeload.github.com/CitizenHealth/rn-apple-healthkit/tar.gz/0f9a64fe233f99b18c33dc1aedf1a8e4ddc50992"
 
 run-async@^2.2.0:
   version "2.3.0"
