@@ -51,3 +51,9 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+# Haul bundler
+/assets
+stats.html
+index.ios.bundle
+index.ios.bundle.map
+haul-debug.log
