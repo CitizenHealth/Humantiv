@@ -22,7 +22,7 @@ const RouterComponent = () => {
       titleStyle={styles.titleStyle}
       navBarButtonColor="#E9222E"
     >
-      <Scene key="root" hideNavBar>
+      <Scene key="root" hideNavBar gesturesEnabled={false} panHandlers={null}>
         <Scene key="start">
           <Scene key="load" component={StartView} animation='fade' hideNavBar initial />
         </Scene>

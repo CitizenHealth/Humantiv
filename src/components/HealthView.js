@@ -8,7 +8,9 @@ import {
     ScrollView,
     Dimensions,
     TouchableOpacity,
-    Linking       
+    Linking ,
+    UIManager ,
+    LayoutAnimation,      
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
@@ -184,6 +186,9 @@ class HealthView extends Component {
       const propNativeTracker = (children.profile && children.profile[nativeTracker] !== undefined ) ? children.profile[nativeTracker] : undefined;
       const nextPropNativeTracker = (nextProps.children.profile && 
                                     nextProps.children.profile[nativeTracker] !== undefined) ? nextProps.children.profile[nativeTracker] : undefined;
+
+      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+      LayoutAnimation.spring();
 
       if (propNativeTracker !== nextPropNativeTracker && 
         propNativeTracker !== undefined &&
