@@ -42,7 +42,7 @@ import {
 } from '../business';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const ANIMATION_DURATION = 1250;
+const ANIMATION_DURATION = 500;
 
 class LoginForm extends Component {
   constructor(props) {

@@ -22,20 +22,15 @@
 #import "Intercom/intercom.h"
 #import "RNFirebaseInvites.h"
 #import "RNFirebaseLinks.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-//  for (NSString* family in [UIFont familyNames])
-//  {
-//    NSLog(@"%@", family);
-//    for (NSString* name in [UIFont fontNamesForFamilyName: family])
-//    {
-//      NSLog(@" %@", name);
-//    }
-//  }
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
   [FIROptions defaultOptions].deepLinkURLScheme = @"io.citizenhealth.humantiv.share";
   [FIRApp configure];
   [FIRDatabase database].persistenceEnabled = YES;
@@ -87,6 +82,11 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
     [RNGoogleSignin application:application
                     openURL:url
                     sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]
+    ||
+    [[FBSDKApplicationDelegate sharedInstance] application:application
+                    openURL:url
+                    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                     annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
 }
 
@@ -132,6 +132,9 @@ fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHand
   
   // Intercom
   [Intercom setDeviceToken:deviceToken];
-  
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [FBSDKAppEvents activateApp];
 }
 @end

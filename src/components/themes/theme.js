@@ -64,6 +64,12 @@ export const modalMessages = {
     cancel: "CANCEL",
     accept: ""
   },
+  dismissfeed: {
+    title: "",
+    message:"Are you sure you want to delete all the notifications?",
+    cancel: "No",
+    accept: "Yes"
+  },
   applehealth: {
     title: "",
     message:"Humantiv allows you to connect your health and fitness devices in two different ways:\n\n"+

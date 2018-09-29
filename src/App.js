@@ -11,6 +11,11 @@ import {
   SentryLog 
 } from 'react-native-sentry';
 
+// To assign console.log to nothing   
+if (!__DEV__) {
+  console.log = () => {};
+}
+
 class App extends Component {
   
   componentWillMount() {

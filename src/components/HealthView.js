@@ -109,8 +109,10 @@ class HealthView extends Component {
       this.state = {
         metricsPulled: 0,
         visibleModal: false,
+        visibleDismissModal: false,
         didUserChooseSource: false,
         textModal: "",
+        textDismissModal: "",
         healthScore: "",
         healthData: {
           healthData: [],
@@ -510,6 +512,24 @@ class HealthView extends Component {
       this.props.timestampExists({type: 'heartrate'});
     }
     
+    clearFeed() {
+      this.setState({
+        visibleDismissModal: true,
+        textDismissModal: modalMessages.dismissfeed
+      });
+    }
+
+    onDismiss() {
+      this.props.removeAllFeedStories()
+    }
+
+    onNoDismiss() {
+      this.setState({
+        visibleDismissModal: false,
+        textDismissModal: ""
+      });
+    }
+
     onWeightPress() {
       const story = {
         title: "Your weight",
@@ -728,7 +748,7 @@ class HealthView extends Component {
                         width: 44,
                         marginLeft: 5,
                         marginRight: 5} }
-                      onPress={() => {this.props.removeAllFeedStories()}}
+                      onPress={this.clearFeed()}
                       >
                         <Image 
                             style={{ 
@@ -938,7 +958,15 @@ class HealthView extends Component {
                   onAcceptPress={this.acceptNativeSource.bind(this)}
                 >
                 </ModalScreen>
-
+                <ModalScreen
+                  visible={this.state.visibleDismissModal}
+                  label={this.state.textDismissModal.message}
+                  cancelLabel={this.state.textDismissModal.cancel}
+                  acceptLabel={this.state.textDismissModal.accept}
+                  onCancelPress={this.onNoDismiss.bind(this)}
+                  onAcceptPress={this.onDismiss.bind(this)}
+                >
+                </ModalScreen>
                 {/* <ActionButton 
                   size={44}
                   offsetX={20}
