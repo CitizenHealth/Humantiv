@@ -1,4 +1,6 @@
 rootProject.name = 'Humantiv'
+include ':@bugfender_rn-bugfender'
+project(':@bugfender_rn-bugfender').projectDir = new File(rootProject.projectDir, '../node_modules/@bugfender/rn-bugfender/android')
 include ':react-native-version-number'
 project(':react-native-version-number').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-version-number/android')
 include ':react-native-svg'

@@ -47,46 +47,62 @@ class ActivityCard extends Component {
   }
 
   cardImage() {
-    const {type} = this.props;
+    const {title} = this.props;
 
-    switch(type) {
-        case ActivityFeedTypes.Vital.HeartRate: {
-            return "heart_rate";
-        }
-        case ActivityFeedTypes.Activity.Run: {
-            return "runner";
-        }
-        case ActivityFeedTypes.Activity.Swim: {
-            return "swimmer";
-        }
-        case ActivityFeedTypes.Activity.Score: {
-            return "thumbs_up_green";
-        }
-        case ActivityFeedTypes.Activity.Workout: {
-            return "bench";
-        }
-        case ActivityFeedTypes.Wallet.Medits:
-        case ActivityFeedTypes.Wallet.ActivityMedits:
-        case ActivityFeedTypes.Wallet.SleepMedits:
-        case ActivityFeedTypes.Wallet.StepsMedits: {
-            return "medit";
-        }
-        case ActivityFeedTypes.Wallet.Medex: {
-            return "medex";
-        }
-        case ActivityFeedTypes.Health.Workout: {
-          return "bench";
-        }
-        case ActivityFeedTypes.Health.Sleep: {
+    
+    
+    switch(title) {
+      case "Your steps earned you": {
+          return "medit";
+      }
+      case "Your activity earned you": {
+          return "runner";
+      }
+      case "Your sleep earned you": {
           return "sleep";
-        } 
-        case ActivityFeedTypes.Health.Weight: {
-          return "weight";
-        } 
-        default: {
-            return "";
-        }
+      }
+      default: {
+          return "medit";
+      }
     }
+    // switch(type) {
+    //     case ActivityFeedTypes.Vital.HeartRate: {
+    //         return "heart_rate";
+    //     }
+    //     case ActivityFeedTypes.Activity.Run: {
+    //         return "runner";
+    //     }
+    //     case ActivityFeedTypes.Activity.Swim: {
+    //         return "swimmer";
+    //     }
+    //     case ActivityFeedTypes.Activity.Score: {
+    //         return "thumbs_up_green";
+    //     }
+    //     case ActivityFeedTypes.Activity.Workout: {
+    //         return "bench";
+    //     }
+    //     case ActivityFeedTypes.Wallet.Medits:
+    //     case ActivityFeedTypes.Wallet.ActivityMedits:
+    //     case ActivityFeedTypes.Wallet.SleepMedits:
+    //     case ActivityFeedTypes.Wallet.StepsMedits: {
+    //         return "medit";
+    //     }
+    //     case ActivityFeedTypes.Wallet.Medex: {
+    //         return "medex";
+    //     }
+    //     case ActivityFeedTypes.Health.Workout: {
+    //       return "bench";
+    //     }
+    //     case ActivityFeedTypes.Health.Sleep: {
+    //       return "sleep";
+    //     } 
+    //     case ActivityFeedTypes.Health.Weight: {
+    //       return "weight";
+    //     } 
+    //     default: {
+    //         return "";
+    //     }
+    // }
   }
 
   cardColor() {

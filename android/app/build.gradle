@@ -157,6 +157,7 @@ android {
 }
 
 dependencies {
+    compile project(':@bugfender_rn-bugfender')
     compile project(':react-native-version-number')
     compile project(':react-native-svg')
     compile project(':react-native-spinkit')

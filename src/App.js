@@ -19,16 +19,6 @@ if (!__DEV__) {
 class App extends Component {
   
   componentWillMount() {
-    // Initialize Firebase
-    // var config = {
-    //     apiKey: "AIzaSyCi5H4fcSpiHhqP9v5jGYz00axLeQB729k",
-    //     authDomain: "test-94084.firebaseapp.com",
-    //     databaseURL: "https://test-94084.firebaseio.com",
-    //     projectId: "test-94084",
-    //     storageBucket: "test-94084.appspot.com",
-    //     messagingSenderId: "757200182779"
-    // };
-//    firebase.perf().setPerformanceCollectionEnabled(true)
     firebase.app();
     // disable stacktrace merging
     Sentry.config("https://0999f8401b0844a7b4279508d1d5bac9:5f9c3a1bdca04884aea7634085ce459e@sentry.io/275892", {
@@ -47,12 +37,8 @@ class App extends Component {
   }
 
   render() {
-    const store = createStore(
-      reducers, 
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-      composeWithDevTools(
-        applyMiddleware(ReduxThunk))
-      );
+    const store = createStore(reducers, {}, composeWithDevTools(
+      applyMiddleware(ReduxThunk)));
 
     return (
       <Provider store={store}>

@@ -86,12 +86,14 @@ import {
   primaryBlueColor
 } from './themes/theme';
 import {
-  ModalScreen 
+  ModalScreen,
+  ModalDialog 
 } from './custom'; 
 import {modalMessages} from './themes';
 import AppleHealthKit from 'rn-apple-healthkit';
 import Intercom from 'react-native-intercom';
 import Images from "../resources/images";
+import Bugfender from '@bugfender/rn-bugfender';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -100,6 +102,7 @@ const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
 const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
 const closeURL = 'https://connect.humanapi.co/blank/hc-close';
 const NUMBER_OF_METRICS_USED = 4;
+const BUGFENDER_APP_KEY = "UROQKivaH7EEnqE4f9xIUOXHpUpFloUU";
 
 class HealthView extends Component {
 
@@ -134,6 +137,12 @@ class HealthView extends Component {
         Intercom.logEvent('viewed_screen', { extra: 'metadata' });
         Intercom.handlePushMessage();
       }
+      // Init Bugfender with your APP key 
+      Bugfender.init(BUGFENDER_APP_KEY);
+      // Set values 
+      Bugfender.setDeviceString ("name", user.displayName);
+      Bugfender.setDeviceString ("email", user.email);
+
       firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
     }
 
@@ -348,6 +357,10 @@ class HealthView extends Component {
         this.setState({metricsPulled: metricsNumber}); 
         console.log(this.state.metricsPulled);
 
+        // Log the activity array
+        Bugfender.d ("Activity Array", JSON.stringify(activity));
+
+
         if (activityTimestamp) {
           let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)
           // Generate Medits
@@ -520,7 +533,11 @@ class HealthView extends Component {
     }
 
     onDismiss() {
-      this.props.removeAllFeedStories()
+      this.props.removeAllFeedStories();
+      this.setState({
+        visibleDismissModal: false,
+        textDismissModal: ""
+      });
     }
 
     onNoDismiss() {
@@ -747,8 +764,11 @@ class HealthView extends Component {
                         height: 44,
                         width: 44,
                         marginLeft: 5,
-                        marginRight: 5} }
-                      onPress={this.clearFeed()}
+                        marginRight: 5,
+                        opacity: (this.props.stories.length > 0) ? 1 : 0.3
+                      }}
+                      onPress={() => {this.clearFeed()}}
+                      disabled={(this.props.stories.length > 0) ? false : true}
                       >
                         <Image 
                             style={{ 
@@ -958,7 +978,7 @@ class HealthView extends Component {
                   onAcceptPress={this.acceptNativeSource.bind(this)}
                 >
                 </ModalScreen>
-                <ModalScreen
+                <ModalDialog
                   visible={this.state.visibleDismissModal}
                   label={this.state.textDismissModal.message}
                   cancelLabel={this.state.textDismissModal.cancel}
@@ -966,7 +986,7 @@ class HealthView extends Component {
                   onCancelPress={this.onNoDismiss.bind(this)}
                   onAcceptPress={this.onDismiss.bind(this)}
                 >
-                </ModalScreen>
+                </ModalDialog>
                 {/* <ActionButton 
                   size={44}
                   offsetX={20}
