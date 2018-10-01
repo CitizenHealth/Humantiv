@@ -8,7 +8,6 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import com.bugfender.react.RNBugfenderPackage;
 import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.horcrux.svg.SvgPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -96,7 +95,6 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
-            new RNBugfenderPackage(),
             new RNVersionNumberPackage(),
             new SvgPackage(),
             new RNSpinkitPackage(),

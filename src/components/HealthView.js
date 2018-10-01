@@ -93,7 +93,11 @@ import {modalMessages} from './themes';
 import AppleHealthKit from 'rn-apple-healthkit';
 import Intercom from 'react-native-intercom';
 import Images from "../resources/images";
-import Bugfender from '@bugfender/rn-bugfender';
+import {
+  Sentry,
+  SentrySeverity,
+  SentryLog
+} from 'react-native-sentry';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -102,7 +106,6 @@ const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
 const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
 const closeURL = 'https://connect.humanapi.co/blank/hc-close';
 const NUMBER_OF_METRICS_USED = 4;
-const BUGFENDER_APP_KEY = "UROQKivaH7EEnqE4f9xIUOXHpUpFloUU";
 
 class HealthView extends Component {
 
@@ -137,11 +140,6 @@ class HealthView extends Component {
         Intercom.logEvent('viewed_screen', { extra: 'metadata' });
         Intercom.handlePushMessage();
       }
-      // Init Bugfender with your APP key 
-      Bugfender.init(BUGFENDER_APP_KEY);
-      // Set values 
-      Bugfender.setDeviceString ("name", user.displayName);
-      Bugfender.setDeviceString ("email", user.email);
 
       firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
     }
@@ -358,8 +356,9 @@ class HealthView extends Component {
         console.log(this.state.metricsPulled);
 
         // Log the activity array
-        Bugfender.d ("Activity Array", JSON.stringify(activity));
-
+        Sentry.captureMessage(`Activity Array: ${JSON.stringify(activity)}`, {
+          level: SentrySeverity.Info
+        });
 
         if (activityTimestamp) {
           let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)

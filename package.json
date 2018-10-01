@@ -9,7 +9,6 @@
     "storybook": "storybook start -p 7007"
   },
   "dependencies": {
-    "@bugfender/rn-bugfender": "^0.1.11",
     "axios": "^0.18.0",
     "convert-units": "^2.3.4",
     "lodash.isequal": "^4.5.0",
@@ -36,7 +35,7 @@
     "react-native-modal": "^6.4.0",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-router-flux": "^4.0.0-beta.28",
-    "react-native-sentry": "^0.35.4",
+    "react-native-sentry": "^0.39.0",
     "react-native-size-matters": "^0.1.2",
     "react-native-spinkit": "^1.1.1",
     "react-native-svg": "^6.4.1",
