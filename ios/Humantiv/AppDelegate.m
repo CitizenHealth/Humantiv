@@ -31,7 +31,7 @@
   NSURL *jsCodeLocation;
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
-  [FIROptions defaultOptions].deepLinkURLScheme = @"io.citizenhealth.humantiv.share";
+  [FIROptions defaultOptions].deepLinkURLScheme = @"com.googleusercontent.apps.847047929311-ibked2hj6k5263b55bcjfnpiemrbpans";
   [FIRApp configure];
   [FIRDatabase database].persistenceEnabled = YES;
   [RNFirebaseNotifications configure];

@@ -5,34 +5,10 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import com.BV.LinearGradient.LinearGradientPackage;
+import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import com.apsl.versionnumber.RNVersionNumberPackage;
-import com.horcrux.svg.SvgPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import io.sentry.RNSentryPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.robinpowered.react.Intercom.IntercomPackage;
-import co.humanapi.connectsdk.RNReactNativeHumanApiPackage;
-import io.citizenhealth.RNReactNativeHgraphPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.apsl.versionnumber.RNVersionNumberPackage;
-import com.horcrux.svg.SvgPackage;
-import com.react.rnspinkit.RNSpinkitPackage;
-import io.sentry.RNSentryPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.robinpowered.react.Intercom.IntercomPackage;
-import co.humanapi.connectsdk.RNReactNativeHumanApiPackage;
-import io.citizenhealth.RNReactNativeHgraphPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -43,11 +19,11 @@ import com.horcrux.svg.SvgPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.robinpowered.react.Intercom.IntercomPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import com.apsl.versionnumber.RNVersionNumberPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.citizenhealth.RNReactNativeHgraphPackage;
 import io.citizenhealth.humanapi.RNReactNativeHumanApiPackage;
 import io.intercom.android.sdk.Intercom;
@@ -95,24 +71,12 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
-            new RNVersionNumberPackage(),
-            new SvgPackage(),
-            new RNSpinkitPackage(),
-            new RNSentryPackage(MainApplication.this),
-            new LinearGradientPackage(),
-            new IntercomPackage(),
-            new RNReactNativeHumanApiPackage(),
-            new RNReactNativeHgraphPackage(),
-            new RNGoogleSigninPackage(),
-            new RNGestureHandlerPackage(),
-            new RNFirebasePackage(),
-            new FBSDKPackage(),
                 new RNSpinkitPackage(),
                 new LinearGradientPackage(),
                 new SvgPackage(),
                 new RNVersionNumberPackage(),
                 new RNReactNativeHgraphPackage(),
-                new RNSentryPackage(MainApplication.this),
+                new RNSentryPackage(),
                 new RNReactNativeHumanApiPackage(),
                 new RNGoogleSigninPackage(),
                 new RNFirebasePackage(),

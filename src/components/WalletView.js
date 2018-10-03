@@ -80,12 +80,13 @@ class WalletView extends Component {
     }
 
     share = () => {
-      //
-      if (!firebase.app().auth().currentUser.uid) {
-        console.log('User not authenticated');
-        return;
-      }
-      let referalLink = `https://citizenhealth.io/humantiv/?invitedby=${firebase.app().auth().currentUser.uid}`
+
+    // Check if user data is not set
+    if (!firebase.app().auth().currentUser.uid) {
+      console.log('User not authenticated');
+      return;
+    }
+    let referalLink = `https://humantiv.page.link/invite?invitedby=${firebase.app().auth().currentUser.uid}`
       // Create dynamic link
       const link = 
         new firebase.links.DynamicLink(referalLink, 'humantiv.page.link')
@@ -94,9 +95,8 @@ class WalletView extends Component {
           .ios.setBundleId('io.citizenhealth.humantiv')
           .ios.setAppStoreId('1347054342')
           .social.setTitle(this.props.share_title)
-          .social.setDescriptionText(this.props.share_messag)
-          .social.setImageUrl('https://citizenhealth.io/wp-content/uploads/2018/07/Main.png')
-;
+          .social.setDescriptionText(this.props.share_message)
+          .social.setImageUrl('https://citizenhealth.io/wp-content/uploads/2018/07/Humantiv.jpg');
 
       firebase.links()
       .createShortDynamicLink(link, 'UNGUESSABLE')
@@ -106,7 +106,7 @@ class WalletView extends Component {
         Share.share(
         {
           title: this.props.share_title,
-          message: this.props.share_message,
+          message: `${this.props.share_message} ${url}`,
           dialogTitle: "Share Humantiv"
         })
         .then(result =>  {          
@@ -201,12 +201,12 @@ class WalletView extends Component {
               overflow: 'hidden',
             }]}
             start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
-            colors={(Platform.OS === 'android') ? [graphGreyColor, primaryGreyColor] : ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)']}
+            colors={['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)']}
+//            colors={(Platform.OS === 'android') ? [graphGreyColor, primaryGreyColor] : ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)']}
           >
             <TouchableOpacity 
               style={earnMeditsContainerStyle} 
               onPress={() => this.share()}
-              disabled={(Platform.OS === 'android')}
             >
               <FontAwesome
                 style={{fontSize: 24, color: primaryWhiteColor}}

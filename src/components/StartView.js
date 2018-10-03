@@ -185,12 +185,25 @@ class StartView extends Component {
     });
     
     // subscribe
-    const unsubscribe = firebase.invites().onInvitation((invitation) => {
+    const unsubscribe = firebase.invites()
+    .onInvitation(
+      (invitation) => {
       console.log(invitation);
     });
 
     // unsubscribe
     unsubscribe();
+
+    firebase.invites()
+    .getInitialInvitation()
+    .then((invitation) => {
+        if (invitation) {
+          console.log("APP OPENED FROM INVITATION");
+          console.log(invitation);
+        } else {
+          console.log("APP NOT OPENED FROM INVITATION");
+        }
+    });
 
     // disable stacktrace merging
     Sentry.config("https://0999f8401b0844a7b4279508d1d5bac9:5f9c3a1bdca04884aea7634085ce459e@sentry.io/275892", {
