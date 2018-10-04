@@ -764,10 +764,10 @@ class HealthView extends Component {
                         width: 44,
                         marginLeft: 5,
                         marginRight: 5,
-                        opacity: (this.props.stories.length > 0) ? 1 : 0.3
+                        opacity: (Object.keys(this.props.stories).length > 0) ? 1 : 0.3
                       }}
                       onPress={() => {this.clearFeed()}}
-                      disabled={(this.props.stories.length > 0) ? false : true}
+                      disabled={(Object.keys(this.props.stories).length > 0) ? false : true}
                       >
                         <Image 
                             style={{ 
