@@ -28,12 +28,12 @@ export const getNativeActivityTimeSeries = () => {
         let startDateUnix = moment(item.startDate, "YYYY-MM-DDThh:mm:ss.SSSZ").unix()
         let endDateUnix = moment(item.endDate, "YYYY-MM-DDThh:mm:ss.SSSZ").unix()
 
-        let duration = (endDateUnix-startDateUnix)/60;
+        let value = item.value;
 
         let time_series = {
           timestamp: moment(new Date()).unix(),
           time: moment(item.startDate, "YYYY-MM-DD").unix(),
-          value: duration,
+          value: value,
           source: "Apple Health"
         }
         val.push(time_series);
