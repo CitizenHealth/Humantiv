@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+#import <CodePush/CodePush.h>
 #import "Firebase.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -40,7 +41,12 @@
   [Intercom setApiKey:@"ios_sdk-41400f9122c34e1651f2202b7e59ed24c1d5eb61" forAppId:@"tkfzhske"];
   [Intercom registerUnidentifiedUser];
 #ifdef DEBUG
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  
+    #ifdef DEBUG
+        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+    #else
+        jsCodeLocation = [CodePush bundleURL];
+    #endif
 #else
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif

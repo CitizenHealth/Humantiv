@@ -16,6 +16,7 @@ import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.google.firebase.database.FirebaseDatabase;
 import com.horcrux.svg.SvgPackage;
+import com.microsoft.codepush.react.CodePush;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.robinpowered.react.Intercom.IntercomPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -50,6 +51,12 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+
+        @Override
+        protected String getJSBundleFile() {
+        return CodePush.getJSBundleFile();
+        }
+    
         @Override
         public boolean getUseDeveloperSupport() {
             return BuildConfig.DEBUG;
@@ -71,6 +78,7 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
+                new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
                 new RNSpinkitPackage(),
                 new LinearGradientPackage(),
                 new SvgPackage(),

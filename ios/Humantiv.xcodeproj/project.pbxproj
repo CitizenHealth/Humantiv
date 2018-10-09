@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -29,6 +28,7 @@
 		48CF185296FEE6D28052CE22 /* Pods_Humantiv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436318BCC651896C7D50E15D /* Pods_Humantiv.framework */; };
 		4A27D4D520D8E047000D5C64 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A27D4D020D8DFEC000D5C64 /* libRNSpinkit.a */; };
 		4A478B7E21240E0300901EB0 /* libRNVersionNumber.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A478B7B2124065C00901EB0 /* libRNVersionNumber.a */; };
+		4A48B445216D3F2D00C24CF8 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A48B40D216D3ED000C24CF8 /* libCodePush.a */; };
 		4A5063D6210BE8E8006E8824 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5063D5210BE8E8006E8824 /* HealthKit.framework */; };
 		4A52645A20AE352000BC834D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A52642B20AE34CB00BC834D /* libBVLinearGradient.a */; };
 		4A58830B2141FB23007E4017 /* leveldb-library.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5882E82141FB22007E4017 /* leveldb-library.framework */; };
@@ -324,6 +324,20 @@
 			remoteGlobalIDString = 2858ECD01F8B91B400610575;
 			remoteInfo = "RNVersionNumber-tvOS";
 		};
+		4A48B40C216D3ED000C24CF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A48B405216D3ED000C24CF8 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = CodePush;
+		};
+		4A48B40E216D3ED000C24CF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A48B405216D3ED000C24CF8 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F886647B1F4ADB500036D01B;
+			remoteInfo = "CodePush-tvOS";
+		};
 		4A52642820AE34CB00BC834D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */;
@@ -541,6 +555,7 @@
 		436318BCC651896C7D50E15D /* Pods_Humantiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Humantiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A27D49C20D8DFEC000D5C64 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
 		4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVersionNumber.xcodeproj; path = "../node_modules/react-native-version-number/ios/RNVersionNumber.xcodeproj"; sourceTree = "<group>"; };
+		4A48B405216D3ED000C24CF8 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		4A5063D5210BE8E8006E8824 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4A5382E020469BB000D2FFBA /* Humantiv.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Humantiv.entitlements; path = Humantiv/Humantiv.entitlements; sourceTree = "<group>"; };
@@ -643,6 +658,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A81B1172160B99200A3932D /* libc++.tbd in Frameworks */,
+				4A48B445216D3F2D00C24CF8 /* libCodePush.a in Frameworks */,
 				4A81B1152160B98200A3932D /* Security.framework in Frameworks */,
 				4A81B1132160B96E00A3932D /* MobileCoreServices.framework in Frameworks */,
 				4ADDF9E3215F613300AF9BCD /* FBSDKLoginKit.framework in Frameworks */,
@@ -914,6 +930,15 @@
 			children = (
 				4A478B7B2124065C00901EB0 /* libRNVersionNumber.a */,
 				4A478B7D2124065C00901EB0 /* libRNVersionNumber-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4A48B406216D3ED000C24CF8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A48B40D216D3ED000C24CF8 /* libCodePush.a */,
+				4A48B40F216D3ED000C24CF8 /* libCodePush.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1192,6 +1217,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4A48B405216D3ED000C24CF8 /* CodePush.xcodeproj */,
 				4ADDF8E8215F361900AF9BCD /* RCTFBSDK.xcodeproj */,
 				4AB3FEE22128B28600588479 /* RNIntercom.xcodeproj */,
 				4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */,
@@ -1365,6 +1391,10 @@
 				{
 					ProductGroup = 4A52642420AE34CB00BC834D /* Products */;
 					ProjectRef = 4A52642320AE34CB00BC834D /* BVLinearGradient.xcodeproj */;
+				},
+				{
+					ProductGroup = 4A48B406216D3ED000C24CF8 /* Products */;
+					ProjectRef = 4A48B405216D3ED000C24CF8 /* CodePush.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1680,6 +1710,20 @@
 			fileType = archive.ar;
 			path = "libRNVersionNumber-tvOS.a";
 			remoteRef = 4A478B7C2124065C00901EB0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A48B40D216D3ED000C24CF8 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 4A48B40C216D3ED000C24CF8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A48B40F216D3ED000C24CF8 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = 4A48B40E216D3ED000C24CF8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4A52642920AE34CB00BC834D /* libBVLinearGradient.a */ = {

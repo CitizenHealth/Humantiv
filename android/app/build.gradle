@@ -82,6 +82,7 @@ project.ext.sentryCli = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 
 /**
@@ -120,8 +121,8 @@ android {
         applicationId "io.citizenhealth.humantiv"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "1.16"
+        versionCode 18
+        versionName "1.18"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
