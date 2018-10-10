@@ -174,6 +174,7 @@ dependencies {
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-sentry')
     implementation project(':react-native-human-api')
+    compile project(':react-native-code-push')
     compile 'com.android.support:multidex:1.0.3'
 
     implementation(project(':react-native-google-signin')) {
