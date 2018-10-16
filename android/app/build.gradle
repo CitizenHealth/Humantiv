@@ -101,6 +101,9 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     signingConfigs {
         release {
             if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
@@ -115,12 +118,12 @@ android {
             storePassword '*LakeSide@2018!'
         }
     }
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion '28.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "io.citizenhealth.humantiv"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 19
+        targetSdkVersion 26
         versionCode 18
         versionName "1.18"
         multiDexEnabled true
@@ -205,7 +208,7 @@ dependencies {
 
     implementation 'me.leolin:ShortcutBadger:1.1.22@aar'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:26.0.0'
     implementation 'com.facebook.react:react-native:+'
     // From node_modules
     implementation 'com.facebook.android:facebook-android-sdk:4.36.0'

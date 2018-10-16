@@ -16,7 +16,7 @@
     "moment": "^2.22.1",
     "react": "16.5.2",
     "react-moment": "^0.7.0",
-    "react-native": "0.57.2",
+    "react-native": "^0.56.0",
     "react-native-action-button": "^2.8.4",
     "react-native-animated-linear-gradient": "^1.1.2",
     "react-native-chooser": "^1.7.0",

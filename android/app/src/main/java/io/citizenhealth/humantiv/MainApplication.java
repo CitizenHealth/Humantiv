@@ -4,12 +4,11 @@ import android.app.Application;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
-import com.apsl.versionnumber.RNVersionNumberPackage;
-import io.sentry.RNSentryPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;

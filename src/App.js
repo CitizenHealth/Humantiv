@@ -10,11 +10,14 @@ import {
   Sentry,
   SentryLog 
 } from 'react-native-sentry';
+import codePush from "react-native-code-push";
 
 // To assign console.log to nothing   
 if (!__DEV__) {
   console.log = () => {};
 }
+
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 class App extends Component {
   
@@ -47,5 +50,5 @@ class App extends Component {
     );
   }
 }
-
+App = codePush(App);
 export default App;
