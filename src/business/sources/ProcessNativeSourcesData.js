@@ -21,19 +21,18 @@ export const getNativeActivityTimeSeries = () => {
           return;
       }
       let val = [];
+      console.log (JSON.stringify(results));
 
-      for (var index = 0; index< Math.min(results.length,MAX_SERIES_NUMBER); index++) {
+      for (var index = 0; index< Math.min(results.length,MAX_SERIES_NUMBER) ; index++) {
         let item = results[index];
 
         let startDateUnix = moment(item.startDate, "YYYY-MM-DDThh:mm:ss.SSSZ").unix()
         let endDateUnix = moment(item.endDate, "YYYY-MM-DDThh:mm:ss.SSSZ").unix()
 
-        let value = item.value;
-
         let time_series = {
           timestamp: moment(new Date()).unix(),
           time: moment(item.startDate, "YYYY-MM-DD").unix(),
-          value: value,
+          value: item.value,
           source: "Apple Health"
         }
         val.push(time_series);

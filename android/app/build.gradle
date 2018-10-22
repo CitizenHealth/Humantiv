@@ -124,8 +124,8 @@ android {
         applicationId "io.citizenhealth.humantiv"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 18
-        versionName "1.18"
+        versionCode 19
+        versionName "1.18.2"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
