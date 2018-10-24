@@ -28,7 +28,7 @@ type State = NavigationState<
   }>
 >;
 
-class TabView extends React.Component<*, State> {
+class MainTabView extends React.Component<*, State> {
   static title = 'Bottom bar with indicator';
   static appbarElevation = 4;
 
@@ -271,4 +271,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabView;
+export default MainTabView;
