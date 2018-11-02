@@ -40,21 +40,17 @@
   // Intercom
   [Intercom setApiKey:@"ios_sdk-41400f9122c34e1651f2202b7e59ed24c1d5eb61" forAppId:@"tkfzhske"];
   [Intercom registerUnidentifiedUser];
-#ifdef DEBUG
-  
-    #ifdef DEBUG
-        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-    #else
-        jsCodeLocation = [CodePush bundleURL];
-    #endif
-#else
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-#endif
-RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+  #ifdef DEBUG
+      jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.bundle?platform=ios&dev=true"];
+  #else
+      jsCodeLocation = [CodePush bundleURL];
+  #endif
+
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Humantiv"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-[RNSentry installWithRootView:rootView];
+  [RNSentry installWithRootView:rootView];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
