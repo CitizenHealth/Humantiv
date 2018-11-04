@@ -40,6 +40,7 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.invertase.firebase.instanceid.RNFirebaseInstanceIdPackage;
 import io.sentry.RNSentryPackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -101,6 +102,7 @@ public class MainApplication extends Application implements ReactApplication {
                 new RNFirebaseNotificationsPackage(),
                 new RNFirebaseLinksPackage(),
                 new RNFirebaseInvitesPackage(),
+                new RNFirebaseInstanceIdPackage(),
                 new IntercomPackage()
             );
     }

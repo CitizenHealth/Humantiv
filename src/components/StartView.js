@@ -127,7 +127,18 @@ class StartView extends Component {
         });
         
         // Set Google analytics
-        console.log(`USER ID: ${user.uid}`)
+        console.log(`USER ID: ${user.uid}`);
+
+        // Crashing on Android. To be fixed later
+        // firebase.iid().get()
+        // .then((id) => {
+        //   // Log the activity array
+        //   Sentry.captureMessage(`Firebase Instance ID: ${id}`, {
+        //     level: SentrySeverity.Info
+        //   });
+        //   console.log(`Firebase Instance ID: ${id}`)
+        // });
+        
         firebase.analytics().setUserId(user.uid);
         firebase.analytics().setUserProperty('email', user.email);
 

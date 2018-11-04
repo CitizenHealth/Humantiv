@@ -150,7 +150,7 @@ export const fetchUser = (user) => {
       return firebase.auth().signInWithCredential(credential);
     })
     .then((user) => {
-      console.info(JSON.stringify(user.toJSON()));
+//      console.info(JSON.stringify(user.toJSON()));
       firebase.analytics().logEvent('user_login', {provider: 'Google'});
       loginUserSuccess(dispatch, user);
       console.log("Signed In with Google");
@@ -187,7 +187,7 @@ const facebookLogin = (dispatch) => {
     })
     .then((user) => {
       if (user) {
-        console.info(JSON.stringify(user.toJSON()));
+//        console.info(JSON.stringify(user.toJSON()));
         firebase.analytics().logEvent('user_login', {provider: 'Facebook'});
         loginUserSuccess(dispatch, user);
       }
