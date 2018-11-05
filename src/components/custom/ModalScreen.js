@@ -78,9 +78,9 @@ class ModalScreen extends Component {
                   style= {buttonTextStyle}
                 > 
                   {this.props.label}
-                </Text>  
+                </Text> 
+                {this._renderInnerText()} 
               </View>      
-              {this._renderInnerText()}
           </ModalWrapper>
         </SafeAreaView>
         );
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     height: scale(50)
   },
   dialogButtonContainerStyle: {
+    marginTop: 20,
     height: scale(50),
     flexDirection:'row',
     backgroundColor: primaryBlueColor,
