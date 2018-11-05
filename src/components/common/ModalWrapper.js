@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Animated, Dimensions, Modal, Platform, TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
+import { Animated, Dimensions, Modal, Platform, TouchableWithoutFeedback, StyleSheet, View, SafeAreaView } from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import PropTypes from 'prop-types';
 
@@ -166,21 +166,23 @@ class ModalWrapper extends Component {
     const computedScreenHeight = screenHeight ? screenHeight : Dimensions.get('window').height;
     const keyboardSpacer = Platform.OS === 'ios' ? <KeyboardSpacer screenHeight={computedScreenHeight} /> : null;
     const renderContainer = isJs => ( // eslint-disable-line no-extra-parens
-      <View style={[isJs && styles.overlayWrapper, styles.container, containerStyle]}>
-        {showOverlay &&
-          <TouchableWithoutFeedback style={styles.overlayWrapper} onPress={this.onOverlayPress} testID={overlayTestID}>
-            <Animated.View style={[styles.overlay, overlayStyle, { opacity: overlayOpacity }]} />
-          </TouchableWithoutFeedback>}
-        {modal}
-        {isJs && keyboardSpacer}
-      </View>
+        <View style={[isJs && styles.overlayWrapper, styles.container, containerStyle]}>
+          {showOverlay &&
+            <TouchableWithoutFeedback style={styles.overlayWrapper} onPress={this.onOverlayPress} testID={overlayTestID}>
+              <Animated.View style={[styles.overlay, overlayStyle, { opacity: overlayOpacity }]} />
+            </TouchableWithoutFeedback>}
+          {modal}
+          {isJs && keyboardSpacer}
+        </View>
     );
-    const nativeModal = <Modal
+    const nativeModal = 
+      <Modal
         visible={isVisible}
         {...nativeModalProps}>
-      {renderContainer()}
-      {keyboardSpacer}
-    </Modal>;
+          {renderContainer()}
+          {keyboardSpacer}
+      </Modal>;
+    
     const jsModal = isVisible && (showOverlay ? renderContainer(true) : modal);
 
     return isNative ? nativeModal : jsModal;

@@ -246,13 +246,19 @@ export const dataExists = ({type}) => {
     firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
     .once("value", snapshot => {
       let exists = snapshot.exists();
-      console.log(exists);
-      console.log(Actions.currentScene);
+      console.log(`${type} exists: ${exists}`);
+      console.log(`Actions.currentScene: ${Actions.currentScene}`);
+      console.log(`Actions.currentScene === 'login': ${Actions.currentScene === 'login'}`);
+      console.log(`Actions.currentScene === 'register': ${Actions.currentScene === 'register'}`);
+      console.log(`Actions.currentScene === 'load': ${Actions.currentScene === 'load'}`);
       if (Actions.currentScene === 'login' ||
-          Actions.currentScene === 'register') {
-       (exists) ? Actions.main(): Actions.journey();
+          Actions.currentScene === 'register'||
+          Actions.currentScene === 'load') {
+       (exists) ? Actions.main(): Actions.journeyflow();
       }
       dispatch({ type: DATA_EXISTS, payload: {type, exists} });
+    }, error => {
+      console.log(`Error: ${error}`);
     });
   };
 };

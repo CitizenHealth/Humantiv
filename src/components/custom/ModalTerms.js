@@ -9,7 +9,10 @@ import {
   Linking
 } from 'react-native';
 import { scale } from "react-native-size-matters";
-import { ModalWrapper } from '../common';
+import { 
+  ModalWrapper,
+  Button
+ } from '../common';
 import { primaryBlueColor, primaryWhiteColor } from '../themes';
 import {Fonts} from '../../resources/fonts/Fonts';
 import {graphGreyColor} from '../themes/theme';
@@ -27,14 +30,17 @@ class ModalTerms extends Component {
         <View 
           style={dialogButtonStyle}
         >
-          <TouchableOpacity
-            onPress={this.props.onAcceptPress}
+          <Button
+            onPress={() => {
+              this.props.onAcceptPress}
+            }
+            style={{
+              marginLeft: scale(60),
+              marginRight: scale(60)
+            }}
           >
-            <Text style={dialogTextButtonStyle}
-            > 
-              Accept
-            </Text>
-          </TouchableOpacity>
+            <Text style={dialogTextButtonStyle}> Accept </Text>
+          </Button>
         </View>
       </View>
     );
@@ -49,11 +55,11 @@ class ModalTerms extends Component {
       } = styles;
       
       return (
-        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <ModalWrapper
           onRequestClose={this.props.onCancel}
           style= {modalContent}
           visible={this.props.visible}>
+          <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
             <View 
               style={dialogTextContainerStyle}
             >
@@ -72,10 +78,10 @@ class ModalTerms extends Component {
               >
                 <Text style= {[buttonTextStyle, {color: primaryBlueColor}]}>Terms & Privacy Policy</Text>
               </TouchableOpacity>  
+              {this._renderInnerText()}
             </View>      
-            {this._renderInnerText()}
-        </ModalWrapper>
-        </SafeAreaView>
+            </SafeAreaView>
+          </ModalWrapper>
         );
     } 
 }
@@ -94,8 +100,8 @@ const styles = StyleSheet.create({
   },
   dialogButtonContainerStyle: {
     height: scale(50),
-    justifyContent: 'center',
-    backgroundColor: primaryBlueColor
+    marginTop: scale(50),
+    justifyContent: 'center'
   },
   dialogTextButtonStyle: {
     height: scale(50),
@@ -133,8 +139,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontFamily: Fonts.regular,
     color: graphGreyColor,
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: scale(15),
+    marginRight: scale(15),
     marginBottom: 10
   },
   buttonTextStyle: {
