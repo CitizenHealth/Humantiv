@@ -31,8 +31,8 @@ class ModalTerms extends Component {
           style={dialogButtonStyle}
         >
           <Button
-            onPress={() => {
-              this.props.onAcceptPress}
+            onPress={
+              this.props.onAcceptPress
             }
             style={{
               marginLeft: scale(60),
