@@ -195,6 +195,7 @@ class WalletView extends Component {
                   style={{
                   type: "medit",
                   graphColor: "blue",
+                  backgroundColor: "#fff"
                   }}
               />
             </View>

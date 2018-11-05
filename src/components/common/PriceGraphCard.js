@@ -80,28 +80,28 @@ class PriceGraphCard extends Component {
     let diffPercentage = ((100*diffValue)/lastValue).toFixed(2);
 
     return (
-      <View style={[cardContainerStyle, {backgroundColor: this.props.backgroundColor}]}>
+      <View style={[cardContainerStyle, {backgroundColor: this.props.style.backgroundColor}]}>
         <View style={headerContainerStyle}>
           <View style={titleContainer}>
             <View style={cardTitleContainerStyle}>
               <Text style={cardTitleStyle}>
-                {(this.props.type == "medit") ? "Medit" : "Medex"}
+                {(this.props.style.type == "medit") ? "Medit" : "Medex"}
               </Text>
             </View>
             <View style={cardTitleContainerStyle}>
               <Icon
-                name={(this.props.type == "medit") ? "medit" : "medex"}
-                color= {(this.props.type == "medit") ? primaryBlueColor : primaryGreenColor}
+                name={(this.props.style.type == "medit") ? "medit" : "medex"}
+                color= {(this.props.style.type == "medit") ? primaryBlueColor : primaryGreenColor}
                 size= {16}/>
               <Text style={cardSubtitleStyle}>
-                {(this.props.type == "medit") ? "MDT" : "MDX"}
+                {(this.props.style.type == "medit") ? "MDT" : "MDX"}
               </Text>
             </View>
           </View>
           <View style={valueContainer}>
             <View style={cardValueContainerStyle}>
               <Text style={cardValueStyle}>
-                {(this.props.type == "medit") ? 
+                {(this.props.style.type == "medit") ? 
                 `${formatNumbers(currentValue)} $` 
                 : `${formatNumbers(currentValue)} $`}
               </Text>
@@ -110,7 +110,7 @@ class PriceGraphCard extends Component {
               <Text style={[cardSubvalueStyle, {
                 color: (sign === "+") ? graphGreenColor : graphRedColor
               }]}>
-                {(this.props.type == "medit") ? 
+                {(this.props.style.type == "medit") ? 
                 `${sign}${diffValue} (${sign}${diffPercentage} %)` : 
                 `${sign}${diffValue} (${sign}${diffPercentage} %)`}
               </Text>
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 1,
+    backgroundColor: '#fff',
     margin: 10
   },
   headerContainerStyle: {
