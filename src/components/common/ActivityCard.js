@@ -18,8 +18,7 @@ import {
 import PropTypes from 'prop-types';
 import {Fonts} from '../../resources/fonts/Fonts';
 import {Icon} from './Icon';
-
-
+import Images from "../../resources/images";
 
 class ActivityCard extends Component {
   static propTypes = {
@@ -148,6 +147,32 @@ class ActivityCard extends Component {
     }
   }
 
+  renderIcon() {
+    const {type} = this.props;
+
+    switch (type) {
+      case ActivityFeedTypes.Wallet.StepsMedits:
+        return (
+          <Image 
+            style={{ 
+              width: 25, 
+              height: 25
+            }} 
+            source={Images.img_steps} 
+          /> 
+        );
+        break;
+      default:
+      return (
+        <Icon 
+            name={this.cardImage()}
+            color= {this.cardColor()}
+            size= {25}
+        />
+      )
+    }
+  }
+
   render() {
     const {
         cardStyle,
@@ -180,11 +205,7 @@ class ActivityCard extends Component {
             width: height,
             height: height
         }]}>
-            <Icon 
-                name={this.cardImage()}
-                color= {this.cardColor()}
-                size= {25}
-            />
+        {this.renderIcon()}
         </View>
         <View style={textContainerStyle}>
             <View style={messageContainerStyle}>
