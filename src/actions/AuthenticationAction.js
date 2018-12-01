@@ -1,6 +1,11 @@
 import firebase from "react-native-firebase";
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import {
+  Sentry, 
+  SentryLog,
+  SentrySeverity
+} from 'react-native-sentry';
 
 import { 
   NAME_CHANGED,
@@ -47,7 +52,14 @@ export const registerUser = ({ name, email, password }) => {
       }
       loginUserSuccess(dispatch, user);
     })
-    .catch((error) => { loginUserFail(dispatch, error); });
+    .catch((error) => { 
+      firebase.analytics().logEvent('user_register_error', {provider: 'Email SignIn'});
+      // Log the Email register error log
+      Sentry.captureMessage(`Failed Email Registration: ${error}`, {
+        level: SentrySeverity.Info
+      });
+      loginUserFail(dispatch, error); 
+    });
   };
 };
 
@@ -60,7 +72,14 @@ export const loginUser = ({ email, password }) => {
       const user = firebase.auth().currentUser
       loginUserSuccess(dispatch, user);
     })
-    .catch((error) => { loginUserFail(dispatch, error); });
+    .catch((error) => { 
+      firebase.analytics().logEvent('user_login_error', {provider: 'Email Login'});
+      // Log the Email Login error log
+      Sentry.captureMessage(`Failed Email login: ${error}`, {
+        level: SentrySeverity.Info
+      });
+      loginUserFail(dispatch, error); 
+    });
   };
 };
 
@@ -156,11 +175,21 @@ export const fetchUser = (user) => {
       console.log("Signed In with Google");
     })
     .catch((error) => {
+      // Log the Google error log
+      firebase.analytics().logEvent('user_login_error', {provider: 'Google'});
+      Sentry.captureMessage(`Failed Google login: ${error}`, {
+        level: SentrySeverity.Info
+      });
       console.log(`Login fail with error: ${error}`);
       loginUserFail(dispatch, error);
     });
   })
   .catch((err) => {
+    firebase.analytics().logEvent('user_login_error', {provider: 'Google'});
+    // Log the Google error log
+    Sentry.captureMessage(`Failed Play Service Google login: ${err.code} - ${err.message}`, {
+      level: SentrySeverity.Info
+    });
     console.log("Play services error", err.code, err.message);
   });
 };
@@ -193,6 +222,12 @@ const facebookLogin = (dispatch) => {
       }
     })
     .catch((error) => {
+      firebase.analytics().logEvent('user_login_error', {provider: 'Facebook'});
+      // Log the Facebook error log
+      Sentry.captureMessage(`Failed Facebook login: ${error}`, {
+        level: SentrySeverity.Info
+      });
+      
       console.log(`Login fail with error: ${error}`);
       loginUserFail(dispatch, error);
     });

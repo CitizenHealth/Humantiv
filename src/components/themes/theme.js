@@ -315,6 +315,13 @@ export const theme = StyleSheet.create({
     margin: 2, 
     fontSize: 24, 
     textAlign: 'right'
+  },
+  termStyle: {
+    fontWeight: 'normal',
+    fontSize: 12,
+    textAlign: 'center',
+    color: secondaryGreyColor,
+    fontFamily: Fonts.regular
   }
 });
  

@@ -39,7 +39,7 @@ export const getActivityTimeSeries = (access_token) => {
       // console.log(response.config);
     })
     .catch(error => {
-      console.log(error)
+      reject(error)
     });
   })
 }
@@ -71,7 +71,7 @@ export const getStepsTimeSeries = (access_token) => {
 //      console.log(response.data);
     })
     .catch(error => {
-      console.log(error)
+      reject(error)
     });
 
   })
@@ -104,7 +104,7 @@ export const getSleepTimeSeries = (access_token) => {
 //      console.log(response.data);
     })
     .catch(error => {
-      console.log(error)
+      reject(error)
     });
   })
 }
@@ -136,7 +136,7 @@ export const getHeartrateTimeSeries = (access_token) => {
 //      console.log(response.data);
     })
     .catch(error => {
-      console.log(error)
+      reject(error)
     });
   })
 }
@@ -172,7 +172,7 @@ export const getWeightTimeSeries = (access_token) => {
   //    console.log(response.data);
     })
     .catch(error => {
-      console.log(error)
+      reject(error)
     });
   })
 }

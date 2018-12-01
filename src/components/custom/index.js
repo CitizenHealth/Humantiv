@@ -11,5 +11,4 @@ export * from './WeightManualLog';
 export * from './SleepManualLog';
 export * from './StressManualLog';
 export * from './ModalScreen';
-export * from './ModalTerms';
 

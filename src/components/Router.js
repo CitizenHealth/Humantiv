@@ -29,6 +29,7 @@ const RouterComponent = () => {
           <Scene key="auth">
           <Scene key="tutorial" component={TutorialView} animation='fade' hideNavBar initial/>
           <Scene key="register" component={RegisterForm} animation='fade' hideNavBar />
+          <Scene key="termswebview" component={WebPageView} hideNavBar />
           <Scene key="login" component={LoginForm} animation='fade' hideNavBar />
           <Scene key="verify" component={EmailConfirmationView} hideNavBar />
           <Scene key="password" component={PasswordLostView} hideNavBar />
@@ -39,7 +40,6 @@ const RouterComponent = () => {
         </Scene>
         <Scene key="journeyflow">
           <Scene  key="journey" component={JourneyView} hideNavBar />         
-          <Scene key="termswebview" component={WebPageView} hideNavBar />
         </Scene>
         <Scene key="main">
           <Scene

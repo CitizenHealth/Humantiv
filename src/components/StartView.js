@@ -21,6 +21,7 @@ class StartView extends Component {
   componentWillUpdate(nextProps) {
     if (nextProps.registered !== undefined && 
       Actions.currentScene !== 'journey' &&
+      Actions.currentScene !== 'tab' &&
       Actions.currentScene !== 'settingsjourney' &&
       nextProps.registered !== this.props.registered
     ) {

@@ -9,7 +9,8 @@ import {
   LayoutAnimation,
   Animated,
   Easing,
-  Dimensions
+  Dimensions,
+  Linking
  } from "react-native";
 import _ from 'lodash';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -87,9 +88,9 @@ class RegisterForm extends Component {
 
     const buttonOpacityValue = new Animated.Value(0); // declare animated value
 
-    const facebookIconPositionValue = new Animated.Value(scale(-200)); // declare animated value
-    const googleIconPositionValue = new Animated.Value(scale(-200)); // declare animated value
-    const emailIconPositionValue = new Animated.Value(scale(-200)); // declare animated value
+    const facebookIconPositionValue = new Animated.Value(scale(-300)); // declare animated value
+    const googleIconPositionValue = new Animated.Value(scale(-300)); // declare animated value
+    const emailIconPositionValue = new Animated.Value(scale(-300)); // declare animated value
 
     this.state = { 
       signUpModalVisible: false,
@@ -336,7 +337,8 @@ class RegisterForm extends Component {
       buttonContainerStyle,
       submitButtonStyle,
       titleTextStyle,
-      imageStyle
+      imageStyle,
+      termsContainerStyle
     } = styles;
 
     const { 
@@ -345,7 +347,8 @@ class RegisterForm extends Component {
       inputStyle,
       inputTitleStyle, 
       primaryWhiteTextStyle, 
-      primaryGreyTextStyle 
+      primaryGreyTextStyle,
+      termStyle
     } = theme;
 
     const { 
@@ -590,6 +593,20 @@ class RegisterForm extends Component {
               </TouchableOpacity>
               </Animated.View>
           </View>
+          <View
+            style={termsContainerStyle}
+          >
+            <Text 
+              style= {termStyle}
+            > 
+              In order to start using Humantiv, please agree to our
+            </Text> 
+            <TouchableOpacity 
+              onPress={() => {Linking.openURL("https://citizenhealth.io/privacy-policy")}}
+            >
+              <Text style= {[termStyle, {color: primaryBlueColor}]}>Terms & Privacy Policy</Text>
+            </TouchableOpacity> 
+          </View>
           {this.renderError()}   
         <ModalDialog
           visible={this.state.signUpModalVisible}
@@ -698,6 +715,12 @@ const styles = {
     // shadowOffset:{  width: 5,  height: 5,  },
     // shadowColor: "grey",
     // shadowOpacity: 0.7
+  },
+  termsContainerStyle: {
+    marginTop: scale(20),
+    marginBottom: scale(5),
+    justifyContent: 'center',
+    alignItems: 'stretch'
   }
 };
 
