@@ -90,22 +90,6 @@ export const timeBetweenDates = (date1, date2) => {
   return new Date(0, 0, 0, date.getHours(), date.getMinutes(), 0, 0);
 }
 
-export const convertMinutesToHours = (minutes) => {
-  return parseFloat((minutes/60).toFixed(1));
-  // return {
-  //   hours: Math.floor(minutes/60),
-  //   minutes: minutes % 60
-  // }
-}
-
-export const convertSecondsToMinutes = (seconds) => {
-  return parseFloat((seconds/60).toFixed(1));
-  // return {
-  //   hours: Math.floor(minutes/60),
-  //   minutes: minutes % 60
-  // }
-}
-
 export const convertArrayToTimeSeries = (array) => {
   var timeSeriesArray = [];
   array.map((item) => {

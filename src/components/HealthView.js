@@ -34,22 +34,21 @@ import {
     dataFetch,
     walletFetch,
     fetchFeedFilters,
-    timestampFetch,
     fetchFeedStories,
     addFeedStory,
     removeFeedStory,
     removeAllFeedStories,
     humanAPIFetch,
-    fetchHealthTimeSeries,
     healthScoreSave,
     addHealthTimeSeries,
-    timestampExists,
-    nativeHealthExists,
-    nativeTimeStampsExists,
     timeseriesMeditFetch,
     timeseriesScoreFetch,
     addMeditTimeSeries,
-    addHealthScoreTimeSeries
+    addHealthScoreTimeSeries,
+    timeseriesActivityFetch,
+    timeseriesStepsFetch,
+    timeseriesHeartrateFetch,
+    timeseriesSleepFetch
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
@@ -98,6 +97,7 @@ import {
   SentrySeverity,
   SentryLog
 } from 'react-native-sentry';
+import {Mediflux, createMedifluxSource} from '../business/mediflux'
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -105,7 +105,6 @@ const clientSecret = '1de96f660418ba961d6f2de259f01aaed5da3445';
 const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
 const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
 const closeURL = 'https://connect.humanapi.co/blank/hc-close';
-const NUMBER_OF_METRICS_USED = 4;
 
 class HealthView extends Component {
 
@@ -113,7 +112,6 @@ class HealthView extends Component {
       super(props);
 
       this.state = {
-        metricsPulled: 0,
         visibleModal: false,
         visibleDismissModal: false,
         didUserChooseSource: false,
@@ -140,7 +138,23 @@ class HealthView extends Component {
         Intercom.logEvent('viewed_screen', { extra: 'metadata' });
         Intercom.handlePushMessage();
       }
+      this.props.dataFetch({type: "timestamps"});
+      this.props.dataFetch({type: "feed"});
+      this.props.dataFetch({type: "health"});
+      this.props.dataFetch({type: "humanapi"});
 
+      this.props.walletFetch({type: "wallet"});
+
+      this.props.fetchFeedFilters();
+      this.props.fetchFeedStories();
+
+      this.props.timeseriesScoreFetch();
+      this.props.timeseriesMeditFetch();
+
+      // Fetch the data from 
+      this.props.dataFetch({type: "profile"});
+
+      // this.props.dataFetch({type: "notifications"});
       firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');
     }
 
@@ -163,24 +177,10 @@ class HealthView extends Component {
   }
 
   componentDidMount() {
-      const {children} = this.props;
-      //    this.refreshDataSources();
       // Init Intercom
       Intercom.registerForPush();   
       Intercom.addEventListener(
       Intercom.Notifications.UNREAD_COUNT, this._onUnreadChange);       
-
-      this.props.dataFetch({type: "health"});
-      this.props.walletFetch({type: "wallet"});
-      this.props.dataFetch({type: "profile"});
-//      this.props.fetchHealthTimeSeries({type: "score"});
-      this.props.timeseriesScoreFetch();
-      this.props.timeseriesMeditFetch();
-      this.props.timestampFetch({type: "medit"});
-      this.props.timestampFetch({type: "score"});
-      this.props.fetchFeedFilters();
-      this.props.fetchFeedStories();
-      this.props.dataFetch({type: "notifications"});
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -188,27 +188,6 @@ class HealthView extends Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-
-      const {children} = this.props;
-
-      const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
-      const propNativeTracker = (children.profile && children.profile[nativeTracker] !== undefined ) ? children.profile[nativeTracker] : undefined;
-      const nextPropNativeTracker = (nextProps.children.profile && 
-                                    nextProps.children.profile[nativeTracker] !== undefined) ? nextProps.children.profile[nativeTracker] : undefined;
-
-      UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-      LayoutAnimation.spring();
-
-      if (propNativeTracker !== nextPropNativeTracker && 
-        propNativeTracker !== undefined &&
-        nextPropNativeTracker !== undefined
-      ) {
-        if (nextPropNativeTracker) {
-          this.initNativeSource();
-        } else {
-          this.initOtherSources();
-        }
-      }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -218,9 +197,6 @@ class HealthView extends Component {
         steps,
         heartrate,
         children,
-        stepsExist,
-        activityExists,
-        sleepExists
       } = nextProps;
 
       const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
@@ -235,221 +211,191 @@ class HealthView extends Component {
       const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
       const total = (children.health && children.health.score && children.health.score.total) ? children.health.score.total : 0;
       const scores = (children.health && children.health.score) ? children.health.score : [];
-      
+      const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : '';
+
       const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
       const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
-//      const heartrateTimestamp = (children.timestamps && children.timestamps.heartrate) ? children.timestamps.heartrate : null;
 
-      let propsChanged = (!areMeasurementArraysEquals(activity, this.props.activity) 
-      || !areMeasurementArraysEquals(sleep, this.props.sleep) 
-      || !areMeasurementArraysEquals(steps, this.props.steps)
-      || !areMeasurementArraysEquals(heartrate, this.props.heartrate));
       let timeStampsExist = stepsTimestamp || activityTimestamp || sleepTimestamp;
       let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined) && this.props.children.profile && (this.props.children.profile[nativeTracker] !== undefined)) 
                             ? (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
 
-
-      if (children.profile && this.props.children.profile && !this.state.didUserChooseSource) {
+      if (children.profile && !this.state.didUserChooseSource) {
         // Ask the user for Apple Health and Google Fit authorizations
         this.setState({didUserChooseSource: true});
-        if (Platform.OS === 'ios') {
-          if (isNativeTracker === undefined) {
-            this.setState({visibleModal: true, textModal: modalMessages.applehealth});
-           } else {
-            if (isNativeTracker) {
-              this.initNativeSource();
-            } else {
-              this.initOtherSources();
-            }
-          }
-        } else {
-          // if (isNativeTracker === undefined) {
-          //   this.setState({visibleModal: true, textModal: modalMessages.googlefit});
-          //  } else {
-          //   if (isNativeTracker) {
-          //     this.initNativeSource();
-          //   } else {
-          //     this.initOtherSources();
-          //   }
-          // }
-          this.initOtherSources();
+
+        if (isNativeTracker === undefined) {
+          this.setState({visibleModal: true, textModal: modalMessages.applehealth});
+          } else {
+          let datasource = createMedifluxSource((isNativeTracker) ? nativeTracker : 'humanapi', {accessToken: access_token});
+          let mediflux = new Mediflux(datasource);
+          mediflux.getAllTimeSeries()
+          .then( data => {
+            // Order of data is steps, activity, sleep, heartrate
+            this.props.timeseriesStepsFetch(data[0]);
+            this.props.timeseriesActivityFetch(data[1]);
+            this.props.timeseriesSleepFetch(data[2]);
+            this.props.timeseriesHeartrateFetch(data[3]);
+            console.log('Process Timeseries')
+          })
+          .then( () => {
+            // HealthScore
+            console.log('Process Health Score');
+            //****************************
+                  // let totalMedits = 0;
+            // if (!areMeasurementArraysEquals(steps, this.props.steps)) {
+            //   // The steps timeseries data has been pulled.
+            //   let metricsNumber = this.state.metricsPulled + 1;
+            //   console.log(metricsNumber);
+            //   this.setState({metricsPulled: metricsNumber}); 
+            //   console.log(this.state.metricsPulled);
+
+            //   if (stepsTimestamp) {
+            //     let stepMedits = getStepMedits(steps, stepsTimestamp, stepsTimestampValue)
+            //     // Generate Medits
+            //     totalMedits += parseInt(stepMedits.medits);
+            //     if (parseInt(stepMedits.medits) > 0) {
+            //       this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
+            //       // Add medit to feed
+            //       const story = {
+            //         title: "Your steps earned you",
+            //         preposition: "",
+            //         value: `${stepMedits.medits} Medits`,
+            //         time: Math.round((new Date()).getTime() / 1000),
+            //         type: "stepsmedits"
+            //       }
+            //       this.props.addFeedStory(story);
+            //     }
+            //     this.props.dataSave({type: "timestamps", data: {
+            //       steps: stepMedits.timestamp,
+            //       steps_value: stepMedits.value
+            //     }});
+            //   } else {
+            //     this.setTimestamp('steps', steps);
+            //   }
+            // }
+
+            // if ( !areMeasurementArraysEquals(sleep, this.props.sleep)) {
+            //   // The steps timeseries data has been pulled.
+            //   let metricsNumber = this.state.metricsPulled + 1;
+            //   console.log(metricsNumber);
+            //   this.setState({metricsPulled: metricsNumber}); 
+            //   console.log(this.state.metricsPulled);
+
+            //   if (sleepTimestamp) {
+            //     let sleepMedits = getSleepMedits(sleep, sleepTimestamp, sleepTimestampValue)
+            //     // Generate Medits
+            //     totalMedits += parseInt(sleepMedits.medits);
+            //     if (parseInt(sleepMedits.medits) > 0) {
+            //       this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
+            //       // Add medit to feed
+            //       const story = {
+            //         title: "Your sleep earned you",
+            //         preposition: "",
+            //         value: `${sleepMedits.medits} Medits`,
+            //         time: Math.round((new Date()).getTime() / 1000),
+            //         type: "sleepmedits"
+            //       }
+            //       this.props.addFeedStory(story);
+            //     }
+            //     this.props.dataSave({type: "timestamps", data: {
+            //       sleep: sleepMedits.timestamp,
+            //       sleep_value: sleepMedits.value
+            //     }});
+            //   } else {
+            //     this.setTimestamp('sleep', sleep);
+            //   }
+            // }
+
+            // if ( !areMeasurementArraysEquals(activity, this.props.activity)) {
+            //   // The steps timeseries data has been pulled.
+            //   let metricsNumber = this.state.metricsPulled + 1;
+            //   console.log(metricsNumber);
+            //   this.setState({metricsPulled: metricsNumber}); 
+            //   console.log(this.state.metricsPulled);
+
+            //   // Log the activity array
+            //   Sentry.captureMessage(`Activity Array: ${JSON.stringify(activity)}`, {
+            //     level: SentrySeverity.Info
+            //   });
+
+            //   if (activityTimestamp) {
+            //     let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)
+            //     // Generate Medits
+            //     totalMedits += parseInt(activityMedits.medits);
+            //     if (parseInt(activityMedits.medits) > 0) {
+            //       this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
+            //       // Add medit to feed
+            //       const story = {
+            //         title: "Your activity earned you",
+            //         preposition: "",
+            //         value: `${activityMedits.medits} Medits`,
+            //         time: Math.round((new Date()).getTime() / 1000),
+            //         type: "activitymedits"
+            //       }
+            //       this.props.addFeedStory(story);
+            //     }
+            //     this.props.dataSave({type: "timestamps", data: {
+            //       activity: activityMedits.timestamp,
+            //       activity_value: activityMedits.value
+            //     }});     
+            //   } else {
+            //     this.setTimestamp('activity', activity);
+            //   }
+            // }
+
+            // if ( !areMeasurementArraysEquals(heartrate, this.props.heartrate)) {
+            //   // The steps timeseries data has been pulled.
+            //   let metricsNumber = this.state.metricsPulled + 1;
+            //   console.log(metricsNumber);
+            //   this.setState({metricsPulled: metricsNumber}); 
+            //   console.log(this.state.metricsPulled);
+            // }
+            //***************************
+            // When all timeseries data have been pulled then we can start calculating the daily Medit count earned
+            // After all physical metrics are pulled, we calculate the daily Medit earned ...
+            // let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, steps, activity, sleep);
+            // this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
+  
+            // this.props.dataSave({type: "timestamps", data: {
+            //   medit: dailyMedit.meditTimeStamp,
+            //   medit_value: dailyMedit.meditTimeStampValue
+            // }}); 
+          })
+          .then( () => {
+            // HealthScore
+            console.log('Process Medit');
+                      // ... then we calculate the daily health scores and total health score
+          
+            // let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, total, steps, activity, sleep);
+            // this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
+            // this.props.dataSave({type: "timestamps", data: {
+            //   score: dailyHealthScore.scoreTimeStamp,
+            // }}); 
+            // this.props.healthScoreSave({
+            //   healthscore: dailyHealthScore.healthscore,
+            //   total: dailyHealthScore.total
+            // }); 
+
+            // this.setState({
+            //   healthData: getHealthScore(activity, sleep, steps, heartrate)
+            // });
+          })
+          .catch( error => {
+            Sentry.captureMessage(`Time series fetch error: ${error}`, {
+              level: SentrySeverity.Info
+            });
+          });
         }
-      } else if (children.profile && this.props.children.profile && isNativeChanged) {
-        if (Platform.OS === 'ios') {
-          this.props.nativeHealthExists({type: 'apple_health'});
-        }
-        if (Platform.OS === 'android') {
-          this.props.nativeHealthExists({type: 'google_fit'});
-        }  
-      }
-
-      let totalMedits = 0;
-      if (!areMeasurementArraysEquals(steps, this.props.steps)) {
-        // The steps timeseries data has been pulled.
-        let metricsNumber = this.state.metricsPulled + 1;
-        console.log(metricsNumber);
-        this.setState({metricsPulled: metricsNumber}); 
-        console.log(this.state.metricsPulled);
-
-        if (stepsTimestamp) {
-          let stepMedits = getStepMedits(steps, stepsTimestamp, stepsTimestampValue)
-          // Generate Medits
-          totalMedits += parseInt(stepMedits.medits);
-          if (parseInt(stepMedits.medits) > 0) {
-            this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
-            // Add medit to feed
-            const story = {
-              title: "Your steps earned you",
-              preposition: "",
-              value: `${stepMedits.medits} Medits`,
-              time: Math.round((new Date()).getTime() / 1000),
-              type: "stepsmedits"
-            }
-            this.props.addFeedStory(story);
-          }
-          this.props.dataSave({type: "timestamps", data: {
-            steps: stepMedits.timestamp,
-            steps_value: stepMedits.value
-          }});
-        } else {
-          this.setTimestamp('steps', steps);
-        }
-      }
-
-      if ( !areMeasurementArraysEquals(sleep, this.props.sleep)) {
-        // The steps timeseries data has been pulled.
-        let metricsNumber = this.state.metricsPulled + 1;
-        console.log(metricsNumber);
-        this.setState({metricsPulled: metricsNumber}); 
-        console.log(this.state.metricsPulled);
-
-        if (sleepTimestamp) {
-          let sleepMedits = getSleepMedits(sleep, sleepTimestamp, sleepTimestampValue)
-          // Generate Medits
-          totalMedits += parseInt(sleepMedits.medits);
-          if (parseInt(sleepMedits.medits) > 0) {
-            this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
-            // Add medit to feed
-            const story = {
-              title: "Your sleep earned you",
-              preposition: "",
-              value: `${sleepMedits.medits} Medits`,
-              time: Math.round((new Date()).getTime() / 1000),
-              type: "sleepmedits"
-            }
-            this.props.addFeedStory(story);
-          }
-          this.props.dataSave({type: "timestamps", data: {
-            sleep: sleepMedits.timestamp,
-            sleep_value: sleepMedits.value
-          }});
-        } else {
-          this.setTimestamp('sleep', sleep);
-        }
-      }
-
-      if ( !areMeasurementArraysEquals(activity, this.props.activity)) {
-        // The steps timeseries data has been pulled.
-        let metricsNumber = this.state.metricsPulled + 1;
-        console.log(metricsNumber);
-        this.setState({metricsPulled: metricsNumber}); 
-        console.log(this.state.metricsPulled);
-
-        // Log the activity array
-        Sentry.captureMessage(`Activity Array: ${JSON.stringify(activity)}`, {
-          level: SentrySeverity.Info
-        });
-
-        if (activityTimestamp) {
-          let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)
-          // Generate Medits
-          totalMedits += parseInt(activityMedits.medits);
-          if (parseInt(activityMedits.medits) > 0) {
-            this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
-            // Add medit to feed
-            const story = {
-              title: "Your activity earned you",
-              preposition: "",
-              value: `${activityMedits.medits} Medits`,
-              time: Math.round((new Date()).getTime() / 1000),
-              type: "activitymedits"
-            }
-            this.props.addFeedStory(story);
-          }
-          this.props.dataSave({type: "timestamps", data: {
-            activity: activityMedits.timestamp,
-            activity_value: activityMedits.value
-          }});     
-        } else {
-          this.setTimestamp('activity', activity);
-        }
-      }
-
-      if ( !areMeasurementArraysEquals(heartrate, this.props.heartrate)) {
-        // The steps timeseries data has been pulled.
-        let metricsNumber = this.state.metricsPulled + 1;
-        console.log(metricsNumber);
-        this.setState({metricsPulled: metricsNumber}); 
-        console.log(this.state.metricsPulled);
       }
     }
 
     dismissNativeSource() {
       this.setState({visibleModal: false});
-      this.initOtherSources()
     }
   
     acceptNativeSource() {
       this.setState({visibleModal: false});
-      this.initNativeSource();
-    }
-  
-    initNativeSource() {
-      // We are resetting the metrics pulled counter to 0. This counter will increment by one for each metric
-      // timeseries pulled (steps, sleep, activity, ...). We are effectively waiting for all the metrics to be
-      // pulled to calculate the daily healthScore and the daily Medit earned.
-      this.setState({metricsPulled: 0}); 
-        // If Apple Health is connected then use it
-        if (Platform.OS === 'ios') {
-          let options = {
-            permissions: {
-                read: ["Height", "Weight", "DateOfBirth", "StepCount", "HeartRate", "SleepAnalysis", "AppleExerciseTime", "BiologicalSex"]
-           }
-          };
-          
-          AppleHealthKit.initHealthKit(options: Object, (err: string, results: Object) => {
-            if (err) {
-                console.log("error initializing Healthkit: ", err);
-                this.props.dataSave({type: "profile", data: {apple_health: false}});
-                return;
-            }
-        
-            this.props.dataSave({type: "profile", data: {apple_health: true}});
-            this.props.nativeTimeStampsExists({isNative: true});
-            
-
-            // Height Example
-            AppleHealthKit.getDateOfBirth(null, (err: Object, results: Object) => {
-            if (err) {
-              console.log(`Date of Birth ERROR: ${err}`);
-              return;
-            }
-            console.log(`Date of Birth: ${results}`);
-            }); 
-        });
-      }
-      if (Platform.OS === 'android') {
-        this.props.nativeTimeStampsExists({isNative: false});
-      }
-    }
-  
-    initOtherSources() {
-      // We are resetting the metrics pulled counter to 0. This counter will increment by one for each metric
-      // timeseries pulled (steps, sleep, activity, ...). We are effectively waiting for all the metrics to be
-      // pulled to calculate the daily healthScore and the daily Medit earned.
-      this.setState({metricsPulled: 0}); 
-      this.props.dataSave({type: "profile", data: {apple_health: false}});
-      this.props.nativeTimeStampsExists({isNative: false});
     }
 
     setTimestamp(type, data) {
@@ -467,8 +413,6 @@ class HealthView extends Component {
       Intercom.displayMessenger();
     }
     saveHumanAPIPublicToken(token) {
-        const {children} = this.props;
-    
         this.props.dataSave({type: "humanapi", data: {public_token: token}});
     }
     
@@ -496,10 +440,8 @@ class HealthView extends Component {
             success: (data) => {
                 // save publicToken
                 this.saveHumanAPIPublicToken(data.public_token);
-
                 console.log(`Human API Callback: ${data}`);
                 this.props.humanAPIFetch(data.public_token);
-
             },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         } : {
@@ -518,10 +460,6 @@ class HealthView extends Component {
     }
 
     refreshDataSources = () => {
-      this.props.timestampExists({type: 'steps'});
-      this.props.timestampExists({type: 'activity'});
-      this.props.timestampExists({type: 'sleep'});
-      this.props.timestampExists({type: 'heartrate'});
     }
     
     clearFeed() {
@@ -652,8 +590,6 @@ class HealthView extends Component {
         const sleeps = (sleep) ? sleep : [];
         const heartrates = (heartrate) ? heartrate : [];
         const medits = (medit) ? medit : [];
-        const weights = (weight) ? weight : [];
-        const stresses = (stress) ? stress : [];
         const scoress = (score) ? score : [];;
 
         return (
@@ -909,42 +845,6 @@ class HealthView extends Component {
           heartrate,
           children,
         } = this.props;  
-  
-        // When all timeseries data have been pulled then we can start calculating the daily Medit count earned
-        if (this.state.metricsPulled === NUMBER_OF_METRICS_USED) {
-          const meditTimestamp = (children.timestamps && children.timestamps.medit) ? children.timestamps.medit : null;
-          const scoreTimestamp = (children.timestamps && children.timestamps.score) ? children.timestamps.score : null;
-          const healthscore = (children.health && children.health.score && children.health.score.healthscore) ? children.health.score.healthscore : 0;
-          const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
-          const total = (children.health && children.health.score && children.health.score.total) ? children.health.score.total : 0;
-          const scores = (children.health && children.health.score) ? children.health.score : [];
-
-          // After all physical metrics are pulled, we calculate the daily Medit earned ...
-          let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, steps, activity, sleep);
-          this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
-          this.props.dataSave({type: "timestamps", data: {
-            medit: dailyMedit.meditTimeStamp,
-            medit_value: dailyMedit.meditTimeStampValue
-          }}); 
-              
-          // ... then we calculate the daily health scores and total health score
-          
-          let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, total, steps, activity, sleep);
-          this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
-          this.props.dataSave({type: "timestamps", data: {
-            score: dailyHealthScore.scoreTimeStamp,
-          }}); 
-          this.props.healthScoreSave({
-            healthscore: dailyHealthScore.healthscore,
-            total: dailyHealthScore.total
-          }); 
-
-          this.setState({
-            healthData: getHealthScore(activity, sleep, steps, heartrate)
-          });
-
-          this.setState({metricsPulled: 0}); 
-        } 
 
         return (
             <View style={pageStyle}>
@@ -1100,35 +1000,35 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     const {user} = state.auth;
-    const {children, stepsExist, activityExists, sleepExists} = state.data;
+    const {children} = state.data;
     const {stories, filters} = state.feed;
     const {medit, score} = state.timeseries;
     const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries;
 
     return {
-        user, children, stepsExist, activityExists, sleepExists, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress
+        user, children, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress
     }
 }
+
 export default connect(mapStateToProps, {
   dataFetch, 
   dataSave, 
   dataAdd,
   walletFetch,
   fetchFeedFilters,
-  timestampFetch,
   fetchFeedStories,
   addFeedStory,
   removeFeedStory,
   removeAllFeedStories,
   humanAPIFetch,
-  fetchHealthTimeSeries,
   healthScoreSave,
   addHealthTimeSeries,
-  timestampExists,
-  nativeHealthExists,
-  nativeTimeStampsExists,
   timeseriesMeditFetch,
   timeseriesScoreFetch,
   addMeditTimeSeries,
-  addHealthScoreTimeSeries
+  addHealthScoreTimeSeries,
+  timeseriesActivityFetch,
+  timeseriesStepsFetch,
+  timeseriesHeartrateFetch,
+  timeseriesSleepFetch
   })(HealthView);

@@ -3,7 +3,6 @@ import { Scene, Router } from "react-native-router-flux";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import TutorialView from "./TutorialView";
-import ProfileView from "./ProfileView";
 import StartView from "./StartView";
 import EmailConfirmationView from "./EmailConfirmationView";
 import PasswordLostView from "./PasswordLostView";

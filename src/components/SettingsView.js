@@ -128,8 +128,6 @@ class SettingsView extends Component {
   }
 
   saveHumanAPIPublicToken(token) {
-    const {children} = this.props;
-
     this.props.dataSave({type: "humanapi", data: {public_token: token}});
   } 
 

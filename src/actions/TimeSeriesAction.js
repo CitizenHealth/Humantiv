@@ -1,74 +1,32 @@
 import firebase from "react-native-firebase";
-import {
-  getActivityTimeSeries,
-  getHeartrateTimeSeries,
-  getSleepTimeSeries,
-  getStepsTimeSeries,
-  getWeightTimeSeries,
-  getNativeActivityTimeSeries,
-  getNativeStepsTimeSeries,
-  getNativeHeartrateTimeSeries,
-  getNativeSleepTimeSeries
-} from '../business/sources'
 import { 
   TIMESERIES_ACTIVITY_FETCH,
   TIMESERIES_HEARTRATE_FETCH,
   TIMESERIES_SLEEP_FETCH,
   TIMESERIES_WEIGHT_FETCH,
   TIMESERIES_STEPS_FETCH,
-  TIMESERIES_STRESS_FETCH,
   TIMESERIES_MEDIT_FETCH,
   TIMESERIES_SCORE_FETCH
   } from "./types";
 
-export const timeseriesActivityFetch = ({access_token}) => {
-
-  return (dispatch) => {
-    getActivityTimeSeries(access_token)
-    .then((values) => {
-      dispatch({ type: TIMESERIES_ACTIVITY_FETCH, payload: values });
-    })
-  };
+export const timeseriesActivityFetch = (values) => {
+  return { type: TIMESERIES_ACTIVITY_FETCH, payload: values };
 };
 
-export const timeseriesStepsFetch = ({access_token}) => {
-
-  return (dispatch) => {
-    getStepsTimeSeries(access_token)
-    .then((values) => {
-      dispatch({ type: TIMESERIES_STEPS_FETCH, payload: values });
-    })
-  };
+export const timeseriesStepsFetch = (values) => {
+  return { type: TIMESERIES_STEPS_FETCH, payload: values };
 };
 
-export const timeseriesHeartrateFetch = ({access_token}) => {
-
-  return (dispatch) => {
-    getHeartrateTimeSeries(access_token)
-    .then((values) => {
-      dispatch({ type: TIMESERIES_HEARTRATE_FETCH, payload: values });
-    })
-  };
+export const timeseriesHeartrateFetch = (values) => {
+  return { type: TIMESERIES_HEARTRATE_FETCH, payload: values };
 };
 
-export const timeseriesSleepFetch = ({access_token}) => {
-
-  return (dispatch) => {
-    getSleepTimeSeries(access_token)
-    .then((values) => {
-      dispatch({ type: TIMESERIES_SLEEP_FETCH, payload: values });
-    })
-  };
+export const timeseriesSleepFetch = (values) => {
+  return { type: TIMESERIES_SLEEP_FETCH, payload: values };
 };
 
-export const timeseriesWeightFetch = ({access_token}) => {
-
-  return (dispatch) => {
-    getWeightTimeSeries(access_token)
-    .then((values) => {
-      dispatch({ type: TIMESERIES_WEIGHT_FETCH, payload: values });
-    })
-  };
+export const timeseriesWeightFetch = (values) => {
+  return { type: TIMESERIES_WEIGHT_FETCH, payload: values };
 };
 
 export const timeseriesMeditFetch = () => {
@@ -143,37 +101,4 @@ export const addHealthScoreTimeSeries = (data) => {
       console.log(error);
     });
   };
-}
-
-export const nativeTimeSeries = ({type}) => {
-  switch (type) {
-    case 'activity':
-      return (dispatch) => {
-        getNativeActivityTimeSeries()
-        .then((values) => {
-          dispatch({ type: TIMESERIES_ACTIVITY_FETCH, payload: values });
-        });
-      }
-    case 'steps':
-      return (dispatch) => {
-        getNativeStepsTimeSeries()
-        .then((values) => {
-          dispatch({ type: TIMESERIES_STEPS_FETCH, payload: values });
-        });
-      }
-    case 'sleep':
-      return (dispatch) => {
-        getNativeSleepTimeSeries()
-        .then((values) => {
-          dispatch({ type: TIMESERIES_SLEEP_FETCH, payload: values });
-        });
-      }
-    case 'heartrate':
-      return (dispatch) => {
-        getNativeHeartrateTimeSeries()
-        .then((values) => {
-          dispatch({ type: TIMESERIES_HEARTRATE_FETCH, payload: values });
-        });
-      }
-  }
 }

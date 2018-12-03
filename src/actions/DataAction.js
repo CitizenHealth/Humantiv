@@ -1,14 +1,10 @@
 import firebase from "react-native-firebase";
 import { Actions } from "react-native-router-flux";
-import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EDIT, HUMANAPI_DATA_FETCH, DATA_EXISTS, TIMESTAMP_EXISTS, NATIVE_HEALTH } from "./types";
+import { DATA_CREATE, DATA_SAVE, DATA_FETCH, DATA_EXISTS } from "./types";
 import {
-  timeseriesActivityFetch,
-  timeseriesSleepFetch,
-  timeseriesHeartrateFetch,
-  timeseriesStepsFetch,
-  timeseriesWeightFetch,
-  nativeTimeSeries
-} from './TimeSeriesAction';
+  Sentry,
+  SentrySeverity
+} from 'react-native-sentry';
 
 export const dataCreate = ({type, prop, value}) => {
   return ({
@@ -30,14 +26,24 @@ export const dataSave = ({type, data}) => {
       .set(data)
       .then(() => {
         dispatch({ type: DATA_SAVE });
-      });
+      })
+      .catch ( error => {
+        Sentry.captureMessage(`dataSave ${type}/fcm/${data} failed: ${error}`, {
+          level: SentrySeverity.Info
+        });
+      });;
     } else {
       firebase.database().ref(`/users/${currentUser.uid}/${type}`)
       .update(data)
       .then(() => {
         dispatch({ type: DATA_SAVE });
+      })
+      .catch ( error => {
+        Sentry.captureMessage(`dataSave ${type} failed: ${error}`, {
+          level: SentrySeverity.Info
+        });
       });
-    }
+    }    
   };
 };
 
@@ -57,8 +63,16 @@ export const dataAdd = ({type, item, data}) => {
           return currentData + data;
     }, function(error, committed, snapshot) {
       if (error) {
+        // Log the activity array
+        Sentry.captureMessage(`Transaction ${type}/${item} failed abnormally: ${error}`, {
+          level: SentrySeverity.Info
+        });
         console.log('Transaction failed abnormally!', error);
       } else if (!committed) {
+        // Log the activity array
+        Sentry.captureMessage(`Transaction ${type}/${item} was not committed: ${committed}`, {
+          level: SentrySeverity.Info
+        });
         console.log('The transaction was transaction.');
       } else {
         console.log('Data added succesfully');
@@ -70,108 +84,22 @@ export const dataAdd = ({type, item, data}) => {
   };
 };
 
-export const dataEdit = ({profile}) => {
-  const { currentUser } = firebase.auth();
-  const { 
-    country,
-    state,
-    city
-  } = profile;
-
-  return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/profile/${profile.uid}`)
-    .set({ country, state, city })
-    .then(() => {
-      dispatch({ type: DATA_EDIT });
-    });
-  };
-};
-
-
-export const timestampFetch = ({type, isnative = false}) => {
+export const dataFetch = ({type}) => {
   const { currentUser } = firebase.auth();
 
   if (currentUser === null) {
-    return;
+    reject(new Error('No user found'));
   }
   
   return (dispatch) => {
-//    console.log(`Try: ${type}`);
-    firebase.database().ref(`/users/${currentUser.uid}/timestamps/${type}`)
-    .on("value", snapshot => {
-//      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
-      let data = snapshot.val();
-      if (type != "score") {
-        dispatch(timestampValueFetch({type, isnative}));
-      }
-      dispatch({ type: DATA_CREATE, payload: {type: 'timestamps', prop: type, value:  data}});
-    }, error => {
-//      console.log(`Error: ${error}`);
-    });
-  };
-};
-
-export const timestampValueFetch = ({type, isnative = false}) => {
-  const { currentUser } = firebase.auth();
-
-  if (currentUser === null) {
-    return;
-  }
-  
-  return (dispatch) => {
-//    console.log(`Try: ${type}`);
-    firebase.database().ref(`/users/${currentUser.uid}/timestamps/${type}_value`)
-    .on("value", snapshot => {
-//      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
-      let data = snapshot.val();
-      if ( type != "medit" && type != "score") {
-        if (isnative) {
-          dispatch(nativeTimeSeries({type: type}));
-        } else {
-          dispatch(dataFetch({type: "humanapi"}));
-        }
-      }
-      dispatch({ type: DATA_CREATE, payload: {type: 'timestamps', prop: `${type}_value`, value:  data}});
-    }, error => {
-//      console.log(`Error: ${error}`);
-    });
-  };
-};
-
-export const dataFetch = ({type, isnative}) => {
-  const { currentUser } = firebase.auth();
-
-  if (currentUser === null) {
-    return;
-  }
-  
-  return (dispatch) => {
-//    console.log(`Try: ${type}`);
     firebase.database().ref(`/users/${currentUser.uid}/${type}`)
     .on("value", snapshot => {
-//      console.log(`Yay: ${JSON.stringify(snapshot.val())}`);
       let data = snapshot.val();
-      if (type === "humanapi" && data != null ) {
-//        dispatch(timeseriesActivityFetch({access_token: data.access_token}));
-//        var testToken = "Zff8X6NFVDPdUf00z6g1QUVtHoQ=_nTu8Lvg45198035cecaa04124ab91663aa5e9a4fa43f6fb9d75637baa8533b22a44b7b202fe7ebce012413d5e667ad53b061e048c25805d96794e00f41166223cfb492e5ff81a16c0b210dda57e97c90eb27cc9042f9a9c568442386ad7672efb535961c0ce8caa450b852a8560e6127885ed2d"
-        var testToken = data.access_token;
-        //MEDIFLUX: Promise
-        dispatch(timeseriesActivityFetch({access_token: testToken}));
-        dispatch(timeseriesStepsFetch({access_token: testToken}));
-        dispatch(timeseriesSleepFetch({access_token: testToken}));
-        dispatch(timeseriesHeartrateFetch({access_token: testToken}));
-        dispatch(timeseriesWeightFetch({access_token: testToken}));
-      }
-      if (type === "timestamps" ) {
-        if (isnative) {
-          dispatch(nativeTimeSeries());
-        } else {
-          dispatch(dataFetch({type: "humanapi"}));
-        }
-      }
       dispatch({ type: DATA_FETCH, payload: {type, data} });
     }, error => {
-//      console.log(`Error: ${error}`);
+      Sentry.captureMessage(`dataFetch ${type} failed: ${error}`, {
+        level: SentrySeverity.Info
+      });
     });
   };
 };
@@ -191,50 +119,13 @@ export const walletFetch = ({type}) => {
       let data = snapshot.val();
       dispatch({ type: DATA_FETCH, payload: {type, data} });
     }, error => {
+      Sentry.captureMessage(`walletFetch ${type} failed.`, {
+        level: SentrySeverity.Info
+      });
       console.log(`Error: ${error}`);
     });
   };
 };
-
-export const nativeHealthFetch = ({type}) => {
-  const { currentUser } = firebase.auth();
-
-  if (currentUser === null) {
-    return;
-  }
-
-  return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
-    .on("value", snapshot => {
-      let data = snapshot.val();
-      let isNativeTracking = false;
-      if (data) {
-        isNativeTracking = true; 
-      } 
-      dispatch(timestampExists({type: 'steps', isnative: isNativeTracking}));
-      dispatch(timestampExists({type: 'activity', isnative: isNativeTracking}));
-      dispatch(timestampExists({type: 'sleep', isnative: isNativeTracking}));
-      dispatch(timestampExists({type: 'heartrate', isnative: isNativeTracking}));
-      dispatch({ type: NATIVE_HEALTH, payload: {type: "isNativeTracking", data} });
-    });
-  };
-};
-
-export const nativeTimeStampsExists = ({isNative}) => {
-  const { currentUser } = firebase.auth();
-
-  if (currentUser === null) {
-    return;
-  }
-
-  return (dispatch) => {
-    dispatch(timestampExists({type: 'steps', isnative: isNative}));
-    dispatch(timestampExists({type: 'activity', isnative: isNative}));
-    dispatch(timestampExists({type: 'sleep', isnative: isNative}));
-    dispatch(timestampExists({type: 'heartrate', isnative: isNative}));
-  };
-};
-
 
 export const dataExists = ({type}) => {
   const { currentUser } = firebase.auth();
@@ -259,56 +150,10 @@ export const dataExists = ({type}) => {
       }
       dispatch({ type: DATA_EXISTS, payload: {type, exists} });
     }, error => {
+      Sentry.captureMessage(`dataExists /profile/${type} failed.`, {
+        level: SentrySeverity.Info
+      });
       console.log(`Error: ${error}`);
-    });
-  };
-};
-
-export const timestampExists = ({type, isnative}) => {
-  const { currentUser } = firebase.auth();
-
-  if (currentUser === null) {
-    return;
-  }
-
-  return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/timestamps/${type}`)
-    .once("value", snapshot => {
-      let exists = snapshot.exists();
-      if (exists) {
-        dispatch(timestampFetch({type: type, isnative: isnative}));
-      } else {
-        if (isnative) {
-          dispatch(nativeTimeSeries({type}));
-        } else {
-          dispatch(dataFetch({type: "humanapi"}));
-        }
-      }
-      dispatch({ type: TIMESTAMP_EXISTS, payload: {type, exists} });
-    });
-  };
-};
-
-export const nativeHealthExists = ({type}) => {
-  const { currentUser } = firebase.auth();
-
-  if (currentUser === null) {
-    return;
-  }
-
-  return (dispatch) => {
-    firebase.database().ref(`/users/${currentUser.uid}/profile/${type}`)
-    .once("value", snapshot => {
-      let exists = snapshot.exists();
-      if (exists) {
-        dispatch(nativeHealthFetch({type: type}));
-      } else {
-        dispatch(timestampExists({type: 'steps', isnative: false}));
-        dispatch(timestampExists({type: 'activity', isnative: false}));
-        dispatch(timestampExists({type: 'sleep', isnative: false}));
-        dispatch(timestampExists({type: 'heartrate', isnative: false}));
-      }
-      dispatch({ type: TIMESTAMP_EXISTS, payload: {type, exists} });
     });
   };
 };
@@ -321,21 +166,33 @@ export const humanAPIFetch = (publicToken) => {
   }
   
   return (dispatch) => {
-
     // Move the data from the /humanapi database ...
     firebase.database().ref(`/humanapi/${publicToken}`)
     .once("value", snapshot => {
-
       // ... to the main users database ...
-      dispatch(dataSave({type: "humanapi", data: {
-        public_token: publicToken,
-        human_id: snapshot.val().humanId,
-        access_token: snapshot.val().accessToken
-      }}));
+      dispatch(
+        dataSave({type: "humanapi", data: {
+          public_token: publicToken,
+          human_id: snapshot.val().humanId,
+          access_token: snapshot.val().accessToken
+        }
+      })
+      .catch( error => {
+        Sentry.captureMessage(`humanAPIFetch - dataSave humanapi failed.`, {
+          level: SentrySeverity.Info
+        });
+      })
+      );
       // ... and delete the entry in the temp /humanapi database
       dispatch(
         firebase.database().ref(`/humanapi/${publicToken}`)
         .remove()
+        .catch( error => {
+          Sentry.captureMessage(`humanAPIFetch - remove /humanapi/${publicToken} failed.`, {
+            level: SentrySeverity.Info
+          });
+        })
+  
       );
     })
   };

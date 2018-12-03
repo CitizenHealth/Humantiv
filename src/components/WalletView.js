@@ -31,7 +31,6 @@ import {
     dataSave,
     dataFetch,
     walletFetch,
-    humanAPIFetch,
     addFeedStory
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
@@ -387,4 +386,4 @@ const mapStateToProps = (state) => {
         user, children, share_title, share_message
     }
 }
-export default connect(mapStateToProps, {dataAdd, dataFetch, dataSave, walletFetch, humanAPIFetch, addFeedStory})(WalletView);
+export default connect(mapStateToProps, {dataAdd, dataFetch, dataSave, walletFetch, addFeedStory})(WalletView);
