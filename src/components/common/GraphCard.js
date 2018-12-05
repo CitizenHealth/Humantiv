@@ -7,7 +7,10 @@ import {
 import { 
     graphGreenColor,
     graphRedColor,
-    graphGreyColor
+    graphGreyColor,
+    primaryGreyColor, 
+    primaryBlueColor, 
+    primaryBackgroungColor
 } from '../themes';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../resources/fonts/Fonts'
@@ -20,10 +23,11 @@ import {
   Svg,
   Rect
 } from 'react-native-svg'
+import Spinner from "react-native-spinkit";
 import { LineChart, AreaChart} from 'react-native-svg-charts'
 import * as shape from 'd3-shape';
-import {primaryGreyColor} from '../themes/theme';
 import { scale } from "react-native-size-matters";
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {
   capitalLetter,
   convertUNIXTimeToSince
@@ -48,7 +52,9 @@ class GraphCard extends Component {
         healthyMax: PropTypes.number.isRequired
     }),
     width: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    placeholder: PropTypes.string,
+    loading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -57,7 +63,9 @@ class GraphCard extends Component {
     data: [],
     rules: {},
     width: 200,
-    height: 200
+    height: 200,
+    placeholder: 'default',
+    loading: false
   }
 
   constructor(props) {
@@ -103,27 +111,87 @@ class GraphCard extends Component {
       });
     }
   }
-
-  render() {
+  
+  renderLoading() {
     const {
-        cardStyle,
-        headerContainerStyle,
-        valueContainerStyle,
-        valueTextStyle,
-        unitTextStyle,
-        titleContainerStyle,
-        titleTextStyle,
-        graphContainerStyle,
-        graphAreaStyle
+      width,
+    } = this.props;
+
+    return (
+      <View style={{
+        justifyContent: "center",
+        alignItems: 'center',
+        backgroundColor: primaryBackgroungColor,
+        flexDirection: "column",
+        flex: 1
+      }}>
+        <Spinner 
+          isVisible={true}
+          size={width/4}
+          type='ThreeBounce' 
+          color={primaryBlueColor}
+        />
+      </View>
+    );
+  }
+
+  getIcon() {
+    const {
+      placeholder
+    } = this.props;
+
+    switch(placeholder) {
+      case 'steps':
+        return Icons.question
+      case 'sleep':
+        return Icons.question
+      case 'activity':
+        return Icons.question
+      case 'heart':
+        return Icons.heartbeat
+      default:
+        return Icons.question
+    }
+  }
+  renderPlaceHolder() {
+
+    return (
+      <View style={{
+        justifyContent: "center",
+        alignItems: 'center',
+        backgroundColor: primaryBackgroungColor,
+        flexDirection: "column",
+        flex: 1
+      }}>
+        <FontAwesome 
+            style= {{
+              justifyContent: 'center',
+              textAlign: 'center',
+              color: primaryGreyColor,
+              fontSize: scale(60)
+          }}>
+          {this.getIcon()}
+        </FontAwesome>
+      </View>
+    );
+  }
+
+  renderGraph() {
+    const { 
+      headerContainerStyle,
+      valueContainerStyle,
+      valueTextStyle,
+      unitTextStyle,
+      titleContainerStyle,
+      titleTextStyle,
+      graphContainerStyle,
+      graphAreaStyle
     } = styles;
 
     const {
-        title,
-        unit,
-        data,
-        rules,
-        width,
-        height
+      data,
+      width,
+      height,
     } = this.props;
 
     // convert data to array
@@ -137,83 +205,80 @@ class GraphCard extends Component {
     const size = 24;
 
     return (
-    <View style={[cardStyle, {
-          width: width,
-          height: height
-      }]}>
+      <View style={{flex:1}}>
         <View style={headerContainerStyle}>
-            <View style={valueContainerStyle}>
-                <Text style={[valueTextStyle,
+          <View style={valueContainerStyle}>
+            <Text style={[valueTextStyle,
+            {
+                color: this.state.color
+            }]}>
+                {this.state.value}
+            </Text>
+            <Text style={[unitTextStyle,
                 {
                     color: this.state.color
                 }]}>
-                    {this.state.value}
-                </Text>
-                <Text style={[unitTextStyle,
-                    {
-                        color: this.state.color
-                    }]}>
-                    {this.props.unit}
-                </Text>
-            </View>
-            <View style={titleContainerStyle}>
-                <Dot
-                    size= {size}
-                    color= {this.state.color}
-                    animate= {(this.state.color===graphGreyColor) ? false : true}
-                />
-                <Text style={[
-                    titleTextStyle,
-                    {
-                        color: this.state.color
-                    }
-                ]}>
-                    {this.props.title}
-                </Text>
-            </View>
-        </View>
-        <View style={graphContainerStyle}>
-            <View style={
-                [graphAreaStyle,
+                {this.props.unit}
+            </Text>
+           </View>
+          <View style={titleContainerStyle}>
+            <Dot
+                size= {size}
+                color= {this.state.color}
+                animate= {(this.state.color===graphGreyColor) ? false : true}
+            />
+            <Text style={[
+                titleTextStyle,
                 {
-                  height: height/2,
-                  width: width-30
+                    color: this.state.color
                 }
             ]}>
+              {this.props.title}
+            </Text>
+          </View>
+        </View>
+        <View style={graphContainerStyle}>
+          <View style={
+              [graphAreaStyle,
+              {
+                height: height/2,
+                width: width-30
+              }
+          ]}>
+            <View
+              width ={(width || 100) -30}
+              height ={(height || 100)/2}
+            >
               <View
+                style={{
+                  backgroundColor: primaryGreyColor,
+                  opacity: 0.3,
+                  position: "absolute",
+                  bottom: ((height || 100)/2)/3
+                }}
                 width ={(width || 100) -30}
-                height ={(height || 100)/2}
+                height ={((height || 100)/2)/3}                 
+              />
+              <LineChart
+                  style = {{
+                    height: height/2,
+                    width: width -30
+                  }} 
+                  x={0}
+                  y={0}          
+                  data={ dataArray.reverse() }
+                  animate= {true}
+                  animationDuration = {1000}
+                  showGrid= {false}
+                  contentInset={ { top: 25, bottom: 25 } }
+                  curve= {shape.curveNatural}
+                  svg={{
+                    strokeWidth: 2,
+                    stroke: graphGreyColor,
+                }}
               >
-                <View
-                  style={{
-                    backgroundColor: primaryGreyColor,
-                    opacity: 0.3,
-                    position: "absolute",
-                    bottom: ((height || 100)/2)/3
-                  }}
-                  width ={(width || 100) -30}
-                  height ={((height || 100)/2)/3}                 
-                />
-                <LineChart
-                    style = {{
-                      height: height/2,
-                      width: width -30
-                    }} 
-                    x={0}
-                    y={0}          
-                    data={ dataArray.reverse() }
-                    animate= {true}
-                    animationDuration = {1000}
-                    showGrid= {false}
-                    contentInset={ { top: 25, bottom: 25 } }
-                    curve= {shape.curveNatural}
-                    svg={{
-                        strokeWidth: 2,
-                        stroke: graphGreyColor,
-                    }}
-                  >
-                  </LineChart> 
-              </View>
+              </LineChart> 
+            </View>
           </View>    
         </View> 
         <View style={{
@@ -225,23 +290,53 @@ class GraphCard extends Component {
           right: scale(3),
           left: scale(3)
         }}>
-          <Text style={{
-            fontSize: 10,
-            fontWeight: "400",
-            fontFamily: Fonts.regular,
-            color: graphGreyColor
-          }}>
-            {(this.state.source === "" || this.state.source === undefined) ? "" : capitalLetter(this.state.source)}
-          </Text>
-          <Text style={{
-            fontSize: 10,
-            fontWeight: "400",
-            fontFamily: Fonts.regular,
-            color: graphGreyColor
-          }}>
-              {this.state.timestamp}
-          </Text>
-        </View>     
+        <Text style={{
+          fontSize: 10,
+          fontWeight: "400",
+          fontFamily: Fonts.regular,
+          color: graphGreyColor
+        }}>
+          {(this.state.source === "" || this.state.source === undefined) ? "" : capitalLetter(this.state.source)}
+        </Text>
+        <Text style={{
+          fontSize: 10,
+          fontWeight: "400",
+          fontFamily: Fonts.regular,
+          color: graphGreyColor
+        }}>
+          {this.state.timestamp}
+        </Text>
+      </View>     
+    </View>
+    );
+  }
+
+  renderView() {
+    const {
+      data
+    } = this.props;
+
+//    return (data.length <= 0) ? this.renderPlaceHolder() : this.renderGraph();
+      return this.renderGraph()
+  }
+
+  render() {
+    const {
+        cardStyle,
+    } = styles;
+
+    const {
+      width,
+      height,
+      loading
+    } = this.props;
+
+    return (
+    <View style={[cardStyle, {
+        width: width,
+        height: height
+    }]}>
+        {(loading) ? this.renderLoading() : this.renderView()}
     </View>
     );
   }

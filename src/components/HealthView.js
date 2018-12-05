@@ -16,6 +16,7 @@ import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import HGraph from 'react-native-hgraph';
+import Spinner from "react-native-spinkit";
 import {
     Feed,
     Avatar, 
@@ -67,19 +68,15 @@ import {
 } from '../business/Helpers';
 import ActionButton from 'react-native-action-button';
 import {
-  isTwentyFourHours,
-  getHealthScore
-} from '../business/sources/CalculateHealthScore';
-import healthScores from '../configuration/healthscore.json';
-import {
   getActivityMedits,
   getSleepMedits,
   getStepMedits
-} from '../business/sources/GenerateMedits';
+} from '../business/medit/mint/GenerateMedits';
 import {
-  processDailyMedit,
+  healthScores,
+  getHealthScore,
   processDailyHealthScore
-} from '../business/sources';
+} from '../business/healthscore';
 import {
   primaryGreyColor,
   primaryBlueColor
@@ -118,6 +115,12 @@ class HealthView extends Component {
         textModal: "",
         textDismissModal: "",
         healthScore: "",
+        healthscoreLoading: false,
+        scoreLoading: false,
+        stepsLoading: false,
+        activityLoading: false,
+        sleepLoading: false,
+        heartrateLoading: false,
         healthData: {
           healthData: [],
           healthScore: 0
@@ -209,7 +212,6 @@ class HealthView extends Component {
       const activityTimestampValue = (children.timestamps && children.timestamps.activity_value) ? children.timestamps.activity_value : 0;
       const sleepTimestampValue = (children.timestamps && children.timestamps.sleep_value) ? children.timestamps.sleep_value : 0;
       const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
-      const total = (children.health && children.health.score && children.health.score.total) ? children.health.score.total : 0;
       const scores = (children.health && children.health.score) ? children.health.score : [];
       const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : '';
 
@@ -226,7 +228,16 @@ class HealthView extends Component {
 
         if (isNativeTracker === undefined) {
           this.setState({visibleModal: true, textModal: modalMessages.applehealth});
-          } else {
+        } else {
+          this.setState({
+            healthscoreLoading: true,
+            scoreLoading: true,
+            stepsLoading: true,
+            activityLoading: true,
+            sleepLoading: true,
+            heartrateLoading: true
+          });
+
           let datasource = createMedifluxSource((isNativeTracker) ? nativeTracker : 'humanapi', {accessToken: access_token});
           let mediflux = new Mediflux(datasource);
           mediflux.getAllTimeSeries()
@@ -236,152 +247,49 @@ class HealthView extends Component {
             this.props.timeseriesActivityFetch(data[1]);
             this.props.timeseriesSleepFetch(data[2]);
             this.props.timeseriesHeartrateFetch(data[3]);
-            console.log('Process Timeseries')
+            console.log('Process Timeseries');
+            return data;
           })
-          .then( () => {
+          .then( (data) => {
+            this.setState({
+              scoreLoading: false,
+              stepsLoading: false,
+              activityLoading: false,
+              sleepLoading: false,
+              heartrateLoading: false
+            });
             // HealthScore
             console.log('Process Health Score');
-            //****************************
-                  // let totalMedits = 0;
-            // if (!areMeasurementArraysEquals(steps, this.props.steps)) {
-            //   // The steps timeseries data has been pulled.
-            //   let metricsNumber = this.state.metricsPulled + 1;
-            //   console.log(metricsNumber);
-            //   this.setState({metricsPulled: metricsNumber}); 
-            //   console.log(this.state.metricsPulled);
-
-            //   if (stepsTimestamp) {
-            //     let stepMedits = getStepMedits(steps, stepsTimestamp, stepsTimestampValue)
-            //     // Generate Medits
-            //     totalMedits += parseInt(stepMedits.medits);
-            //     if (parseInt(stepMedits.medits) > 0) {
-            //       this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
-            //       // Add medit to feed
-            //       const story = {
-            //         title: "Your steps earned you",
-            //         preposition: "",
-            //         value: `${stepMedits.medits} Medits`,
-            //         time: Math.round((new Date()).getTime() / 1000),
-            //         type: "stepsmedits"
-            //       }
-            //       this.props.addFeedStory(story);
-            //     }
-            //     this.props.dataSave({type: "timestamps", data: {
-            //       steps: stepMedits.timestamp,
-            //       steps_value: stepMedits.value
-            //     }});
-            //   } else {
-            //     this.setTimestamp('steps', steps);
-            //   }
-            // }
-
-            // if ( !areMeasurementArraysEquals(sleep, this.props.sleep)) {
-            //   // The steps timeseries data has been pulled.
-            //   let metricsNumber = this.state.metricsPulled + 1;
-            //   console.log(metricsNumber);
-            //   this.setState({metricsPulled: metricsNumber}); 
-            //   console.log(this.state.metricsPulled);
-
-            //   if (sleepTimestamp) {
-            //     let sleepMedits = getSleepMedits(sleep, sleepTimestamp, sleepTimestampValue)
-            //     // Generate Medits
-            //     totalMedits += parseInt(sleepMedits.medits);
-            //     if (parseInt(sleepMedits.medits) > 0) {
-            //       this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
-            //       // Add medit to feed
-            //       const story = {
-            //         title: "Your sleep earned you",
-            //         preposition: "",
-            //         value: `${sleepMedits.medits} Medits`,
-            //         time: Math.round((new Date()).getTime() / 1000),
-            //         type: "sleepmedits"
-            //       }
-            //       this.props.addFeedStory(story);
-            //     }
-            //     this.props.dataSave({type: "timestamps", data: {
-            //       sleep: sleepMedits.timestamp,
-            //       sleep_value: sleepMedits.value
-            //     }});
-            //   } else {
-            //     this.setTimestamp('sleep', sleep);
-            //   }
-            // }
-
-            // if ( !areMeasurementArraysEquals(activity, this.props.activity)) {
-            //   // The steps timeseries data has been pulled.
-            //   let metricsNumber = this.state.metricsPulled + 1;
-            //   console.log(metricsNumber);
-            //   this.setState({metricsPulled: metricsNumber}); 
-            //   console.log(this.state.metricsPulled);
-
-            //   // Log the activity array
-            //   Sentry.captureMessage(`Activity Array: ${JSON.stringify(activity)}`, {
-            //     level: SentrySeverity.Info
-            //   });
-
-            //   if (activityTimestamp) {
-            //     let activityMedits = getActivityMedits(activity, activityTimestamp, activityTimestampValue)
-            //     // Generate Medits
-            //     totalMedits += parseInt(activityMedits.medits);
-            //     if (parseInt(activityMedits.medits) > 0) {
-            //       this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
-            //       // Add medit to feed
-            //       const story = {
-            //         title: "Your activity earned you",
-            //         preposition: "",
-            //         value: `${activityMedits.medits} Medits`,
-            //         time: Math.round((new Date()).getTime() / 1000),
-            //         type: "activitymedits"
-            //       }
-            //       this.props.addFeedStory(story);
-            //     }
-            //     this.props.dataSave({type: "timestamps", data: {
-            //       activity: activityMedits.timestamp,
-            //       activity_value: activityMedits.value
-            //     }});     
-            //   } else {
-            //     this.setTimestamp('activity', activity);
-            //   }
-            // }
-
-            // if ( !areMeasurementArraysEquals(heartrate, this.props.heartrate)) {
-            //   // The steps timeseries data has been pulled.
-            //   let metricsNumber = this.state.metricsPulled + 1;
-            //   console.log(metricsNumber);
-            //   this.setState({metricsPulled: metricsNumber}); 
-            //   console.log(this.state.metricsPulled);
-            // }
-            //***************************
-            // When all timeseries data have been pulled then we can start calculating the daily Medit count earned
-            // After all physical metrics are pulled, we calculate the daily Medit earned ...
-            // let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, steps, activity, sleep);
-            // this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
+            let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, data[0], data[1], data[2]);
   
-            // this.props.dataSave({type: "timestamps", data: {
-            //   medit: dailyMedit.meditTimeStamp,
-            //   medit_value: dailyMedit.meditTimeStampValue
-            // }}); 
+            this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
+            this.props.dataSave({type: "timestamps", data: {
+              score: dailyHealthScore.scoreTimeStamp,
+            }}); 
+            this.props.healthScoreSave({
+              healthscore: dailyHealthScore.healthscore
+            }); 
+            this.setState({
+              healthData: getHealthScore(data[0], data[1], data[2])
+            });
+            return data;
           })
-          .then( () => {
-            // HealthScore
+          .then( (data) => {
+            this.setState({
+              healthscoreLoading: false,
+            })
+            // Medit 
             console.log('Process Medit');
-                      // ... then we calculate the daily health scores and total health score
-          
-            // let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, total, steps, activity, sleep);
-            // this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
-            // this.props.dataSave({type: "timestamps", data: {
-            //   score: dailyHealthScore.scoreTimeStamp,
-            // }}); 
-            // this.props.healthScoreSave({
-            //   healthscore: dailyHealthScore.healthscore,
-            //   total: dailyHealthScore.total
-            // }); 
-
-            // this.setState({
-            //   healthData: getHealthScore(activity, sleep, steps, heartrate)
-            // });
           })
           .catch( error => {
+            this.setState({
+              healthscoreLoading: true,
+              scoreLoading: false,
+              stepsLoading: false,
+              activityLoading: false,
+              sleepLoading: false,
+              heartrateLoading: false
+            });
             Sentry.captureMessage(`Time series fetch error: ${error}`, {
               level: SentrySeverity.Info
             });
@@ -536,6 +444,14 @@ class HealthView extends Component {
 
     renderGraphTiles() {
         const {
+          scoreLoading,
+          stepsLoading,
+          activityLoading,
+          sleepLoading,
+          heartrateLoading,
+        } = this.state;
+
+        const {
           children, 
           activity,
           steps,
@@ -615,6 +531,7 @@ class HealthView extends Component {
                             rules= {healthScores.healthscore}
                             width= {graphScoreCardWidth}
                             height= {graphCardWidth}
+                            loading= {scoreLoading}
                         />
                     </View>
                       <View style={cardsStyle}>
@@ -625,6 +542,7 @@ class HealthView extends Component {
                             rules= {healthScores.steps}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
+                            loading= {stepsLoading}
                         />
                         <GraphCard
                             title= "Activity"
@@ -633,6 +551,7 @@ class HealthView extends Component {
                             rules= {healthScores.activity}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
+                            loading= {activityLoading}
                         />
                     </View>
                     <View style={cardsStyle}>
@@ -643,6 +562,7 @@ class HealthView extends Component {
                             rules= {healthScores.sleep}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
+                            loading= {sleepLoading}
                         />
                         <GraphCard
                             title= "Heart Rate"
@@ -651,6 +571,7 @@ class HealthView extends Component {
                             rules= {healthScores.heartrate}
                             width= {graphCardWidth}
                             height= {graphCardWidth}
+                            loading= {heartrateLoading}
                         />
                     </View>
                     <View style={cardsStyle}>
@@ -737,6 +658,7 @@ class HealthView extends Component {
     }
 
   renderActivity() {
+    const {healthscoreLoading} = this.state;
     const {cardsStyle} = styles;
     const {
       activity,
@@ -763,7 +685,7 @@ class HealthView extends Component {
     const hgraphWidth = screenWidth - 120;
     const applehealth = (children.profile) ? children.profile.apple_health : false;
     const scoress = convertMeditFromObjectToArray(score);
-    const latestHealthScore = (scoress) ? (scoress.length > 0 ? Math.round(scoress[0].value) : 0) : "Add your first data source";
+    const latestHealthScore = (scoress) ? (scoress.length > 0 ? Math.round(scoress[0].value) : '') : "Add your first data source";
 
     return (
         <View style={{flex: 1, marginTop: 5}}>
@@ -801,7 +723,7 @@ class HealthView extends Component {
                 onPressFooter= {this.refreshDataSources}
                 footerDisabled= {(children.humanapi && children.humanapi.access_token) ? false : true}
             >
-                <HGraph
+                {(!healthscoreLoading) ? <HGraph
                     scoreFontColor= {(applehealth) ? "#3ED295" : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? "#b7daff" : '#3ED295'}
                     scoreFontSize={(applehealth) ? 50 : (((children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : null) === null) ? 16 : 50}
                     width= {hgraphWidth}
@@ -823,7 +745,23 @@ class HealthView extends Component {
                     donutHoleFactor = {.50}
                     pointLabelOffset = {4}
                     data= {this.state.healthData.healthData}
-                />
+                /> : <View style={{
+                      justifyContent: "center",
+                      alignItems: 'center',
+                      backgroundColor: primaryBackgroungColor,
+                      flexDirection: "column",
+                      flex: 1,
+                      width: hgraphWidth + 100,
+                      height: hgraphWidth + 100
+                    }}>
+                      <Spinner 
+                        isVisible={true}
+                        size={hgraphWidth/4}
+                        type='ThreeBounce' 
+                        color={primaryBlueColor}
+                      />
+                    </View>
+                }
             </ScoreCard>
           </View>
     );

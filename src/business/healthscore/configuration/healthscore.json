@@ -17,7 +17,7 @@
     "unit": "minutes",
     "absoluteMin": 0,
     "absoluteMax": 1400,
-    "healthyMin": 45,
+    "healthyMin": 30,
     "healthyMax": 1400
   },
   "sleep": {
@@ -25,7 +25,7 @@
     "absoluteMin": 0,
     "absoluteMax": 24,
     "healthyMin": 7,
-    "healthyMax": 12
+    "healthyMax": 9
   },
   "heartrate": {
     "unit": "bpm",

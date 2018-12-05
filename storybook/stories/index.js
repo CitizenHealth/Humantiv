@@ -120,22 +120,24 @@ storiesOf('Button', module)
       title= "Glucose"
       unit= "mg/dl"
       data= {[
-          {time: 1, value: 112},
-          {time: 2, value: 97}, 
-          {time: 3, value: 96},  
-          {time: 4, value: 95}, 
-          {time: 5, value: 95},
-          {time: 6, value: 97},
-          {time: 7, value: 102}, 
-          {time: 8, value: 94},  
-          {time: 9, value: 98}, 
-          {time: 10, value: 97}
+          {time: 1, value: 98, timestamp: 10000000, source: 'misfit'},
+          {time: 2, value: 97, timestamp: 10000000, source: 'misfit'}, 
+          {time: 3, value: 96, timestamp: 10000000, source: 'misfit'},  
+          {time: 4, value: 95, timestamp: 10000000, source: 'misfit'}, 
+          {time: 5, value: 95, timestamp: 10000000, source: 'misfit'},
+          {time: 6, value: 97, timestamp: 10000000, source: 'misfit'},
+          {time: 7, value: 102, timestamp: 10000000, source: 'misfit'}, 
+          {time: 8, value: 94, timestamp: 10000000, source: 'misfit'},  
+          {time: 9, value: 98, timestamp: 10000000, source: 'misfit'}, 
+          {time: 10, value: 112, timestamp: 10000000, source: 'misfit'}
         ]}
       rules= {{ 
           min: 0,
           max: 160,
           healthyMin: 61,
-          healthyMax: 100
+          healthyMax: 100,
+          absoluteMin: 20,
+          absoluteMax: 180
       }}
       width= {graphCardWidth}
       height= {graphCardWidth}
@@ -146,20 +148,64 @@ storiesOf('Button', module)
       title= "Weight"
       unit= "lbs"
       data= {[
-          {time: 1, value: 367},
-          {time: 2, value: 350}, 
-          {time: 3, value: 257},  
-          {time: 4, value: 220}, 
-          {time: 5, value: 199}
+          {time: 1, value: 367, timestamp: 10000000, source: 'misfit'},
+          {time: 2, value: 350, timestamp: 10000000, source: 'misfit'}, 
+          {time: 3, value: 257, timestamp: 10000000, source: 'misfit'},  
+          {time: 4, value: 220, timestamp: 10000000, source: 'misfit'}, 
+          {time: 5, value: 199, timestamp: 10000000, source: 'misfit'}
       ]}
       rules= {{ 
           min: 120,
           max: 1000,
           healthyMin: 120,
-          healthyMax: 190
+          healthyMax: 190,
+          absoluteMin: 20,
+          absoluteMax: 800
+        }}
+      width= {graphCardWidth}
+      height= {graphCardWidth}
+    />
+  ))
+  .add('PlaceHolder', () => (
+    <GraphCard
+      title= "Weight"
+      unit= "lbs"
+      data= {[]}
+      rules= {{ 
+          min: 120,
+          max: 1000,
+          healthyMin: 120,
+          healthyMax: 190,
+          absoluteMin: 20,
+          absoluteMax: 800
       }}
       width= {graphCardWidth}
       height= {graphCardWidth}
+      loading= {false}
+    />
+  ))
+  .add('Loading', () => (
+    <GraphCard
+      title= "Weight"
+      unit= "lbs"
+      data= {[
+          {time: 1, value: 367, timestamp: 10000000, source: 'misfit'},
+          {time: 2, value: 350, timestamp: 10000000, source: 'misfit'}, 
+          {time: 3, value: 257, timestamp: 10000000, source: 'misfit'},  
+          {time: 4, value: 220, timestamp: 10000000, source: 'misfit'}, 
+          {time: 5, value: 199, timestamp: 10000000, source: 'misfit'}
+      ]}
+      rules= {{ 
+          min: 120,
+          max: 1000,
+          healthyMin: 120,
+          healthyMax: 190,
+          absoluteMin: 20,
+          absoluteMax: 800
+      }}
+      width= {graphCardWidth}
+      height= {graphCardWidth}
+      loading= {true}
     />
   ));
 

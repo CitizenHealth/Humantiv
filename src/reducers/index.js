@@ -5,6 +5,8 @@ import SessionReducer from "./SessionReducer";
 import ConfigReducer from "./ConfigReducer";
 import FeedReducer from "./FeedReducer";
 import TimeSeriesReducer from "./TimeSeriesReducer";
+import HealthReducer from "./HealthReducer";
+
 
 export default combineReducers({
   auth: AuthReducer,
@@ -12,5 +14,6 @@ export default combineReducers({
   session: SessionReducer,
   feed: FeedReducer,
   config: ConfigReducer,
-  timeseries: TimeSeriesReducer
+  timeseries: TimeSeriesReducer,
+  health: HealthReducer
 });
