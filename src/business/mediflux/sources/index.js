@@ -1,2 +1,2 @@
-export * from './AppleHealth';
-export * from './HumanAPI';
+export * from './applewatch';
+export * from './humanapi';

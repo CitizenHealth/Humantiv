@@ -7,7 +7,10 @@ import {
 import { 
     graphGreenColor,
     graphRedColor,
-    graphGreyColor
+    graphGreyColor,
+    primaryBlueColor,
+    primaryBackgroungColor,
+    primaryGreyColor
 } from '../themes';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../resources/fonts/Fonts'
@@ -22,11 +25,11 @@ import {
 } from 'react-native-svg'
 import { YAxis, XAxis, BarChart, Grid} from 'react-native-svg-charts'
 import * as shape from 'd3-shape';
-import {primaryGreyColor, primaryBlueColor, primaryWhiteColor} from '../themes/theme';
 import { scale } from "react-native-size-matters";
 import {convertUNIXTimeToSince, convertUnixTimeToDay} from "../../business/Helpers";
+import Spinner from "react-native-spinkit";
 
-const MAX_SERIES_NUMBER = 15;
+const MAX_SERIES_NUMBER = 14;
 
 class GraphBarCard extends Component {
   static propTypes = {
@@ -44,7 +47,8 @@ class GraphBarCard extends Component {
     }),
     width: PropTypes.number,
     height: PropTypes.number,
-    timestamp: PropTypes.number
+    timestamp: PropTypes.number,
+    loading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -54,7 +58,8 @@ class GraphBarCard extends Component {
     rules: {},
     width: 200,
     height: 200,
-    timestamp: null
+    timestamp: null,
+    loading: false
   }
 
   constructor(props) {
@@ -96,26 +101,50 @@ class GraphBarCard extends Component {
     }
   }
 
-  render() {
+  renderLoading() {
     const {
-        cardStyle,
-        headerContainerStyle,
-        valueContainerStyle,
-        valueTextStyle,
-        unitTextStyle,
-        titleContainerStyle,
-        titleTextStyle,
-        graphContainerStyle,
-        graphAreaStyle
+      width,
+    } = this.props;
+
+    return (
+      <View style={{
+        justifyContent: "center",
+        alignItems: 'center',
+        backgroundColor: primaryBackgroungColor,
+        flexDirection: "column",
+        flex: 1
+      }}>
+        <Spinner 
+          isVisible={true}
+          size={width/4}
+          type='ThreeBounce' 
+          color={primaryBlueColor}
+        />
+      </View>
+    );
+  }
+
+  renderView() {
+    const {
+      cardStyle,
+      headerContainerStyle,
+      valueContainerStyle,
+      valueTextStyle,
+      unitTextStyle,
+      titleContainerStyle,
+      titleTextStyle,
+      graphContainerStyle,
+      graphAreaStyle
     } = styles;
 
     const {
-        title,
-        unit,
-        data,
-        rules,
-        width,
-        height
+      title,
+      unit,
+      data,
+      rules,
+      width,
+      height,
+      loading
     } = this.props;
 
     // convert data to array
@@ -131,104 +160,122 @@ class GraphBarCard extends Component {
     const dataFinal = dataArray.reverse();
 
     return (
-    <View style={[cardStyle, {
-          width: width,
-          height: height
-      }]}>
-        <View style={headerContainerStyle}>
-            <View style={valueContainerStyle}>
-                <Text style={[valueTextStyle,
-                {
-                    color: this.state.color
-                }]}>
-                    {this.state.value}
-                </Text>
-                <Text style={[unitTextStyle,
-                    {
-                        color: this.state.color
-                    }]}>
-                    {this.props.unit}
-                </Text>
-            </View>
-            <View style={titleContainerStyle}>
-                <Dot
-                    size= {size}
-                    color= {this.state.color}
-                    animate= {(this.state.color===graphGreyColor) ? false : true}
-                />
-                <Text style={[
-                    titleTextStyle,
-                    {
-                        color: this.state.color
-                    }
-                ]}>
-                    {this.props.title}
-                </Text>
-            </View>
-        </View>
-        <View style={graphContainerStyle}>
-            <View style={
-                [graphAreaStyle,
-                {
-                  height: height/2,
-                  width: width-30
-                }
-            ]}>
-              <View
-                width ={(width || 100) -30}
-                height ={(height || 100)/2 -14}          
-              >
-                <BarChart
-                    style = {{
-                      height: height/2-20,
-                      width: width -30
-                    }} 
-                    x={0}
-                    y={0}          
-                    data={ (dataArray.length === 0) ? [1] : dataFinal }
-                    animate= {true}
-                    animationDuration = {1000}
-                    showGrid= {true}
-                    contentInset={ { top: 0, bottom: 0 } }
-                    numberOfTicks= {0}
-                    spacingInner= {scale(0.5)}
-                    spacingOuter= {scale(0.0)}
-                    svg={{
-                      fill: primaryBlueColor,
-                    }}
-                  >
-                  <Grid />
-                </BarChart>
-                <View
-                  style={{
-                    backgroundColor: primaryGreyColor,
-                    opacity: 0.3,
-                    marginTop: 2 
-                  }}
-                  width ={(width || 100) -30}
-                  height = {1}                
-                />
+        <View style={{flex:1}}>
+          <View style={headerContainerStyle}>
+              <View style={valueContainerStyle}>
+                  <Text style={[valueTextStyle,
+                  {
+                      color: this.state.color
+                  }]}>
+                      {this.state.value}
+                  </Text>
+                  <Text style={[unitTextStyle,
+                      {
+                          color: this.state.color
+                      }]}>
+                      {this.props.unit}
+                  </Text>
               </View>
-              <View style={{
-                flexDirection: "row",
-                justifyContent:"flex-end",
-                bottom: scale(3)
-              }}>
-                <Text style={{
-                  fontSize: 10,
-                  fontWeight: "400",
-                  fontFamily: Fonts.regular,
-                  color: graphGreyColor
+              <View style={titleContainerStyle}>
+                  <Dot
+                      size= {size}
+                      color= {this.state.color}
+                      animate= {(this.state.color===graphGreyColor) ? false : true}
+                  />
+                  <Text style={[
+                      titleTextStyle,
+                      {
+                          color: this.state.color
+                      }
+                  ]}>
+                      {this.props.title}
+                  </Text>
+              </View>
+          </View>
+          <View style={graphContainerStyle}>
+              <View style={
+                  [graphAreaStyle,
+                  {
+                    height: height/2,
+                    width: width-30
+                  }
+              ]}>
+                <View
+                  width ={(width || 100) -30}
+                  height ={(height || 100)/2 -14}          
+                >
+                  <BarChart
+                      style = {{
+                        height: height/2-20,
+                        width: width -30
+                      }} 
+                      x={0}
+                      y={0}          
+                      data={ (dataArray.length === 0) ? [1] : dataFinal }
+                      animate= {true}
+                      animationDuration = {1000}
+                      showGrid= {true}
+                      contentInset={ { top: 0, bottom: 0 } }
+                      numberOfTicks= {0}
+                      spacingInner= {scale(0.5)}
+                      spacingOuter= {scale(0.0)}
+                      svg={{
+                        fill: primaryBlueColor,
+                      }}
+                    >
+                    <Grid />
+                  </BarChart>
+                  <View
+                    style={{
+                      backgroundColor: primaryGreyColor,
+                      opacity: 0.3,
+                      marginTop: 2 
+                    }}
+                    width ={(width || 100) -30}
+                    height = {1}                
+                  />
+                </View>
+                <View style={{
+                  flexDirection: "row",
+                  justifyContent:"flex-end",
+                  bottom: scale(3)
                 }}>
-                    {(this.props.timestamp) ? convertUNIXTimeToSince(this.props.timestamp) : ""}
-                </Text>
-              </View>     
-          </View>    
-        </View> 
-    </View>
+                  <Text style={{
+                    fontSize: 10,
+                    fontWeight: "400",
+                    fontFamily: Fonts.regular,
+                    color: graphGreyColor
+                  }}>
+                      {(this.props.timestamp) ? convertUNIXTimeToSince(this.props.timestamp) : ""}
+                  </Text>
+                </View>     
+            </View>    
+          </View> 
+      </View>
     );
   }
-};
+
+  render() {
+    const {
+      cardStyle,
+    } = styles;
+
+    const {
+      width,
+      height,
+      loading
+    } = this.props;
+
+    return (
+      <View style={[cardStyle, {
+        width: width,
+        height: height
+      }]}>
+        {(loading) ? this.renderLoading() : this.renderView()}
+      </View>
+    )    
+  };
+}
 
 const styles = StyleSheet.create({
   cardStyle: {

@@ -66,17 +66,6 @@ import {
   convertTimeArrayToObject,
   convertMeditFromObjectToArray
 } from '../business/Helpers';
-import ActionButton from 'react-native-action-button';
-import {
-  getActivityMedits,
-  getSleepMedits,
-  getStepMedits
-} from '../business/medit/mint/GenerateMedits';
-import {
-  healthScores,
-  getHealthScore,
-  processDailyHealthScore
-} from '../business/healthscore';
 import {
   primaryGreyColor,
   primaryBlueColor
@@ -86,7 +75,6 @@ import {
   ModalDialog 
 } from './custom'; 
 import {modalMessages} from './themes';
-import AppleHealthKit from 'rn-apple-healthkit';
 import Intercom from 'react-native-intercom';
 import Images from "../resources/images";
 import {
@@ -94,7 +82,23 @@ import {
   SentrySeverity,
   SentryLog
 } from 'react-native-sentry';
-import {Mediflux, createMedifluxSource} from '../business/mediflux'
+import {
+  Mediflux, 
+  createMedifluxSource, 
+  MedifluxLink} from '../business/mediflux'
+import {
+  processDailyMedit,
+  getActivityMedits,
+  getSleepMedits,
+  getStepMedits
+} from '../business/medit'
+import {
+  healthScores,
+  getHealthScore,
+  processDailyHealthScore
+} from '../business/healthscore';
+import {MeditCoefficients} from '../business/medit/configuration/Coefficients';
+import AppleHealthKit from 'rn-apple-healthkit';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -111,10 +115,12 @@ class HealthView extends Component {
       this.state = {
         visibleModal: false,
         visibleDismissModal: false,
+        visibleMedifluxVisible: false,
         didUserChooseSource: false,
         textModal: "",
         textDismissModal: "",
         healthScore: "",
+        meditLoading: false,
         healthscoreLoading: false,
         scoreLoading: false,
         stepsLoading: false,
@@ -231,6 +237,7 @@ class HealthView extends Component {
         } else {
           this.setState({
             healthscoreLoading: true,
+            meditLoading: true,
             scoreLoading: true,
             stepsLoading: true,
             activityLoading: true,
@@ -252,6 +259,7 @@ class HealthView extends Component {
           })
           .then( (data) => {
             this.setState({
+              meditLoading: false,
               scoreLoading: false,
               stepsLoading: false,
               activityLoading: false,
@@ -279,11 +287,115 @@ class HealthView extends Component {
               healthscoreLoading: false,
             })
             // Medit 
-            console.log('Process Medit');
+            // After all physical metrics are pulled, we calculate the daily Medit history
+            let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, data[0], data[1], data[2]);
+            this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
+            this.props.dataSave({type: "timestamps", data: {
+              medit: dailyMedit.meditTimeStamp,
+              medit_value: dailyMedit.meditTimeStampValue
+            }}); 
+            this.setState({
+              meditLoading: false,
+            })
+
+            // Medit earned
+            let totalMedits = 0;
+
+            // Medit from steps
+            if (stepsTimestamp) {
+              let stepMedits = getStepMedits(data[0], stepsTimestamp, stepsTimestampValue)
+              // Generate Medits
+              let stepMeditCount = parseInt(stepMedits.medits);
+              if (Number.isInteger(stepMeditCount)) {
+                totalMedits += stepMeditCount;
+                if (stepMeditCount > 0) {
+                  // Add medit to feed
+                  const story = {
+                    title: "Your steps earned you",
+                    preposition: "",
+                    value: `${stepMedits.medits} Medits`,
+                    time: Math.round((new Date()).getTime() / 1000),
+                    type: "stepsmedits"
+                  }
+                  this.props.addFeedStory(story);
+                }
+                this.props.dataSave({type: "timestamps", data: {
+                  steps: stepMedits.timestamp,
+                  steps_value: stepMedits.value
+                }});
+              } else {
+                Sentry.captureMessage(`Step Medit is not an Int: ${stepMeditCount}`, {
+                  level: SentrySeverity.Info
+                });        
+              }
+            }
+
+            if (sleepTimestamp) {
+              let sleepMedits = getSleepMedits(data[1], sleepTimestamp, sleepTimestampValue)
+              // Generate Medits
+              let sleepMeditCount = parseInt(sleepMedits.medits);
+              if (Number.isInteger(sleepMeditCount)) {
+                totalMedits += sleepMeditCount;
+                if (sleepMeditCount > 0) {
+                  // Add medit to feed
+                  const story = {
+                    title: "Your sleep earned you",
+                    preposition: "",
+                    value: `${sleepMedits.medits} Medits`,
+                    time: Math.round((new Date()).getTime() / 1000),
+                    type: "sleepmedits"
+                  }
+                  this.props.addFeedStory(story);
+                }
+                this.props.dataSave({type: "timestamps", data: {
+                  sleep: sleepMedits.timestamp,
+                  sleep_value: sleepMedits.value
+                }});
+              } else {
+                Sentry.captureMessage(`Sleep Medit is not an Int: ${sleepMeditCount}`, {
+                  level: SentrySeverity.Info
+                });        
+              }
+            }
+
+            if (activityTimestamp) {
+              let activityMedits = getActivityMedits(data[2], activityTimestamp, activityTimestampValue)
+              // Generate Medits
+              let activityMeditCount = parseInt(activityMedits.medits);
+              if (Number.isInteger(activityMeditCount)) {
+                totalMedits += activityMeditCount;
+                if (activityMeditCount > 0) {
+                  // Add medit to feed
+                  const story = {
+                    title: "Your activity earned you",
+                    preposition: "",
+                    value: `${activityMedits.medits} Medits`,
+                    time: Math.round((new Date()).getTime() / 1000),
+                    type: "activitymedits"
+                  }
+                  this.props.addFeedStory(story);
+                }
+                this.props.dataSave({type: "timestamps", data: {
+                  activity: activityMedits.timestamp,
+                  activity_value: activityMedits.value
+                }});
+              } else {
+                Sentry.captureMessage(`Activity Medit is not an Int: ${activityMeditCount}`, {
+                  level: SentrySeverity.Info
+                });        
+              }
+            }
+
+            totalMedits = totalMedits * MeditCoefficients.master_coefficient;
+            
+            if (Number.isInteger(totalMedits)) {
+              this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
+            }
           })
           .catch( error => {
             this.setState({
-              healthscoreLoading: true,
+              healthscoreLoading: false,
+              meditLoading: false,
               scoreLoading: false,
               stepsLoading: false,
               activityLoading: false,
@@ -333,10 +445,54 @@ class HealthView extends Component {
         // data.session_token
     }
 
+    connectMediFlux = () => {
+      this.setState({visibleMedifluxVisible: true});
+    }
+
+    closeMedifluxLink = () => {
+      this.setState({visibleMedifluxVisible: false});
+    }
+
+    connectNativeSource = () => {
+       // If Apple Health is connected then use it
+       if (Platform.OS === 'ios') {
+        let options = {
+          permissions: {
+              read: ["Height", "Weight", "DateOfBirth", "StepCount", "HeartRate", "SleepAnalysis", "AppleExerciseTime", "BiologicalSex"]
+         }
+        };
+        
+        AppleHealthKit.initHealthKit(options: Object, (err: string, results: Object) => {
+          if (err) {
+              console.log("error initializing Healthkit: ", err);
+              this.props.dataSave({type: "profile", data: {apple_health: false}});
+              return;
+          }
+      
+          this.props.dataSave({type: "profile", data: {apple_health: true}});
+          // TODO: 
+          
+
+          // Height Example
+          AppleHealthKit.getDateOfBirth(null, (err: Object, results: Object) => {
+          if (err) {
+            console.log(`Date of Birth ERROR: ${err}`);
+            return;
+          }
+          console.log(`Date of Birth: ${results}`);
+          }); 
+        });
+      } else {
+
+      }
+    }
+
     connectHumanAPI = () => {
         const {children} = this.props;
         const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
         const clientUserId = this.props.user.uid;
+        
+        this.props.dataSave({type: "profile", data: {apple_health: false}});
 
         const humanAPI = new RNHumanAPI()
         const options = (public_token) ? {
@@ -444,6 +600,7 @@ class HealthView extends Component {
 
     renderGraphTiles() {
         const {
+          meditLoading,
           scoreLoading,
           stepsLoading,
           activityLoading,
@@ -583,6 +740,7 @@ class HealthView extends Component {
                             rules= {healthScores.healthscore}
                             width= {graphScoreCardWidth}
                             height= {graphCardWidth}
+                            loading= {meditLoading}
                         />
                     </View>
                 </View>
@@ -719,7 +877,7 @@ class HealthView extends Component {
                 footerTitle: "Sync with devices",
                 backgroundColor: "#fff",
                 }}
-                onPressHeader= {this.connectHumanAPI}
+                onPressHeader= {() => {this.setState({visibleMedifluxVisible: true})}}
                 onPressFooter= {this.refreshDataSources}
                 footerDisabled= {(children.humanapi && children.humanapi.access_token) ? false : true}
             >
@@ -824,6 +982,13 @@ class HealthView extends Component {
                   onAcceptPress={this.onDismiss.bind(this)}
                 >
                 </ModalDialog>
+                <MedifluxLink
+                  visible={this.state.visibleMedifluxVisible}
+                  onClose = {() => {this.closeMedifluxLink()}}
+                  onNativeSourceClick = {() => {this.connectNativeSource()}}
+                  onSourceClick = {() => {this.connectHumanAPI()}}
+                  onCantFindClick = {() => {console.log('onCantFindClick')}}
+                />
                 {/* <ActionButton 
                   size={44}
                   offsetX={20}

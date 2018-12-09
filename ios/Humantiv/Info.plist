@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.19</string>
+	<string>1.20</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -26,7 +26,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string/>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb1768168920145823</string>
@@ -36,7 +36,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLIconFile</key>
-			<string/>
+			<string></string>
 			<key>CFBundleURLName</key>
 			<string>com.googleusercontent.apps.847047929311-ibked2hj6k5263b55bcjfnpiemrbpans</string>
 			<key>CFBundleURLSchemes</key>
@@ -58,7 +58,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLIconFile</key>
-			<string/>
+			<string></string>
 			<key>CFBundleURLName</key>
 			<string>io.citizenhealth.humantiv.share</string>
 			<key>CFBundleURLSchemes</key>
@@ -68,7 +68,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
 	<key>CodePushDeploymentKey</key>
 	<string>dVEjQQpHmytIfCZ8C_XXaBXHJTBvSkJ6tnEwf</string>
 	<key>FacebookAppID</key>
@@ -102,7 +102,7 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Humantiv reads your health data to track your activity and sleep. You can also allow to read personal data for your profile.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Send photos to help resolve app issues</string>
 	<key>UIAppFonts</key>

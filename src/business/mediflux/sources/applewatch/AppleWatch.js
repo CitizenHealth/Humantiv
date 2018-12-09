@@ -1,11 +1,11 @@
 import moment from 'moment';
 import AppleHealthKit from 'rn-apple-healthkit';
-import DataSource from './DataSource';
+import DataSource from '../DataSource';
 import {
   convertMinutesToHours
-} from '../utilities';
+} from '../../utilities';
 
-class AppleHealth extends DataSource {
+class AppleWatch extends DataSource {
 
   constructor(options) {
     super(options);
@@ -145,4 +145,4 @@ class AppleHealth extends DataSource {
   }
 }
 
-export {AppleHealth};
+export {AppleWatch};

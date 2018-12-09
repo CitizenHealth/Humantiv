@@ -1,5 +1,5 @@
 import {
-  AppleHealth,
+  AppleWatch,
   HumanAPI
 } from "./sources";
 
@@ -38,7 +38,7 @@ class Mediflux {
 const createMedifluxSource = (source, options) => {
   switch (source) {
     case 'apple_health':
-      return new AppleHealth(options);
+      return new AppleWatch(options);
     case 'humanapi':
       return new HumanAPI(options);
     default:

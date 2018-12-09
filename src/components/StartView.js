@@ -8,6 +8,7 @@ import { HeaderImage } from "./common";
 import { dataExists, fetchUser, getConfiguration, dataSave } from "../actions";
 import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
+import {MeditCoefficients} from '../business/medit/configuration';
 import Spinner from "react-native-spinkit";
 import {
   Sentry,
@@ -83,7 +84,17 @@ class StartView extends Component {
         share_message: configData.share_message,
         tutorial_title: configData.tutorial_title,
         tutorial_text: configData.tutorial_text,
-        tutorial_background_color: configData.tutorial_background_color
+        tutorial_background_color: configData.tutorial_background_color,
+        master_coefficient: MeditCoefficients.master_coefficient, 
+        steps_factor: MeditCoefficients.steps_factor,
+        steps_corrector: MeditCoefficients.steps_corrector,
+        steps_minimum: MeditCoefficients.steps_minimum,
+        sleep_factor: MeditCoefficients.sleep_factor,
+        sleep_minimum: MeditCoefficients.sleep_minimum,
+        sleep_corrector: MeditCoefficients.sleep_corrector,
+        activity_factor: MeditCoefficients.activity_factor,
+        activity_minimum: MeditCoefficients.activity_minimum,
+        activity_corrector: MeditCoefficients.activity_corrector
       });
 
       // Fetch remote configuration parameters
@@ -92,6 +103,16 @@ class StartView extends Component {
       this.props.getConfiguration('tutorial_title');
       this.props.getConfiguration('tutorial_text');
       this.props.getConfiguration('tutorial_background_color');
+      this.props.getConfiguration('master_coefficient');
+      this.props.getConfiguration('steps_factor');
+      this.props.getConfiguration('steps_corrector');
+      this.props.getConfiguration('steps_minimum');
+      this.props.getConfiguration('sleep_factor');
+      this.props.getConfiguration('sleep_minimum');
+      this.props.getConfiguration('sleep_corrector');
+      this.props.getConfiguration('activity_factor');
+      this.props.getConfiguration('activity_minimum');
+      this.props.getConfiguration('activity_corrector');
 
       // Take care of Authentication
       firebase.app().auth().onAuthStateChanged((user) => {
@@ -286,8 +307,25 @@ class StartView extends Component {
 const mapStateToProps = state => {
   const { user, loggedin } = state.auth;
   const { children, registered } = state.data;
-  const { share_title, share_message, tutorial_title, tutorial_text} = state.config.configuration;
-  return { user, loggedin, children, registered, share_title, share_message, tutorial_title, tutorial_text};
+  const { 
+          share_title, 
+          share_message, 
+          tutorial_title, 
+          tutorial_text, 
+          master_coefficient, 
+          steps_factor, 
+          steps_corrector, 
+          steps_minimum, 
+          sleep_factor, 
+          sleep_minimum, 
+          sleep_corrector, 
+          activity_factor, 
+          activity_minimum, 
+          activity_corrector 
+        } = state.config.configuration;
+  return { user, loggedin, children, registered, share_title, share_message, tutorial_title, tutorial_text,
+            master_coefficient, steps_factor, steps_corrector, steps_minimum, sleep_factor, sleep_minimum, 
+            sleep_corrector, activity_factor, activity_minimum, activity_corrector };
 };
 
 export default connect(mapStateToProps, { 

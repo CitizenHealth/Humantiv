@@ -1,8 +1,6 @@
 
-const STEPS_FACTOR = 10;
-const SLEEP_FACTOR = 20;
-const SLEEP_MINIMUM = 360 // minutes
-const ACTIVITY_FACTOR = 0.5;
+import {MeditCoefficients} from './configuration';
+
 const MINUTES_IN_HOUR = 60;
 
 export const processDailyMedit = (meditTimestamp, meditTimestampValue, steps, activity, sleep) => {
@@ -10,6 +8,7 @@ export const processDailyMedit = (meditTimestamp, meditTimestampValue, steps, ac
   // i.e. steps = {
   //  12904673: 2789
   //  12904829: 3012
+  //  ...
   // }
   
   let dailyMedits = [];
@@ -24,8 +23,6 @@ export const processDailyMedit = (meditTimestamp, meditTimestampValue, steps, ac
   let stepsIndex = 0;
   let activityIndex = 0;
   let sleepIndex = 0; 
-  
-  let seriesNumber = 0;
 
   while (localSteps.length > stepsIndex || 
          localSleep.length > sleepIndex || 
@@ -40,20 +37,20 @@ export const processDailyMedit = (meditTimestamp, meditTimestampValue, steps, ac
     let medit = 0;
 
     if (stepsTime === oldestDay) {
-      medit += Math.round(localSteps[stepsIndex].value/STEPS_FACTOR);
+      medit += Math.round(localSteps[stepsIndex].value/MeditCoefficients.steps_factor);
       stepsIndex++;
     }
 
     if (sleepTime === oldestDay) {
       let sleepMinutes = localSleep[sleepIndex].value*MINUTES_IN_HOUR;
-      if (sleepMinutes >= SLEEP_MINIMUM) {
-        medit += Math.round(sleepMinutes/SLEEP_FACTOR);
+      if (sleepMinutes >= MeditCoefficients.sleep_minimum) {
+        medit += Math.round(sleepMinutes/MeditCoefficients.sleep_factor);
       }
       sleepIndex++;
     }
 
     if (activityTime === oldestDay) {
-      medit += Math.round(localActivity[activityIndex].value/ACTIVITY_FACTOR);
+      medit += Math.round(localActivity[activityIndex].value/MeditCoefficients.activity_factor);
       activityIndex++;
     }
 
@@ -63,10 +60,10 @@ export const processDailyMedit = (meditTimestamp, meditTimestampValue, steps, ac
     }
 
     if (meditTimestamp && 
-      oldestDay === meditTimestamp &&
-      localSteps.length > stepsIndex && 
-      localSleep.length > sleepIndex && 
-      localActivity.length > activityIndex) {
+        oldestDay === meditTimestamp &&
+        localSteps.length > stepsIndex && 
+        localSleep.length > sleepIndex && 
+        localActivity.length > activityIndex) {
       medit = medit - meditTimestampValue;
     }
 

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import moment from 'moment';
-import DataSource from './DataSource';
+import DataSource from '../DataSource';
 import {
   convertMinutesToHours,
   convertSecondsToMinutes
-} from '../utilities';
+} from '../../utilities';
 
 class HumanAPI extends DataSource {
 
