@@ -61,7 +61,17 @@ export default class DataSource {
   getHeartrateTimeSeries() {
   }
 
+  // Promise returning the source name, the device name, and the last synced time within the data source system
+  // {
+  //   source: "fitbit", "misfit", "movable",
+  //   device: "Fitbit Flex 2",
+  //   synctime: "YYYY-MM-DDThh:mm:ss.SSS"
+  // }
+  getSources() {
+  }
+
   getAllTimeSeries() {
+    console.log(`  PROMISE - getAllTimeSeries`)
     return Promise.all([this.getStepsTimeSeries(), this.getActivityTimeSeries(), this.getSleepTimeSeries(), this.getHeartrateTimeSeries()])
   }
 }

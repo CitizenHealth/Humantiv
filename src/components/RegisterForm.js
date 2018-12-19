@@ -20,11 +20,7 @@ import { scale } from "react-native-size-matters";
 import Hyperlink from 'react-native-hyperlink';
 import Spinner from "react-native-spinkit";
 import { 
-  Card, 
-  CardSection, 
-  RoundButton, 
-  HeaderImage, 
-  IconButton  
+  HeaderImage
 } from "./common";
 import { 
   SignInButton,

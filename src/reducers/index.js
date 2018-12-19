@@ -6,6 +6,7 @@ import ConfigReducer from "./ConfigReducer";
 import FeedReducer from "./FeedReducer";
 import TimeSeriesReducer from "./TimeSeriesReducer";
 import HealthReducer from "./HealthReducer";
+import DeviceReducer from "./DeviceReducer";
 
 
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
   feed: FeedReducer,
   config: ConfigReducer,
   timeseries: TimeSeriesReducer,
-  health: HealthReducer
+  health: HealthReducer,
+  device: DeviceReducer
 });

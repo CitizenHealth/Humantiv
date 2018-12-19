@@ -185,10 +185,10 @@ export const humanAPIFetch = (publicToken) => {
       );
       // ... and delete the entry in the temp /humanapi database
       dispatch(
-        firebase.database().ref(`/humanapi/${publicToken}`)
+        firebase.database().ref(`/humanapi/${publicToken}: ${error}`)
         .remove()
         .catch( error => {
-          Sentry.captureMessage(`humanAPIFetch - remove /humanapi/${publicToken} failed.`, {
+          Sentry.captureMessage(`humanAPIFetch - remove /humanapi/${publicToken} failed: ${error}.`, {
             level: SentrySeverity.Info
           });
         })

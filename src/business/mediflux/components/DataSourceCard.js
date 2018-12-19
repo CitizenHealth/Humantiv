@@ -29,13 +29,18 @@ class DataSourceCard extends Component {
   static defaultProps = {
     title: "Can't fint it?",
     image: Images.img_cantfindit,
-    width: 100,
-    height: 100,
+    width: scale(100),
+    height: scale(100),
     selected: false,
   }
 
   constructor(props) {
     super(props);
+
+
+    this.state = {
+      isSelected: props.selected
+    }
   }
 
   render() {
@@ -44,21 +49,27 @@ class DataSourceCard extends Component {
     } = styles;
 
     const {
+      isSelected
+    } = this.state;
+    
+    const {
       title,
       width,
       height,
       image,
-      selected,
       onSelect
     } = this.props;
 
     return (
     <View style={[cardStyle, {
         width: width,
-        height: height
+        height: height,
     }]}>
       <TouchableOpacity
-        onPress= {() => onSelect()}
+        onPress= {() => {
+          let selected = this.state.isSelected;
+          onSelect(selected);
+        }}
       >
         <View
           style = {{
@@ -68,12 +79,22 @@ class DataSourceCard extends Component {
         >
           <Image
             style={{ 
-              width: width, 
-              height: height,
+              width: width-5, 
+              height: height-5,
             }} 
             source={image} 
           /> 
         </View>
+        <View
+          style= {{
+            position: 'absolute',
+            width: width,
+            height: height,
+            top: 0,
+            backgroundColor: medifluxMainColor,
+            opacity: (isSelected) ? 0.6 : 0
+          }}
+        />
       </TouchableOpacity>
     </View>
     );
@@ -83,7 +104,14 @@ class DataSourceCard extends Component {
 const styles = StyleSheet.create({
   cardStyle: {
     borderWidth: 1,
+    borderRadius: 3,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
     borderColor: "#ddd",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 1
   },    
 });
 

@@ -135,6 +135,42 @@ class HumanAPI extends DataSource {
       });
     })
   }
+
+  // Array of 
+  // {
+  //   source: "fitbit", "misfit", "movable",
+  //   device: "Fitbit Flex 2",
+  //   synctime: "YYYY-MM-DDThh:mm:ss.SSS"
+  // }
+  getSources() {
+    const url = `https://api.humanapi.co/v1/human/sources?access_token=${this.accessToken}`
+    const self = this;
+
+    return new Promise( (resolve, reject) => {
+      axios({
+        method:'get',
+        url:url,
+        responseType:'json'
+      })
+      .then(function(response) {
+        let val = [];
+        response.data.map( (item, index) => {
+          if (index< self.maxNumber) {
+            let wearable = {
+              source: item.source,
+              device: (item.devices && item.devices.length > 0) ? item.devices[0] : '',
+              synctime: moment(item.syncStatus.synchedAt, "YYYY-MM-DDThh:mm:ss.SSSZ").unix() 
+            }
+            val.push(wearable);
+          }
+        })
+        resolve(val);
+      })
+      .catch(error => {
+        reject(error)
+      });
+    })
+  }
 }
 
 export {HumanAPI};

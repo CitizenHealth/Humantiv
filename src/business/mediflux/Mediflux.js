@@ -25,6 +25,9 @@ class Mediflux {
     return this.datasource.getHeartrateTimeSeries();
   }
 
+  getSources() {
+    return this.datasource.getSources();
+  }
   // Get all timeseries from the wearable source
   //
   // Returns: N/A

@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from 'react-native';
 import {
   JourneyChoice,
@@ -59,45 +60,47 @@ class SettingsJourneyView extends Component {
     const profile_journey = (children.profile) ? children.profile.journey : "";
 
     return (
-      <ScrollView style={scrollViewStyle}>
-        <View style={headerContainerStyle}>
-        <View style={iconContainerStyle}>
-            <Icon 
-                name='hands_heart'
-                color= {primaryGreenColor}
-                size= {70}
-            />
-        </View>
-        <View style={textContainerStyle}>
-          <Text style={titleStyle}>
-          Health Journey
-          </Text>
-          <Text style={subTitleStyle}>
-          What health journey do you wish to go on?
-          </Text>
-        </View>
-        </View>
-        <JourneyChoice
-          data= {journeyData}
-          style={{
-            flex:1,
-            backgroundColor: primaryBackgroungColor
-          }}
-          setSelected={(key)=>{this.setSeletedJourney(key)}}
-          value={profile_journey}
-        />
-        <View style={buttonContainerStyle}>
-          <Button
-            onPress={() => {Actions.pop()}}
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+        <ScrollView style={scrollViewStyle}>
+          <View style={headerContainerStyle}>
+          <View style={iconContainerStyle}>
+              <Icon 
+                  name='hands_heart'
+                  color= {primaryGreenColor}
+                  size= {70}
+              />
+          </View>
+          <View style={textContainerStyle}>
+            <Text style={titleStyle}>
+            Health Journey
+            </Text>
+            <Text style={subTitleStyle}>
+            What health journey do you wish to go on?
+            </Text>
+          </View>
+          </View>
+          <JourneyChoice
+            data= {journeyData}
             style={{
-              marginLeft: scale(60),
-              marginRight: scale(60)
+              flex:1,
+              backgroundColor: primaryBackgroungColor
             }}
-          >
-            <Text style={theme.primaryWhiteTextStyle}> Accept </Text>
-          </Button>
-        </View>
-      </ScrollView>
+            setSelected={(key)=>{this.setSeletedJourney(key)}}
+            value={profile_journey}
+          />
+          <View style={buttonContainerStyle}>
+            <Button
+              onPress={() => {Actions.pop()}}
+              style={{
+                marginLeft: scale(60),
+                marginRight: scale(60)
+              }}
+            >
+              <Text style={theme.primaryWhiteTextStyle}> Accept </Text>
+            </Button>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 

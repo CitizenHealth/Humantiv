@@ -48,7 +48,7 @@ export const modalMessages = {
   },
   emailSent: {
     title: "",
-    message: "An email with password change instructions was sent! Please check your spam folder in needed.",
+    message: "An email with password change instructions was sent! Please check your spam folder if needed.",
     cancel: "OK",
     accept: ""
   },

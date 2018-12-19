@@ -218,7 +218,7 @@ const facebookLogin = (dispatch) => {
       if (user) {
 //        console.info(JSON.stringify(user.toJSON()));
         firebase.analytics().logEvent('user_login', {provider: 'Facebook'});
-        loginUserSuccess(dispatch, user);
+        loginUserSuccess(dispatch, user.user);
       }
     })
     .catch((error) => {

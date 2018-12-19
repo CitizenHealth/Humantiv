@@ -8,9 +8,7 @@ import {
     ScrollView,
     Dimensions,
     TouchableOpacity,
-    Linking ,
-    UIManager ,
-    LayoutAnimation,      
+    Linking   
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
@@ -49,7 +47,8 @@ import {
     timeseriesActivityFetch,
     timeseriesStepsFetch,
     timeseriesHeartrateFetch,
-    timeseriesSleepFetch
+    timeseriesSleepFetch,
+    deviceInfoFetch
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
@@ -116,7 +115,6 @@ class HealthView extends Component {
         visibleModal: false,
         visibleDismissModal: false,
         visibleMedifluxVisible: false,
-        didUserChooseSource: false,
         textModal: "",
         textDismissModal: "",
         healthScore: "",
@@ -208,205 +206,206 @@ class HealthView extends Component {
         children,
       } = nextProps;
 
-      const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
-      const activityTimestamp = (children.timestamps && children.timestamps.activity) ? children.timestamps.activity : null;
-      const sleepTimestamp = (children.timestamps && children.timestamps.sleep) ? children.timestamps.sleep : null;
-      const meditTimestamp = (children.timestamps && children.timestamps.medit) ? children.timestamps.medit : null;
-      const scoreTimestamp = (children.timestamps && children.timestamps.score) ? children.timestamps.score : null;
-      const healthscore = (children.health && children.health.score && children.health.score.healthscore) ? children.health.score.healthscore : 0;
-      const stepsTimestampValue = (children.timestamps && children.timestamps.steps_value) ? children.timestamps.steps_value : 0;
-      const activityTimestampValue = (children.timestamps && children.timestamps.activity_value) ? children.timestamps.activity_value : 0;
-      const sleepTimestampValue = (children.timestamps && children.timestamps.sleep_value) ? children.timestamps.sleep_value : 0;
-      const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
-      const scores = (children.health && children.health.score) ? children.health.score : [];
-      const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : '';
-
       const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
       const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
-
-      let timeStampsExist = stepsTimestamp || activityTimestamp || sleepTimestamp;
-      let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined) && this.props.children.profile && (this.props.children.profile[nativeTracker] !== undefined)) 
+      let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined) && this.props.children.profile) 
                             ? (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
 
-      if (children.profile && !this.state.didUserChooseSource) {
-        // Ask the user for Apple Health and Google Fit authorizations
-        this.setState({didUserChooseSource: true});
-
-        if (isNativeTracker === undefined) {
-          this.setState({visibleModal: true, textModal: modalMessages.applehealth});
-        } else {
-          this.setState({
-            healthscoreLoading: true,
-            meditLoading: true,
-            scoreLoading: true,
-            stepsLoading: true,
-            activityLoading: true,
-            sleepLoading: true,
-            heartrateLoading: true
-          });
-
-          let datasource = createMedifluxSource((isNativeTracker) ? nativeTracker : 'humanapi', {accessToken: access_token});
-          let mediflux = new Mediflux(datasource);
-          mediflux.getAllTimeSeries()
-          .then( data => {
-            // Order of data is steps, activity, sleep, heartrate
-            this.props.timeseriesStepsFetch(data[0]);
-            this.props.timeseriesActivityFetch(data[1]);
-            this.props.timeseriesSleepFetch(data[2]);
-            this.props.timeseriesHeartrateFetch(data[3]);
-            console.log('Process Timeseries');
-            return data;
-          })
-          .then( (data) => {
-            this.setState({
-              meditLoading: false,
-              scoreLoading: false,
-              stepsLoading: false,
-              activityLoading: false,
-              sleepLoading: false,
-              heartrateLoading: false
-            });
-            // HealthScore
-            console.log('Process Health Score');
-            let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, data[0], data[1], data[2]);
+      if (isNativeChanged) {
+        const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
+        const activityTimestamp = (children.timestamps && children.timestamps.activity) ? children.timestamps.activity : null;
+        const sleepTimestamp = (children.timestamps && children.timestamps.sleep) ? children.timestamps.sleep : null;
+        const meditTimestamp = (children.timestamps && children.timestamps.medit) ? children.timestamps.medit : null;
+        const scoreTimestamp = (children.timestamps && children.timestamps.score) ? children.timestamps.score : null;
+        const healthscore = (children.health && children.health.score && children.health.score.healthscore) ? children.health.score.healthscore : 0;
+        const stepsTimestampValue = (children.timestamps && children.timestamps.steps_value) ? children.timestamps.steps_value : 0;
+        const activityTimestampValue = (children.timestamps && children.timestamps.activity_value) ? children.timestamps.activity_value : 0;
+        const sleepTimestampValue = (children.timestamps && children.timestamps.sleep_value) ? children.timestamps.sleep_value : 0;
+        const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
+        const scores = (children.health && children.health.score) ? children.health.score : [];
+        const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : '';
   
-            this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
-            this.props.dataSave({type: "timestamps", data: {
-              score: dailyHealthScore.scoreTimeStamp,
-            }}); 
-            this.props.healthScoreSave({
-              healthscore: dailyHealthScore.healthscore
-            }); 
-            this.setState({
-              healthData: getHealthScore(data[0], data[1], data[2])
-            });
-            return data;
-          })
-          .then( (data) => {
-            this.setState({
-              healthscoreLoading: false,
-            })
-            // Medit 
-            // After all physical metrics are pulled, we calculate the daily Medit history
-            let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, data[0], data[1], data[2]);
-            this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
-            this.props.dataSave({type: "timestamps", data: {
-              medit: dailyMedit.meditTimeStamp,
-              medit_value: dailyMedit.meditTimeStampValue
-            }}); 
-            this.setState({
-              meditLoading: false,
-            })
+        // Maybe check if the device has changed.
+        this.setState({
+          healthscoreLoading: true,
+          meditLoading: true,
+          scoreLoading: true,
+          stepsLoading: true,
+          activityLoading: true,
+          sleepLoading: true,
+          heartrateLoading: true
+        });
 
-            // Medit earned
-            let totalMedits = 0;
-
-            // Medit from steps
-            if (stepsTimestamp) {
-              let stepMedits = getStepMedits(data[0], stepsTimestamp, stepsTimestampValue)
-              // Generate Medits
-              let stepMeditCount = parseInt(stepMedits.medits);
-              if (Number.isInteger(stepMeditCount)) {
-                totalMedits += stepMeditCount;
-                if (stepMeditCount > 0) {
-                  // Add medit to feed
-                  const story = {
-                    title: "Your steps earned you",
-                    preposition: "",
-                    value: `${stepMedits.medits} Medits`,
-                    time: Math.round((new Date()).getTime() / 1000),
-                    type: "stepsmedits"
-                  }
-                  this.props.addFeedStory(story);
-                }
-                this.props.dataSave({type: "timestamps", data: {
-                  steps: stepMedits.timestamp,
-                  steps_value: stepMedits.value
-                }});
-              } else {
-                Sentry.captureMessage(`Step Medit is not an Int: ${stepMeditCount}`, {
-                  level: SentrySeverity.Info
-                });        
-              }
-            }
-
-            if (sleepTimestamp) {
-              let sleepMedits = getSleepMedits(data[1], sleepTimestamp, sleepTimestampValue)
-              // Generate Medits
-              let sleepMeditCount = parseInt(sleepMedits.medits);
-              if (Number.isInteger(sleepMeditCount)) {
-                totalMedits += sleepMeditCount;
-                if (sleepMeditCount > 0) {
-                  // Add medit to feed
-                  const story = {
-                    title: "Your sleep earned you",
-                    preposition: "",
-                    value: `${sleepMedits.medits} Medits`,
-                    time: Math.round((new Date()).getTime() / 1000),
-                    type: "sleepmedits"
-                  }
-                  this.props.addFeedStory(story);
-                }
-                this.props.dataSave({type: "timestamps", data: {
-                  sleep: sleepMedits.timestamp,
-                  sleep_value: sleepMedits.value
-                }});
-              } else {
-                Sentry.captureMessage(`Sleep Medit is not an Int: ${sleepMeditCount}`, {
-                  level: SentrySeverity.Info
-                });        
-              }
-            }
-
-            if (activityTimestamp) {
-              let activityMedits = getActivityMedits(data[2], activityTimestamp, activityTimestampValue)
-              // Generate Medits
-              let activityMeditCount = parseInt(activityMedits.medits);
-              if (Number.isInteger(activityMeditCount)) {
-                totalMedits += activityMeditCount;
-                if (activityMeditCount > 0) {
-                  // Add medit to feed
-                  const story = {
-                    title: "Your activity earned you",
-                    preposition: "",
-                    value: `${activityMedits.medits} Medits`,
-                    time: Math.round((new Date()).getTime() / 1000),
-                    type: "activitymedits"
-                  }
-                  this.props.addFeedStory(story);
-                }
-                this.props.dataSave({type: "timestamps", data: {
-                  activity: activityMedits.timestamp,
-                  activity_value: activityMedits.value
-                }});
-              } else {
-                Sentry.captureMessage(`Activity Medit is not an Int: ${activityMeditCount}`, {
-                  level: SentrySeverity.Info
-                });        
-              }
-            }
-
-            totalMedits = totalMedits * MeditCoefficients.master_coefficient;
-            
-            if (Number.isInteger(totalMedits)) {
-              this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
-            }
-          })
-          .catch( error => {
-            this.setState({
-              healthscoreLoading: false,
-              meditLoading: false,
-              scoreLoading: false,
-              stepsLoading: false,
-              activityLoading: false,
-              sleepLoading: false,
-              heartrateLoading: false
-            });
-            Sentry.captureMessage(`Time series fetch error: ${error}`, {
-              level: SentrySeverity.Info
-            });
+        let datasource = createMedifluxSource((isNativeTracker) ? nativeTracker : 'humanapi', {accessToken: access_token});
+        let mediflux = new Mediflux(datasource);
+        mediflux.getSources()
+        .then ( sources => {
+          console.log(sources);
+          if (sources.length > 0) {
+            this.props.deviceInfoFetch(sources[0]);
+          }
+          console.log(`PROMISE - getAllTimeSeries - BEFORE`)
+          mediflux.getAllTimeSeries();
+        })
+        .then( data => {
+          console.log(`PROMISE - getAllTimeSeries - LAST`)
+          // Order of data is steps, activity, sleep, heartrate
+          this.props.timeseriesStepsFetch(data[0]);
+          this.props.timeseriesActivityFetch(data[1]);
+          this.props.timeseriesSleepFetch(data[2]);
+          this.props.timeseriesHeartrateFetch(data[3]);
+          console.log('Process Timeseries');
+          return data;
+        })
+        .then( (data) => {
+          this.setState({
+            meditLoading: false,
+            scoreLoading: false,
+            stepsLoading: false,
+            activityLoading: false,
+            sleepLoading: false,
+            heartrateLoading: false
           });
-        }
+          // HealthScore
+          console.log('Process Health Score');
+          let dailyHealthScore = processDailyHealthScore(scores, scoreTimestamp, healthscore, data[0], data[1], data[2]);
+
+          this.props.addHealthScoreTimeSeries(convertTimeArrayToObject(dailyHealthScore.dailyHealthScores, "score"));
+          this.props.dataSave({type: "timestamps", data: {
+            score: dailyHealthScore.scoreTimeStamp,
+          }}); 
+          this.props.healthScoreSave({
+            healthscore: dailyHealthScore.healthscore
+          }); 
+          this.setState({
+            healthData: getHealthScore(data[0], data[1], data[2])
+          });
+          return data;
+        })
+        .then( (data) => {
+          this.setState({
+            healthscoreLoading: false,
+          })
+          // Medit 
+          // After all physical metrics are pulled, we calculate the daily Medit history
+          let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, data[0], data[1], data[2]);
+          this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
+          this.props.dataSave({type: "timestamps", data: {
+            medit: dailyMedit.meditTimeStamp,
+            medit_value: dailyMedit.meditTimeStampValue
+          }}); 
+          this.setState({
+            meditLoading: false,
+          })
+
+          // Medit earned
+          let totalMedits = 0;
+
+          // Medit from steps
+          if (stepsTimestamp) {
+            let stepMedits = getStepMedits(data[0], stepsTimestamp, stepsTimestampValue)
+            // Generate Medits
+            let stepMeditCount = parseInt(stepMedits.medits);
+            if (Number.isInteger(stepMeditCount)) {
+              totalMedits += stepMeditCount;
+              if (stepMeditCount > 0) {
+                // Add medit to feed
+                const story = {
+                  title: "Your steps earned you",
+                  preposition: "",
+                  value: `${stepMedits.medits} Medits`,
+                  time: Math.round((new Date()).getTime() / 1000),
+                  type: "stepsmedits"
+                }
+                this.props.addFeedStory(story);
+              }
+              this.props.dataSave({type: "timestamps", data: {
+                steps: stepMedits.timestamp,
+                steps_value: stepMedits.value
+              }});
+            } else {
+              Sentry.captureMessage(`Step Medit is not an Int: ${stepMeditCount}`, {
+                level: SentrySeverity.Info
+              });        
+            }
+          }
+
+          if (sleepTimestamp) {
+            let sleepMedits = getSleepMedits(data[1], sleepTimestamp, sleepTimestampValue)
+            // Generate Medits
+            let sleepMeditCount = parseInt(sleepMedits.medits);
+            if (Number.isInteger(sleepMeditCount)) {
+              totalMedits += sleepMeditCount;
+              if (sleepMeditCount > 0) {
+                // Add medit to feed
+                const story = {
+                  title: "Your sleep earned you",
+                  preposition: "",
+                  value: `${sleepMedits.medits} Medits`,
+                  time: Math.round((new Date()).getTime() / 1000),
+                  type: "sleepmedits"
+                }
+                this.props.addFeedStory(story);
+              }
+              this.props.dataSave({type: "timestamps", data: {
+                sleep: sleepMedits.timestamp,
+                sleep_value: sleepMedits.value
+              }});
+            } else {
+              Sentry.captureMessage(`Sleep Medit is not an Int: ${sleepMeditCount}`, {
+                level: SentrySeverity.Info
+              });        
+            }
+          }
+
+          if (activityTimestamp) {
+            let activityMedits = getActivityMedits(data[2], activityTimestamp, activityTimestampValue)
+            // Generate Medits
+            let activityMeditCount = parseInt(activityMedits.medits);
+            if (Number.isInteger(activityMeditCount)) {
+              totalMedits += activityMeditCount;
+              if (activityMeditCount > 0) {
+                // Add medit to feed
+                const story = {
+                  title: "Your activity earned you",
+                  preposition: "",
+                  value: `${activityMedits.medits} Medits`,
+                  time: Math.round((new Date()).getTime() / 1000),
+                  type: "activitymedits"
+                }
+                this.props.addFeedStory(story);
+              }
+              this.props.dataSave({type: "timestamps", data: {
+                activity: activityMedits.timestamp,
+                activity_value: activityMedits.value
+              }});
+            } else {
+              Sentry.captureMessage(`Activity Medit is not an Int: ${activityMeditCount}`, {
+                level: SentrySeverity.Info
+              });        
+            }
+          }
+
+          totalMedits = totalMedits * MeditCoefficients.master_coefficient;
+          
+          if (Number.isInteger(totalMedits)) {
+            this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
+          }
+        })
+        .catch( error => {
+          this.setState({
+            healthscoreLoading: false,
+            meditLoading: false,
+            scoreLoading: false,
+            stepsLoading: false,
+            activityLoading: false,
+            sleepLoading: false,
+            heartrateLoading: false
+          });
+          Sentry.captureMessage(`Time series fetch error: ${error}`, {
+            level: SentrySeverity.Info
+          });
+        });
       }
     }
 
@@ -432,6 +431,7 @@ class HealthView extends Component {
     launchIntercom() {
       Intercom.displayMessenger();
     }
+
     saveHumanAPIPublicToken(token) {
         this.props.dataSave({type: "humanapi", data: {public_token: token}});
     }
@@ -453,7 +453,17 @@ class HealthView extends Component {
       this.setState({visibleMedifluxVisible: false});
     }
 
+    deviceNotSupported = () => {
+      this.setState({
+        visibleMedifluxVisible: false
+      });
+      Intercom.displayMessageComposerWithInitialMessage('Send us the brand and name of your device: ');
+    }
+
     connectNativeSource = () => {
+      this.setState({
+        visibleMedifluxVisible: false
+      });
        // If Apple Health is connected then use it
        if (Platform.OS === 'ios') {
         let options = {
@@ -488,12 +498,13 @@ class HealthView extends Component {
     }
 
     connectHumanAPI = () => {
+        // this.setState({
+        //   visibleMedifluxVisible: false
+        // });
         const {children} = this.props;
         const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
         const clientUserId = this.props.user.uid;
         
-        this.props.dataSave({type: "profile", data: {apple_health: false}});
-
         const humanAPI = new RNHumanAPI()
         const options = (public_token) ? {
             client_id: clientID,
@@ -506,6 +517,7 @@ class HealthView extends Component {
                 this.saveHumanAPIPublicToken(data.public_token);
                 console.log(`Human API Callback: ${data}`);
                 this.props.humanAPIFetch(data.public_token);
+                this.props.dataSave({type: "profile", data: {apple_health: false}});
             },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         } : {
@@ -517,6 +529,7 @@ class HealthView extends Component {
                 // save publicToken
                 this.saveHumanAPIPublicToken(data.public_token);
                 this.props.humanAPIFetch(data.public_token);
+                this.props.dataSave({type: "profile", data: {apple_health: false}});
              },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         }
@@ -940,6 +953,8 @@ class HealthView extends Component {
           steps,
           heartrate,
           children,
+          sources,
+          isNativeAvailable
         } = this.props;  
 
         return (
@@ -987,7 +1002,9 @@ class HealthView extends Component {
                   onClose = {() => {this.closeMedifluxLink()}}
                   onNativeSourceClick = {() => {this.connectNativeSource()}}
                   onSourceClick = {() => {this.connectHumanAPI()}}
-                  onCantFindClick = {() => {console.log('onCantFindClick')}}
+                  onCantFindClick = {(selected) => {this.deviceNotSupported(selected)}}
+                  sources = {sources}
+                  isNativeAvailable = {isNativeAvailable}
                 />
                 {/* <ActionButton 
                   size={44}
@@ -1107,6 +1124,7 @@ const mapStateToProps = (state) => {
     const {stories, filters} = state.feed;
     const {medit, score} = state.timeseries;
     const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries;
+    const {sources, devices, isNativeSourceAvailable} = state.device;
 
     return {
         user, children, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress
@@ -1133,5 +1151,6 @@ export default connect(mapStateToProps, {
   timeseriesActivityFetch,
   timeseriesStepsFetch,
   timeseriesHeartrateFetch,
-  timeseriesSleepFetch
+  timeseriesSleepFetch,
+  deviceInfoFetch
   })(HealthView);

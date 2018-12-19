@@ -11,8 +11,8 @@ import {
   medifluxGreyColor
 } from '../views/Colors';
 import PropTypes from 'prop-types'
-import Images from '../images/images';
 import {DataSourceCard} from './DataSourceCard';
+import {scale} from 'react-native-size-matters';
 
 class DataSourceBoard extends Component {
 
@@ -21,41 +21,50 @@ class DataSourceBoard extends Component {
       title: PropTypes.string,
       image: PropTypes.any,
       selected: PropTypes.bool,
-      onSelect: PropTypes.func
+      onSelect: PropTypes.func,
+      columns: PropTypes.number
     }))
   };
+
+  static defaultProps = {
+    columns: 3
+  }
 
   constructor(props) {
     super(props)
   }
 
   renderTiles() {
-    const {sources} = this.props;
-    const screenWidth = Dimensions.get('window').width;
-    const graphCardWidth = (screenWidth - 39)/3;
+    const {sources,columns} = this.props;
+    const screenWidth = Dimensions.get('screen').width;
+    const modalBorders = scale(15);
+    const cardDividerWidth = scale(10);
+    const graphCardWidth = (screenWidth-2*modalBorders-(columns+1)*cardDividerWidth)/columns;
 
-    let sourcePairs = [];
+    let sourceRow = [];
     for (var index = 0; index < sources.length; index ++) {
-      let pair = [sources[index]];
-      index++;
-      if (index < sources.length) {
-        pair.push(sources[index]);
+      let series = [sources[index]];
+      for (var number = 1; number < columns; number++) {
+        index++;
+        if (index < sources.length) {
+          series.push(sources[index]);
+        }
       }
-      index++;
-      if (index < sources.length) {
-        pair.push(sources[index]);
-      }
-      sourcePairs.push(pair);
+      sourceRow.push(series);
     }
 
     return (
-      sourcePairs.map( (item, index) => {
+      sourceRow.map( (item, index) => {
         return (
           <View
             style={{
               flexDirection: 'row',
-              key: {index}
+              justifyContent: 'flex-start',
+              marginLeft: cardDividerWidth,
+              marginTop: cardDividerWidth,
+              marginRight: cardDividerWidth
             }}
+            key= {index}
           >
             <DataSourceCard
               title= {item[0].title}
@@ -66,6 +75,13 @@ class DataSourceBoard extends Component {
               onSelect= {item[0].onSelect}
             />
             {(item.length > 1) ? 
+                <View
+                  style= {{
+                    width: cardDividerWidth
+                  }}
+                />
+                : <View></View>}
+            {(item.length > 1) ? 
                 <DataSourceCard
                 title= {item[1].title}
                 image= {item[1].image}
@@ -75,6 +91,13 @@ class DataSourceBoard extends Component {
                 onSelect= {item[1].onSelect}
               /> : <View></View>
             }
+            {(item.length > 2) ? 
+                <View
+                  style= {{
+                    width: cardDividerWidth
+                  }}
+                />
+                : <View></View>}
             {(item.length > 2) ? 
                 <DataSourceCard
                 title= {item[2].title}
@@ -92,24 +115,26 @@ class DataSourceBoard extends Component {
   }
 
   render() {
-    var {sources} = this.props;
+    var {
+      sources,
+      columns
+    } = this.props;
     var {
       cardsContainer,
       cardsStyle
     } = styles;
 
     const screenWidth = Dimensions.get('window').width;
-    const graphCardWidth = (screenWidth-35)/3;
+    const modalBorders = scale(15);
+    const cardDividerWidth = scale(10);
+    const graphCardWidth = (screenWidth-2*modalBorders-4*cardDividerWidth)/columns;
     const rows = Math.ceil(sources.length/3);
-    const tilesSeparatorHeight = 0;
+    const tilesSeparatorHeight = 10;
     return (
       <View style={
-        [cardsContainer,
-        {height: rows*graphCardWidth+tilesSeparatorHeight}]}>
+        cardsContainer}>
          <ScrollView > 
-          <View style={cardsStyle}>
             {this.renderTiles()}
-          </View>
         </ScrollView > 
       </View>
     )
@@ -118,15 +143,11 @@ class DataSourceBoard extends Component {
 
 const styles = StyleSheet.create({
   cardsStyle: {
-    flex: 1,
-    justifyContent: "space-between",
-    alignContent: "center",
     flexDirection: "column"
   },
   cardsContainer: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: "space-between",
     alignContent: "center"
   }
 })

@@ -102,8 +102,8 @@ class PriceGraphCard extends Component {
             <View style={cardValueContainerStyle}>
               <Text style={cardValueStyle}>
                 {(this.props.style.type == "medit") ? 
-                `${formatNumbers(currentValue)} $` 
-                : `${formatNumbers(currentValue)} $`}
+                `$ ${formatNumbers(currentValue)}` 
+                : `$ ${formatNumbers(currentValue)}`}
               </Text>
             </View>
             <View style={cardValueContainerStyle}>

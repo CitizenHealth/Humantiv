@@ -29,7 +29,8 @@ class MedifluxLink extends Component {
     visible: PropTypes.bool.isRequired,
     onClose: PropTypes.func,
     onNativeSourceClick: PropTypes.func,
-    onSourceClick: PropTypes.func
+    onSourceClick: PropTypes.func,
+    onCantFindClick: PropTypes.func,
   };
   
   static defaultProps = {
@@ -83,7 +84,7 @@ class MedifluxLink extends Component {
         image: Images.img_cantfindit,
         selected: false,
         onSelect: onCantFindClick
-      },
+      }
     ]
     return (
       <View 
@@ -105,7 +106,10 @@ class MedifluxLink extends Component {
             height: scale(44),
             width: '100%',
             justifyContent: 'center',
-            alignItems: 'flex-end'
+            alignItems: 'flex-end',
+            backgroundColor: medifluxMainColor,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius:10
           }}
         >
           <TouchableOpacity 
@@ -122,7 +126,7 @@ class MedifluxLink extends Component {
             <FontAwesome
               style={{
                 fontSize: 30,
-                color: medifluxMainColor
+                color: medifluxWhiteColor
               }}
             >
               {Icons.timesCircle}
@@ -131,9 +135,10 @@ class MedifluxLink extends Component {
         </View>
         <View
           style= {{
-            height: scale(30),
+            height: scale(40),
             alignContent: 'center',
-            width: '100%'
+            width: '100%',
+            backgroundColor: medifluxMainColor
           }}
         >
           <Text
@@ -141,7 +146,8 @@ class MedifluxLink extends Component {
               flex: 4,
               textAlign: 'center',
               fontSize: 20,
-              color: medifluxMainColor,
+              fontWeight: '600',
+              color: medifluxWhiteColor,
             }}
           >
             Link a data source
@@ -165,14 +171,17 @@ class MedifluxLink extends Component {
             justifyContent: 'flex-end',
             alignItems: 'center',
             height: 20,
-            width: '100%'
+            width: '100%',
+            backgroundColor: medifluxMainColor,
+            borderBottomLeftRadius: 10,
+            borderBottomRightRadius:10
           }}
         >
         <Text
             style={{
               textAlign: 'center',
-              fontSize: 12,
-              color: medifluxGreyColor,
+              fontSize: 11,
+              color: medifluxWhiteColor,
               marginRight: 5
             }}
           >
@@ -190,7 +199,7 @@ class MedifluxLink extends Component {
             style={{
               textAlign: 'center',
               fontSize: 12,
-              color: medifluxMainColor,
+              color: medifluxWhiteColor,
               marginRight: 5
             }}
           >
@@ -219,7 +228,7 @@ class MedifluxLink extends Component {
           backdropTransitionOutTiming={500}
           style= {{
             paddingTop: scale(80),
-            paddingBottom: scale(80), 
+            paddingBottom: scale(80)
           }}
         >
       
