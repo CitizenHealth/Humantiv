@@ -375,26 +375,6 @@ class SettingsView extends Component {
             />
           </SettingsSection>
           < SettingsSection
-            title="Data Sources"
-          >
-          < SettingsSwitch
-            label={(Platform.OS === 'ios') ? "Apple Health" : "Google Fit"}
-            onValueChange= {(Platform.OS === 'ios') ? onAppleHealthNotificationChange : onGoogleFitNotificationChange}
-            value = {(Platform.OS === 'ios') ? 
-            ((notifications_applehealth !== "" && notifications_applehealth !== undefined) ? notifications_applehealth : false) :
-            ((notifications_googlefit !== "" && notifications_googlefit !== undefined) ? notifications_googlefit : false)
-          }
-            disabled= {(Platform.OS === 'ios') ? appleHealthIsAvailable : googleFitIsAvailable}
-          />
-
-          <SettingsDataSource
-            label= "Add data source"
-            icon= "plus_blue"
-            color= {primaryBlueColor}
-            onPress={this.connectHumanAPI}
-          />
-          </SettingsSection>
-          < SettingsSection
             title="Your Journey"
           >
             <SettingsJourney

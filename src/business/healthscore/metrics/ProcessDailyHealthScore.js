@@ -24,7 +24,7 @@ export const processDailyHealthScore = (scores, scoreTimestamp, healthscore, ste
   let activityIndex = 0;
   let sleepIndex = 0; 
 
-  let localTotal = Math.min(scores.length, MAXIUM_SCORED_DAYS);
+  let localTotal = Math.min(scores.history.length, MAXIUM_SCORED_DAYS);
   let localHealthscore = healthscore;
 
   while (localSteps.length > stepsIndex || 
@@ -73,8 +73,13 @@ export const processDailyHealthScore = (scores, scoreTimestamp, healthscore, ste
       if (scores.history && scores.history.length !== 0) {
         let keys = Object.keys(scores.history);
         let index = keys.indexOf(`${scoreTimestamp}`)-1;
-        let time = keys[index];
-        localHealthscore = ( scores.history[time]*(localTotal-1) + score)/(localTotal);
+        // This check is done to avoid empty days
+        if (index>=0) {
+          let time = keys[index];
+          localHealthscore = ( scores.history[time]*(localTotal-1) + score)/(localTotal);
+        } else {
+          localHealthscore = 0;
+        }
       }
     }
 

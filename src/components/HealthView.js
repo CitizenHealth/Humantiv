@@ -208,8 +208,8 @@ class HealthView extends Component {
 
       const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
       const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
-      let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined) && this.props.children.profile) 
-                            ? (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
+      let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined)) 
+                            ? (this.props.children.profile === undefined) || (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
 
       if (isNativeChanged) {
         const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
@@ -224,9 +224,8 @@ class HealthView extends Component {
         const meditTimestampValue = (children.timestamps && children.timestamps.medit_value) ? children.timestamps.medit_value : 0;
         const scores = (children.health && children.health.score) ? children.health.score : [];
         const access_token = (children.humanapi && children.humanapi.access_token) ? children.humanapi.access_token : '';
-  
         // Maybe check if the device has changed.
-        this.setState({
+        this.setState({ 
           healthscoreLoading: true,
           meditLoading: true,
           scoreLoading: true,
@@ -244,8 +243,10 @@ class HealthView extends Component {
           if (sources.length > 0) {
             this.props.deviceInfoFetch(sources[0]);
           }
+          this.props.dataSave({type: "profile", data: {devices: sources[0].device}});
+          this.props.dataSave({type: "profile", data: {sources: sources[0].source}});
           console.log(`PROMISE - getAllTimeSeries - BEFORE`)
-          mediflux.getAllTimeSeries();
+          return mediflux.getAllTimeSeries();
         })
         .then( data => {
           console.log(`PROMISE - getAllTimeSeries - LAST`)
@@ -475,7 +476,6 @@ class HealthView extends Component {
         AppleHealthKit.initHealthKit(options: Object, (err: string, results: Object) => {
           if (err) {
               console.log("error initializing Healthkit: ", err);
-              this.props.dataSave({type: "profile", data: {apple_health: false}});
               return;
           }
       
@@ -498,9 +498,6 @@ class HealthView extends Component {
     }
 
     connectHumanAPI = () => {
-        // this.setState({
-        //   visibleMedifluxVisible: false
-        // });
         const {children} = this.props;
         const public_token = (children.humanapi && children.humanapi.public_token) ? children.humanapi.public_token : null;
         const clientUserId = this.props.user.uid;
@@ -513,11 +510,13 @@ class HealthView extends Component {
             auth: (data) => this.sendAuth(data),
             auth_url: 'https://us-central1-health-score-6740b.cloudfunctions.net/humanAPITokenExchange',
             success: (data) => {
-                // save publicToken
-                this.saveHumanAPIPublicToken(data.public_token);
-                console.log(`Human API Callback: ${data}`);
-                this.props.humanAPIFetch(data.public_token);
-                this.props.dataSave({type: "profile", data: {apple_health: false}});
+              // save publicToken
+              this.saveHumanAPIPublicToken(data.public_token);
+              console.log(`Human API Callback: ${data}`);
+              this.props.humanAPIFetch(data.public_token);
+              this.setState({
+                visibleMedifluxVisible: false
+              });
             },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         } : {
@@ -526,10 +525,12 @@ class HealthView extends Component {
             auth: (data) => this.sendAuth(data),
             auth_url: 'https://us-central1-health-score-6740b.cloudfunctions.net/humanAPITokenExchange',
             success: (data) => {
-                // save publicToken
-                this.saveHumanAPIPublicToken(data.public_token);
-                this.props.humanAPIFetch(data.public_token);
-                this.props.dataSave({type: "profile", data: {apple_health: false}});
+              // save publicToken
+              this.saveHumanAPIPublicToken(data.public_token);
+              this.props.humanAPIFetch(data.public_token);
+              this.setState({
+                visibleMedifluxVisible: false
+              });
              },  // callback when success with auth_url
             cancel: () => console.log('cancel')  // callback when cancel
         }
@@ -953,9 +954,11 @@ class HealthView extends Component {
           steps,
           heartrate,
           children,
-          sources,
           isNativeAvailable
         } = this.props;  
+
+        const sources = (children.profile && (children.profile.sources!= undefined)) ? [children.profile.sources] : undefined;
+        const devices = (children.profile && (children.profile.devices!= undefined)) ? [children.profile.devices] : undefined;
 
         return (
             <View style={pageStyle}>
@@ -1003,7 +1006,7 @@ class HealthView extends Component {
                   onNativeSourceClick = {() => {this.connectNativeSource()}}
                   onSourceClick = {() => {this.connectHumanAPI()}}
                   onCantFindClick = {(selected) => {this.deviceNotSupported(selected)}}
-                  sources = {sources}
+                  selected = {sources}
                   isNativeAvailable = {isNativeAvailable}
                 />
                 {/* <ActionButton 

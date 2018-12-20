@@ -37,6 +37,25 @@ export const dataSave = ({type, data}) => {
       .update(data)
       .then(() => {
         dispatch({ type: DATA_SAVE });
+        if (type === "humanapi") {
+          // ... and delete the entry in the temp /humanapi database
+          firebase.database().ref(`/humanapi/${data.public_token}`)
+          .remove()
+          .then( () => {
+            dispatch(dataSave({
+              type: "profile", 
+              data: {
+                apple_health: false
+              }
+            })
+            );
+          })
+          .catch( error => {
+            Sentry.captureMessage(`humanAPIFetch - remove /humanapi/${publicToken} failed: ${error}.`, {
+              level: SentrySeverity.Info
+            });
+          })  
+        }
       })
       .catch ( error => {
         Sentry.captureMessage(`dataSave ${type} failed: ${error}`, {
@@ -171,28 +190,14 @@ export const humanAPIFetch = (publicToken) => {
     .once("value", snapshot => {
       // ... to the main users database ...
       dispatch(
-        dataSave({type: "humanapi", data: {
-          public_token: publicToken,
-          human_id: snapshot.val().humanId,
-          access_token: snapshot.val().accessToken
-        }
-      })
-      .catch( error => {
-        Sentry.captureMessage(`humanAPIFetch - dataSave humanapi failed.`, {
-          level: SentrySeverity.Info
-        });
-      })
-      );
-      // ... and delete the entry in the temp /humanapi database
-      dispatch(
-        firebase.database().ref(`/humanapi/${publicToken}: ${error}`)
-        .remove()
-        .catch( error => {
-          Sentry.captureMessage(`humanAPIFetch - remove /humanapi/${publicToken} failed: ${error}.`, {
-            level: SentrySeverity.Info
-          });
+        dataSave({
+          type: "humanapi", 
+          data: {
+            public_token: publicToken,
+            human_id: snapshot.val().humanId,
+            access_token: snapshot.val().accessToken
+          }
         })
-  
       );
     })
   };

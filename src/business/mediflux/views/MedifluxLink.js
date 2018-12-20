@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { 
   Animated, 
-  ScrollView, 
   Image, 
   TouchableOpacity, 
   StyleSheet, 
@@ -27,6 +26,7 @@ class MedifluxLink extends Component {
   
   static propTypes = {
     visible: PropTypes.bool.isRequired,
+    selected: PropTypes.arrayOf(PropTypes.string),
     onClose: PropTypes.func,
     onNativeSourceClick: PropTypes.func,
     onSourceClick: PropTypes.func,
@@ -34,7 +34,8 @@ class MedifluxLink extends Component {
   };
   
   static defaultProps = {
-    visible: false
+    visible: false,
+    selected: []
   };
 
   constructor(props) {
@@ -45,38 +46,39 @@ class MedifluxLink extends Component {
     const {
       onCantFindClick,
       onNativeSourceClick,
-      onSourceClick
+      onSourceClick,
+      selected
     } = this.props;
 
     var sources = [
       {
         title: 'Apple Watch',
         image: Images.img_applewatch,
-        selected: false,
+        selected: (selected.indexOf("applewatch") >= 0),
         onSelect: onNativeSourceClick
       },
       {
         title: 'Fitbit',
         image: Images.img_fitbit,
-        selected: false,
+        selected: (selected.indexOf("fitbit") >= 0),
         onSelect: onSourceClick
       },
       {
         title: 'Misfit',
         image: Images.img_misfit,
-        selected: false,
+        selected: (selected.indexOf("misfit") >= 0),
         onSelect: onSourceClick
       },
       {
         title: 'Nokia (Withings)',
         image: Images.img_withings,
-        selected: false,
+        selected: (selected.indexOf("nokia") >= 0),
         onSelect: onSourceClick
       },
       {
         title: 'Movable',
         image: Images.img_movable,
-        selected: false,
+        selected: (selected.indexOf("movable") >= 0),
         onSelect: onSourceClick
       },
       {

@@ -25,7 +25,7 @@
     "absoluteMin": 0,
     "absoluteMax": 24,
     "healthyMin": 7,
-    "healthyMax": 9
+    "healthyMax": 9.01
   },
   "heartrate": {
     "unit": "bpm",

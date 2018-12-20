@@ -11,21 +11,14 @@ class AppleWatch extends DataSource {
     super(options);
   }
 
-  async getStepsTimeSeries() {
+ getStepsTimeSeries() {
     let options = {
       startDate: this.startDate,
       limit:this.maxNumber, // optional; default no limit
     };
     const self = this;
-    console.log(`    PROMISE - getStepsTimeSeries`)
     return new Promise( (resolve, reject) => {
-      console.log(`    PROMISE - getStepsTimeSeries - Promise`)
-
-      setTimeout(() => {
-        console.log(`      PROMISE - TimeOut - 5000`);
-      }, 5000)
       AppleHealthKit.getDailyStepCountSamples(options, (err, results) => {
-        console.log(`      PROMISE - AppleHealthKit.getDailyStepCountSamples`)
         if (err) {
           reject(err);
         }
