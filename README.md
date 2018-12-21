@@ -268,7 +268,16 @@ Please follow this guide to add a new custom font:
 
 4. Android Studio -> File -> Invalidate Caches/ Restart
 
-  
+### App crashes at startup in release mode
+
+The app crashes at startup. Here is the procedure to follow in this case:
+
+ 1. Attach an Android phone with the release version of the app to the computer.
+ 2. Run Android studio and select the phone and application i the Logcat window. Filter the message with Error instead of Verbose
+ 3. Run the app and after the crash look at the log
+ 4. Example: In one case the log said: ***Got JS Exception: Unexpected token '.' (index.android.bundle:1054) This error happens in the release version of the app.*** 
+ 5. Now, we have to look at the ***index.android.bundle*** file in android/app/buil/intermediates/assets/release and go to line 1054.
+ 6. In that line, look for suspicious code. In this example, it was ***if (new.target === DataSource)***. This is not supported yet by the Android Javascript engine and we need either to not use the syntax or add the babel plugin ***babel-plugin-transform-new-target*** to transpile the code.
 
 ### Cannot load module file xxx. File xxx.iml does not exist
 

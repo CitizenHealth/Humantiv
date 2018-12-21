@@ -1,4 +1,4 @@
-const MAX_SERIES_NUMBER = 30;
+const MAX_SERIES_NUMBER = 90;
 
 export default class DataSource {
   

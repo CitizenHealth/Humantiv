@@ -100,7 +100,7 @@ class MedifluxLink extends Component {
           shadowOffset: {width: 2, height: 2},
           shadowOpacity: 0.5,
           shadowRadius: 2,
-          elevation: 1
+          elevation: 5
         }}
       >
         <View
