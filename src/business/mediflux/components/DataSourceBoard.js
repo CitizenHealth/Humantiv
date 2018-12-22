@@ -37,7 +37,7 @@ class DataSourceBoard extends Component {
   renderTiles() {
     const {sources,columns} = this.props;
     const screenWidth = Dimensions.get('screen').width;
-    const modalBorders = scale(15);
+    const modalBorders = scale(20);
     const cardDividerWidth = scale(10);
     const graphCardWidth = (screenWidth-2*modalBorders-(columns+1)*cardDividerWidth)/columns;
 
@@ -73,6 +73,7 @@ class DataSourceBoard extends Component {
               height= {graphCardWidth}
               selected= {item[0].selected}
               onSelect= {item[0].onSelect}
+              disabled= {item[0].disabled}
             />
             {(item.length > 1) ? 
                 <View
@@ -89,6 +90,7 @@ class DataSourceBoard extends Component {
                 height= {graphCardWidth}
                 selected= {item[1].selected}
                 onSelect= {item[1].onSelect}
+                disabled= {item[1].disabled}
               /> : <View></View>
             }
             {(item.length > 2) ? 
@@ -106,6 +108,7 @@ class DataSourceBoard extends Component {
                 height= {graphCardWidth}
                 selected= {item[2].selected}
                 onSelect= {item[2].onSelect}
+                disabled= {item[2].disabled}
               /> : <View></View>
             }
           </View>
@@ -116,20 +119,9 @@ class DataSourceBoard extends Component {
 
   render() {
     var {
-      sources,
-      columns
-    } = this.props;
-    var {
-      cardsContainer,
-      cardsStyle
+      cardsContainer
     } = styles;
 
-    const screenWidth = Dimensions.get('window').width;
-    const modalBorders = scale(15);
-    const cardDividerWidth = scale(10);
-    const graphCardWidth = (screenWidth-2*modalBorders-4*cardDividerWidth)/columns;
-    const rows = Math.ceil(sources.length/3);
-    const tilesSeparatorHeight = 10;
     return (
       <View style={
         cardsContainer}>

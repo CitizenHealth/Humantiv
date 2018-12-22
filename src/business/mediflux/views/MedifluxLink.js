@@ -8,11 +8,12 @@ import {
   StyleSheet, 
   View, 
   Text ,
-  SafeAreaView
+  SafeAreaView,
+  Platform
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Modal from "react-native-modal";
-import {scale} from 'react-native-size-matters';
+import {scale, ScaledSheet} from 'react-native-size-matters';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {
   medifluxMainColor, 
@@ -52,10 +53,9 @@ class MedifluxLink extends Component {
 
     var sources = [
       {
-        title: 'Apple Watch',
-        image: Images.img_applewatch,
-        selected: (selected.indexOf("applewatch") >= 0),
-        onSelect: onNativeSourceClick
+        title: (Platform.OS === "ios") ? 'Apple Watch' : 'Android Smartwatch',
+        image: (Platform.OS === "ios") ? Images.img_applewatch : Images.img_androidwear,
+        disabled: true
       },
       {
         title: 'Fitbit',
@@ -100,7 +100,8 @@ class MedifluxLink extends Component {
           shadowOffset: {width: 2, height: 2},
           shadowOpacity: 0.5,
           shadowRadius: 2,
-          elevation: 5
+          elevation: 2,
+          margin: 5
         }}
       >
         <View
@@ -229,8 +230,8 @@ class MedifluxLink extends Component {
           backdropTransitionInTiming={500}
           backdropTransitionOutTiming={500}
           style= {{
-            paddingTop: scale(80),
-            paddingBottom: scale(80)
+            paddingTop: scale(70),
+            paddingBottom: scale(70)
           }}
         >
       

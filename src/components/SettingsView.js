@@ -204,10 +204,6 @@ class SettingsView extends Component {
     this.props.dataSave({type: "profile", data: {wallet_notification: value}});
   }
 
-  onAppleHealthNotificationChange(value) {
-    this.props.dataSave({type: "profile", data: {apple_health: value}});
-  }
-
   onGoogleFitNotificationChange(value) {
     this.props.dataSave({type: "profile", data: {google_fit: value}});
   }
@@ -240,9 +236,6 @@ class SettingsView extends Component {
     const onGoalNotificationChange = _.debounce((value) => this.onGoalNotificationChange(value), 300);
     const onVotesNotificationChange = _.debounce((value) => this.onVotesNotificationChange(value), 300);
     const onWalletNotificationChange = _.debounce((value) => this.onWalletNotificationChange(value), 300);
-
-    const onAppleHealthNotificationChange = _.debounce((value) => this.onAppleHealthNotificationChange(value), 300);
-    const onGoogleFitNotificationChange = _.debounce((value) => this.onAppleHealthNotificationChange(value), 300);
     
     const profile_journey = (children.profile) ? children.profile.journey : "";
     const profile_age = (children.profile) ? children.profile.age : "";
@@ -258,10 +251,6 @@ class SettingsView extends Component {
     const notifications_goals = (children.profile) ? children.profile.goal_notification : "";
     const notifications_votes = (children.profile) ? children.profile.votes_notification : "";
     const notifications_wallet = (children.profile) ? children.profile.wallet_notification : "";
-
-
-    const notifications_applehealth = (children.profile) ? children.profile.apple_health : "";
-    const notifications_googlefit = (children.profile) ? children.profile.notifications_google_fit : "";
 
     const needed_message = "Needed for the health score";
 

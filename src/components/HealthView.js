@@ -206,7 +206,8 @@ class HealthView extends Component {
         children,
       } = nextProps;
 
-      const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
+//      const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
+      const nativeTracker = "apple_health";
       const isNativeTracker = (children.profile && (children.profile[nativeTracker]!= undefined)) ? children.profile[nativeTracker] : undefined;
       let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined)) 
                             ? (this.props.children.profile === undefined) || (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;

@@ -3,7 +3,8 @@ import {
   TouchableOpacity, 
   View,
   StyleSheet,
-  Image
+  Image,
+  Text
 } from "react-native";
 import {
   medifluxMainColor, 
@@ -15,6 +16,7 @@ import PropTypes from 'prop-types';
 import Spinner from "react-native-spinkit";
 import { scale } from "react-native-size-matters";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import {primaryGreyColor} from '../../../components/themes/theme';
 
 class DataSourceCard extends Component {
   static propTypes = {
@@ -23,6 +25,7 @@ class DataSourceCard extends Component {
     width: PropTypes.number,
     height: PropTypes.number,
     selected: PropTypes.bool,
+    disabled: PropTypes.bool,
     onSelect: PropTypes.func
   };
 
@@ -32,6 +35,7 @@ class DataSourceCard extends Component {
     width: scale(100),
     height: scale(100),
     selected: false,
+    disabled: false
   }
 
   constructor(props) {
@@ -57,7 +61,8 @@ class DataSourceCard extends Component {
       width,
       height,
       image,
-      onSelect
+      onSelect,
+      disabled
     } = this.props;
 
     return (
@@ -70,6 +75,7 @@ class DataSourceCard extends Component {
           let selected = this.state.isSelected;
           onSelect(selected);
         }}
+        disabled = {disabled}
       >
         <View
           style = {{
@@ -88,8 +94,37 @@ class DataSourceCard extends Component {
         <View
           style= {{
             position: 'absolute',
+            justifyContent: 'flex-end',
             width: width,
             height: height,
+            paddingBottom: scale(5),
+            borderWidth: 1,
+            borderRadius: 3,
+            borderColor: primaryGreyColor,
+            top: 0,
+            backgroundColor: primaryGreyColor,
+            opacity: (disabled) ? 0.6 : 0
+          }}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 12,
+              fontWeight: '300',
+              color: medifluxMainColor,
+            }}
+          >
+            Coming soon
+          </Text>
+        </View>
+        <View
+          style= {{
+            position: 'absolute',
+            width: width,
+            height: height,
+            borderWidth: 1,
+            borderRadius: 3,
+            borderColor: medifluxMainColor,
             top: 0,
             backgroundColor: medifluxMainColor,
             opacity: (isSelected) ? 0.6 : 0

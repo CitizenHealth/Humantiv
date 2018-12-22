@@ -4,6 +4,7 @@ const Images = {
   img_misfit: require("./misfit.png"),
   img_withings: require("./withings.png"),
   img_movable: require("./movable.png"),
+  img_androidwear: require("./androidwear.png"),
   img_cantfindit: require("./cantfindit.png"),
   img_logo: require("./MediFluxLogo.png"),
 }
