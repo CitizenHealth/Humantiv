@@ -55,7 +55,8 @@ class MedifluxLink extends Component {
       {
         title: (Platform.OS === "ios") ? 'Apple Watch' : 'Android Smartwatch',
         image: (Platform.OS === "ios") ? Images.img_applewatch : Images.img_androidwear,
-        disabled: (Platform.OS !== "ios")
+        disabled: (Platform.OS !== "ios"),
+        onSelect: onNativeSourceClick
       },
       {
         title: 'Fitbit',
