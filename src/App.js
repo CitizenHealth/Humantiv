@@ -11,6 +11,10 @@ import {
   SentryLog 
 } from 'react-native-sentry';
 import codePush from "react-native-code-push";
+import { 
+  Text,
+  TextInput 
+} from 'react-native';
 
 // To assign console.log to nothing   
 if (!__DEV__) {
@@ -20,6 +24,17 @@ if (!__DEV__) {
 let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    if (Text.defaultProps == null) 
+      Text.defaultProps = {};
+    Text.defaultProps.allowFontScaling = false;
+
+    if (TextInput.defaultProps == null) 
+      TextInput.defaultProps = {};
+    TextInput.defaultProps.allowFontScaling = false;
+  }
   
   componentWillMount() {
     firebase.app();
