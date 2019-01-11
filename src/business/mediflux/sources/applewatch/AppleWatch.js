@@ -163,9 +163,31 @@ class AppleWatch extends DataSource {
         device: "Apple Watch",
         synctime: moment(new Date()).unix() 
       }
-  
-      val.push(wearable);
-      resolve(val);
+      // Init HealthKit
+      let options = {
+        permissions: {
+            read: ["Height", "Weight", "DateOfBirth", "StepCount", "HeartRate", "SleepAnalysis", "AppleExerciseTime", "BiologicalSex"]
+       }
+      };
+      
+      AppleHealthKit.initHealthKit(options: Object, (err: string, results: Object) => {
+        if (err) {
+            console.log("error initializing Healthkit: ", err);
+            reject(err);
+        }
+    
+        // TODO: 
+        // Height Example
+        AppleHealthKit.getDateOfBirth(null, (err: Object, results: Object) => {
+          if (err) {
+            console.log(`Date of Birth ERROR: ${err}`);
+            reject(err);
+          }
+          console.log(`Date of Birth: ${results}`);
+        });
+        val.push(wearable);
+        resolve(val); 
+      });
     }) 
   }
 }

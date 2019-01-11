@@ -466,8 +466,8 @@ class HealthView extends Component {
       this.setState({
         visibleMedifluxVisible: false
       });
-       // If Apple Health is connected then use it
-       if (Platform.OS === 'ios') {
+      // If Apple Health is connected then use it
+      if (Platform.OS === 'ios') {
         let options = {
           permissions: {
               read: ["Height", "Weight", "DateOfBirth", "StepCount", "HeartRate", "SleepAnalysis", "AppleExerciseTime", "BiologicalSex"]
