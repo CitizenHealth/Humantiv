@@ -22,7 +22,7 @@
     "react-native-chooser": "^1.7.0",
     "react-native-code-push": "^5.4.2",
     "react-native-fbsdk": "^0.8.0",
-    "react-native-firebase": "^5.0.0-rc1",
+    "react-native-firebase": "^5.2.0",
     "react-native-fontawesome": "^5.7.0",
     "react-native-gesture-handler": "^1.0.8",
     "react-native-google-signin": "^1.0.0-rc7",
