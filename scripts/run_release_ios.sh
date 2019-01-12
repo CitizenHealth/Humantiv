@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-react-native run-ios -device --variant=release
+react-native run-ios --device --configuration Release

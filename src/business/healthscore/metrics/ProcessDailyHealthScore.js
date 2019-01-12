@@ -24,7 +24,7 @@ export const processDailyHealthScore = (scores, scoreTimestamp, healthscore, ste
   let activityIndex = 0;
   let sleepIndex = 0; 
 
-  let scoreHistoryLength = (scores.history) ? scores.history.length : 0;
+  let scoreHistoryLength = (scores.history) ? Object.keys(scores.history).length : 0;
   let localTotal = Math.min(scoreHistoryLength, MAXIUM_SCORED_DAYS);
   let localHealthscore = healthscore;
 

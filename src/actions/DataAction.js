@@ -83,20 +83,20 @@ export const dataAdd = ({type, item, data}) => {
     }, function(error, committed, snapshot) {
       if (error) {
         // Log the activity array
-        Sentry.captureMessage(`Transaction ${type}/${item} failed abnormally: ${error}`, {
+        console.log(`Transaction failed abnormally! `, JSON.stringify(error));
+        Sentry.captureMessage(`Transaction ${type}/${item} failed abnormally: ${JSON.stringify(error)}`, {
           level: SentrySeverity.Info
         });
-        console.log('Transaction failed abnormally!', error);
       } else if (!committed) {
         // Log the activity array
-        Sentry.captureMessage(`Transaction ${type}/${item} was not committed: ${committed}`, {
+        Sentry.captureMessage(`Transaction ${type}/${item} was not committed: ${JSON.stringify(committed)}`, {
           level: SentrySeverity.Info
         });
         console.log('The transaction was transaction.');
       } else {
+        console.log("Data added is: ", snapshot.val());
         console.log('Data added succesfully');
       }
-      console.log("Data added is: ", snapshot.val());
       dispatch({ type: DATA_SAVE });
     },
     true)
