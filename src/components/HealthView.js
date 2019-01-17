@@ -246,7 +246,9 @@ class HealthView extends Component {
           }
           this.props.dataSave({type: "profile", data: {devices: sources[0].device}});
           this.props.dataSave({type: "profile", data: {sources: sources[0].source}});
-          console.log(`PROMISE - getAllTimeSeries - BEFORE`)
+          firebase.analytics().setUserProperty('TrackerBrand',sources[0].device);
+          firebase.analytics().setUserProperty('TrackerModel',sources[0].source);
+          console.log(`PROMISE - getAllTimeSeries - BEFORE`);
           return mediflux.getAllTimeSeries();
         })
         .then( data => {

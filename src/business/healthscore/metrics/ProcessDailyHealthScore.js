@@ -1,4 +1,4 @@
-const MAXIUM_SCORED_DAYS = 90;
+const MAXIUM_SCORED_DAYS = 30;
 
 import healthScores from '../configuration/healthscore.json';
 
@@ -65,8 +65,8 @@ export const processDailyHealthScore = (scores, scoreTimestamp, healthscore, ste
 
     let score = getDailyHealthScore(dailyActivity, dailySleep, dailySteps, "journey placeholder");
     
-    // We make sure to update the last day measured as it might be easured early in the day before the data was collected for the whole day.
-    if (scoreTimestamp && oldestDay > scoreTimestamp
+    // We make sure to update the last day measured as it might be measured early in the day before the data was collected for the whole day.
+    if ((scoreTimestamp && oldestDay > scoreTimestamp)
         || !scoreTimestamp) {
       localHealthscore = (localHealthscore*localTotal + score)/(localTotal + 1);
       localTotal++;

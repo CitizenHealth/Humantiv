@@ -159,7 +159,7 @@ class AppleWatch extends DataSource {
     return new Promise( (resolve,reject) => {
       let val = [];
       let wearable = {
-        source: "applewatch",
+        source: "apple",
         device: "Apple Watch",
         synctime: moment(new Date()).unix() 
       }
