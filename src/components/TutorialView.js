@@ -106,6 +106,7 @@ class TutorialView extends Component {
         text: 'Choose what Personal Health Journey best describes your needs. Each journey functions as a way to engage with your health. Consult your doctor before beginning any new routine.',
         image: Images.img_tutorial_2,
         imageStyle: styles.image,
+        resizeMode:"contain",
         backgroundColor: primaryWhiteColor,
       },
       {
@@ -169,8 +170,13 @@ class TutorialView extends Component {
 
 const styles = StyleSheet.create({
     image: {
-      width: scale(320),
-      height: scale(320),
+      width: undefined,
+      height: undefined,
+      flex: 1,
+      alignSelf: 'stretch',
+      marginTop: scale(50),
+      marginBottom: scale(50),
+      resizeMode: 'contain',
     },
     containerStyle: {
       flex: 1
