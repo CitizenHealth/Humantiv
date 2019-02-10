@@ -15,6 +15,7 @@ import {
   Text,
   TextInput 
 } from 'react-native';
+import Reactotron from './configuration/ReactotronConfig';
 
 // To assign console.log to nothing   
 if (!__DEV__) {
@@ -55,8 +56,12 @@ class App extends Component {
   }
 
   render() {
-    const store = createStore(reducers, {}, composeWithDevTools(
-      applyMiddleware(ReduxThunk)));
+    const store = Reactotron.createStore(
+      reducers, 
+      {}, 
+      composeWithDevTools(
+      applyMiddleware(ReduxThunk))
+    );
 
     return (
       <Provider store={store}>
