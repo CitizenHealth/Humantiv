@@ -19,6 +19,7 @@ const styles = {
   imageStyle: {
     height: 40,
     width: 40,
+    borderRadius: 5,
  //   backgroundColor: 'yellow'
   }
 };
