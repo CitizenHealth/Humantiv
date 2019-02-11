@@ -10,6 +10,8 @@ import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
 import {MeditCoefficients} from '../business/medit/configuration';
 import Spinner from "react-native-spinkit";
+import DropdownAlert from 'react-native-dropdownalert';
+
 import {
   Sentry,
   SentrySeverity,
@@ -44,15 +46,16 @@ class StartView extends Component {
     firebase.notifications().onNotification((notification) => {
       const title = notification.title;
       const body = notification.body;
+      this.dropdown.alertWithType('info',title , body);
 
-      Alert.alert(
-        title,
-        body,
-        [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        { cancelable: false }
-      )
+      // Alert.alert(
+      //   title,
+      //   body,
+      //   [
+      //     {text: 'OK', onPress: () => console.log('OK Pressed')},
+      //   ],
+      //   { cancelable: false }
+      // )
     });
     // Connect Firebase Messaging
     firebase.messaging().onMessage((payload) => {
@@ -288,7 +291,12 @@ class StartView extends Component {
   render() {
 //    console.log(`Routes states: ${Actions._state.routes}`);
  
-    const { starPageStyle, startSpinnerStyle} = theme;
+    const { 
+      starPageStyle, 
+      startSpinnerStyle,
+      dropDownErrorMessageTextStyle,
+      dropDownErrorTitleTextStyle
+    } = theme;
 
     return (
       <View style={starPageStyle}>
@@ -298,6 +306,12 @@ class StartView extends Component {
           size={scale(60)}
           type='ThreeBounce' 
           color="white"
+        />
+        <DropdownAlert 
+          ref={ref => this.dropdown = ref} 
+          closeInterval={6000} 
+          titleStyle = {dropDownErrorTitleTextStyle}
+          messageStyle = {dropDownErrorMessageTextStyle}
         />
       </View>
     );
