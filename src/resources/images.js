@@ -22,6 +22,8 @@ const Images = {
   img_purchase_disabled: require("./images/tabs/purchase_disabled.png"),
   img_settings_enabled: require("./images/tabs/settings_enabled.png"),
   img_settings_disabled: require("./images/tabs/settings_disabled.png"),
+  img_play_enabled: require("./images/tabs/play_enabled.png"),
+  img_play_disabled: require("./images/tabs/play_disabled.png"),
 
   img_tutorial_1: require("./images/tutorial/tutorial1.png"),
   img_tutorial_2: require("./images/tutorial/tutorial2.png"),
@@ -39,6 +41,8 @@ const Images = {
   img_medit_wallet_bg: require("./images/wallet/medit_card_wallet.png"),
   img_medex_wallet_bg: require("./images/wallet/medex_card_wallet.png"),
 
+  img_market: require("./images/placeholders/market.png"),
+  img_vote: require("./images/placeholders/vote.png"),
 };
 
 export default Images;
