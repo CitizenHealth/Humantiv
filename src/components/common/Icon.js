@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {
     Text,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 import {Fonts} from '../../resources/fonts/Fonts'
+import {primaryBlueColor} from '../themes/theme';
+import Images from '../../resources/images';
 
-const Icon = ({name, size, color}) => {
-    const {textStyle} = styles;
+const Icon = ({name, size, color, image=""}) => {
+    const {textStyle,imageStyle} = styles;
 
     var code ="q";
 
@@ -112,18 +115,26 @@ const Icon = ({name, size, color}) => {
             break;
         case "weight":
             code = "v";
-            break;                         
-                         
+            break;                                                  
         default:
+            code = "image"
             break;
     }
 
     return (
+        (code !== "image") ? 
         <Text style={
             [textStyle,
             {fontSize: ({size}) ? size : 16, color: color}]}>
             {code}
         </Text>
+        :
+        <Image
+          style={imageStyle}
+          width= {size}
+          height= {size}
+          source={Images[image]}
+        />
     );
 }
 
@@ -132,7 +143,10 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       fontWeight: "200",
       fontFamily: Fonts.icons
-    }
+    },
+    imageStyle: {
+      color: primaryBlueColor,
+    },
 });
 
 export {Icon}
