@@ -303,6 +303,24 @@ export const theme = StyleSheet.create({
     color: primaryBlueColor,
     fontFamily: Fonts.regular
   },
+  tutorialTextStyle: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '300',
+    paddingHorizontal: 16,
+    marginBottom: 5,
+    backgroundColor: 'transparent',
+    color: primaryBlueColor,
+    fontFamily: Fonts.regular
+  },
+  tutorialTileTextStyle: {
+    textAlign: 'center',
+    fontSize: 26,
+    paddingHorizontal: 16,
+    backgroundColor: 'transparent',
+    color: primaryBlueColor,
+    fontFamily: Fonts.regular
+  },
   iconStyle: {
     alignItems: "center",
     justifyContent: "center",
