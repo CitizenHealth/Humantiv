@@ -9,14 +9,15 @@ import {
   BackHandler
 } from 'react-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
-import SimplePage from './SimplePage';
+import PlayView from './PlayView';
+import MarketView from './MarketView';
 import HealthView from './HealthView';
 import WalletView from './WalletView';
 import SettingsView from './SettingsView';
 import {primaryBlueColor} from './themes/theme';
 import {
   Icon  
-} from './common'
+} from './common';
 import type { Route, NavigationState } from 'react-native-tab-view/types';
 
 type State = NavigationState<
@@ -54,14 +55,9 @@ class TabView extends React.Component<*, State> {
     index: 0,
     routes: [
       { key: '0', title: 'Health', icon: 'heart', color: 'transparent' },
-      { key: '1', title: 'Wallet', icon: 'wallet', color: 'transparent' },
+      { key: '1', title: 'Play', icon: 'play', color: 'transparent', image: 'img_play' },
       { key: '2', title: 'Market', icon: 'market', color: 'transparent' },
-      {
-        key: '3',
-        title: 'Vote',
-        icon: 'vote',
-        color: 'transparent',
-      },
+      { key: '3', title: 'Wallet', icon: 'wallet', color: 'transparent' },
       { key: '4', title: 'Settings', icon: 'settings', color: 'transparent' },
     ],
   };
@@ -125,9 +121,11 @@ class TabView extends React.Component<*, State> {
 
   _renderIcon = ({ route }) => {
     var icon = route.icon + "_disabled";
+    var image = route.image + "_disabled";
     var color = "#3599fe";
     if (parseInt(route.key) === parseInt(this.state.index)) {
       icon = route.icon + "_enabled";
+      image = route.image + "_enabled";
       color =  "#3599fe";    
     }
     return (<Icon 
@@ -135,6 +133,7 @@ class TabView extends React.Component<*, State> {
       size= {20}
       style={styles.icon}
       color= {color}
+      image={image}
     />);
   };
 
@@ -186,16 +185,18 @@ class TabView extends React.Component<*, State> {
         );
       case '1':
         return (
-          <WalletView
+          <PlayView
            />
         );
       case '2':
         return (
-          <SimplePage state={this.state} style={{ backgroundColor: route.color }} />
+          <MarketView
+          />
         );
       case '3':
         return (
-          <SimplePage state={this.state} style={{ backgroundColor: route.color }} />
+          <WalletView 
+          />
         );
       case '4':
         return (
