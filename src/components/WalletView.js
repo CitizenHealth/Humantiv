@@ -177,7 +177,7 @@ class WalletView extends Component {
                   />
                   <TouchableOpacity 
                     style={{width: valueCardWidth}} 
-                    onPress={() => Linking.openURL('https://www.startengine.com/citizenhealth')}
+                    onPress={() => Linking.openURL('https://citizenhealth.io/for-investors/')}
                   >
                     <WalletCard
                         color= "#34d392"
