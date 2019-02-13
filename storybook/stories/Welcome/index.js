@@ -20,15 +20,19 @@ export default class Welcome extends React.Component {
     },
   };
 
-  showApp(event) {
+  showApp = event => {
+    const { showApp } = this.props;
     event.preventDefault();
-    if (this.props.showApp) this.props.showApp();
-  }
+
+    if (showApp) {
+      showApp();
+    }
+  };
 
   render() {
     return (
       <View style={this.styles.wrapper}>
-        <Text style={this.styles.header}>Welcome to the Humantiv Storybook</Text>
+        <Text style={this.styles.header}>Welcome to React Native Storybook</Text>
         <Text style={this.styles.content}>
           This is a UI Component development environment for your React Native app. Here you can
           display and interact with your UI components as stories. A story is a single state of one

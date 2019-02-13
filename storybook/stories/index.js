@@ -507,5 +507,3 @@ storiesOf('Button', module)
       units={Units.Weight.Pounds}
     />
   ))
-
-
