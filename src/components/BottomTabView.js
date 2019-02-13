@@ -8,7 +8,12 @@ import {
   SafeAreaView,
   BackHandler
 } from 'react-native';
-import { TabViewAnimated, TabBar } from 'react-native-tab-view';
+import { 
+  TabView, 
+  TabBar,
+  type Route, 
+  type NavigationState
+} from 'react-native-tab-view';
 import PlayView from './PlayView';
 import MarketView from './MarketView';
 import HealthView from './HealthView';
@@ -18,7 +23,6 @@ import {primaryBlueColor} from './themes/theme';
 import {
   Icon  
 } from './common';
-import type { Route, NavigationState } from 'react-native-tab-view/types';
 
 type State = NavigationState<
   Route<{
@@ -29,7 +33,7 @@ type State = NavigationState<
   }>
 >;
 
-class TabView extends React.Component<*, State> {
+class BottomTabView extends React.Component<*, State> {
   static title = 'Bottom bar with indicator';
   static appbarElevation = 4;
 
@@ -163,6 +167,24 @@ class TabView extends React.Component<*, State> {
   _getLabelText = ({ route }) => route.title;
 
   _renderFooter = props => (
+    <View style={styles.tabbar}>
+      {props.navigationState.routes.map((route, index) => {
+        return (
+          <TouchableWithoutFeedback
+            key={route.key}
+            onPress={() => props.jumpTo(route.key)}
+          >
+            <Animated.View style={styles.tab}>
+              {this._renderIcon(props)({ route, index })}
+              {this._renderLabel(props)({ route, index })}
+            </Animated.View>
+          </TouchableWithoutFeedback>
+        );
+      })}
+    </View>
+  );
+
+  _renderTabBar = props => (
     <TabBar
       {...props}
       getLabelText={this._getLabelText}
@@ -211,12 +233,15 @@ class TabView extends React.Component<*, State> {
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-        <TabViewAnimated
+        <TabView
           style={this.props.style}
           navigationState={this.state}
           renderScene={this._renderScene}
-          renderFooter={this._renderFooter}
+          renderTabBar={this._renderTabBar}
           onIndexChange={this._handleIndexChange}
+          tabBarPosition={'bottom'}
+          animationEnabled={false}
+          swipeEnabled={false}
         />
       </SafeAreaView>
     );
@@ -272,4 +297,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabView;
+export default BottomTabView;

@@ -6,7 +6,7 @@ import TutorialView from "./TutorialView";
 import StartView from "./StartView";
 import EmailConfirmationView from "./EmailConfirmationView";
 import PasswordLostView from "./PasswordLostView";
-import TabView from "./TabView";
+import BottomTabView from "./BottomTabView";
 import SimplePage from "./SimplePage";
 import JourneyView from "./JourneyView";
 import SettingsJourneyView from "./SettingsJourneyView";
@@ -43,7 +43,7 @@ const RouterComponent = () => {
         <Scene key="main">
           <Scene
             key="tab"
-            component={TabView}
+            component={BottomTabView}
             hideNavBar
             initial
           />
