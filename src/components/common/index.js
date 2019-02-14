@@ -40,3 +40,5 @@ export * from './SettingsButton';
 export * from './Feed';
 export * from './Date';
 export * from './EarnMedits';
+export * from './LeaderboardCard';
+export * from './LeaderboardPodium';
