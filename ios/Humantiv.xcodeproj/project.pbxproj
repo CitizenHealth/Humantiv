@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -92,13 +91,14 @@
 		4ADDFA5E215F613300AF9BCD /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ADDF9C8215F613200AF9BCD /* FBSDKCoreKit.framework */; };
 		4ADDFA5F215F613300AF9BCD /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ADDF9C9215F613200AF9BCD /* Bolts.framework */; };
 		4B2AA1CBE1804A1EA0CC0949 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E63881D4C25F4551A9649A08 /* SystemConfiguration.framework */; };
-		532DF9DB34864DD0A8B2C1DB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 283647C17456448981553C10 /* fontawesome-webfont.ttf */; };
+		54171568A80F40CFA8CA7543 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 001BA48B80104FDDB1788215 /* fa-solid-900.ttf */; };
 		5CAB85E4952AE3F015F068C3 /* libPods-HumantivTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 21929EBCD93CE3C37E1D7D18 /* libPods-HumantivTests.a */; };
-		5E7A0D1B3652443C9F1FFD2B /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = BED67D63428440C4A56E2A15 /* FontAwesome.otf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		60EE2514CCF64C6B91464852 /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E1B4608AF0A94CB4A5B8201E /* fa-brands-400.ttf */; };
 		67E3646B0F084689B18BC2A1 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53129C441FDC41538ABAF0B2 /* libRNFirebase.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8847B742C19D440195938DA1 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AD450AC75E0427DA0DE5A93 /* libRNGestureHandler.a */; };
+		A31B5843F14C4A36AAFCE7CB /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9454009B6F3C463287DD33AD /* fa-regular-400.ttf */; };
 		A570DE9F4BB74B4087913243 /* Sofia-Pro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A2298F8F5244CF285947D8C /* Sofia-Pro-Regular.ttf */; };
 		AA2696246D1749B18B9EEDC8 /* Sofia-Pro-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FD6690B806D4B74AB45745C /* Sofia-Pro-UltraLight.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -370,6 +370,13 @@
 			remoteGlobalIDString = 3774C88D1D2092F20000B3F3;
 			remoteInfo = RCTAppleHealthKit;
 		};
+		4A58D75E2213F821009BF006 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A909CE5205A61D7003071F4 /* RNSentry.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 274692C321B4414400BF91A8;
+			remoteInfo = "RNSentry-tvOS";
+		};
 		4A7BBFF8204FCD3500C253C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2399776D47AA419C90FA436D /* RNReactNativeHumanApi.xcodeproj */;
@@ -527,6 +534,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		001BA48B80104FDDB1788215 /* fa-solid-900.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "fa-solid-900.ttf"; path = "../assets/fonts/fa-solid-900.ttf"; sourceTree = "<group>"; };
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
@@ -550,7 +558,6 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		21929EBCD93CE3C37E1D7D18 /* libPods-HumantivTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HumantivTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2399776D47AA419C90FA436D /* RNReactNativeHumanApi.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNReactNativeHumanApi.xcodeproj; path = "../node_modules/react-native-human-api/ios/RNReactNativeHumanApi.xcodeproj"; sourceTree = "<group>"; };
-		283647C17456448981553C10 /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "fontawesome-webfont.ttf"; path = "../assets/fonts/fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		2C5ED7AA7A5A5F8FED20DB7B /* Pods-Humantiv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Humantiv.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Humantiv/Pods-Humantiv.debug.xcconfig"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3189F2CEC44D428D93B60F4A /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
@@ -639,12 +646,13 @@
 		83EB4664C5FFE46349CEE26F /* Pods-HumantivTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumantivTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HumantivTests/Pods-HumantivTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8AD450AC75E0427DA0DE5A93 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		8CFB834829464409AA2E9C1E /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		9454009B6F3C463287DD33AD /* fa-regular-400.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "fa-regular-400.ttf"; path = "../assets/fonts/fa-regular-400.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B410E20CD26441B297DABB11 /* libRNReactNativeHumanApi.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeHumanApi.a; sourceTree = "<group>"; };
-		BED67D63428440C4A56E2A15 /* FontAwesome.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.otf; path = ../assets/fonts/FontAwesome.otf; sourceTree = "<group>"; };
 		C89701C78E2E44C8A226B080 /* RCTAppleHealthKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTAppleHealthKit.xcodeproj; path = "../node_modules/rn-apple-healthkit/RCTAppleHealthKit.xcodeproj"; sourceTree = "<group>"; };
 		D29AC51E13484EB891275CD9 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		D6FF1E9C364548889EB99604 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
+		E1B4608AF0A94CB4A5B8201E /* fa-brands-400.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "fa-brands-400.ttf"; path = "../assets/fonts/fa-brands-400.ttf"; sourceTree = "<group>"; };
 		E63881D4C25F4551A9649A08 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ED0FEDB7E11EF0DAECFAA6A4 /* Pods-HumantivTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HumantivTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HumantivTests/Pods-HumantivTests.release.xcconfig"; sourceTree = "<group>"; };
 		FA8BFF4E945C4CDAB3137956 /* libRNReactNativeHgraph.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeHgraph.a; sourceTree = "<group>"; };
@@ -900,12 +908,13 @@
 		37B646913F484154A5FFFDD3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				283647C17456448981553C10 /* fontawesome-webfont.ttf */,
-				BED67D63428440C4A56E2A15 /* FontAwesome.otf */,
 				55D3E356E858407BBCD795EA /* humantiv-icons.ttf */,
 				5A2298F8F5244CF285947D8C /* Sofia-Pro-Regular.ttf */,
 				5BDD612C6EB44832BBF53AF0 /* Sofia-Pro-SemiBold.ttf */,
 				4FD6690B806D4B74AB45745C /* Sofia-Pro-UltraLight.ttf */,
+				E1B4608AF0A94CB4A5B8201E /* fa-brands-400.ttf */,
+				9454009B6F3C463287DD33AD /* fa-regular-400.ttf */,
+				001BA48B80104FDDB1788215 /* fa-solid-900.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1154,6 +1163,7 @@
 			isa = PBXGroup;
 			children = (
 				4A909D16205A61D9003071F4 /* libRNSentry.a */,
+				4A58D75F2213F821009BF006 /* libRNSentry-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1767,6 +1777,13 @@
 			remoteRef = 4A55F4B3214AD8AA0082FBB6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		4A58D75F2213F821009BF006 /* libRNSentry-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNSentry-tvOS.a";
+			remoteRef = 4A58D75E2213F821009BF006 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4A7BBFF9204FCD3500C253C5 /* libRNReactNativeHumanApi.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1924,8 +1941,6 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				4AA195B020362983001ABB7F /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				532DF9DB34864DD0A8B2C1DB /* fontawesome-webfont.ttf in Resources */,
-				5E7A0D1B3652443C9F1FFD2B /* FontAwesome.otf in Resources */,
 				4A58833721420ABC007E4017 /* GINInviteResources.bundle in Resources */,
 				4A58833621420ABC007E4017 /* GPPACLPickerResources.bundle in Resources */,
 				40869C7C04594698B67579EA /* humantiv-icons.ttf in Resources */,
@@ -1933,6 +1948,9 @@
 				A570DE9F4BB74B4087913243 /* Sofia-Pro-Regular.ttf in Resources */,
 				356FB70F5A7B419E8B4B6E0F /* Sofia-Pro-SemiBold.ttf in Resources */,
 				AA2696246D1749B18B9EEDC8 /* Sofia-Pro-UltraLight.ttf in Resources */,
+				60EE2514CCF64C6B91464852 /* fa-brands-400.ttf in Resources */,
+				A31B5843F14C4A36AAFCE7CB /* fa-regular-400.ttf in Resources */,
+				54171568A80F40CFA8CA7543 /* fa-solid-900.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
