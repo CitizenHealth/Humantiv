@@ -3,9 +3,9 @@ import {
   Text, 
   View,
   Dimensions,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from 'react-native';
-
 import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
@@ -23,9 +23,13 @@ import {
   SettingsJourney,
   SettingsDate,
   SettingsTime,
-  Date
+  LeaderboardCard,
+  LeaderboardPodium
 } from '../../src/components/common';
-import Feed from '../../src/components/common/Feed';
+import {
+  LeaderboardList,
+  LeaderboardHeader
+} from '../../src/components/custom';
 import { 
   HealthView, 
   SignUpButton, 
@@ -48,6 +52,7 @@ import {
 import { scale } from "react-native-size-matters";
 import {Icon} from '../../src/components/common/Icon';
 import {formatHoursMinutes} from "../../src/business/Helpers";
+import {users} from './data';
 
 const screenWidth = Dimensions.get('window').width;
 const graphCardWidth = (screenWidth - 30)/2;
@@ -507,3 +512,142 @@ storiesOf('Button', module)
       units={Units.Weight.Pounds}
     />
   ))
+
+  storiesOf('Leaderboard', module)
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('Card', () => (
+    <View
+      style = {{
+        flex: 1,
+        backgroundColor: 'white',
+        justifyContent: 'center'
+      }}
+    >
+      <LeaderboardCard
+        selected = {true}
+        user = {{
+          name: "Stacy Finn",
+          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
+          rank: 2,
+          points: 40000,
+          uniticon: "medit",
+          direction: "up"
+        }}
+      />   
+      <LeaderboardCard
+        selected = {false}
+        user = {{
+          name: "Billy Boy",
+          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073435/profilephoto5.jpg",
+          rank: 5,
+          points: 20000,
+          uniticon: "medex",
+          direction: "down"
+        }}
+      />
+    </View>
+  )).add('Podium Not Me', () => (
+    <View
+      style = {{
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        justifyContent: 'center'
+      }}
+    >
+     <LeaderboardPodium
+        selected = {false}
+        user = {{
+          name: "Billy Boy",
+          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073435/profilephoto5.jpg",
+          rank: 3,
+          points: 20000,
+          uniticon: "medex",
+          direction: "down"
+        }}
+      />
+    </View>
+    )).add('Podium Me', () => (
+      <View
+        style = {{
+          flex: 1,
+          flexDirection: 'row',
+          backgroundColor: 'white',
+          justifyContent: 'center'
+        }}
+      >
+        <LeaderboardPodium
+          selected = {true}
+          user = {{
+            name: "Stacy Finn",
+            imageurl: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
+            rank: 2,
+            points: 40000,
+            uniticon: "medit",
+            direction: "up"
+          }}
+        />   
+      </View>
+  )).add('Podium First', () => (
+    <View
+      style = {{
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        justifyContent: 'center'
+      }}
+    >
+      <LeaderboardPodium
+        selected = {true}
+        user = {{
+          name: "Stacy Finn",
+          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
+          rank: 1,
+          points: 40000,
+          uniticon: "medit",
+          direction: "up"
+        }}
+      />   
+    </View>
+  )).add('LeaderboardList', () => (
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <ScrollView style={{flex: 1}}>
+        <LeaderboardList
+          size = {screenWidth - scale(40)}
+          style = {{marginBottom: 5}}
+          users = {users}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  )).add('LeaderboardHeader', () => (
+    <View
+      style = {{
+        flex: 1,
+        backgroundColor: 'white',
+        justifyContent: 'center'
+      }}
+    >
+      <LeaderboardHeader
+        selected = {true}
+        users = {users
+        }
+      />   
+    </View>
+  )).add('Leaderboard View', () => (
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <ScrollView style={{flex: 1}}>
+      <LeaderboardHeader
+        selected = {true}
+        users = {users}
+      />   
+
+        <LeaderboardList
+          size = {screenWidth - scale(40)}
+          style = {{marginBottom: 5}}
+          start = {4}
+          users = {users}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  ));
+
