@@ -16,6 +16,7 @@ import {
   TextInput 
 } from 'react-native';
 import Reactotron from './configuration/ReactotronConfig';
+import StorybookUI from '../storybook';
 
 // To assign console.log to nothing   
 if (!__DEV__) {
@@ -71,4 +72,5 @@ class App extends Component {
   }
 }
 App = codePush(App);
-export default App;
+//export default __DEV__ ? StorybookUI : App; 
+export default App
