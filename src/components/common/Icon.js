@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
       fontFamily: Fonts.icons
     },
     imageStyle: {
-      color: primaryBlueColor,
+      //color: primaryBlueColor,
     },
 });
 
