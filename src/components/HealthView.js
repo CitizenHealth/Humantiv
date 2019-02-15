@@ -968,7 +968,7 @@ class HealthView extends Component {
                 <ScrollView > 
                     <View style={headerStyle}>
                         {this.renderProfileImage()}
-                        <Text style={textStyle}> My health </Text>
+                        <Text style={textStyle}> My Health </Text>
                         <IconButton
                           onPress={() => {this.launchIntercom()}}
                           viewStyles={iconStyle}
