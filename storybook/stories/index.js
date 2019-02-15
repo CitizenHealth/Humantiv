@@ -527,7 +527,7 @@ storiesOf('Button', module)
         selected = {true}
         user = {{
           name: "Stacy Finn",
-          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
+          image: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
           rank: 2,
           points: 40000,
           uniticon: "medit",
@@ -538,7 +538,7 @@ storiesOf('Button', module)
         selected = {false}
         user = {{
           name: "Billy Boy",
-          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073435/profilephoto5.jpg",
+          image: "https://content-static.upwork.com/uploads/2014/10/01073435/profilephoto5.jpg",
           rank: 5,
           points: 20000,
           uniticon: "medex",
@@ -559,7 +559,7 @@ storiesOf('Button', module)
         selected = {false}
         user = {{
           name: "Billy Boy",
-          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073435/profilephoto5.jpg",
+          image: "https://content-static.upwork.com/uploads/2014/10/01073435/profilephoto5.jpg",
           rank: 3,
           points: 20000,
           uniticon: "medex",
@@ -580,7 +580,7 @@ storiesOf('Button', module)
           selected = {true}
           user = {{
             name: "Stacy Finn",
-            imageurl: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
+            image: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
             rank: 2,
             points: 40000,
             uniticon: "medit",
@@ -601,7 +601,7 @@ storiesOf('Button', module)
         selected = {true}
         user = {{
           name: "Stacy Finn",
-          imageurl: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
+          image: "https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg",
           rank: 1,
           points: 40000,
           uniticon: "medit",
