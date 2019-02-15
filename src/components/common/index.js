@@ -42,3 +42,4 @@ export * from './Date';
 export * from './EarnMedits';
 export * from './LeaderboardCard';
 export * from './LeaderboardPodium';
+export * from './AnonymousImage';

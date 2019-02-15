@@ -19,7 +19,10 @@ import {
 } from '../themes';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../resources/fonts/Fonts';
-import {Icon} from '../common';
+import {
+	Icon,
+	AnonymousImage
+} from '../common';
 import Images from "../../resources/images";
 import {scale} from 'react-native-size-matters';
 import FontAwesome, {Icons} from 'react-native-fontawesome';
@@ -148,6 +151,7 @@ class LeaderboardCard extends Component {
 				<View
 					style={[cardStyle, {backgroundColor: this.bgColor()}]}
 				>
+					{ (user.image) ?
 					<Image 
             style={{ 
               width: height/2, 
@@ -156,7 +160,24 @@ class LeaderboardCard extends Component {
 							marginLeft: 10,
             }} 
             source={{uri: user.image}} 
-          /> 
+					/> 
+					:
+					<View
+					style={{
+						width: height/2, 
+						height: height/2,
+						marginLeft: 10,
+					}}
+					>
+						<AnonymousImage
+							size={height/2}
+							text={user.name}
+							seed={23}
+							single={false}
+							color={primaryBlueColor}
+						/>
+					</View>
+					}
 					<View style={textContainerStyle}>
 						<View 
 							style={nameContainerStyle}

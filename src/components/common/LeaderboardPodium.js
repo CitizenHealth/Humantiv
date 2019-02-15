@@ -19,7 +19,10 @@ import {
 } from '../themes';
 import PropTypes from 'prop-types';
 import {Fonts} from '../../resources/fonts/Fonts';
-import {Icon} from '../common';
+import {
+	Icon,
+	AnonymousImage
+} from '../common';
 import Images from "../../resources/images";
 import {scale} from 'react-native-size-matters';
 import FontAwesome, {Icons} from 'react-native-fontawesome';
@@ -153,6 +156,7 @@ class LeaderboardPodium extends Component {
 						}
 					]}
 				>
+					{ (user.image) ?
 					<Image 
             style={{ 
               width: imageSize/3, 
@@ -162,6 +166,23 @@ class LeaderboardPodium extends Component {
             }} 
             source={{uri: user.image}} 
           /> 
+					:
+					<View
+					style={{
+						width: imageSize/3, 
+						height: imageSize/3,
+						margin: 5,
+					}}
+					>
+						<AnonymousImage
+							size={imageSize/3}
+							text={user.name}
+							seed={23}
+							single={false}
+							color={primaryBlueColor}
+						/>
+					</View>
+					}
 				</View>
 				<View style={textContainerStyle}>
 						<View 
