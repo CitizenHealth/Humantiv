@@ -15,6 +15,7 @@
     "lodash.isequal": "^4.5.0",
     "moment": "^2.24.0",
     "react": "16.4.1",
+    "react-initicon": "^0.3.0",
     "react-moment": "^0.8.4",
     "react-native": "0.56.0",
     "react-native-action-button": "^2.8.5",
