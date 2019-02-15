@@ -30,11 +30,11 @@ class LeaderboardPodium extends Component {
 	static propTypes = {
     user: PropTypes.shape({
         name: PropTypes.string.isRequired,
-        imageurl: PropTypes.string,
+        image: PropTypes.string,
         rank: PropTypes.number.isRequired,
-				points: PropTypes.number.isRequired,
-				uniticon: PropTypes.string.isRequired,
-				direction: PropTypes.string.isRequired
+				medit: PropTypes.number,
+				uniticon: PropTypes.string,
+				direction: PropTypes.string
     }),
     width: PropTypes.number,
     height: PropTypes.number,
@@ -43,13 +43,13 @@ class LeaderboardPodium extends Component {
 
   static defaultProps = {
     width:  Dimensions.get('screen').width/3-10,
-    height: 220,
+    height: 200,
 		selected: false,
 		user: {
 			name: "Billy Boy",
-			imageurl: "",
+			image: "",
 			rank: 4,
-			points: 23156,
+			medit: 23156,
 			uniticon: "medit",
 			direction: "up"
 		}
@@ -72,7 +72,7 @@ class LeaderboardPodium extends Component {
 			>
 				<FontAwesome
 					style={{
-						color: (user.rank === 1 || user.direction === "down") ? 'transparent' : graphGreenColor,
+						color: (user.rank === 1 || user.direction !== "up") ? 'transparent' : graphGreenColor,
 						fontSize: 20,
 					}}
 				>
@@ -83,7 +83,7 @@ class LeaderboardPodium extends Component {
 				</Text>
 				<FontAwesome
 					style={{
-						color: (user.rank === 1 || user.direction === "up") ? 'transparent' : graphRedColor,
+						color: (user.rank === 1 || user.direction !== "down") ? 'transparent' : graphRedColor,
 						fontSize: 20,
 					}}
 				>
@@ -114,7 +114,7 @@ class LeaderboardPodium extends Component {
   render() {
     const {
 			mainViewStyle,
-			topViewStyle,
+			nameContainerStyle,
 			bottomViewStyle,
 			cardStyle,
 			valueContainerStyle,
@@ -131,7 +131,9 @@ class LeaderboardPodium extends Component {
 			height
     } = this.props;
 
-		var imageSize = (user.rank === 1) ? height : ( (user.rank === 2) ? height*3/4 : height * 2/3)
+		var imageSize = (user.rank === 1) ? height : ( (user.rank === 2) ? height*3/4 : height * 2/3);
+
+		console.log(`LEADERBOARD PODIUM USER: ${user}`)
     return (
     <View style={[mainViewStyle, {
           width: width,
@@ -158,16 +160,21 @@ class LeaderboardPodium extends Component {
 							borderRadius: imageSize/6,
 							margin: 5,
             }} 
-            source={{uri: user.imageurl}} 
+            source={{uri: user.image}} 
           /> 
 				</View>
 				<View style={textContainerStyle}>
-						<Text 
-							numberOfLines={1}
-							style={[titleStyle,
-						{color: this.fgTitleColor()}]}>
+						<View 
+							style={nameContainerStyle}
+						>
+							<Text 
+								numberOfLines={1}
+								style={[titleStyle,
+								{color: this.fgTitleColor()}]}
+							>
 								{user.name}
-						</Text>
+							</Text>
+						</View>
 						<View 
 							style={valueContainerStyle}
 						>
@@ -182,7 +189,7 @@ class LeaderboardPodium extends Component {
 									[valueStyle,
 									{color: this.fgColor()}]}
 							>
-									{formatNumbers(user.points)}
+									{formatNumbers(user.medit)}
 							</Text>
 						</View>
 					</View>
@@ -232,7 +239,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: 10
-  },
+	},
+	nameContainerStyle: {
+		flex: 1
+	},
   titleStyle: {
     fontSize: 12,
     fontWeight: "400",

@@ -5,3 +5,4 @@ export * from "./FeedAction";
 export * from "./TimeSeriesAction";
 export * from "./HealthAction";
 export * from "./DeviceAction";
+export * from "./LeaderboardAction";

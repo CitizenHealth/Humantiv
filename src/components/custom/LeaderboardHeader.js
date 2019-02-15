@@ -15,7 +15,7 @@ import {
 } from '../themes';
 import PropTypes from 'prop-types';
 import {LeaderboardPodium} from '../common';
-import {ActivityFeedTypes, primaryBackgroungColor} from '../themes/theme';
+import {ActivityFeedTypes, primaryBackgroungColor, primaryWhiteColor} from '../themes/theme';
 import * as Animatable from 'react-native-animatable';
 
 class LeaderboardHeader extends Component {
@@ -25,11 +25,11 @@ class LeaderboardHeader extends Component {
     users: PropTypes.arrayOf(
       PropTypes.shape(
         {
-          name: PropTypes.string.isRequired,
-          imageurl: PropTypes.string,
-          points: PropTypes.number.isRequired,
-          uniticon: PropTypes.string.isRequired,
-          direction: PropTypes.string.isRequired,
+          name: PropTypes.string,
+          image: PropTypes.string,
+          medit: PropTypes.number,
+          uniticon: PropTypes.string,
+          direction: PropTypes.string,
           selected: PropTypes.bool
         }
       )
@@ -55,7 +55,7 @@ class LeaderboardHeader extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.data != this.props.data )
+    if (nextProps.users != this.props.users )
       {
         return true;
       }
@@ -72,8 +72,8 @@ class LeaderboardHeader extends Component {
     const {cardContainerStyle} = styles;
 		const user = (users.length >= rank) ? users[rank-1] : {
 			name: "Null",
-			imageurl: "",
-			points: 0,
+			image: "",
+			medit: 0,
 			uniticon: "",
 			direction: ""
 		};
@@ -102,7 +102,6 @@ class LeaderboardHeader extends Component {
         key = {rank}
       >
 				<LeaderboardPodium
-					selected = {user.selected}
 					rank = {rank}
 					user = {user}
 				/>
@@ -136,7 +135,16 @@ const styles = {
 		alignContent: "center",
 		marginBottom: 30,
 		marginLeft: 15,
-		marginRight: 15
+    marginRight: 15,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    borderColor: "#ddd",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 1,
+    backgroundColor: primaryWhiteColor
   },
   cardContainerStyle: {
     marginBottom: 10 

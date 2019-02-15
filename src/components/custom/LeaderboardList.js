@@ -26,11 +26,11 @@ class LeaderboardList extends Component {
     users: PropTypes.arrayOf(
       PropTypes.shape(
         {
-          name: PropTypes.string.isRequired,
-          imageurl: PropTypes.string,
-          points: PropTypes.number.isRequired,
-          uniticon: PropTypes.string.isRequired,
-          direction: PropTypes.string.isRequired,
+          name: PropTypes.string,
+          image: PropTypes.string,
+          medit: PropTypes.number,
+          uniticon: PropTypes.string,
+          direction: PropTypes.string,
           selected: PropTypes.bool
         }
       )
@@ -57,7 +57,7 @@ class LeaderboardList extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.data != this.props.data )
+    if (nextProps.users != this.props.users )
       {
         return true;
       }
@@ -108,6 +108,8 @@ class LeaderboardList extends Component {
         containerStyle,
         cardContainerStyle
     } = styles;
+
+    console.log(`LEaderboard Header Users: ${JSON.stringify(this.props.users, null, 2)}`);
 
     return (
         <View style={containerStyle}>

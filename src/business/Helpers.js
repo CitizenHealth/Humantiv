@@ -160,6 +160,27 @@ export const convertMeditFromObjectToArray = (obj) => {
   return arrayOfObjs;
 }
 
+export const convertLeaderboardObjectsToArray = (obj, uid) => {
+
+  let arrayOfObjs = [];
+  if (obj) {
+    arrayOfObjs = Object.keys(obj).map((key) => {
+      obj[key].id = key;
+      if (key === uid) {
+        obj[key].selected = true;
+      }
+      if (!obj[key].name) {
+        obj[key].name = obj[key].email;
+      }
+      if (!obj[key].uniticon) {
+        obj[key].uniticon = "medit";
+      } 
+      return obj[key];
+    });
+  }
+  return arrayOfObjs.reverse();
+}
+
 export const capitalLetter = (str) =>
 {
     str = str.split(" ");

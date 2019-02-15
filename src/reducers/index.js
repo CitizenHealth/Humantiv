@@ -7,6 +7,7 @@ import FeedReducer from "./FeedReducer";
 import TimeSeriesReducer from "./TimeSeriesReducer";
 import HealthReducer from "./HealthReducer";
 import DeviceReducer from "./DeviceReducer";
+import LeaderboardReducer from "./LeaderboardReducer";
 
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   config: ConfigReducer,
   timeseries: TimeSeriesReducer,
   health: HealthReducer,
-  device: DeviceReducer
+  device: DeviceReducer,
+  play: LeaderboardReducer
 });

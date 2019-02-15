@@ -30,11 +30,11 @@ class LeaderboardCard extends Component {
 	static propTypes = {
     user: PropTypes.shape({
         name: PropTypes.string.isRequired,
-        imageurl: PropTypes.string,
+        image: PropTypes.string,
         rank: PropTypes.number.isRequired,
-				points: PropTypes.number.isRequired,
-				uniticon: PropTypes.string.isRequired,
-				direction: PropTypes.string.isRequired
+				medit: PropTypes.number,
+				uniticon: PropTypes.string,
+				direction: PropTypes.string
 		}),
     width: PropTypes.number,
     height: PropTypes.number,
@@ -47,9 +47,9 @@ class LeaderboardCard extends Component {
 		selected: false,
 		user: {
 			name: "Billy Boy",
-			imageurl: "",
+			image: "",
 			rank: 4,
-			points: 23156,
+			medit: 23156,
 			uniticon: "medit",
 			direction: "up"
 		}
@@ -67,13 +67,13 @@ class LeaderboardCard extends Component {
 			rankStyle
 		} = styles;
 
-		return (user.direction === "up") ? 
+		return (
 			<View 
 				style={iconContainerStyle}
 			>
 				<FontAwesome
 					style={{
-						color: graphGreenColor,
+						color: (user.rank === 1 || user.direction !== "up") ? 'transparent' : graphGreenColor,
 						fontSize: 20,
 					}}
 				>
@@ -84,37 +84,14 @@ class LeaderboardCard extends Component {
 				</Text>
 				<FontAwesome
 					style={{
-						color: 'transparent',
+						color: (user.rank === 1 || user.direction !== "down") ? 'transparent' : graphRedColor,
 						fontSize: 20,
 					}}
 				>
 					{Icons.caretDown}
 				</FontAwesome>
 			</View>
-		 : 
-			<View 
-			style={iconContainerStyle}
-			>
-				<FontAwesome
-					style={{
-						color: 'transparent',
-						fontSize: 20,
-					}}
-				>
-					{Icons.caretUp}
-				</FontAwesome>
-				<Text style={rankStyle}>
-					{user.rank}
-				</Text>
-				<FontAwesome
-					style={{
-						color: graphRedColor,
-						fontSize: 20,
-					}}
-				>
-					{Icons.caretDown}
-				</FontAwesome>
-			</View>
+		)
 	}
 
 	fgColor() {
@@ -143,11 +120,9 @@ class LeaderboardCard extends Component {
         cardStyle,
         valueContainerStyle,
         textContainerStyle,
-        messageContainerStyle,
         titleStyle,
-        timeContainerStyle,
 				valueStyle,
-				valyContainerStyle
+				nameContainerStyle
     } = styles;
 
     const {
@@ -180,15 +155,20 @@ class LeaderboardCard extends Component {
 							borderRadius: height/4,
 							marginLeft: 10,
             }} 
-            source={{uri: user.imageurl}} 
+            source={{uri: user.image}} 
           /> 
 					<View style={textContainerStyle}>
-						<Text 
-							numberOfLines={1}
-							style={[titleStyle,
-						{color: this.fgTitleColor()}]}>
-								{user.name}
-						</Text>
+						<View 
+							style={nameContainerStyle}
+						>
+							<Text 
+								numberOfLines={1}
+								style={[titleStyle,
+								{color: this.fgTitleColor()}]}
+							>
+									{user.name}
+							</Text>
+						</View>
 						<View 
 							style={valueContainerStyle}
 						>
@@ -202,7 +182,7 @@ class LeaderboardCard extends Component {
 									[valueStyle,
 									{color: this.fgColor()}]}
 							>
-									{formatNumbers(user.points)}
+									{formatNumbers(user.medit)}
 							</Text>
 						</View>
 					</View>
@@ -245,7 +225,10 @@ const styles = StyleSheet.create({
   iconContainerStyle: {
     justifyContent: 'center',
 		alignItems: 'center'
-  },
+	},
+	nameContainerStyle: {
+		flex: 2
+	},
   valueContainerStyle: {
 		flex: 1,
 		flexDirection: 'row',
@@ -265,7 +248,7 @@ const styles = StyleSheet.create({
       alignItems: 'flex-end',
   },
   titleStyle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "400",
     textAlignVertical: 'center',
     color: graphGreyColor,
@@ -279,12 +262,8 @@ const styles = StyleSheet.create({
     color: graphGreyColor,
 		fontFamily: Fonts.regular,
 	},
-  timeContainerStyle: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
   valueStyle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "400",
     textAlignVertical: 'center',
 		fontFamily: Fonts.regular,
