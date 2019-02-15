@@ -9,7 +9,7 @@ import {
 import Images from '../resources/images';
 import {
 	theme,
-	primaryBlueColor
+	primaryBackgroungColor
 } from '../components/themes';
 import { scale } from 'react-native-size-matters';
 
@@ -54,7 +54,8 @@ class MarketView extends Component {
 
 const styles = StyleSheet.create({
   pageContainerStyle: {
-    flex: 1
+		flex: 1,
+		backgroundColor: primaryBackgroungColor
 	}, 
 	imageStyle: {
 		width: Dimensions.get('window').width - 40,

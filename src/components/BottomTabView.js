@@ -240,8 +240,8 @@ class BottomTabView extends React.Component<*, State> {
           renderTabBar={this._renderTabBar}
           onIndexChange={this._handleIndexChange}
           tabBarPosition={'bottom'}
-          animationEnabled={false}
-          swipeEnabled={false}
+          animationEnabled={true}
+          swipeEnabled={true}
         />
       </SafeAreaView>
     );
