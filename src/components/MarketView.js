@@ -9,9 +9,11 @@ import {
 import Images from '../resources/images';
 import {
 	theme,
-	primaryBackgroungColor
+	primaryBackgroungColor,
+	graphGreyColor
 } from '../components/themes';
 import { scale } from 'react-native-size-matters';
+import {Fonts} from '../resources/fonts/Fonts';
 
 class MarketView extends Component {
 	render() {
@@ -24,11 +26,16 @@ class MarketView extends Component {
 			pageContainerStyle,
 			imageStyle,
 			imageContainerStyle,
-			textContainerStyle
+			textContainerStyle,
+			headerStyle,
+      textStyle
 		} = styles;
 
 		return (
 			<View style={pageContainerStyle}>
+				<View style={headerStyle}>
+					<Text style={textStyle}> Marketplace </Text>               
+				</View>
 				<View
 					style={imageContainerStyle}
 				>
@@ -69,7 +76,21 @@ const styles = StyleSheet.create({
 	textContainerStyle: {
 		flex: 1,
 		justifyContent: 'flex-start',
-	}
+	},
+	headerStyle: {
+		flexDirection: 'row',
+		justifyContent: "space-between",
+		height: scale(60),
+		alignItems: 'center',
+		alignContent: 'stretch'
+	},
+	textStyle: {
+		flex: 4,
+		textAlign: 'center',
+		fontSize: 20,
+		color: graphGreyColor,
+		fontFamily: Fonts.regular
+	},
 });
 
 export default MarketView;
