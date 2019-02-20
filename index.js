@@ -9,6 +9,7 @@ import {
     Platform
  } from 'react-native';
 import App from './src/App';
+import 'babel-polyfill';
 
 const MyStatusBar = ({backgroundColor, ...props}) => (
     <View style={[styles.statusBar, { backgroundColor }]}>
