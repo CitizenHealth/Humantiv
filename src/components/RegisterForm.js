@@ -59,6 +59,7 @@ import {
   checkEmail,
   checkPassword
 } from '../business';
+import DropdownAlert from 'react-native-dropdownalert';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const ANIMATION_DURATION = 500;
@@ -154,6 +155,14 @@ class RegisterForm extends Component {
         delay: 1000
       })
     ]).start();  
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {error} = this.props;
+
+    if (nextProps.error && nextProps.error !== error) {
+      this.dropdown.alertWithType('error', 'Error' , nextProps.error);
+    }
   }
 
   // Text Input handlers
@@ -279,18 +288,6 @@ class RegisterForm extends Component {
     this.setState({signUpModalVisible: !this.state.signUpModalVisible});
   }
 
-  renderError() {
-    const { error } = this.props;
-    const { errorTextStyle } = styles;
-
-    if (error) {
-      return (
-        <View style={{ justifyContent: 'center', backgroundColor: "red"}}>
-          <Text style={errorTextStyle}> {error} </Text>
-        </View>
-      );
-    }
-  }
   renderButton() {
     const { loading } = this.props;
     const {primaryWhiteTextStyle} = theme;
@@ -344,7 +341,9 @@ class RegisterForm extends Component {
       inputTitleStyle, 
       primaryWhiteTextStyle, 
       primaryGreyTextStyle,
-      termStyle
+      termStyle,
+      dropDownErrorMessageTextStyle,
+      dropDownErrorTitleTextStyle
     } = theme;
 
     const { 
@@ -602,8 +601,13 @@ class RegisterForm extends Component {
             >
               <Text style= {[termStyle, {color: primaryBlueColor}]}>Terms & Privacy Policy</Text>
             </TouchableOpacity> 
-          </View>
-          {this.renderError()}   
+          </View> 
+          <DropdownAlert 
+            ref={ref => this.dropdown = ref} 
+            closeInterval={6000} 
+            titleStyle = {dropDownErrorTitleTextStyle}
+            messageStyle = {dropDownErrorMessageTextStyle}
+          />
         <ModalDialog
           visible={this.state.signUpModalVisible}
           label={this.state.dialogState.message}

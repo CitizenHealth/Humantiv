@@ -40,6 +40,7 @@ import {primaryWhiteColor} from './themes/theme';
 import { 
   checkEmail
 } from '../business';
+import DropdownAlert from 'react-native-dropdownalert';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const ANIMATION_DURATION = 500;
@@ -89,6 +90,14 @@ class LoginForm extends Component {
         delay: 500
       })
     ]).start();   
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {error} = this.props;
+
+    if (nextProps.error && nextProps.error !== error) {
+      this.dropdown.alertWithType('error', 'Error' , nextProps.error);
+    }
   }
 
   // Text Input handlers
@@ -195,20 +204,6 @@ class LoginForm extends Component {
 
   }
 
-  
-
-  renderError() {
-    const { error } = this.props;
-    const { errorTextStyle } = styles;
-
-    if (error) {
-      return (
-        <View style={{ justifyContent: 'center', backgroundColor: "red"}}>
-          <Text style={errorTextStyle}> {error} </Text>
-        </View>
-      );
-    }
-  }
   renderButton() {
     const { loading } = this.props;
     const {primaryWhiteTextStyle, startSpinnerStyle} = theme;
@@ -260,7 +255,9 @@ class LoginForm extends Component {
       inputStyle,
       inputTitleStyle, 
       primaryWhiteTextStyle, 
-      primaryGreyTextStyle 
+      primaryGreyTextStyle,
+      dropDownErrorTitleTextStyle,
+      dropDownErrorMessageTextStyle
     } = theme;
 
     const { 
@@ -387,7 +384,12 @@ class LoginForm extends Component {
           </View>      
           <View style={socialContainer}>
           </View>
-          {this.renderError()}   
+          <DropdownAlert 
+            ref={ref => this.dropdown = ref} 
+            closeInterval={6000} 
+            titleStyle = {dropDownErrorTitleTextStyle}
+            messageStyle = {dropDownErrorMessageTextStyle}
+          /> 
         <ModalDialog
           visible={this.state.signUpModalVisible}
           label={this.state.dialogState.message}
