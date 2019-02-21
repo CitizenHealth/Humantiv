@@ -226,6 +226,9 @@ class StartView extends Component {
     .onInvitation(
       (invitation) => {
       console.log(invitation);
+      Sentry.captureMessage(`Opened App On Invitation: ${JSON.stringify(invitation, null, 2)}`, {
+        level: SentrySeverity.Info
+      });
     });
 
     // unsubscribe
@@ -235,7 +238,7 @@ class StartView extends Component {
     .getInitialInvitation()
     .then((invitation) => {
         if (invitation) {
-          console.log("APP OPENED FROM INVITATION");
+          console.log("APP OPENED FROM INVITATION");   
           console.log(invitation);
         } else {
           console.log("APP NOT OPENED FROM INVITATION");
