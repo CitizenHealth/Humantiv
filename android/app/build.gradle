@@ -83,8 +83,10 @@ project.ext.sentryCli = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
-apply from: "../../node_modules/react-native-sentry/sentry.gradle"
-
+//apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
+    apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+}
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
