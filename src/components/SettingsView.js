@@ -204,6 +204,10 @@ class SettingsView extends Component {
     this.props.dataSave({type: "profile", data: {wallet_notification: value}});
   }
 
+  onAnonymousChange(value) {
+    this.props.dataSave({type: "profile", data: {anonymous_leaderboard: value}});
+  }
+
   onGoogleFitNotificationChange(value) {
     this.props.dataSave({type: "profile", data: {google_fit: value}});
   }
@@ -236,6 +240,7 @@ class SettingsView extends Component {
     const onGoalNotificationChange = _.debounce((value) => this.onGoalNotificationChange(value), 300);
     const onVotesNotificationChange = _.debounce((value) => this.onVotesNotificationChange(value), 300);
     const onWalletNotificationChange = _.debounce((value) => this.onWalletNotificationChange(value), 300);
+    const onAnonymousChange = _.debounce((value) => this.onAnonymousChange(value), 300);
     
     const profile_journey = (children.profile) ? children.profile.journey : "";
     const profile_age = (children.profile) ? children.profile.age : "";
@@ -251,6 +256,8 @@ class SettingsView extends Component {
     const notifications_goals = (children.profile) ? children.profile.goal_notification : "";
     const notifications_votes = (children.profile) ? children.profile.votes_notification : "";
     const notifications_wallet = (children.profile) ? children.profile.wallet_notification : "";
+    const leaderboard_anonymous = (children.profile) ? children.profile.anonymous_leaderboard : "";
+    
 
     const needed_message = "Needed for the health score";
 
@@ -361,6 +368,15 @@ class SettingsView extends Component {
               label="Wallet Notifications"
               onValueChange= {onWalletNotificationChange}
               value = {(notifications_wallet !== "" && notifications_wallet !== undefined) ? notifications_wallet : false}
+            />
+          </SettingsSection>
+          < SettingsSection
+            title="Leaderboard"
+          >
+            < SettingsSwitch
+              label="Hide Identity"
+              onValueChange= {onAnonymousChange}
+              value = {(leaderboard_anonymous !== "" && leaderboard_anonymous !== undefined) ? leaderboard_anonymous : false}
             />
           </SettingsSection>
           < SettingsSection

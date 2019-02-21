@@ -31,7 +31,8 @@ class LeaderboardList extends Component {
           medit: PropTypes.number,
           uniticon: PropTypes.string,
           direction: PropTypes.string,
-          selected: PropTypes.bool
+          selected: PropTypes.bool,
+          anonymous: PropTypes.bool
         }
       )
     )
@@ -47,6 +48,7 @@ class LeaderboardList extends Component {
     super(props);
 
     this.state = {
+      firstDisplay: false,
       activeRowKey: null
     }
   }
@@ -55,6 +57,17 @@ class LeaderboardList extends Component {
     UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
     LayoutAnimation.spring();
   }
+
+	handleNavigationSceneFOCUS = () => {
+    const {firstDisplay} = this.state;
+
+    if (!firstDisplay) {
+      this.forceUpdate();
+      this.setState({
+        firstDisplay: true
+      })
+    }
+	}
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.users != this.props.users )

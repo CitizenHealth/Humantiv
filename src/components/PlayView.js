@@ -83,6 +83,7 @@ textStyle: {
 
 const mapStateToProps = state => {
 	const {leaderboard} = state.play;
+	
 	return {
 		leaderboard
 	}

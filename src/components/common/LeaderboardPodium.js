@@ -37,7 +37,8 @@ class LeaderboardPodium extends Component {
         rank: PropTypes.number.isRequired,
 				medit: PropTypes.number,
 				uniticon: PropTypes.string,
-				direction: PropTypes.string
+				direction: PropTypes.string,
+				anonymous: PropTypes.bool
     }),
     width: PropTypes.number,
     height: PropTypes.number,
@@ -135,6 +136,8 @@ class LeaderboardPodium extends Component {
     } = this.props;
 
 		var imageSize = (user.rank === 1) ? height : ( (user.rank === 2) ? height*3/4 : height * 2/3);
+		const hidden = (user.anonymous && !selected) ? true : false;
+		const name = (hidden) ? "Anonymous User" : user.name;
 
 		console.log(`LEADERBOARD PODIUM USER: ${user}`)
     return (
@@ -156,7 +159,7 @@ class LeaderboardPodium extends Component {
 						}
 					]}
 				>
-					{ (user.image) ?
+					{ (user.image && !hidden) ?
 					<Image 
             style={{ 
               width: imageSize/3, 
@@ -193,7 +196,7 @@ class LeaderboardPodium extends Component {
 								style={[titleStyle,
 								{color: this.fgTitleColor()}]}
 							>
-								{user.name}
+								{name}
 							</Text>
 						</View>
 						<View 

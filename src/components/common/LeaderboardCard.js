@@ -37,7 +37,8 @@ class LeaderboardCard extends Component {
         rank: PropTypes.number.isRequired,
 				medit: PropTypes.number,
 				uniticon: PropTypes.string,
-				direction: PropTypes.string
+				direction: PropTypes.string,
+				anonymous: PropTypes.bool
 		}),
     width: PropTypes.number,
     height: PropTypes.number,
@@ -135,6 +136,9 @@ class LeaderboardCard extends Component {
         height
     } = this.props;
 
+		const hidden = (user.anonymous && !selected) ? true : false;
+		const name = (hidden) ? "Anonymous User" : user.name;
+
     return (
     <View style={[mainViewStyle, {
           width: width,
@@ -151,7 +155,7 @@ class LeaderboardCard extends Component {
 				<View
 					style={[cardStyle, {backgroundColor: this.bgColor()}]}
 				>
-					{ (user.image) ?
+					{ (user.image) && !hidden?
 					<Image 
             style={{ 
               width: height/2, 
@@ -187,7 +191,7 @@ class LeaderboardCard extends Component {
 								style={[titleStyle,
 								{color: this.fgTitleColor()}]}
 							>
-									{user.name}
+									{name}
 							</Text>
 						</View>
 						<View 

@@ -30,7 +30,8 @@ class LeaderboardHeader extends Component {
           medit: PropTypes.number,
           uniticon: PropTypes.string,
           direction: PropTypes.string,
-          selected: PropTypes.bool
+          selected: PropTypes.bool,
+          anonymous: PropTypes.bool
         }
       )
     )
