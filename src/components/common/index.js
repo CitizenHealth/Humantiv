@@ -37,6 +37,7 @@ export * from './SettingsJourney';
 export * from './SettingsDate';
 export * from './SettingsTime';
 export * from './SettingsButton';
+export * from './SettingsTextLink';
 export * from './Feed';
 export * from './Date';
 export * from './EarnMedits';

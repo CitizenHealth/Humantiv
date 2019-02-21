@@ -13,7 +13,7 @@ import {
   SettingsSwitch,
   SettingsChoice,
   SettingsSection,
-  SettingsDataSource,
+  SettingsTextLink,
   SettingsJourney,
   SettingsButton,
   IconButton
@@ -387,6 +387,23 @@ class SettingsView extends Component {
               color= {primaryGreenColor}
               onPress={() => {Actions.settingsjourney()}}
             />
+          </ SettingsSection>
+          < SettingsSection
+            title="Help"
+          >
+            <SettingsTextLink
+              label="Terms and Conditions"
+              url="http://humantiv.com/terms"
+            />
+            <SettingsTextLink
+              label="Privacy Policy"
+              url="https://humantiv.com/privacy-policy"
+            />
+            <SettingsTextLink
+              label="FAQ"
+              url="http://humantiv.com/faqs"
+            />
+          </SettingsSection>
             <View style={{height: 50}}/>
             < SettingsButton
               label="Sign out"
@@ -397,7 +414,7 @@ class SettingsView extends Component {
             >
              {`Version: ${VersionNumber.appVersion} | Build: ${VersionNumber.buildVersion}`}
             </Text>
-          </SettingsSection>
+
         </ScrollView>
       </View>
     );
