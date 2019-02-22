@@ -32,6 +32,7 @@ const RouterComponent = () => {
           <Scene key="login" component={LoginForm} animation='fade' hideNavBar />
           <Scene key="verify" component={EmailConfirmationView} hideNavBar />
           <Scene key="password" component={PasswordLostView} hideNavBar />
+          <Scene key="journey" component={JourneyView} hideNavBar />         
         </Scene>
         <Scene key="onboarding">
           <Scene key="personal" component={SimplePage} hideNavBar/>

@@ -56,7 +56,6 @@ class EmailConfirmation extends Component {
         if (firebaseUser._user.emailVerified) {
           console.log('Email is verified');
           (children.profile && children.profile.journey) ? Actions.main(): Actions.journey();
-          return;
         } else {
           this.setState({visibleModal: true, textModal: modalMessages.continue});
         }
