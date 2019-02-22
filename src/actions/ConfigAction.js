@@ -4,7 +4,7 @@ import { CONFIG_UPDATE } from "./types";
 
 export const getConfiguration = (parameter) => {
   return (dispatch) => {
-    firebase.config().fetch(0)
+    firebase.config().fetch()
     .then(() => {
       return firebase.config().activateFetched();
     })
