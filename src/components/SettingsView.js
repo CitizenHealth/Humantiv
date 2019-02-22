@@ -389,7 +389,7 @@ class SettingsView extends Component {
             />
           </ SettingsSection>
           < SettingsSection
-            title="Help"
+            title="General"
           >
             <SettingsTextLink
               label="Terms and Conditions"
