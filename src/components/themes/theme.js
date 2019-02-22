@@ -55,13 +55,13 @@ export const modalMessages = {
   continue: {
     title: "",
     message: "Please confirm your email",
-    cancel: "CANCEL",
+    cancel: "OK",
     accept: ""
   },  
   resend: {
     title: "",
     message:"A new confirmation email was just sent!",
-    cancel: "CANCEL",
+    cancel: "OK",
     accept: ""
   },
   dismissfeed: {

@@ -95,7 +95,8 @@ class ModalDialog extends Component {
           style= {[
             modalContent, { 
               width: scale(280), 
-              height: scale(120)
+              height: scale(120),
+              borderRadius: 10,
             }]
           }
           visible={this.props.visible}>
