@@ -160,6 +160,7 @@ class HealthView extends Component {
 
       // Fetch the data from 
       this.props.dataFetch({type: "profile"});
+      this.props.dataFetch({type: "share"});
 
       // this.props.dataFetch({type: "notifications"});
       firebase.analytics().setCurrentScreen('My Health Screen', 'MyHealthView');

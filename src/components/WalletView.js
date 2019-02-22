@@ -79,24 +79,29 @@ class WalletView extends Component {
     }
 
     share = () => {
+      const {children} = this.props;
 
     // Check if user data is not set
     if (!firebase.app().auth().currentUser.uid) {
       console.log('User not authenticated');
       return;
     }
-    let referalLink = `https://humantiv.com?invitedby=${firebase.app().auth().currentUser.uid}`
-      // Create dynamic link
-      const link = new firebase.links.DynamicLink(referalLink, 'humantiv.page.link')
-        .android.setPackageName('io.citizenhealth.humantiv')
-        .android.setFallbackUrl('https://citizenhealth.io/humantiv/')
-        .ios.setBundleId('io.citizenhealth.humantiv')
-        .ios.setAppStoreId('1347054342')
-        .social.setTitle(this.props.share_title)
-        .social.setDescriptionText(this.props.share_message)
-        .social.setImageUrl('https://citizenhealth.io/wp-content/uploads/2018/07/Humantiv.jpg');
 
-      if (Platform.OS === 'android') {
+    const shared = (children.share && children.share.app !== undefined) ? children.share.app + 1 : 0;
+    this.props.dataSave({type: "share", data: {app: shared}});
+
+    let referalLink = `https://humantiv.page.link/invite`
+    // Create dynamic link
+    const link = new firebase.links.DynamicLink(referalLink, 'humantiv.page.link')
+      .android.setPackageName('io.citizenhealth.humantiv')
+      .android.setFallbackUrl('https://humantiv.com')
+      .ios.setBundleId('io.citizenhealth.humantiv')
+      .ios.setAppStoreId('1347054342')
+      .social.setTitle(this.props.share_title)
+      .social.setDescriptionText(this.props.share_message)
+      .social.setImageUrl('https://citizenhealth.io/wp-content/uploads/2018/07/Humantiv.jpg');
+
+    if (Platform.OS === 'android') {
         firebase.links()
   //      .createShortDynamicLink(link, 'UNGUESSABLE')
         .createDynamicLink(link)
@@ -110,16 +115,16 @@ class WalletView extends Component {
             dialogTitle: "Share Humantiv"
           })
           .then(result =>  {          
-            // this.props.dataAdd({type: "wallet", item: "medits", data: 10});
-            // // Add medit to feed
-            // const story = {
-            //   title: "Your sharing earned you",
-            //   preposition: "",
-            //   value: `10 Medits`,
-            //   time: Math.round((new Date()).getTime() / 1000),
-            //   type: "medits"
-            // }
-            // this.props.addFeedStory(story);
+            this.props.dataAdd({type: "wallet", item: "medits", data: 10});
+            // Add medit to feed
+            const story = {
+              title: "Sharing earned you",
+              preposition: "",
+              value: `10 Medits`,
+              time: Math.round((new Date()).getTime() / 1000),
+              type: "medits"
+            }
+            this.props.addFeedStory(story);
             console.log(result)
           })
           .catch(errorMsg => {
@@ -142,6 +147,17 @@ class WalletView extends Component {
             dialogTitle: "Share Humantiv"
           })
           .then(result =>  {          
+            console.log(result);
+            this.props.dataAdd({type: "wallet", item: "medits", data: 10});
+            // Add medit to feed
+            const story = {
+              title: "Sharing earned you",
+              preposition: "",
+              value: `10 Medits`,
+              time: Math.round((new Date()).getTime() / 1000),
+              type: "medits"
+            }
+            this.props.addFeedStory(story);
             console.log(result)
           })
           .catch(errorMsg => {
@@ -238,7 +254,7 @@ class WalletView extends Component {
                 {Icons.shareAlt}
               </FontAwesome>
               <Text style={earnMeditsTextStyle}>
-                Share and Earn Free Medits
+                Share and Earn 10 Medit
               </Text>
             </TouchableOpacity>
           </LinearGradient>
