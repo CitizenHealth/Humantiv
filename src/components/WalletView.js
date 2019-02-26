@@ -44,6 +44,7 @@ import {
 import {formatNumbers} from '../business/Helpers';
 import {primaryWhiteColor, primaryGreyColor} from './themes/theme';
 import LinearGradient from 'react-native-linear-gradient';
+import DropdownAlert from 'react-native-dropdownalert';
 
 class WalletView extends Component {
 
@@ -90,7 +91,7 @@ class WalletView extends Component {
     const shared = (children.share && children.share.app !== undefined) ? children.share.app + 1 : 0;
     this.props.dataSave({type: "share", data: {app: shared}});
 
-    let referalLink = `https://humantiv.page.link/invite`
+    let referalLink = `https://humantiv.page.link/shared`
     // Create dynamic link
     const link = new firebase.links.DynamicLink(referalLink, 'humantiv.page.link')
       .android.setPackageName('io.citizenhealth.humantiv')
@@ -103,8 +104,8 @@ class WalletView extends Component {
 
     if (Platform.OS === 'android') {
         firebase.links()
-  //      .createShortDynamicLink(link, 'UNGUESSABLE')
-        .createDynamicLink(link)
+        .createShortDynamicLink(link, 'UNGUESSABLE')
+  //      .createDynamicLink(link)
         .then((url) => {
           console.log(url);
           // Share the invitation link
@@ -114,18 +115,23 @@ class WalletView extends Component {
             message: `${this.props.share_message} ${url}`,
             dialogTitle: "Share Humantiv"
           })
-          .then(result =>  {          
-            this.props.dataAdd({type: "wallet", item: "medits", data: 10});
-            // Add medit to feed
-            const story = {
-              title: "Sharing earned you",
-              preposition: "",
-              value: `10 Medits`,
-              time: Math.round((new Date()).getTime() / 1000),
-              type: "medits"
+          .then(result =>  { 
+            if (shared > 5) {
+              // User shared more than the limit earning shares
+              this.dropdown.alertWithType('info', 'Thank you!' , `You can only earn Medit on your 5 first shares`);
+            } else {                
+              this.props.dataAdd({type: "wallet", item: "medits", data: 10});
+              // Add medit to feed
+              const story = {
+                title: "Sharing earned you",
+                preposition: "",
+                value: `10 Medits`,
+                time: Math.round((new Date()).getTime() / 1000),
+                type: "medits"
+              }
+              this.props.addFeedStory(story);
+              console.log(result)
             }
-            this.props.addFeedStory(story);
-            console.log(result)
           })
           .catch(errorMsg => {
             console.log(errorMsg)
@@ -147,18 +153,22 @@ class WalletView extends Component {
             dialogTitle: "Share Humantiv"
           })
           .then(result =>  {          
-            console.log(result);
-            this.props.dataAdd({type: "wallet", item: "medits", data: 10});
-            // Add medit to feed
-            const story = {
-              title: "Sharing earned you",
-              preposition: "",
-              value: `10 Medits`,
-              time: Math.round((new Date()).getTime() / 1000),
-              type: "medits"
+            if (shared > 5) {
+              // User shared more than the limit earning shares
+              this.dropdown.alertWithType('info', 'Thank you!' , `You can only earn Medit on your 5 first shares`);
+            } else {                
+              this.props.dataAdd({type: "wallet", item: "medits", data: 10});
+              // Add medit to feed
+              const story = {
+                title: "Sharing earned you",
+                preposition: "",
+                value: `10 Medits`,
+                time: Math.round((new Date()).getTime() / 1000),
+                type: "medits"
+              }
+              this.props.addFeedStory(story);
+              console.log(result)
             }
-            this.props.addFeedStory(story);
-            console.log(result)
           })
           .catch(errorMsg => {
             console.log(errorMsg)
@@ -303,6 +313,11 @@ class WalletView extends Component {
             textStyle
         } = styles;
 
+        const {
+          dropDownErrorMessageTextStyle,
+          dropDownErrorTitleTextStyle
+        } = theme;
+
         return (
           <View style={pageStyle}>
               <ScrollView >                   
@@ -310,7 +325,13 @@ class WalletView extends Component {
                   <Text style={textStyle}> Wallet </Text>               
                 </View>
                    {this.renderGraphCard()} 
-                  {this.renderRedeem()}                
+                  {this.renderRedeem()}   
+                <DropdownAlert 
+                  ref={ref => this.dropdown = ref} 
+                  closeInterval={6000} 
+                  titleStyle = {dropDownErrorTitleTextStyle}
+                  messageStyle = {dropDownErrorMessageTextStyle}
+                />             
               </ScrollView >     
           </View>
       );

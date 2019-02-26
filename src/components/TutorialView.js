@@ -135,7 +135,7 @@ class TutorialView extends Component {
       },
       {
         key: 'chat',
-        title: 'Your can now talk to us',
+        title: 'You can now talk to us',
         text: 'If you have a question, comment or just want to connect with us, we made it easy to do. Simply tap the message icon in the upper right corner.',
         image: Images.img_tutorial_6,
         imageStyle: styles.image,

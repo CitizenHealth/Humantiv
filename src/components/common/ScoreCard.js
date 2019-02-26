@@ -13,7 +13,6 @@ import {
   graphGreyColor
  } from '../themes';
 import PropTypes from 'prop-types';
-import Images from "../../resources/images";
 import {IconButton} from './IconButton';
 import {Icon} from './Icon';
 import {Fonts} from '../../resources/fonts/Fonts'
