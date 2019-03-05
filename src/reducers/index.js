@@ -8,6 +8,7 @@ import TimeSeriesReducer from "./TimeSeriesReducer";
 import HealthReducer from "./HealthReducer";
 import DeviceReducer from "./DeviceReducer";
 import LeaderboardReducer from "./LeaderboardReducer";
+import MedifluxReducer from "./MedifluxReducer";
 
 
 export default combineReducers({
@@ -19,5 +20,6 @@ export default combineReducers({
   timeseries: TimeSeriesReducer,
   health: HealthReducer,
   device: DeviceReducer,
-  play: LeaderboardReducer
+  play: LeaderboardReducer,
+  mediflux: MedifluxReducer
 });

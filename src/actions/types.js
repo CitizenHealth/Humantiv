@@ -33,3 +33,4 @@ export const TIMESERIES_MEDIT_FETCH = "timeseries_medit_fetch";
 export const TIMESERIES_SCORE_FETCH = "timeseries_score_fetch";
 export const DEVICE_INFO_FETCH = "device_info_fetch";
 export const LEADERBOARD_FETCH = "leaderboard_fetch";
+export const MEDIFLUX_NOTIFICATION = "mediflux_notification";

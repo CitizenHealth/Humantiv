@@ -5,7 +5,13 @@ import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { HeaderImage } from "./common";
-import { dataExists, fetchUser, getConfiguration, dataSave } from "../actions";
+import { 
+  dataExists, 
+  fetchUser, 
+  getConfiguration, 
+  dataSave,
+  medifluxNotification 
+} from "../actions";
 import { theme } from './themes';
 import configData from '../configuration/appconfig.json';
 import {MeditCoefficients} from '../business/medit/configuration';
@@ -60,6 +66,11 @@ class StartView extends Component {
     // Connect Firebase Messaging
     firebase.messaging().onMessage((payload) => {
       console.log(`ALERT PAYLOAD: ${JSON.stringify(payload)}`);
+      if (payload.data.update) {
+        if (payload.data.update === "true") {
+          this.props.medifluxNotification(true);
+        }
+      } 
       // const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
       // const body = Platform.OS === 'ios' ? payload.aps.alert.body : payload.fcm.body;
 
@@ -324,6 +335,7 @@ class StartView extends Component {
 const mapStateToProps = state => {
   const { user, loggedin } = state.auth;
   const { children, registered } = state.data;
+
   const { 
           share_title, 
           share_message, 
@@ -349,5 +361,6 @@ export default connect(mapStateToProps, {
   fetchUser, 
   getConfiguration,
   dataSave,
-  dataExists
+  dataExists,
+  medifluxNotification
 })(StartView);

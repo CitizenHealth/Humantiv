@@ -48,7 +48,8 @@ import {
     timeseriesStepsFetch,
     timeseriesHeartrateFetch,
     timeseriesSleepFetch,
-    deviceInfoFetch
+    deviceInfoFetch,
+    medifluxNotification
   } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
 import firebase from "react-native-firebase";
@@ -205,6 +206,7 @@ class HealthView extends Component {
         steps,
         heartrate,
         children,
+        update
       } = nextProps;
 
 //      const nativeTracker = (Platform.OS === "ios") ? "apple_health" : "google_fit";
@@ -213,7 +215,11 @@ class HealthView extends Component {
       let isNativeChanged = (children.profile && (children.profile[nativeTracker] !== undefined)) 
                             ? (this.props.children.profile === undefined) || (children.profile[nativeTracker] !== this.props.children.profile[nativeTracker]) : false;
 
-      if (isNativeChanged) {
+      if (isNativeChanged || update) {
+        if (update) {
+          this.props.medifluxNotification(false);
+        }
+
         const stepsTimestamp = (children.timestamps && children.timestamps.steps) ? children.timestamps.steps : null;
         const activityTimestamp = (children.timestamps && children.timestamps.activity) ? children.timestamps.activity : null;
         const sleepTimestamp = (children.timestamps && children.timestamps.sleep) ? children.timestamps.sleep : null;
@@ -1132,9 +1138,10 @@ const mapStateToProps = (state) => {
     const {medit, score} = state.timeseries;
     const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries;
     const {sources, devices, isNativeSourceAvailable} = state.device;
+    const { update } = state.mediflux;
 
     return {
-        user, children, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress
+        user, children, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress, update
     }
 }
 
@@ -1159,5 +1166,6 @@ export default connect(mapStateToProps, {
   timeseriesStepsFetch,
   timeseriesHeartrateFetch,
   timeseriesSleepFetch,
-  deviceInfoFetch
+  deviceInfoFetch,
+  medifluxNotification
   })(HealthView);
