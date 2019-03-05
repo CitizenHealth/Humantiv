@@ -1,5 +1,5 @@
 <resources>
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">j55E2kjBbLqCTFhQUMpSwkFy6vGkr15iM_qcQ-wYm</string>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">j55E2kjBbLqCTFhQUMpSwkFy6vGkr15iM_qcQ</string>
     <string name="app_name">Humantiv</string>
     <string name="facebook_app_id">1768168920145823</string>
     <string name="intercom_gcm_sender_id">847047929311</string>

@@ -126,8 +126,8 @@ android {
         applicationId "io.citizenhealth.humantiv"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 27
-        versionName "1.22"
+        versionCode 28
+        versionName "1.23"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -179,7 +179,7 @@ dependencies {
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-sentry')
     implementation project(':react-native-human-api')
-    compile project(':react-native-code-push')
+    implementation project(':react-native-code-push')
     compile 'com.android.support:multidex:1.0.3'
 
     implementation(project(':react-native-google-signin')) {
