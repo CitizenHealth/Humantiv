@@ -121,16 +121,17 @@ class MedifluxLink extends Component {
             style={{
               alignItems: "center",
               justifyContent: "center",
-              height: 44,
-              width: 44,
+              height: 30,
+              width: 30,
               marginLeft: 5,
               marginRight: 5
             }}
             onPress={() => {this.props.onClose()}}
+            hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
           >
             <FontAwesome
               style={{
-                fontSize: 30,
+                fontSize: 20,
                 color: medifluxWhiteColor
               }}
             >
