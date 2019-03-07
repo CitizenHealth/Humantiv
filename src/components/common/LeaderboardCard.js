@@ -136,7 +136,8 @@ class LeaderboardCard extends Component {
         height
     } = this.props;
 
-		const hidden = (user.anonymous && !selected) ? true : false;
+//		const hidden = (user.anonymous && !selected) ? true : false;
+		const hidden = (user.anonymous) ? true : false;
 		const name = (hidden) ? "Anonymous User" : user.name;
 
     return (
