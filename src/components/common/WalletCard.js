@@ -38,7 +38,7 @@ class WalletCard extends Component {
   constructor(props) {
     super(props);
 
-    this.props.height = this.props.width / 1.25;
+    this.props.height = this.props.width;
   }
 
   getGradientConfig() {
@@ -89,7 +89,7 @@ class WalletCard extends Component {
         <LinearGradient style={[cardStyle, {
           overflow: 'hidden',
           width: width,
-          height: height
+          height: width
         }]}
           start={{x: 0.0, y: 0.5}} end={{x: 1.0, y: 0.5}}
             colors={config.colors}>

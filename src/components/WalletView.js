@@ -13,19 +13,19 @@ import {
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import HGraph, { hGraphConvert, calculateHealthScore }  from 'react-native-hgraph';
+import Modal from "react-native-modal";
+
 import {
     Avatar, 
     IconButton,
     PriceGraphCard,
     Card,
+    ValueCard,
     WalletCard,
     GraphCard,
     Icon,
     EarnMedits
 } from './common';
-import Feed from "./common/Feed";
-import { Actions } from "react-native-router-flux";
 import { 
     dataAdd,
     dataSave,
@@ -58,6 +58,7 @@ class WalletView extends Component {
       }
 
       this.state = {
+        betaMeditHelpModal: false,
         data: [1]
       }
     }
@@ -179,7 +180,101 @@ class WalletView extends Component {
         });
       }
     }
-    
+
+    betaMeditHelp() {
+      this.setState({betaMeditHelpModal: true});
+    }
+
+    onClose() {
+      this.setState({betaMeditHelpModal: false});
+    }
+
+    renderModalContent() {
+      const {
+        helpDialogTextStyle
+      } = styles;
+
+      return (
+        <View 
+        style= {{
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 10,
+          backgroundColor: primaryWhiteColor,
+          shadowColor: primaryGreyColor,
+          shadowOffset: {width: 2, height: 2},
+          shadowOpacity: 0.5,
+          shadowRadius: 2,
+          elevation: 2,
+        }}
+      >
+        <View
+          style= {{
+            height: 30,
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            backgroundColor: primaryBlueColor,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius:10
+          }}
+        >
+          <TouchableOpacity 
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              height: 30,
+              width: 30
+            }}
+            onPress={() => this.onClose()}
+            hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
+          >
+            <FontAwesome
+              style={{
+                fontSize: 20,
+                color: primaryWhiteColor
+              }}
+            >
+              {Icons.timesCircle}
+            </FontAwesome>
+          </TouchableOpacity>
+        </View>
+        <View
+          style= {{
+            height: scale(40),
+            alignContent: 'center',
+            width: '100%',
+            backgroundColor: primaryBlueColor
+          }}
+        >
+          <Text
+            style={{
+              flex: 4,
+              textAlign: 'center',
+              fontSize: 20,
+              fontWeight: '600',
+              color: primaryWhiteColor,
+            }}
+          >
+            What is my Beta Medit Balance?
+          </Text>
+        </View>
+
+        <View
+          style= {{
+            margin: 10
+          }}
+        >
+          <Text
+            style={helpDialogTextStyle}
+          >
+            This is Medit you earned during the Humantiv app beta test period. It is held in a separate account. You can use your Medit when we introduce the upcoming marketplace. Until then, keep earning more Medit!
+          </Text>
+        </View>
+      </View>
+      )
+    }
+
     renderGraphCard() {
         const {children} = this.props;
         const {
@@ -192,7 +287,7 @@ class WalletView extends Component {
       const valueCardWidth = (screenWidth - 30)/2;
       const hgraphWidth = screenWidth - 120;
       return (
-          <View style={{flex: 1}}>
+          <View style={{height: valueCardWidth}}>
               <View style={cardsStyle}>
                   <WalletCard 
                       color= "#3ba4f9"
@@ -214,15 +309,14 @@ class WalletView extends Component {
                     />
                   </TouchableOpacity>
               </View>
-              {this.renderEarnMedits()}
-              <PriceGraphCard 
+            {/*   <PriceGraphCard 
                   data= {this.state.data}
                   style={{
                   type: "medit",
                   graphColor: "blue",
                   backgroundColor: "#fff"
                   }}
-              />
+                /> */}
             </View>
             );
     }
@@ -244,7 +338,10 @@ class WalletView extends Component {
             shadowOpacity: 0.8,
             shadowColor: "#3ba4f9",
             shadowRadius: 5,
-            flex: 1}}
+            height: 50,
+            marginBottom: 10
+          
+          }}
           >
           <LinearGradient 
             style={[earnMeditsGradientContainerStyle, {
@@ -306,6 +403,30 @@ class WalletView extends Component {
       )
     }
 
+    renderBetaMedit() {
+      const {betaStyle} = styles;
+      const {children} = this.props;
+
+      const betamedits = (children.wallet) ? (children.wallet.betamedits ? children.wallet.betamedits : 0) : 0;
+      const screenWidth = Dimensions.get('window').width;
+      const valueCardWidth = (screenWidth - 20);
+
+      return (betamedits > 0) ? (
+        <View style={betaStyle}>
+          <ValueCard 
+            color= "#63727c"
+            icon= "betamedit"
+            title= "Beta Medit Balance"
+            value= {formatNumbers(betamedits.toString())}
+            width= {valueCardWidth}
+            helpIcon= {true}
+            helpOnPress= {() => this.betaMeditHelp()}
+          />
+        </View>
+      ) : (
+        <View/>
+      )
+    }
     render() {
         const {
             pageStyle,
@@ -318,21 +439,45 @@ class WalletView extends Component {
           dropDownErrorTitleTextStyle
         } = theme;
 
+        const {betaMeditHelpModal} = this.state;
+
         return (
-          <View style={pageStyle}>
-              <ScrollView >                   
+          <View style={pageStyle}>                 
                 <View style={headerStyle}>
                   <Text style={textStyle}> Wallet </Text>               
                 </View>
-                   {this.renderGraphCard()} 
-                  {this.renderRedeem()}   
+                <View
+                  style={{
+                    flex: 1
+                  }}
+                >
+                  {this.renderGraphCard()} 
+                  {this.renderBetaMedit()}
+                </View>                  
+                {this.renderEarnMedits()}
+                   {/*{this.renderRedeem()}*/}  
+                <Modal
+                  isVisible={betaMeditHelpModal}
+                  backdropOpacity={0}
+                  animationIn="fadeIn"
+                  animationOut="fadeOut"
+                  animationInTiming={500}
+                  animationOutTiming={500}
+                  backdropTransitionInTiming={500}
+                  backdropTransitionOutTiming={500}
+                  style= {{
+                    paddingTop: scale(70),
+                    paddingBottom: scale(70)
+                  }}
+                > 
+                  {this.renderModalContent()}
+                </Modal> 
                 <DropdownAlert 
                   ref={ref => this.dropdown = ref} 
                   closeInterval={6000} 
                   titleStyle = {dropDownErrorTitleTextStyle}
                   messageStyle = {dropDownErrorMessageTextStyle}
-                />             
-              </ScrollView >     
+                />                
           </View>
       );
     }
@@ -354,13 +499,25 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
       borderRadius: 3
-    },  
+    }, 
+    betaStyle: {
+      marginTop: 10,
+      marginLeft: 10,
+      marginRight: 10,
+      borderRadius: 3
+    }, 
     textStyle: {
         flex: 4,
         textAlign: 'center',
         fontSize: 20,
         color: graphGreyColor,
         fontFamily: Fonts.regular
+    },
+    helpDialogTextStyle: {
+      textAlign: 'justify',
+      fontSize: 14,
+      color: graphGreyColor,
+      fontFamily: Fonts.regular
     },
     cardsStyle: {
         flex: 1,

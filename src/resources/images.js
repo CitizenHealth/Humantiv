@@ -40,7 +40,8 @@ const Images = {
    
   img_medit_wallet_bg: require("./images/wallet/medit_card_wallet.png"),
   img_medex_wallet_bg: require("./images/wallet/medex_card_wallet.png"),
-
+  img_medex_beta_wallet_bg: require("./images/wallet/medit_beta_card_wallet.png"),
+  
   img_market: require("./images/placeholders/market.png"),
   img_vote: require("./images/placeholders/vote.png"),
 };

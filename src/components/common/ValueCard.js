@@ -3,7 +3,7 @@ import {
   Text, 
   View,
   StyleSheet,
-  Image,
+  TouchableOpacity,
   ImageBackground
 } from "react-native";
 import { theme, primaryBlueColor } from '../themes';
@@ -12,7 +12,8 @@ import Images from "../../resources/images";
 import {Icon} from './Icon';
 import {Fonts} from '../../resources/fonts/Fonts'
 import LinearGradient from 'react-native-linear-gradient';
-import {primaryBackgroungColor} from '../themes/theme';
+import {primaryBackgroungColor, primaryWhiteColor} from '../themes/theme';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 
 class ValueCard extends Component {
@@ -23,7 +24,9 @@ class ValueCard extends Component {
     backgroundImage: PropTypes.string,
     color: PropTypes.string,
     width: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    helpIcon: PropTypes.bool,
+    helpOnPress: PropTypes.func
   };
 
   static defaultProps = {
@@ -33,7 +36,8 @@ class ValueCard extends Component {
     backgroundImage: "",
     color: "#dddddd",
     width: 200,
-    height: 200/2.50
+    height: 200/2.50,
+    helpIcon: false
   }
 
   constructor(props) {
@@ -50,6 +54,11 @@ class ValueCard extends Component {
         return {
           colors: ['rgba(59, 163, 249,1)','rgba(84, 210, 249,0.7)'],
           image: Images.img_medit_bg
+        }
+      case 'betamedit':
+        return {
+          colors: ['rgba(99, 114, 124,1)','rgba(165, 190, 206,0.7)'],
+          image: Images.img_medex_beta_wallet_bg
         }
       case 'medex':
         return {
@@ -80,7 +89,8 @@ class ValueCard extends Component {
         title,
         value,
         width,
-        height
+        height,
+        helpIcon
     } = this.props;
 
     const config = this.getGradientConfig(icon);
@@ -102,15 +112,39 @@ class ValueCard extends Component {
       style={valueContainerStyle}
         source={config.image}
       >
-        
-          <View style={valueTextAlignStyle}>
-            <Text style={valueTextStyle}>
-                {value}
-            </Text>
-            <Icon
-            name={icon}
-            color= "#fff"
-            size= {16}/>
+          <View
+            style= {{
+              width: width,
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}
+          >
+            <View style={valueTextAlignStyle}>
+              <Text style={valueTextStyle}>
+                  {value}
+              </Text>
+              <Icon
+              name={(icon === 'betamedit') ? 'medit' : icon}
+              color= "#fff"
+              size= {16}/>
+            </View>
+            {(helpIcon) ? 
+              <TouchableOpacity 
+                onPress={() => this.props.helpOnPress()} 
+                hitSlop={{top: 20, bottom: 20, left: 50, right: 50}}
+              >
+                <FontAwesome
+                  style={{
+                    fontSize: 20,
+                    marginRight: 5,
+                    color: primaryWhiteColor
+                  }}
+                >
+                  {Icons.questionCircle}
+                </FontAwesome>
+              </TouchableOpacity>
+              : 
+              <View/>}
           </View>
             <Text style={[
               titleTextStyle,
