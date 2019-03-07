@@ -305,7 +305,7 @@ export const theme = StyleSheet.create({
   },
   tutorialTextStyle: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: 'justify',
     fontWeight: '300',
     paddingHorizontal: 16,
     marginBottom: 5,
