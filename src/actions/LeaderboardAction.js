@@ -12,7 +12,7 @@ export const leaderboardFetch = () => {
     .on("value", snapshot => {
       let leaderboard = {};
 			snapshot.forEach(userInfo => {
-				console.log(userInfo.key, userInfo.val());
+//				console.log(userInfo.key, userInfo.val());
 				leaderboard[userInfo.key] = userInfo.val()
 			});
       dispatch({ type: LEADERBOARD_FETCH, payload: convertLeaderboardObjectsToArray(leaderboard, uid) });

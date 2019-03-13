@@ -61,7 +61,8 @@ class App extends Component {
       reducers, 
       {}, 
       composeWithDevTools(
-      applyMiddleware(ReduxThunk))
+        applyMiddleware(ReduxThunk)
+      )
     );
 
     return (

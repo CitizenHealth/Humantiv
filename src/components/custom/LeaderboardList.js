@@ -122,7 +122,7 @@ class LeaderboardList extends Component {
         cardContainerStyle
     } = styles;
 
-    console.log(`LEaderboard Header Users: ${JSON.stringify(this.props.users, null, 2)}`);
+//    console.log(`LEaderboard Header Users: ${JSON.stringify(this.props.users, null, 2)}`);
 
     return (
         <View style={containerStyle}>

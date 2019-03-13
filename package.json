@@ -7,7 +7,9 @@
     "postinstall": "cd node_modules/react-native; exec ./scripts/ios-install-third-party.sh; cd third-party/glog-0.3.4; exec ./configure; cd ../../../..",
     "preinstall": "./npmpreinstall.sh",
     "test": "jest",
-    "storybook": "storybook start -p 7007"
+    "storybook": "storybook start -p 7007",
+    "ios": "react-native run-ios --simulator \"iPhone X\"",
+    "android": "react-native run-android"
   },
   "dependencies": {
     "axios": "^0.18.0",

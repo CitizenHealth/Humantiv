@@ -51,7 +51,7 @@ class MarketView extends Component {
 						Coming Very Soon
 					</Text>
 					<Text style={[tutorialTextStyle, {margin: scale(20)}]}>
-						Spend your earned medits on wearables, health supplements, medical services and many more exciting offerings.
+						Spend your earned Medit on wearables, health supplements, medical services and many more exciting offerings.
 					</Text>
 				</View>
 			</View>

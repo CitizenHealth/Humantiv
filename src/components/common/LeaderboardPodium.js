@@ -139,8 +139,7 @@ class LeaderboardPodium extends Component {
 		const hidden = (user.anonymous && !selected) ? true : false;
 		const name = (hidden) ? "Anonymous User" : user.name;
 
-		console.log(`LEADERBOARD PODIUM USER: ${user}`)
-    return (
+   return (
     <View style={[mainViewStyle, {
           width: width,
           height: height
