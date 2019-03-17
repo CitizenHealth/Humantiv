@@ -71,7 +71,6 @@ import {
   primaryBlueColor
 } from './themes/theme';
 import {
-  ModalScreen,
   ModalDialog 
 } from './custom'; 
 import {modalMessages} from './themes';
@@ -107,6 +106,12 @@ const appKey = 'a6c69376d010aed5da148c95e771d27e7459e23d';
 const finishURL = 'https://connect.humanapi.co/blank/hc-finish';
 const closeURL = 'https://connect.humanapi.co/blank/hc-close';
 
+const DEFAULT_MODAL_DATA = {
+  title: "",
+  message: "",
+  cancel: "",
+  accept: ""
+}
 class HealthView extends Component {
 
     constructor(props) {
@@ -117,7 +122,7 @@ class HealthView extends Component {
         visibleDismissModal: false,
         visibleMedifluxVisible: false,
         textModal: "",
-        textDismissModal: "",
+        textDismissModal: DEFAULT_MODAL_DATA,
         healthScore: "",
         meditLoading: false,
         healthscoreLoading: false,
@@ -187,7 +192,9 @@ class HealthView extends Component {
 
   componentDidMount() {
       // Init Intercom
-      Intercom.registerForPush();   
+      if (Platform.OS === 'ios') {
+        Intercom.registerForPush()
+      }
       Intercom.addEventListener(
       Intercom.Notifications.UNREAD_COUNT, this._onUnreadChange);       
     }
@@ -483,7 +490,7 @@ class HealthView extends Component {
          }
         };
         
-        AppleHealthKit.initHealthKit(options: Object, (err: string, results: Object) => {
+        AppleHealthKit.initHealthKit((options: Object), (err: string, results: Object) => {
           if (err) {
               console.log("error initializing Healthkit: ", err);
               return;
@@ -561,14 +568,14 @@ class HealthView extends Component {
       this.props.removeAllFeedStories();
       this.setState({
         visibleDismissModal: false,
-        textDismissModal: ""
+        textDismissModal: DEFAULT_MODAL_DATA
       });
     }
 
     onNoDismiss() {
       this.setState({
         visibleDismissModal: false,
-        textDismissModal: ""
+        textDismissModal: DEFAULT_MODAL_DATA
       });
     }
 
@@ -992,15 +999,6 @@ class HealthView extends Component {
                     {this.renderGraphTiles()}
                     {this.renderActivityFeed()}                  
                 </ScrollView > 
-                <ModalScreen
-                  visible={this.state.visibleModal}
-                  label={this.state.textModal.message}
-                  cancelLabel={this.state.textModal.cancel}
-                  acceptLabel={this.state.textModal.accept}
-                  onCancelPress={this.dismissNativeSource.bind(this)}
-                  onAcceptPress={this.acceptNativeSource.bind(this)}
-                >
-                </ModalScreen>
                 <ModalDialog
                   visible={this.state.visibleDismissModal}
                   label={this.state.textDismissModal.message}

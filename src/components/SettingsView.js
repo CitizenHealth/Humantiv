@@ -46,6 +46,7 @@ import {
 import AppleHealthKit from 'rn-apple-healthkit';
 import PasswordLostView from './PasswordLostView';
 import VersionNumber from 'react-native-version-number';
+import Intercom from 'react-native-intercom';
 
 const baseURL = 'https://connect.humanapi.co/embed?';
 const clientID = 'b2fd0a46e2c6244414ef4133df6672edaec378a1'; //Add your clientId here
@@ -81,6 +82,7 @@ class SettingsView extends Component {
   }
 
   onLogOutButtonPress() {
+    Intercom.logout();
     this.props.logoutUser();
   }
 

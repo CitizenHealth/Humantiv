@@ -77,12 +77,7 @@ class SettingsJourney extends Component {
     return(
       <View style={containerStyle}>
         <View style={goalContainerStyle}>
-          <View style={[iconContainerStyle,
-            {
-              width: this.props.size/6.3,
-              marginTop: this.props.size/17
-            }
-          ]}>
+          <View style={iconContainerStyle}>
             <Icon
               name={icon}
               color= {color}

@@ -5,6 +5,35 @@ import { Animated, Dimensions, Modal, Platform, TouchableWithoutFeedback, StyleS
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import PropTypes from 'prop-types';
 
+const modalPropTypes = {
+  animationType: PropTypes.oneOf(['none', 'slide', 'fade']),
+  presentationStyle: PropTypes.oneOf([
+    'fullScreen',
+    'pageSheet',
+    'formSheet',
+    'overFullScreen',
+  ]),
+  transparent: PropTypes.bool,
+  hardwareAccelerated: PropTypes.bool,
+  visible: PropTypes.bool,
+  onRequestClose:
+    Platform.isTV || Platform.OS === 'android'
+      ? PropTypes.func.isRequired
+      : PropTypes.func,
+  onShow: PropTypes.func,
+  onDismiss: PropTypes.func,
+  supportedOrientations: PropTypes.arrayOf(
+    PropTypes.oneOf([
+      'portrait',
+      'portrait-upside-down',
+      'landscape',
+      'landscape-left',
+      'landscape-right',
+    ]),
+  ),
+  onOrientationChange: PropTypes.func,
+};
+
 class ModalWrapper extends Component {
   constructor(props) {
     super(props);
@@ -139,7 +168,7 @@ class ModalWrapper extends Component {
   }
 
   render() {
-    const { visible, ...nativeModalProps } = Object.keys(Modal.propTypes).reduce((previous, current) => {
+    const { visible, ...nativeModalProps } = Object.keys(modalPropTypes).reduce((previous, current) => {
       if (this.props.hasOwnProperty(current)) {
         previous[current] = this.props[current];
       }
@@ -148,7 +177,7 @@ class ModalWrapper extends Component {
     const { children, containerStyle, isNative, overlayStyle, overlayTestID, showOverlay, screenHeight, style,
           ...modalProps } = Object.keys(this.props).reduce((previous, current) => {
       // the reducer is used to get the correct set of ...modalProps
-      if (!Modal.propTypes.hasOwnProperty(current) && current !== 'position') {
+      if (!modalPropTypes.hasOwnProperty(current) && current !== 'position') {
         previous[current] = this.props[current];
       }
       return previous;

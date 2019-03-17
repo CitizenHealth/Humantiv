@@ -91,7 +91,7 @@ class ModalDialog extends Component {
       
       return (
         <ModalWrapper
-          onRequestClose={this.props.onCancel}
+          onRequestClose={this.props.onCancelPress}
           style= {[
             modalContent, { 
               width: scale(280), 

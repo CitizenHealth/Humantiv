@@ -59,7 +59,7 @@ class SettingsSwitch extends Component {
     return (
       (Platform.OS == 'ios') ?
         <Switch
-          onTintColor= {primaryBlueColor}
+          trackColor= {primaryBlueColor}
           onValueChange={(value) => {
             this.setState({value});
             this.props.onValueChange(value);
@@ -69,8 +69,8 @@ class SettingsSwitch extends Component {
         />
         : 
         <Switch
-          onTintColor= {primaryBlueColor}
-          thumbTintColor='#fff'
+          trackColor= {primaryBlueColor}
+          thumbColor='#fff'
           onValueChange={(value) => {
             this.setState({value});
             this.props.onValueChange(value);

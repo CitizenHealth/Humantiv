@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "module:metro-react-native-babel-preset",
+    "module:react-native",
+    "@babel/preset-flow"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-new-target"
+  ]
+}

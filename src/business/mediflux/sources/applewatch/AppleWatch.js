@@ -49,13 +49,13 @@ class AppleWatch extends DataSource {
     const self = this;
 
     return new Promise( (resolve, reject) => {
-        AppleHealthKit.getAppleExerciseTime(options: Object, (err: Object, results: Object) => {
+        AppleHealthKit.getAppleExerciseTime((options: Object), (err: Object, results: Object) => {
         if (err) {
           reject(err);
         }
         let val = [];
         console.log (JSON.stringify(results));
-
+        
         for (var index = 0; index< Math.min(results.length,self.maxNumber) ; index++) {
           let item = results[index];
 
@@ -170,7 +170,7 @@ class AppleWatch extends DataSource {
        }
       };
       
-      AppleHealthKit.initHealthKit(options: Object, (err: string, results: Object) => {
+      AppleHealthKit.initHealthKit((options: Object), (err: string, results: Object) => {
         if (err) {
             console.log("error initializing Healthkit: ", err);
             reject(err);

@@ -2,8 +2,9 @@
 
 watchman watch-dell-all 
 rm -rf ./node_modules 
-yarn
-rm -rf $TMPDIR/react-*
+rm package-lock.json
+npm install
+rm -rf $TMPDIR/react-* $TMPDIR/metro-* $TMPDIR/haste-*
 react-native link
-rm -rf $TMPDIR/haste-map-react-native-packager-*
+#rm -rf $TMPDIR/haste-map-react-native-packager-*
 npm start -- --reset-cache
