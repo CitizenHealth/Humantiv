@@ -306,6 +306,9 @@ class HealthView extends Component {
           })
           // Medit 
           // After all physical metrics are pulled, we calculate the daily Medit history
+          console.log(`----------------------------------------------------------------`);
+          console.log(`HUMAN API NOTIFICATIONS: meditTimestamp:      ${meditTimestamp}`);
+          console.log(`HUMAN API NOTIFICATIONS: meditTimestampValue: ${meditTimestampValue}`);
           let dailyMedit = processDailyMedit(meditTimestamp, meditTimestampValue, data[0], data[1], data[2]);
           this.props.addMeditTimeSeries(convertTimeArrayToObject(dailyMedit.dailyMedits, "medit"));
           this.props.dataSave({type: "timestamps", data: {
@@ -349,7 +352,7 @@ class HealthView extends Component {
           }
 
           if (sleepTimestamp) {
-            let sleepMedits = getSleepMedits(data[1], sleepTimestamp, sleepTimestampValue)
+            let sleepMedits = getSleepMedits(data[2], sleepTimestamp, sleepTimestampValue)
             // Generate Medits
             let sleepMeditCount = parseInt(sleepMedits.medits);
             if (Number.isInteger(sleepMeditCount)) {
@@ -377,7 +380,7 @@ class HealthView extends Component {
           }
 
           if (activityTimestamp) {
-            let activityMedits = getActivityMedits(data[2], activityTimestamp, activityTimestampValue)
+            let activityMedits = getActivityMedits(data[1], activityTimestamp, activityTimestampValue)
             // Generate Medits
             let activityMeditCount = parseInt(activityMedits.medits);
             if (Number.isInteger(activityMeditCount)) {
@@ -403,8 +406,8 @@ class HealthView extends Component {
               });        
             }
           }
-
-          totalMedits = totalMedits * MeditCoefficients.master_coefficient;
+            // Adjust total Medit
+//          totalMedits = totalMedits * this.props.master_coefficient;
           
           if (Number.isInteger(totalMedits)) {
             this.props.dataAdd({type: "wallet", item: "medits", data: totalMedits});
@@ -1137,9 +1140,9 @@ const mapStateToProps = (state) => {
     const {activity, steps, heartrate, sleep, weight, stress} = state.timeseries;
     const {sources, devices, isNativeSourceAvailable} = state.device;
     const { update } = state.mediflux;
-
+    const { master_coefficient} = state.config.configuration;
     return {
-        user, children, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress, update
+        user, children, stories, score, filters, medit, activity, steps, heartrate, sleep, weight, stress, update, master_coefficient
     }
 }
 

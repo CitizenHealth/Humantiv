@@ -18,14 +18,14 @@ export const getSleepMedits = (sleeps, lastTimestamp, lastValue) => {
       break;
     }
     if (sleeps[index].time === lastTimestamp) {
-      value = lastValue*MINUTES_IN_HOUR;
+      value = lastValue*MINUTES_IN_HOUR-MeditCoefficients.sleep_minimum;
     }
     if (sleeps[index].time > timestamp) {
       timestamp = sleeps[index].time;
     }
     let sleepMinutes = sleeps[index].value*MINUTES_IN_HOUR;
     if (sleepMinutes >= MeditCoefficients.sleep_minimum) {
-      medits += Math.round((sleepMinutes-value)/MeditCoefficients.sleep_factor);
+      medits += Math.round((sleepMinutes-MeditCoefficients.sleep_minimum-value)/MeditCoefficients.sleep_factor);
     }
   }
   return {
