@@ -27,7 +27,7 @@ class EmailConfirmation extends Component {
   }
 
   dismissModal() {
-    this.setState({visibleModal: !this.state.visibleModal});
+    this.setState({visibleModal: false});
   }
 
   resendConfirmationEmail() {
@@ -61,7 +61,7 @@ class EmailConfirmation extends Component {
         }
       });    
     } else {
-      Actions.auth();
+      Actions.register();
     }
   }
 

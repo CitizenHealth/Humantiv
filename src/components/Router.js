@@ -22,18 +22,14 @@ const RouterComponent = () => {
       navBarButtonColor="#E9222E"
     >
       <Scene key="root" hideNavBar gesturesEnabled={false} panHandlers={null}>
-        <Scene key="start">
-          <Scene key="load" component={StartView} animation='fade' hideNavBar initial />
-        </Scene>
-          <Scene key="auth">
-          <Scene key="tutorial" component={TutorialView} animation='fade' hideNavBar initial/>
-          <Scene key="register" component={RegisterForm} animation='fade' hideNavBar />
-          <Scene key="termswebview" component={WebPageView} hideNavBar />
-          <Scene key="login" component={LoginForm} animation='fade' hideNavBar />
-          <Scene key="verify" component={EmailConfirmationView} hideNavBar />
-          <Scene key="password" component={PasswordLostView} hideNavBar />
-          <Scene key="journey" component={JourneyView} hideNavBar />         
-        </Scene>
+        <Scene key="load" component={StartView} animation='fade' hideNavBar initial />
+        <Scene key="tutorial" component={TutorialView} animation='fade' hideNavBar />
+        <Scene key="register" component={RegisterForm} animation='fade' hideNavBar />
+        <Scene key="termswebview" component={WebPageView} hideNavBar />
+        <Scene key="login" component={LoginForm} animation='fade' hideNavBar />
+        <Scene key="verify" component={EmailConfirmationView} hideNavBar />
+        <Scene key="password" component={PasswordLostView} hideNavBar />
+        <Scene key="journey" component={JourneyView} hideNavBar />         
         <Scene key="onboarding">
           <Scene key="personal" component={SimplePage} hideNavBar/>
           <Scene key="humanapi" component={SimplePage} hideNavBar/>

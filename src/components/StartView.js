@@ -215,9 +215,9 @@ class StartView extends Component {
         this.props.registered = undefined;
         if (Actions.currentScene === "load"
             || Actions.currentScene === "login")
-          Actions.auth();
+          Actions.tutorial();
         else {
-          Actions.reset('auth');
+          Actions.reset('tutorial');
         }
       }
     });
