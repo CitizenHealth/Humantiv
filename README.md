@@ -446,24 +446,43 @@ Make sure to always call AppleHealthKit.initHealthKit() before anu other call to
 
   
 
-## App Center
+## App Center 
 
-  
-
-  
-
-  
-
-| Android | [![Build status](https://build.appcenter.ms/v0.1/apps/b7f2dff4-eb48-4276-bfec-d039660af96c/branches/master/badge)](https://appcenter.ms) |
-
-  
-
-  
-
-|--|--|
-
-  
-
-  
-
-| iOS | [![Build status](https://build.appcenter.ms/v0.1/apps/1b98ec5d-c8f6-4916-b279-b4820e4f5870/branches/master/badge)](https://appcenter.ms) |
+<table>
+  <tr>
+	  <td colspan="2">
+		  Production
+	  </td>
+	  <td colspan="2">
+		  Staging
+	  </td>
+	  <td colspan="2">
+		  Internal
+	  </td>
+  </tr>
+  <tr>
+    <td>
+	    Android
+    </td>
+    <td><img src=" https://build.appcenter.ms/v0.1/apps/b7f2dff4-eb48-4276-bfec-d039660af96c/branches/master/badge"  alt="Production Build"/>
+    </td>
+     <td>
+	    Android
+    </td>
+    <td><img src=" https://build.appcenter.ms/v0.1/apps/b7f2dff4-eb48-4276-bfec-d039660af96c/branches/staging/badge"  alt="Staging Build"/>
+    </td>
+     <td>
+	    Android
+    </td>
+    <td><img src=" https://build.appcenter.ms/v0.1/apps/b7f2dff4-eb48-4276-bfec-d039660af96c/branches/internal/badge"  alt="Internal Build"/>
+    </td>
+  </tr>
+  <tr>
+   <td>iOS</td>
+    <td><img src=" https://build.appcenter.ms/v0.1/apps/1b98ec5d-c8f6-4916-b279-b4820e4f5870/branches/master/badge"  alt="Production Build"/></td>
+    <td>iOS</td>
+    <td><img src=" https://build.appcenter.ms/v0.1/apps/1b98ec5d-c8f6-4916-b279-b4820e4f5870/branches/staging/badge"  alt="Staging Build"/></td>
+    <td>iOS</td>
+    <td><img src="https://build.appcenter.ms/v0.1/apps/1b98ec5d-c8f6-4916-b279-b4820e4f5870/branches/internal/badge"  alt="Internal Build"/></td>
+  </tr>
+</table>
