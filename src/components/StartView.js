@@ -68,7 +68,7 @@ class StartView extends Component {
       console.log(`ALERT PAYLOAD: ${JSON.stringify(payload)}`);
       if (payload.data.update) {
         if (payload.data.update === "true") {
-          this.props.medifluxNotification(true);
+//          this.props.medifluxNotification(true);
         }
       } 
       // const title = Platform.OS === 'ios' ? payload.aps.alert.title : payload.fcm.title;
