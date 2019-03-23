@@ -116,7 +116,7 @@ export const dataFetch = ({type}) => {
       let data = snapshot.val();
       dispatch({ type: DATA_FETCH, payload: {type, data} });
     }, error => {
-      Sentry.captureMessage(`dataFetch ${type} failed: ${error}`, {
+      Sentry.captureMessage(`dataFetch ${type} failed. UID=${currentUser.uid}: ${error}`, {
         level: SentrySeverity.Info
       });
     });

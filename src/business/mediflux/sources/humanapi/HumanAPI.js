@@ -15,6 +15,7 @@ class HumanAPI extends DataSource {
   getActivityTimeSeries() {
     const url = `https://api.humanapi.co/v1/human/activities/summaries?access_token=${this.accessToken}`
     const self = this;
+    console.log(`SENTRY (getActivityTimeSeries) HUMANTIV-1Y8: ${this.accessToken}`);
 
     return new Promise( (resolve, reject) => {
       axios({
@@ -46,6 +47,7 @@ class HumanAPI extends DataSource {
   getStepsTimeSeries() {
     const url = `https://api.humanapi.co/v1/human/activities/summaries?access_token=${this.accessToken}`
     const self = this;
+    console.log(`SENTRY (getStepsTimeSeries) HUMANTIV-1Y8: ${this.accessToken}`);
 
     return new Promise( (resolve, reject) => {
       axios({
@@ -77,6 +79,7 @@ class HumanAPI extends DataSource {
   getSleepTimeSeries() {
     const url = `https://api.humanapi.co/v1/human/sleeps/summaries?access_token=${this.accessToken}`
     const self = this;
+    console.log(`SENTRY (getSleepTimeSeries) HUMANTIV-1Y8: ${this.accessToken}`);
 
     return new Promise( (resolve, reject) => {
       axios({
@@ -108,6 +111,7 @@ class HumanAPI extends DataSource {
   getHeartrateTimeSeries() {
     const url = `https://api.humanapi.co/v1/human/heart_rate/summaries?access_token=${this.accessToken}`
     const self = this;
+    console.log(`SENTRY (getHeartrateTimeSeries) HUMANTIV-1Y8: ${this.accessToken}`);
 
     return new Promise( (resolve, reject) => {
       axios({
