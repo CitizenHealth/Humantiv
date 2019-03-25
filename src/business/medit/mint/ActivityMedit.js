@@ -6,7 +6,8 @@ export const getActivityMedits = (activities, lastTimestamp, lastValue) => {
   //  12904673: 30
   //  12904829: 26
   // }
-  
+  console.log(`MEDIT MINTING: Activity Timestamps START: ${lastTimestamp}: ${lastValue}`);
+
   let medits = 0;
   let timestamp = lastTimestamp;
 
@@ -23,6 +24,8 @@ export const getActivityMedits = (activities, lastTimestamp, lastValue) => {
     }
     medits += Math.round((activities[index].value - value)/MeditCoefficients.activity_factor);
   }
+  console.log(`MEDIT MINTING: Activity Timestamps END: ${timestamp}: ${medits}`);
+
   return {
     medits: medits,
     timestamp: timestamp,

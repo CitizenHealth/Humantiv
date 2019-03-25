@@ -327,6 +327,7 @@ class HealthView extends Component {
             let stepMedits = getStepMedits(data[0], stepsTimestamp, stepsTimestampValue)
             // Generate Medits
             let stepMeditCount = parseInt(stepMedits.medits);
+            console.log(`MEDIT MINTING: Activity: ${stepMeditCount}`)
             if (Number.isInteger(stepMeditCount)) {
               totalMedits += stepMeditCount;
               if (stepMeditCount > 0) {
@@ -355,6 +356,7 @@ class HealthView extends Component {
             let sleepMedits = getSleepMedits(data[2], sleepTimestamp, sleepTimestampValue)
             // Generate Medits
             let sleepMeditCount = parseInt(sleepMedits.medits);
+            console.log(`MEDIT MINTING: Activity: ${sleepMeditCount}`)
             if (Number.isInteger(sleepMeditCount)) {
               totalMedits += sleepMeditCount;
               if (sleepMeditCount > 0) {
@@ -383,6 +385,7 @@ class HealthView extends Component {
             let activityMedits = getActivityMedits(data[1], activityTimestamp, activityTimestampValue)
             // Generate Medits
             let activityMeditCount = parseInt(activityMedits.medits);
+            console.log(`MEDIT MINTING: Activity: ${activityMeditCount}`)
             if (Number.isInteger(activityMeditCount)) {
               totalMedits += activityMeditCount;
               if (activityMeditCount > 0) {

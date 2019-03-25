@@ -8,7 +8,8 @@ export const getSleepMedits = (sleeps, lastTimestamp, lastValue) => {
   //  12904673: 360
   //  12904829: 480
   // }
-    
+  console.log(`MEDIT MINTING: Sleep Timestamps START: ${lastTimestamp}: ${lastValue}`);
+
   let medits = 0;
   let timestamp = lastTimestamp;
 
@@ -28,6 +29,7 @@ export const getSleepMedits = (sleeps, lastTimestamp, lastValue) => {
       medits += Math.round((sleepMinutes-MeditCoefficients.sleep_minimum-value)/MeditCoefficients.sleep_factor);
     }
   }
+  console.log(`MEDIT MINTING: Sleep Timestamps END: ${timestamp}: ${medits}`);
   return {
     medits: medits,
     timestamp: timestamp,

@@ -6,7 +6,8 @@ export const getStepMedits = (steps, lastTimestamp, lastValue) => {
   //  12904673: 2789
   //  12904829: 3012
   // }
-  
+  console.log(`MEDIT MINTING: Steps Timestamps START: ${lastTimestamp}: ${lastValue}`);
+
   let medits = 0;
   let timestamp = lastTimestamp;
 
@@ -23,6 +24,7 @@ export const getStepMedits = (steps, lastTimestamp, lastValue) => {
     }
     medits += Math.round((steps[index].value - value)/MeditCoefficients.steps_factor);
   }
+  console.log(`MEDIT MINTING: Steps Timestamps END: ${timestamp}: ${medits}`);
   return {
     medits: medits,
     timestamp: timestamp,
