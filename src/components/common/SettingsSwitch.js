@@ -10,12 +10,12 @@ import {Fonts} from '../../resources/fonts/Fonts'
 import {
   highlightedGreyColor, 
   graphGreyColor, 
-  primaryBlueColor
+  primaryBlueColor,
+  primaryGreyColor
 } from '../themes'
 import PropTypes from 'prop-types';
 import { scale } from "react-native-size-matters";
 import {Select, Option} from "react-native-chooser";
-import {primaryGreyColor, primaryGreenColor, primaryBackgroungColor} from '../themes/theme';
 
 const screenWidth = Dimensions.get('window').width;
 const componentHeight = 50;
@@ -74,11 +74,13 @@ class SettingsSwitch extends Component {
         <Switch
           trackColor={{
             true: primaryBlueColor,
+            false: primaryGreyColor
           }}
           onValueChange={(value) => {
             this.setState({value});
             this.props.onValueChange(value);
           }}
+          thumbColor={graphGreyColor}
           value={this.state.value}
           style = {switchStyle}
           disabled = {this.props.disabled}
