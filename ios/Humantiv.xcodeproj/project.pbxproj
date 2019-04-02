@@ -37,6 +37,7 @@
 		4A48B445216D3F2D00C24CF8 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A48B40D216D3ED000C24CF8 /* libCodePush.a */; };
 		4A5063D6210BE8E8006E8824 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5063D5210BE8E8006E8824 /* HealthKit.framework */; };
 		4A52645A20AE352000BC834D /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A52642B20AE34CB00BC834D /* libBVLinearGradient.a */; };
+		4A581BF02253F04D00AB8E9D /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A3266BA2252F22E00D171E1 /* libRNReanimated.a */; };
 		4A81B1132160B96E00A3932D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A81B1122160B96E00A3932D /* MobileCoreServices.framework */; };
 		4A81B1152160B98200A3932D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A81B1142160B98200A3932D /* Security.framework */; };
 		4A81B1172160B99200A3932D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A81B1162160B99200A3932D /* libc++.tbd */; };
@@ -292,6 +293,13 @@
 			remoteGlobalIDString = 641194871EC9FD4A00D4FC03;
 			remoteInfo = "RNSpinkit-tvOS";
 		};
+		4A3266B92252F22E00D171E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A3266832252F22E00D171E1 /* RNReanimated.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNReanimated;
+		};
 		4A478B7A2124065C00901EB0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */;
@@ -532,6 +540,7 @@
 		4A04ECB5217120F40069D437 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		4A0F4B532238B89000A2B87C /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		4A27D49C20D8DFEC000D5C64 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
+		4A3266832252F22E00D171E1 /* RNReanimated.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNReanimated.xcodeproj; path = "../node_modules/react-native-reanimated/ios/RNReanimated.xcodeproj"; sourceTree = "<group>"; };
 		4A478B422124065B00901EB0 /* RNVersionNumber.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVersionNumber.xcodeproj; path = "../node_modules/react-native-version-number/ios/RNVersionNumber.xcodeproj"; sourceTree = "<group>"; };
 		4A48B405216D3ED000C24CF8 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		4A5063D5210BE8E8006E8824 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -591,6 +600,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A581BF02253F04D00AB8E9D /* libRNReanimated.a in Frameworks */,
 				4A0F4B962238B89100A2B87C /* JavaScriptCore.framework in Frameworks */,
 				4A81B1172160B99200A3932D /* libc++.tbd in Frameworks */,
 				4A48B445216D3F2D00C24CF8 /* libCodePush.a in Frameworks */,
@@ -832,6 +842,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4A3266842252F22E00D171E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4A3266BA2252F22E00D171E1 /* libRNReanimated.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4A478B432124065B00901EB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -973,6 +991,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4A3266832252F22E00D171E1 /* RNReanimated.xcodeproj */,
 				4A04ECAD217093610069D437 /* RCTFBSDK.xcodeproj */,
 				4A48B405216D3ED000C24CF8 /* CodePush.xcodeproj */,
 				4AB3FEE22128B28600588479 /* RNIntercom.xcodeproj */,
@@ -1135,6 +1154,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1229,6 +1249,10 @@
 				{
 					ProductGroup = 4A7BBFF5204FCD3500C253C5 /* Products */;
 					ProjectRef = 2399776D47AA419C90FA436D /* RNReactNativeHumanApi.xcodeproj */;
+				},
+				{
+					ProductGroup = 4A3266842252F22E00D171E1 /* Products */;
+					ProjectRef = 4A3266832252F22E00D171E1 /* RNReanimated.xcodeproj */;
 				},
 				{
 					ProductGroup = 4A909CE6205A61D7003071F4 /* Products */;
@@ -1471,6 +1495,13 @@
 			fileType = archive.ar;
 			path = libRNSpinkit.a;
 			remoteRef = 4A27D4D120D8DFEC000D5C64 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4A3266BA2252F22E00D171E1 /* libRNReanimated.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNReanimated.a;
+			remoteRef = 4A3266B92252F22E00D171E1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4A478B7B2124065C00901EB0 /* libRNVersionNumber.a */ = {

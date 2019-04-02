@@ -9,6 +9,7 @@ import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.swmansion.reanimated.ReanimatedPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -79,6 +80,7 @@ public class MainApplication extends Application implements ReactApplication {
             }
             return Arrays.<ReactPackage>asList(
                 new MainReactPackage(),
+            new ReanimatedPackage(),
                 new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
                 new RNSpinkitPackage(),
                 new LinearGradientPackage(),
