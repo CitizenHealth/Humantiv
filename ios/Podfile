@@ -33,6 +33,8 @@ pod 'Intercom'
 
 #  pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
+# pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
 end
 
 target 'HumantivTests' do

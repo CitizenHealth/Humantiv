@@ -10337,10 +10337,10 @@ react-native-hyperlink@0.0.14:
     linkify-it "^1.2.0"
     mdurl "^1.0.0"
 
-react-native-intercom@^13.0.1:
-  version "13.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-intercom/-/react-native-intercom-13.0.1.tgz#f43f6371460f12c1d3f296aac60f27d5e0f071f2"
-  integrity sha512-makQEOyIuw9UImRbjw7qGIh4cmagvCqmFE9agybt+qM+jrDhJci8F6oBe/itpztgrLf5iCo1h0ndb1XxRIoHRw==
+react-native-intercom@^13.1.0:
+  version "13.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-intercom/-/react-native-intercom-13.1.0.tgz#35b7f177a701bf91a419b40ec80fa8162269c9d9"
+  integrity sha512-HhYg5Wl5wiiw++ElE1mwaaeikNUKiHrPQP9vGQqWaxt40yXhfTvTLRgLPhzj/OuWTL1Zr7gwYa1s0lrS1epg6Q==
 
 react-native-iphone-x-helper@^1.0.3:
   version "1.2.0"
@@ -10387,6 +10387,11 @@ react-native-modal@9.0.0, react-native-modal@^9.0.0:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "^1.2.4"
+
+react-native-reanimated@^1.0.0-alpha.12:
+  version "1.0.0-alpha.12"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.0.0-alpha.12.tgz#535c84a9e87c919417aee0fa68f360b3bb9556b0"
+  integrity sha512-jZDPxz8IjpoZ7VAW5X6WJhemmpuLkX6Y9lxKuHJAXls1EwRYkyXIPwvSG34umeqqYSE8Hl3A5TS4pfLORoqm/A==
 
 react-native-router-flux@^4.0.6:
   version "4.0.6"
@@ -10469,19 +10474,24 @@ react-native-swipeout@^2.3.6:
     prop-types "^15.5.10"
     react-tween-state "^0.1.5"
 
-react-native-tab-view@1.3.2, react-native-tab-view@^1.0.0:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.3.2.tgz#c4e43a538dcacce151938745cea09176beeccbc3"
-  integrity sha512-2U+HxDQdjzExoC6gZ+wUhC8v8JjntppsFVU4v4pRvC/1dkN7DJv1k8UEy9+p7ucEaNrcAzu/j5N09Jf4qG36vw==
-  dependencies:
-    prop-types "^15.6.1"
-
 react-native-tab-view@^0.0.77:
   version "0.0.77"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.77.tgz#11ceb8e7c23100d07e628dc151b57797524d00d4"
   integrity sha512-9vjD4Ly1Zlum1Y4g23ODpi/F3gYIUIsKWrsZO/Oh5cuX1eiB1DRVn11nY1z+j/hsQfhfyW6nDlmySyDvYQvYCA==
   dependencies:
     prop-types "^15.6.0"
+
+react-native-tab-view@^1.0.0:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.3.2.tgz#c4e43a538dcacce151938745cea09176beeccbc3"
+  integrity sha512-2U+HxDQdjzExoC6gZ+wUhC8v8JjntppsFVU4v4pRvC/1dkN7DJv1k8UEy9+p7ucEaNrcAzu/j5N09Jf4qG36vw==
+  dependencies:
+    prop-types "^15.6.1"
+
+react-native-tab-view@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.0.3.tgz#0160e2d94e69c722fcefa8649ffe13fec9177a0d"
+  integrity sha512-/rv+ESxtLFIWucIlq5VhDcZsCxThovE5FWpYngTNxLQgWzI/lem48h6FiYIMU+R6/fXOHmzSIuJtuCxNX+62fw==
 
 react-native-version-number@^0.3.5:
   version "0.3.5"
