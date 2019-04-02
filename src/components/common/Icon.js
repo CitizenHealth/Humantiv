@@ -133,7 +133,7 @@ const Icon = ({name, size, color, image=""}) => {
           style={imageStyle}
           width= {size}
           height= {size}
-          source={Images[image]}
+          source={Images[name]}
         />
     );
 }

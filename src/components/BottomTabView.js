@@ -6,12 +6,13 @@ import {
   StyleSheet, 
   Image,
   SafeAreaView,
-  BackHandler
+  BackHandler,
+  Dimensions
 } from 'react-native';
 import { 
   TabView, 
   TabBar,
-  type Route, 
+  SceneMap, 
   type NavigationState
 } from 'react-native-tab-view';
 import PlayView from './PlayView';
@@ -24,18 +25,9 @@ import {
   Icon  
 } from './common';
 
-type State = NavigationState<
-  Route<{
-    key: string,
-    title: string,
-    icon: string,
-    color: string,
-  }>
->;
-
 class BottomTabView extends React.Component<*, State> {
   static title = 'Bottom bar with indicator';
-  static appbarElevation = 4;
+  static appbarElevation = 0;
 
   componentWillMount() {
     var i = 2;
@@ -58,11 +50,11 @@ class BottomTabView extends React.Component<*, State> {
   state = {
     index: 0,
     routes: [
-      { key: '0', title: 'Health', icon: 'heart', color: 'transparent' },
-      { key: '1', title: 'Play', icon: 'play', color: 'transparent', image: 'img_play' },
-      { key: '2', title: 'Market', icon: 'market', color: 'transparent' },
-      { key: '3', title: 'Wallet', icon: 'wallet', color: 'transparent' },
-      { key: '4', title: 'Settings', icon: 'settings', color: 'transparent' },
+      { key: 'health', title: 'Health', icon: 'heart', color: 'transparent' },
+      { key: 'play', title: 'Play', icon: 'img_play', color: 'transparent', image: 'img_play' },
+      { key: 'market', title: 'Market', icon: 'market', color: 'transparent' },
+      { key: 'wallet', title: 'Wallet', icon: 'wallet', color: 'transparent' },
+      { key: 'settings', title: 'Settings', icon: 'settings', color: 'transparent' },
     ],
   };
 
@@ -123,66 +115,39 @@ class BottomTabView extends React.Component<*, State> {
     );
   };
 
-  _renderIcon = ({ route }) => {
-    var icon = route.icon + "_disabled";
-    var image = route.image + "_disabled";
-    var color = "#3599fe";
-    if (parseInt(route.key) === parseInt(this.state.index)) {
-      icon = route.icon + "_enabled";
-      image = route.image + "_enabled";
-      color =  "#3599fe";    
-    }
-    return (<Icon 
-      name={icon}
-      size= {20}
-      style={styles.icon}
-      color= {color}
-      image={image}
-    />);
-  };
-
-  _renderLabel = props => ({ route, index }) => {
-    var color = "#DADDE2";
-    if (parseInt(route.key) === parseInt(this.state.index)) {
-      color = primaryBlueColor;     
-    }
+  _renderIcon = ({ route, focused, color }) => {
     return (
-      <Animated.Text style={[styles.label, { color }]}>
+      <Icon 
+        name= {route.icon + (focused ? '_enabled' : '_disabled')}
+        color={"#3599fe"}
+        size= {20}
+        style={styles.icon}
+        image={route.icon + (focused ? '_enabled' : '_disabled')}
+      />
+    )
+  }
+  
+  _renderLabel = ({ route, focused, color }) => {
+    return (
+      <Animated.Text style={
+        [styles.label, { color: (focused) ? primaryBlueColor : '#DADDE2' }]}>
         {route.title}
       </Animated.Text>
-    );
-  };
+    )
+  }
 
   _renderBadge = ({ route }) => {
-    // if (route.key === '3') {
-    //   return (
-    //     <View style={styles.badge}>
-    //       <Text style={styles.count}>2</Text>
-    //     </View>
-    //   );
-    // }
+    if (route.key === 'New') {
+      return (
+        <View style={styles.badge}>
+          <Text style={styles.count}>2</Text>
+        </View>
+      );
+    }
     return null;
   };
 
   _getLabelText = ({ route }) => route.title;
-
-  _renderFooter = props => (
-    <View style={styles.tabbar}>
-      {props.navigationState.routes.map((route, index) => {
-        return (
-          <TouchableWithoutFeedback
-            key={route.key}
-            onPress={() => props.jumpTo(route.key)}
-          >
-            <Animated.View style={styles.tab}>
-              {this._renderIcon(props)({ route, index })}
-              {this._renderLabel(props)({ route, index })}
-            </Animated.View>
-          </TouchableWithoutFeedback>
-        );
-      })}
-    </View>
-  );
 
   _renderTabBar = props => (
     <TabBar
@@ -190,60 +155,39 @@ class BottomTabView extends React.Component<*, State> {
       getLabelText={this._getLabelText}
       renderIcon={this._renderIcon}
       renderBadge={this._renderBadge}
-      renderIndicator={this._renderIndicator}
-      renderLabel={this._renderLabel(props)}
+//      renderIndicator={this._renderIndicator(props)}
+      renderLabel={this._renderLabel}
       scrollEnabled={false}
       tabStyle={styles.tab}
+      indicatorStyle={{ backgroundColor: 'white' }}
       style={styles.tabbar}
     />
   );
 
-  _renderScene = ({ route }) => {
-    switch (route.key) {
-      case '0':
-        return (
-          <HealthView
-          />
-        );
-      case '1':
-        return (
-          <PlayView
-           />
-        );
-      case '2':
-        return (
-          <MarketView
-          />
-        );
-      case '3':
-        return (
-          <WalletView 
-          />
-        );
-      case '4':
-        return (
-          <SettingsView 
-          />
-        );
-      default:
-        return null;
-    }
-  };
+  _renderScene = SceneMap({
+    health: HealthView,
+    play: PlayView,
+    market: MarketView,
+    wallet: WalletView,
+    settings: SettingsView,
+  });
 
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <TabView
-          style={this.props.style}
-          navigationState={this.state}
-          renderScene={this._renderScene}
-          renderTabBar={this._renderTabBar}
-          onIndexChange={this._handleIndexChange}
-          tabBarPosition={'bottom'}
-          animationEnabled={true}
-          swipeEnabled={true}
-        />
-      </SafeAreaView>
+            lazy
+            style={this.props.style}
+            navigationState={this.state}
+            renderScene={this._renderScene}
+            renderTabBar={this._renderTabBar}
+            onIndexChange={this._handleIndexChange}
+            tabBarPosition={'bottom'}
+            animationEnabled={true}
+            swipeEnabled={true}
+            initialLayout={{ width: Dimensions.get('window').width }}
+          />
+        </SafeAreaView>
     );
   }
 }
@@ -294,7 +238,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     marginTop: -2,
-  },
+  }
 });
 
 export default BottomTabView;
