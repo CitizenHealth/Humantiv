@@ -127,7 +127,7 @@ android {
         applicationId "io.citizenhealth.humantiv"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 29
+        versionCode 30
         versionName "1.23"
         multiDexEnabled true
         ndk {
