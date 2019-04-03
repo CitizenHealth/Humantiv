@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { 
-  Animated, 
   View, 
   Text, 
   StyleSheet, 
   Image,
+  TouchableWithoutFeedback,
   SafeAreaView,
   BackHandler,
   Dimensions
@@ -21,9 +21,13 @@ import HealthView from './HealthView';
 import WalletView from './WalletView';
 import SettingsView from './SettingsView';
 import {primaryBlueColor} from './themes/theme';
+import Spinner from "react-native-spinkit";
+import { scale } from "react-native-size-matters";
 import {
   Icon  
 } from './common';
+import Animated from 'react-native-reanimated';
+import {Fonts} from '../resources/fonts/Fonts';
 
 class BottomTabView extends React.Component<*, State> {
   static title = 'Bottom bar with indicator';
@@ -50,11 +54,11 @@ class BottomTabView extends React.Component<*, State> {
   state = {
     index: 0,
     routes: [
-      { key: 'health', title: 'Health', icon: 'heart', color: 'transparent' },
-      { key: 'play', title: 'Play', icon: 'img_play', color: 'transparent', image: 'img_play' },
-      { key: 'market', title: 'Market', icon: 'market', color: 'transparent' },
-      { key: 'wallet', title: 'Wallet', icon: 'wallet', color: 'transparent' },
-      { key: 'settings', title: 'Settings', icon: 'settings', color: 'transparent' },
+      { key: 'health', title: 'Health', icon: 'heart', color: 'transparent', index: 0 },
+      { key: 'play', title: 'Play', icon: 'img_play', color: 'transparent', image: 'img_play', index: 1 },
+      { key: 'market', title: 'Market', icon: 'market', color: 'transparent', index: 2 },
+      { key: 'wallet', title: 'Wallet', icon: 'wallet', color: 'transparent', index: 3 },
+      { key: 'settings', title: 'Settings', icon: 'settings', color: 'transparent', index: 4 },
     ],
   };
 
@@ -149,34 +153,93 @@ class BottomTabView extends React.Component<*, State> {
 
   _getLabelText = ({ route }) => route.title;
 
+  _renderLazyPlaceholder = ({ route }) => (
+    <View>
+      <Spinner 
+        isVisible={true}
+        size={scale(60)}
+        type='ThreeBounce' 
+        color="white"
+      />
+    </View>
+  )
+  _renderItem = ({ navigationState, position }) => ({ route, index }) => {
+    const focused = navigationState.index === index;
+
+    return (
+      <View style={styles.tab}>
+          <Icon 
+            name= {route.icon + (focused ? '_enabled' : '_disabled')}
+            color={"#3599fe"}
+            size= {20}
+            style={[styles.icon, styles.inactive]}
+            image={route.icon + (focused ? '_enabled' : '_disabled')}
+          />
+          <Text style={[styles.label, (focused) ? styles.active : styles.inactive]}>{route.title}</Text>
+      </View>
+    );
+  };
+
   _renderTabBar = props => (
-    <TabBar
-      {...props}
-      getLabelText={this._getLabelText}
-      renderIcon={this._renderIcon}
-      renderBadge={this._renderBadge}
-//      renderIndicator={this._renderIndicator(props)}
-      renderLabel={this._renderLabel}
-      scrollEnabled={false}
-      tabStyle={styles.tab}
-      indicatorStyle={{ backgroundColor: 'white' }}
-      style={styles.tabbar}
-    />
+    <View style={[styles.tabbar, {
+      justifyContent: 'space-around',
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingTop: 5,
+      paddingBottom: 5,
+      }]}>
+      {props.navigationState.routes.map((route, index) => {
+        return (
+          <TouchableWithoutFeedback
+            key={route.key}
+            onPress={() => props.jumpTo(route.key)}
+          >
+            {this._renderItem(props)({ route, index })}
+          </TouchableWithoutFeedback>
+        );
+      })}
+    </View>
+//     <TabBar
+//       {...props}
+//       getLabelText={this._getLabelText}
+//       renderIcon={this._renderIcon}
+//       renderBadge={this._renderBadge}
+// //      renderIndicator={this._renderIndicator(props)}
+//       renderLabel={this._renderLabel}
+//       scrollEnabled={false}
+//       tabStyle={styles.tab}
+//       indicatorStyle={{ backgroundColor: primaryBlueColor}}
+//       style={styles.tabbar}
+//     />
   );
 
-  _renderScene = SceneMap({
-    health: HealthView,
-    play: PlayView,
-    market: MarketView,
-    wallet: WalletView,
-    settings: SettingsView,
-  });
+  // _renderScene = SceneMap({
+  //   health: HealthView,
+  //   play: PlayView,
+  //   market: MarketView,
+  //   wallet: WalletView,
+  //   settings: SettingsView,
+  // });
+
+  _renderScene = ({ route, jumpTo }) => {
+    switch (route.key) {
+      case 'health':
+        return <HealthView jumpTo={jumpTo} />;
+      case 'play':
+        return <PlayView jumpTo={jumpTo} />;
+      case 'market':
+        return <MarketView jumpTo={jumpTo} />;
+      case 'wallet':
+        return <WalletView jumpTo={jumpTo} />;
+      case 'settings':
+        return <SettingsView jumpTo={jumpTo} />;
+    }
+  };
 
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <TabView
-            lazy
             style={this.props.style}
             navigationState={this.state}
             renderScene={this._renderScene}
@@ -207,7 +270,8 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     marginTop: 2,
-    color: "#DADDE2"
+    color: "#DADDE2",
+    fontFamily: Fonts.regular
   },
   container: {
     flex: 1,
@@ -238,6 +302,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     marginTop: -2,
+  },
+  active: {
+    color: primaryBlueColor,
+  },
+  inactive: {
+    color: '#939393'
+  },
+  item: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 4.5,
+  },
+  activeItem: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   }
 });
 
