@@ -70,7 +70,7 @@ class LeaderboardCard extends Component {
 			iconContainerStyle,
 			rankStyle
 		} = styles;
-
+	
 		return (
 			<View 
 				style={iconContainerStyle}
@@ -208,7 +208,7 @@ class LeaderboardCard extends Component {
 									[valueStyle,
 									{color: this.fgColor()}]}
 							>
-									{formatNumbers(user.medit)}
+									{formatNumbers(user.medit || 0 )}
 							</Text>
 						</View>
 					</View>
