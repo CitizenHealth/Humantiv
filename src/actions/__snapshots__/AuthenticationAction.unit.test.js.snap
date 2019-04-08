@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`emailChanged returns action returns an action 1`] = `
+Object {
+  "payload": "leo.messi@barca.com",
+  "type": "email_changed",
+}
+`;
+
+exports[`emailChanged returns action returns an actions if passed a null 1`] = `
+Object {
+  "payload": null,
+  "type": "email_changed",
+}
+`;
+
+exports[`emailChanged returns action returns an actions if passed an empty object 1`] = `
+Object {
+  "payload": "",
+  "type": "email_changed",
+}
+`;
+
+exports[`nameChanged returns action returns an action 1`] = `
+Object {
+  "payload": "Leo Messi",
+  "type": "name_changed",
+}
+`;
+
+exports[`nameChanged returns action returns an actions if passed a null 1`] = `
+Object {
+  "payload": null,
+  "type": "name_changed",
+}
+`;
+
+exports[`nameChanged returns action returns an actions if passed an empty object 1`] = `
+Object {
+  "payload": "",
+  "type": "name_changed",
+}
+`;
+
+exports[`passwordChanged returns action returns an action 1`] = `
+Object {
+  "payload": "leo.messi@barca.com",
+  "type": "password_changed",
+}
+`;
+
+exports[`passwordChanged returns action returns an actions if passed a null 1`] = `
+Object {
+  "payload": null,
+  "type": "password_changed",
+}
+`;
+
+exports[`passwordChanged returns action returns an actions if passed an empty object 1`] = `
+Object {
+  "payload": "",
+  "type": "password_changed",
+}
+`;
+
+exports[`registerUser returns action dispatches register succeeded 1`] = `
+Object {
+  "type": "create_user",
+}
+`;
