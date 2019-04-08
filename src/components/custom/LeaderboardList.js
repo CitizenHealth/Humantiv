@@ -87,13 +87,15 @@ class LeaderboardList extends Component {
 
     const {cardContainerStyle} = styles;
 
-    const usersList = users.map( (user, index) => {   
+    const usersList = users.map( (user, index) => {  
+      console.log(JSON.stringify(user, null, 2));
+	 
       user.rank = index + 1; 
       if (index >= start - 1) 
         return ( 
         <Animatable.View 
           animation="fadeInUp"
-          delay= {250*index}
+//          delay= {250*index}
           style = {cardContainerStyle}
           key={index}
         >

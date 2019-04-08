@@ -98,7 +98,7 @@ class LeaderboardHeader extends Component {
 		return (users.length >= 1) ? (          
       <Animatable.View 
         animation={animation}
-        delay= {250*rank}
+//        delay= {250*rank}
         style = {cardContainerStyle}
         key = {rank}
       >
