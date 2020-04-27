@@ -13,7 +13,7 @@ import {Icon} from './Icon';
 import {Fonts} from '../../resources/fonts/Fonts'
 import LinearGradient from 'react-native-linear-gradient';
 import {primaryBackgroungColor, primaryWhiteColor} from '../themes/theme';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 
 
 class ValueCard extends Component {
@@ -140,7 +140,7 @@ class ValueCard extends Component {
                     color: primaryWhiteColor
                   }}
                 >
-                  {Icons.questionCircle}
+                  {RegularIcons.questionCircle}
                 </FontAwesome>
               </TouchableOpacity>
               : 

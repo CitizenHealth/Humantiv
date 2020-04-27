@@ -32,18 +32,22 @@ import {
   loginClearError
 } from "../actions";
 import { theme, graphGreyColor, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import firebase from "react-native-firebase";
-import { TextField } from 'react-native-material-textfield';
+import { TextField } from '../components/common';
 import {Fonts} from '../resources/fonts/Fonts';
 import {primaryWhiteColor} from './themes/theme';
 import { 
   checkEmail
 } from '../business';
+import {
+  TextEntryType
+} from '../types';
 import DropdownAlert from 'react-native-dropdownalert';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const ANIMATION_DURATION = 500;
+const TEXTINPUT_ICON_SIZE = 50;
 
 class LoginForm extends Component {
   constructor(props) {
@@ -292,7 +296,7 @@ class LoginForm extends Component {
         <View style={logoStyle}>
           <View style={headerStyle}>
             <IconButton onPress={() => {Actions.pop()}}>
-              <FontAwesome>{Icons.angleLeft}</FontAwesome>
+              <Icon name="ios-arrow-back" size={TEXTINPUT_ICON_SIZE} color={primaryBlueColor} />
             </IconButton> 
             <View style={{
               height: 60,
@@ -323,7 +327,32 @@ class LoginForm extends Component {
           </Animated.View>
         </View>
         <View style={loginCardStyle}>
-             <TextField
+        <TextField
+            reference={input => {
+              this.emailRef = input;
+            }}
+            type={TextEntryType.Email}
+            placeholder="Email address"
+            value={email}
+            keyboardType="email-address"
+            onChangeText={this.onMailChangeText.bind(this)}
+            onSubmitEditing={this.onSubmitEmail.bind(this)}
+          /> 
+          <TextField
+            reference={input => {
+              this.passwordRef = input;
+            }}
+            type={TextEntryType.Password}
+            placeholder="Password"
+            value={password}
+            keyboardType="email-address"
+            onChangeText={this.onPasswordChangeText.bind(this)}
+            onSubmitEditing={this.onSubmitPassword.bind(this)}
+            returnKeyType="done"
+            secureTextEntry
+            accessoryIcon
+          /> 
+             {/* <TextField
               ref={this.emailRef}
               label='Email address'
               value={email}
@@ -367,7 +396,7 @@ class LoginForm extends Component {
               labelTextStyle={inputStyle}
               titleTextStyle={inputTitleStyle}
               titleFontSize={14}
-            />
+            /> */}
           </View>
           <Animated.View style={[submitButtonStyle, {opacity: buttonOpacity}]}>
             {this.renderButton()}

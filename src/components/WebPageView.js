@@ -6,7 +6,7 @@ import {
   Platform
 } from 'react-native';
 import {IconButton} from './common';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import {
   primaryBlueColor,
   primaryBackgroungColor
@@ -45,7 +45,7 @@ class WebPageView extends Component {
             this.props.backPress();
             Actions.pop();
           }}>
-          <FontAwesome>{Icons.chevronLeft}</FontAwesome>
+          <FontAwesome>{RegularIcons.chevronLeft}</FontAwesome>
         </IconButton>
       </View>
 

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import Modal from "react-native-modal";
 
 import {
@@ -235,7 +235,7 @@ class WalletView extends Component {
                 color: primaryWhiteColor
               }}
             >
-              {Icons.timesCircle}
+              {RegularIcons.timesCircle}
             </FontAwesome>
           </TouchableOpacity>
         </View>
@@ -358,7 +358,7 @@ class WalletView extends Component {
               <FontAwesome
                 style={{fontSize: 24, color: primaryWhiteColor}}
               > 
-                {Icons.shareAlt}
+                {RegularIcons.shareAlt}
               </FontAwesome>
               <Text style={earnMeditsTextStyle}>
                 Share and Earn 10 Medit
@@ -392,7 +392,7 @@ class WalletView extends Component {
                 <FontAwesome
                   style={{color: primaryGreyColor}}
                 > 
-                  {Icons.shoppingCart}
+                  {RegularIcons.shoppingCart}
                 </FontAwesome>
               </IconButton>
               <Text style={cardFooterButtonTitleStyle}>

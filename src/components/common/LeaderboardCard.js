@@ -25,7 +25,7 @@ import {
 } from '../common';
 import Images from "../../resources/images";
 import {scale} from 'react-native-size-matters';
-import FontAwesome, {Icons} from 'react-native-fontawesome';
+import FontAwesome, {RegularIcons} from 'react-native-fontawesome';
 import {formatNumbers} from '../../business/Helpers';
 import {primaryGreenColor} from '../themes/theme';
 
@@ -81,7 +81,7 @@ class LeaderboardCard extends Component {
 						fontSize: 20,
 					}}
 				>
-					{Icons.caretUp}
+					{RegularIcons.caretUp}
 				</FontAwesome>
 				<Text style={rankStyle}>
 					{user.rank}
@@ -92,7 +92,7 @@ class LeaderboardCard extends Component {
 						fontSize: 20,
 					}}
 				>
-					{Icons.caretDown}
+					{RegularIcons.caretDown}
 				</FontAwesome>
 			</View>
 		)

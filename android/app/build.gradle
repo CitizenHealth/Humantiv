@@ -1,8 +1,6 @@
 apply plugin: "com.android.application"
-apply plugin: "io.fabric"
-apply plugin: "com.google.firebase.firebase-perf"
+
 import com.android.build.OutputFile
-import com.google.gms.googleservices.GoogleServicesPlugin
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -19,6 +17,9 @@ import com.google.gms.googleservices.GoogleServicesPlugin
  *
  *   // the entry file for bundle generation
  *   entryFile: "index.android.js",
+ *
+ *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+ *   bundleCommand: "ram-bundle",
  *
  *   // whether to bundle JS and assets in debug mode
  *   bundleInDebug: false,
@@ -75,19 +76,12 @@ import com.google.gms.googleservices.GoogleServicesPlugin
  */
 
 project.ext.react = [
-    entryFile: "index.js"
-]
-
-project.ext.sentryCli = [
-        logLevel: "debug"
+    entryFile: "index.js",
+    enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
-//apply from: "../../node_modules/react-native-sentry/sentry.gradle"
-if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
-    apply from: "../../node_modules/react-native-sentry/sentry.gradle"
-}
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -103,128 +97,98 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+/**
+ * The preferred build flavor of JavaScriptCore.
+ *
+ * For example, to use the international variant, you can use:
+ * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+ *
+ * The international variant includes ICU i18n library and necessary data
+ * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+ * give correct results when using with locales other than en-US.  Note that
+ * this variant is about 6MiB larger per architecture than default.
+ */
+def jscFlavor = 'org.webkit:android-jsc:+'
+
+/**
+ * Whether to enable the Hermes VM.
+ *
+ * This should be set on project.ext.react and mirrored here.  If it is not set
+ * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
+ * and the benefits of using Hermes will therefore be sharply reduced.
+ */
+def enableHermes = project.ext.react.get("enableHermes", false);
+
 android {
-    dexOptions {
-        javaMaxHeapSize "4g"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-    signingConfigs {
-        release {
-            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                storeFile file(MYAPP_RELEASE_STORE_FILE)
-                storePassword MYAPP_RELEASE_STORE_PASSWORD
-                keyAlias MYAPP_RELEASE_KEY_ALIAS
-                keyPassword MYAPP_RELEASE_KEY_PASSWORD
-            }
-            keyAlias 'upload'
-            keyPassword '*LakeSide@2018!'
-            storeFile file('../../android/keystore/keystore.jks')
-            storePassword '*LakeSide@2018!'
-        }
-    }
-    compileSdkVersion 26
-    buildToolsVersion '26.0.3'
+
     defaultConfig {
         applicationId "io.citizenhealth.humantiv"
-        minSdkVersion 19
-        targetSdkVersion 26
-        versionCode 32
-        versionName "1.24"
-        multiDexEnabled true
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
     }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
-            include "armeabi-v7a", "x86"
+            include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
     buildTypes {
-        release {
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
-        }
         debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://facebook.github.io/react-native/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.debug
         }
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
-            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
+            // https://developer.android.com/studio/build/configure-apk-splits.html
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
+
         }
-    }
-    dexOptions {
-        jumboMode = true
-    }
-    configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
     }
 }
 
 dependencies {
-    implementation project(':react-native-reanimated')
-    implementation 'io.intercom.android:intercom-sdk-base:5.+'
-    implementation 'io.intercom.android:intercom-sdk-fcm:5.+'
-    implementation project(':react-native-version-number')
-    implementation project(':react-native-intercom')
-    implementation project(':react-native-spinkit')
-    implementation project(':react-native-linear-gradient')
-    implementation project(':react-native-svg')
-    implementation project(':react-native-hgraph')
-    implementation project(':react-native-gesture-handler')
-    implementation project(':react-native-fbsdk')
-    implementation project(':react-native-sentry')
-    implementation project(':react-native-human-api')
-    implementation project(':react-native-code-push')
-    compile 'com.android.support:multidex:1.0.3'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation(project(':react-native-google-signin')) {
-        exclude group: "com.google.android.gms" // very important
+    if (enableHermes) {
+        def hermesPath = "../../node_modules/hermes-engine/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+        implementation jscFlavor
     }
-    implementation(project(':react-native-firebase'))
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
-        transitive = true;
-    }
-
-    // Firebase dependencies
-    implementation 'com.google.android.gms:play-services-gcm:16.1.0'
-    //noinspection GradleDependency
-    implementation 'com.google.android.gms:play-services-base:15.0.1'
-    implementation('com.google.android.gms:play-services-auth:16.0.0') {
-        force = true
-    }
-    implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.google.firebase:firebase-database:16.1.0'
-    implementation 'com.google.firebase:firebase-analytics:16.3.0'
-    implementation 'com.google.firebase:firebase-auth:16.2.0'
-    implementation 'com.google.firebase:firebase-config:16.4.0'
-    implementation 'com.google.firebase:firebase-messaging:17.4.0'
-    implementation 'com.google.firebase:firebase-invites:16.1.0'
-    implementation 'com.google.firebase:firebase-dynamic-links:16.1.7'
-    implementation 'com.google.firebase:firebase-perf:16.2.4'
-    implementation 'com.google.firebase:firebase-storage:16.1.0'
-    implementation 'com.google.firebase:firebase-iid:17.1.0'
-
-    implementation 'me.leolin:ShortcutBadger:1.1.22@aar'
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.facebook.react:react-native:+'
-    // From node_modules
-    implementation 'com.facebook.android:facebook-android-sdk:4.36.0'
 }
 
 // Run this once to be able to run the application with BUCK
@@ -234,5 +198,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
-apply plugin: 'com.google.gms.google-services'
-GoogleServicesPlugin.config.disableVersionCheck = true
+apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

@@ -1,1 +1,1 @@
-../../../FirebaseDynamicLinks/Firebase/DynamicLinks/FDLURLComponents/FDLURLComponents+Private.h
+../../../FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FDLURLComponents/FDLURLComponents+Private.h

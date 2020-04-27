@@ -27,7 +27,7 @@ import Spinner from "react-native-spinkit";
 import { LineChart, AreaChart} from 'react-native-svg-charts'
 import * as shape from 'd3-shape';
 import { scale } from "react-native-size-matters";
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import {
   capitalLetter,
   convertUNIXTimeToSince

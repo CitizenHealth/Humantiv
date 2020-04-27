@@ -20,7 +20,7 @@ import {
   filtersSave
 } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import firebase from "react-native-firebase";
 
 class ManualLogView extends Component {

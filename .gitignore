@@ -30,6 +30,10 @@ build/
 local.properties
 *.iml
 
+# Visual Studio Code
+#
+.vscode/
+
 # node.js
 #
 node_modules/
@@ -39,7 +43,8 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-#*.keystore
+*.keystore
+!debug.keystore
 
 # fastlane
 #
@@ -51,8 +56,9 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
-# Haul bundler
-stats.html
-index.ios.bundle
-index.ios.bundle.map
-haul-debug.log
+
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/

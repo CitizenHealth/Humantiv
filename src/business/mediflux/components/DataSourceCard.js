@@ -15,7 +15,7 @@ import Images from '../images/images';
 import PropTypes from 'prop-types';
 import Spinner from "react-native-spinkit";
 import { scale } from "react-native-size-matters";
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import {primaryGreyColor} from '../../../components/themes/theme';
 
 class DataSourceCard extends Component {

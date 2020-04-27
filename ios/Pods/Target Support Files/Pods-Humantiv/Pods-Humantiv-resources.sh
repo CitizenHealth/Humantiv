@@ -1,5 +1,18 @@
 #!/bin/sh
 set -e
+set -u
+set -o pipefail
+
+function on_error {
+  echo "$(realpath -mq "${0}"):$1: error: Unexpected failure"
+}
+trap 'on_error $LINENO' ERR
+
+if [ -z ${UNLOCALIZED_RESOURCES_FOLDER_PATH+x} ]; then
+  # If UNLOCALIZED_RESOURCES_FOLDER_PATH is not set, then there's nowhere for us to copy
+  # resources to, so exit 0 (signalling the script phase was successful).
+  exit 0
+fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 
@@ -12,7 +25,7 @@ XCASSET_FILES=()
 # was originally proposed here: https://lists.samba.org/archive/rsync/2008-February/020158.html
 RSYNC_PROTECT_TMP_FILES=(--filter "P .*.??????")
 
-case "${TARGETED_DEVICE_FAMILY}" in
+case "${TARGETED_DEVICE_FAMILY:-}" in
   1,2)
     TARGET_DEVICE_ARGS="--target-device ipad --target-device iphone"
     ;;
@@ -84,20 +97,48 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/FirebaseInvites/Resources/GINInviteResources.bundle"
-  install_resource "${PODS_ROOT}/FirebaseInvites/Resources/GPPACLPickerResources.bundle"
-  install_resource "${PODS_ROOT}/GTMOAuth2/Source/Touch/GTMOAuth2ViewTouch.xib"
+  install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
   install_resource "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/FirebaseInvites/Resources/GINInviteResources.bundle"
-  install_resource "${PODS_ROOT}/FirebaseInvites/Resources/GPPACLPickerResources.bundle"
-  install_resource "${PODS_ROOT}/GTMOAuth2/Source/Touch/GTMOAuth2ViewTouch.xib"
+  install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
   install_resource "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/Intercom.bundle"
   install_resource "${PODS_ROOT}/Intercom/Intercom/Intercom.framework/Versions/A/Resources/IntercomTranslations.bundle"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"
+  install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
@@ -108,15 +149,19 @@ if [[ "${ACTION}" == "install" ]] && [[ "${SKIP_INSTALL}" == "NO" ]]; then
 fi
 rm -f "$RESOURCES_TO_COPY"
 
-if [[ -n "${WRAPPER_EXTENSION}" ]] && [ "`xcrun --find actool`" ] && [ -n "$XCASSET_FILES" ]
+if [[ -n "${WRAPPER_EXTENSION}" ]] && [ "`xcrun --find actool`" ] && [ -n "${XCASSET_FILES:-}" ]
 then
   # Find all other xcassets (this unfortunately includes those of path pods and other targets).
-  OTHER_XCASSETS=$(find "$PWD" -iname "*.xcassets" -type d)
+  OTHER_XCASSETS=$(find -L "$PWD" -iname "*.xcassets" -type d)
   while read line; do
     if [[ $line != "${PODS_ROOT}*" ]]; then
       XCASSET_FILES+=("$line")
     fi
   done <<<"$OTHER_XCASSETS"
 
-  printf "%s\0" "${XCASSET_FILES[@]}" | xargs -0 xcrun actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${!DEPLOYMENT_TARGET_SETTING_NAME}" ${TARGET_DEVICE_ARGS} --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+  if [ -z ${ASSETCATALOG_COMPILER_APPICON_NAME+x} ]; then
+    printf "%s\0" "${XCASSET_FILES[@]}" | xargs -0 xcrun actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${!DEPLOYMENT_TARGET_SETTING_NAME}" ${TARGET_DEVICE_ARGS} --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+  else
+    printf "%s\0" "${XCASSET_FILES[@]}" | xargs -0 xcrun actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${!DEPLOYMENT_TARGET_SETTING_NAME}" ${TARGET_DEVICE_ARGS} --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}" --app-icon "${ASSETCATALOG_COMPILER_APPICON_NAME}" --output-partial-info-plist "${TARGET_TEMP_DIR}/assetcatalog_generated_info_cocoapods.plist"
+  fi
 fi

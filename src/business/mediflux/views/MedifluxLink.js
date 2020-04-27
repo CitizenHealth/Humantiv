@@ -14,7 +14,7 @@ import {
 import PropTypes from 'prop-types';
 import Modal from "react-native-modal";
 import {scale, ScaledSheet} from 'react-native-size-matters';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import {
   medifluxMainColor, 
   medifluxWhiteColor,
@@ -135,7 +135,7 @@ class MedifluxLink extends Component {
                 color: medifluxWhiteColor
               }}
             >
-              {Icons.timesCircle}
+              {RegularIcons.timesCircle}
             </FontAwesome>
           </TouchableOpacity>
         </View>

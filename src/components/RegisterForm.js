@@ -20,7 +20,8 @@ import { scale } from "react-native-size-matters";
 import Hyperlink from 'react-native-hyperlink';
 import Spinner from "react-native-spinkit";
 import { 
-  HeaderImage
+  HeaderImage,
+  TextField
 } from "./common";
 import { 
   SignInButton,
@@ -43,9 +44,8 @@ import {
 } from "../actions";
 import Images from "../resources/images";
 import { theme, graphGreyColor, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import firebase from "react-native-firebase";
-import { TextField } from 'react-native-material-textfield';
 import {Fonts} from '../resources/fonts/Fonts';
 import {
   primaryGreenColor, 
@@ -59,6 +59,9 @@ import {
   checkEmail,
   checkPassword
 } from '../business';
+import {
+  TextEntryType
+} from '../types';
 import DropdownAlert from 'react-native-dropdownalert';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -116,43 +119,50 @@ class RegisterForm extends Component {
         toValue: 40,
         duration: ANIMATION_DURATION,
         easing: Easing.linear,
-        delay: 0
+        delay: 0,
+        useNativeDriver: false,
       }),
       Animated.timing(this.state.titlePosition, {
         toValue: 40,
         duration: ANIMATION_DURATION,
         easing: Easing.linear,
-        delay: 0
+        delay: 0,
+        useNativeDriver: false,
       }),
       Animated.timing(this.state.subTitlePosition, {
         toValue: 40,
         duration: ANIMATION_DURATION,
         easing: Easing.linear,
-        delay: 250
+        delay: 250,
+        useNativeDriver: false,
       }),
       Animated.timing(this.state.buttonOpacity, {
         toValue: 1,
         duration: 2*ANIMATION_DURATION,
         easing: Easing.linear,
-        delay: 500
+        delay: 500,
+        useNativeDriver: true,
       }),
       Animated.timing(this.state.facebookIconPosition, {
         toValue: 0,
         duration: ANIMATION_DURATION/2,
         easing: Easing.linear,
-        delay: 0
+        delay: 0,
+        useNativeDriver: false,
       }),
       Animated.timing(this.state.googleIconPosition, {
         toValue: 0,
         duration: ANIMATION_DURATION/2,
         easing: Easing.linear,
-        delay: 500
+        delay: 500,
+        useNativeDriver: false,
       }),
       Animated.timing(this.state.emailIconPosition, {
         toValue: 0,
         duration: ANIMATION_DURATION/2,
         easing: Easing.linear,
-        delay: 1000
+        delay: 1000,
+        useNativeDriver: false,
       })
     ]).start();  
   }
@@ -220,27 +230,6 @@ class RegisterForm extends Component {
     }
 
     this.setState({ errors });
-  }
-
-  renderPasswordAccessory() {
-    const { secureTextEntry } = this.state;
-
-    return (
-      <TouchableOpacity 
-        onPress={() => {this.setState({ secureTextEntry: !this.state.secureTextEntry })}} 
-      > 
-        <FontAwesome 
-          style={{
-              color: primaryBlueColor,
-              fontSize: 24,
-              width: 44,
-              textAlign: 'right'
-          }}
-        >
-          {(secureTextEntry) ? Icons.eye : Icons.eyeSlash}
-        </FontAwesome>
-      </TouchableOpacity>
-    );
   }
 
   // Button press handlers
@@ -429,70 +418,42 @@ class RegisterForm extends Component {
           </Animated.View>
         </View>
         <View style={loginCardStyle}>
-            <TextField
-              ref={this.nameRef}
-              label='Name'
-              value={name}
-              onChangeText={this.onNameChangeText.bind(this)}
-              keyboardType="default"          
-              autoCorrect={false}
-              autoCapitalize='words'
-              enablesReturnKeyAutomatically={true}
-              onFocus={this.onFocus.bind(this)}
-              onSubmitEditing={this.onSubmitName.bind(this)}
-              returnKeyType='next'
-              error={errors.name}
-              textColor={graphGreyColor}
-              baseColor={graphGreyColor}
-              tintColor={primaryGreyColor}
-              labelTextStyle={inputStyle}
-              titleTextStyle={inputTitleStyle}
-            />
-             <TextField
-              ref={this.emailRef}
-              label='Email address'
-              value={email}
-              onChangeText={this.onMailChangeText.bind(this)}
-              keyboardType="email-address"          
-              autoCorrect={false}
-              autoCapitalize='none'
-              enablesReturnKeyAutomatically={true}
-              onFocus={this.onFocus.bind(this)}
-              onSubmitEditing={this.onSubmitEmail.bind(this)}
-              returnKeyType='next'
-              error={errors.email}
-              textColor={graphGreyColor}
-              baseColor={graphGreyColor}
-              tintColor={primaryGreyColor}
-              labelTextStyle={inputStyle}
-              titleTextStyle={inputTitleStyle}
-            />
-            <TextField
-              label='Password'
-              ref={this.passwordRef}
-              secureTextEntry={secureTextEntry}
-              value={password}
-              autoCapitalize='none'
-              autoCorrect={false}
-              enablesReturnKeyAutomatically={true}
-              clearTextOnFocus={true}
-              onFocus={this.onFocus.bind(this)}
-              onChangeText={this.onPasswordChangeText.bind(this)}
-              onSubmitEditing={this.onSubmitPassword.bind(this)}
-              returnKeyType='done'
-              error={errors.password}
-              title='Between 8 and 20 characters'
-              titleFontSize={8}
-              maxLength={20}
-              renderAccessory={this.renderPasswordAccessory.bind(this)}
-              textColor={graphGreyColor}
-              baseColor={graphGreyColor}
-              tintColor={primaryGreyColor}
-              labelTextStyle={inputStyle}
-              titleTextStyle={inputTitleStyle}
-              titleFontSize={14}
-            />
-          </View>
+          <TextField
+            reference={input => {
+              this.nameRef = input;
+            }}
+            placeholder="Your name"
+            type={TextEntryType.Name}
+            value={name}
+            onChangeText={this.onNameChangeText.bind(this)}
+            onSubmitEditing={this.onSubmitName.bind(this)}
+          /> 
+          <TextField
+            reference={input => {
+              this.emailRef = input;
+            }}
+            type={TextEntryType.Email}
+            placeholder="Email address"
+            value={email}
+            keyboardType="email-address"
+            onChangeText={this.onMailChangeText.bind(this)}
+            onSubmitEditing={this.onSubmitEmail.bind(this)}
+          /> 
+          <TextField
+            reference={input => {
+              this.passwordRef = input;
+            }}
+            type={TextEntryType.Password}
+            placeholder="Password"
+            value={password}
+            keyboardType="email-address"
+            onChangeText={this.onPasswordChangeText.bind(this)}
+            onSubmitEditing={this.onSubmitPassword.bind(this)}
+            returnKeyType="done"
+            secureTextEntry
+            accessoryIcon
+          /> 
+        </View>
           <Animated.View style={[submitButtonStyle, {opacity: buttonOpacity}]}>
             {this.renderButton()}
           </Animated.View>
@@ -509,12 +470,14 @@ class RegisterForm extends Component {
                   Animated.timing(this.scalingFacebookValue, {
                     toValue: 1,
                     duration: 100,
-                    easing: Easing.linear
+                    easing: Easing.linear,
+                    useNativeDriver: true,
                   }).start(()=>{
                     Animated.timing(this.scalingFacebookValue, {
                       toValue: 0,
                       duration: 100,
-                      easing: Easing.linear
+                      easing: Easing.linear,
+                      useNativeDriver: true,
                     }).start(this.onFacebookSignInButtonPress.bind(this));
                   });                
                 }}
@@ -538,12 +501,14 @@ class RegisterForm extends Component {
                   Animated.timing(this.scalingGoogleValue, {
                     toValue: 1,
                     duration: 100,
-                    easing: Easing.linear
+                    easing: Easing.linear,
+                    useNativeDriver: true,
                   }).start(()=>{
                     Animated.timing(this.scalingGoogleValue, {
                       toValue: 0,
                       duration: 100,
-                      easing: Easing.linear
+                      easing: Easing.linear,
+                      useNativeDriver: true,
                     }).start(this.onGoogleSignInButtonPress.bind(this));
                   });                
                 }}
@@ -567,12 +532,14 @@ class RegisterForm extends Component {
                   Animated.timing(this.scalingEmailValue, {
                     toValue: 1,
                     duration: 100,
-                    easing: Easing.linear
+                    easing: Easing.linear,
+                    useNativeDriver: true,
                   }).start(()=>{
                     Animated.timing(this.scalingEmailValue, {
                       toValue: 0,
                       duration: 100,
-                      easing: Easing.linear
+                      easing: Easing.linear,
+                      useNativeDriver: true,
                     }).start(Actions.login());
                   });                
                 }}

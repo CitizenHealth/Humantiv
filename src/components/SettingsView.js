@@ -35,7 +35,7 @@ import {
   humanAPIFetch
 } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import RNHumanAPI from 'react-native-human-api';
 import firebase from "react-native-firebase";
 import {

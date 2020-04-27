@@ -6,7 +6,7 @@ import {
   Dimensions
 } from 'react-native';
 import {IconButton} from './IconButton'
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import {Fonts} from '../../resources/fonts/Fonts'
 import {
   highlightedGreyColor, 
@@ -72,7 +72,7 @@ class SettingsHeader extends Component {
               fontSize: 16,
               }}
             >
-              {Icons.pencil}</FontAwesome>
+              {RegularIcons.pencil}</FontAwesome>
           </IconButton> */}
           <View style={upperTextContainer}>
             <Text style={nameStyle}>

@@ -1,5 +1,5 @@
 import firebase from "react-native-firebase";
-import { GoogleSignin } from 'react-native-google-signin';
+import { GoogleSignin } from '@react-native-community/google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import {
   Sentry, 

@@ -1,1 +1,1 @@
-../../../FirebaseDynamicLinks/Firebase/DynamicLinks/GINInvocation/GINInvocation.h
+../../../FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/GINInvocation/GINInvocation.h

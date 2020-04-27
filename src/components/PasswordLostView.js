@@ -14,7 +14,7 @@ import {
   ModalDialog 
 } from './custom'; 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import { Actions } from "react-native-router-flux";
 import { scale } from "react-native-size-matters";
 import firebase from "react-native-firebase";
@@ -109,7 +109,7 @@ class PasswordLostView extends Component {
           <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
             <View style={navigationBarStyle}>
               <IconButton onPress={() => {Actions.pop()}}>
-                <FontAwesome>{Icons.angleLeft}</FontAwesome>
+                <FontAwesome>{RegularIcons.angleLeft}</FontAwesome>
               </IconButton> 
               <View style={{
                 height: 60,
@@ -143,7 +143,7 @@ class PasswordLostView extends Component {
                 }}>
                     <CardSection>
                       <IconInput
-                        icon={Icons.envelopeO}
+                        icon={RegularIcons.envelopeO}
                         placeholder="Email address"
                         onChangeText={this.onMailChangeText.bind(this)}
                         keyboardType="email-address"

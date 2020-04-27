@@ -21,7 +21,6 @@
 #import "RNFirebaseMessaging.h"
 #import "RNFirebaseNotifications.h"
 #import "Intercom/intercom.h"
-#import "RNFirebaseInvites.h"
 #import "RNFirebaseLinks.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -64,27 +63,13 @@
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
-            sourceApplication:(NSString *)sourceApplication
-            annotation:(id)annotation {
-  
-  return [RNGoogleSignin application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-}
-
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
             options:(NSDictionary<NSString *, id> *)options {
   return
     [[RNFirebaseLinks instance] application:application
                                 openURL:url options:options]
   
     ||
-    [[RNFirebaseInvites instance] application:application
-                                  openURL:url options:options]
-    ||
-    [RNGoogleSignin application:application
-                    openURL:url
-                    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]
+    [RNGoogleSignin application:application openURL:url options:options]
     ||
     [[FBSDKApplicationDelegate sharedInstance] application:application
                     openURL:url
@@ -98,11 +83,7 @@ continueUserActivity:(NSUserActivity *)userActivity
   return
   [[RNFirebaseLinks instance] application:application
                               continueUserActivity:userActivity
-                              restorationHandler:restorationHandler]
-  ||
-  [[RNFirebaseInvites instance] application:application
-                                continueUserActivity:userActivity
-                                restorationHandler:restorationHandler];
+                       restorationHandler:restorationHandler];
 }
 //- (BOOL)application:(UIApplication *)application
 //            openURL:(NSURL *)url

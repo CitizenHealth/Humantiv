@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View } from 'react-native';
 import { Input } from '../common/Input';
 import {theme, primaryBlueColor} from '../themes';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import {
   primaryGreyColor,
   secondaryGreyColor

@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  Platform
+  Platform,
+  ViewPropTypes
 } from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
@@ -13,8 +14,8 @@ import { theme } from '../themes';
 
 class Button extends Component {
   static propTypes = {
-    textStyle: Text.propTypes.style,
-    disabledStyle: Text.propTypes.style,
+    textStyle: ViewPropTypes.style,
+    disabledStyle: ViewPropTypes.style,
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,

@@ -26,7 +26,7 @@ import {
   filtersSave
 } from "../actions";
 import {Fonts} from '../resources/fonts/Fonts';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import firebase from "react-native-firebase";
 
 class FeedFiltersView extends Component {
@@ -103,7 +103,7 @@ class FeedFiltersView extends Component {
           >
           <View style={headerStyle}>
               <IconButton onPress={() => {Actions.pop()}}>
-                <FontAwesome>{Icons.angleLeft}</FontAwesome>
+                <FontAwesome>{RegularIcons.angleLeft}</FontAwesome>
               </IconButton> 
               <Text style={textStyle}> Activity Filters </Text> 
               <View style={{

@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+#include <TargetConditionals.h>
+#if !TARGET_OS_OSX && !TARGET_OS_TV
+
 #import <Foundation/Foundation.h>
 
 @class FIRAuth;
@@ -38,8 +41,8 @@ extern NSString *const _Nonnull FIRPhoneAuthSignInMethod NS_SWIFT_NAME(PhoneAuth
     @param verificationID On success, the verification ID provided, nil otherwise.
     @param error On error, the error that occurred, nil otherwise.
  */
-typedef void (^FIRVerificationResultCallback)(NSString *_Nullable verificationID,
-                                              NSError *_Nullable error)
+typedef void (^FIRVerificationResultCallback)
+    (NSString *_Nullable verificationID, NSError *_Nullable error)
     NS_SWIFT_NAME(VerificationResultCallback);
 
 /** @class FIRPhoneAuthProvider
@@ -61,7 +64,7 @@ NS_SWIFT_NAME(PhoneAuthProvider)
 + (instancetype)providerWithAuth:(FIRAuth *)auth NS_SWIFT_NAME(provider(auth:));
 
 /** @fn verifyPhoneNumber:UIDelegate:completion:
-    @brief Starts the phone number authentication flow by sending a verifcation code to the
+    @brief Starts the phone number authentication flow by sending a verification code to the
         specified phone number.
     @param phoneNumber The phone number to be verified.
     @param UIDelegate An object used to present the SFSafariViewController. The object is retained
@@ -103,3 +106,5 @@ NS_SWIFT_NAME(PhoneAuthProvider)
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

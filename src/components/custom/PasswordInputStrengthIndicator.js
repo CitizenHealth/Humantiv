@@ -18,7 +18,7 @@ import {
 import {IconPasswordInput} from '../custom';
 import zxcvbn from 'zxcvbn';
 import _ from 'lodash';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 
 
 const { width: wWidth } = Dimensions.get('window');
@@ -98,7 +98,7 @@ class PasswordInputStrengthIndicator extends Component {
     strengthWrapperStyle: ViewPropTypes.style,
     strengthBarStyle: ViewPropTypes.style,
     innerStrengthBarStyle: ViewPropTypes.style,
-    strengthDescriptionStyle: Text.propTypes.style,
+    strengthDescriptionStyle: ViewPropTypes.style,
     barColor: PropTypes.string,
     barWidthPercent: PropTypes.number,
     showBarOnEmpty: PropTypes.bool

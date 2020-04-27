@@ -1,1 +1,1 @@
-../../../FirebaseDynamicLinks/Firebase/DynamicLinks/FIRDynamicLinks+FirstParty.h
+../../../FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDynamicLinks+FirstParty.h

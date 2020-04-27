@@ -6,7 +6,7 @@ import {
  } from 'react-native';
 import { Input } from '../common/Input';
 import {theme, primaryBlueColor} from '../themes';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 
 class IconPasswordInput extends Component {
 

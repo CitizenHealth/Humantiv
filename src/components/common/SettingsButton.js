@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { scale } from "react-native-size-matters";
 import {Select, Option} from "react-native-chooser";
 import {primaryGreyColor, primaryWhiteColor} from '../themes/theme';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 
 const screenWidth = Dimensions.get('window').width;
 const componentHeight = 50;
@@ -65,7 +65,7 @@ class SettingsButton extends Component {
           <FontAwesome 
             style={fontAwesomeStyle}
           >
-            {Icons.angleRight}
+            {RegularIcons.angleRight}
           </FontAwesome>
           </View>
         </TouchableOpacity>

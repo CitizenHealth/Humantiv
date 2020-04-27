@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {Component} from 'react';
 import { 
   View, 
   Text, 
@@ -13,7 +13,7 @@ import {
   TabView, 
   TabBar,
   SceneMap, 
-  type NavigationState
+  NavigationState,
 } from 'react-native-tab-view';
 import PlayView from './PlayView';
 import MarketView from './MarketView';
@@ -29,7 +29,7 @@ import {
 import Animated from 'react-native-reanimated';
 import {Fonts} from '../resources/fonts/Fonts';
 
-class BottomTabView extends React.Component<*, State> {
+class BottomTabView extends Component {
   static title = 'Bottom bar with indicator';
   static appbarElevation = 0;
 

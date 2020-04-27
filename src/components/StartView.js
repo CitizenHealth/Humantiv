@@ -233,8 +233,7 @@ class StartView extends Component {
     });
     
     // subscribe
-    const unsubscribe = firebase.invites()
-    .onInvitation(
+    const unsubscribe = firebase.links().onLink(
       (invitation) => {
       console.log(invitation);
       Sentry.captureMessage(`Opened App On Invitation: ${JSON.stringify(invitation, null, 2)}`, {
@@ -245,8 +244,8 @@ class StartView extends Component {
     // unsubscribe
     unsubscribe();
 
-    firebase.invites()
-    .getInitialInvitation()
+    firebase.links()
+    .getInitialLink()
     .then((invitation) => {
         if (invitation) {
           console.log("APP OPENED FROM INVITATION");   

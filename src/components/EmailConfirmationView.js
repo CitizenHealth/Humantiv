@@ -10,7 +10,7 @@ import { Actions } from "react-native-router-flux";
 import { scale } from "react-native-size-matters";
 import firebase from "react-native-firebase";
 import Images from "../resources/images";
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import { dataFetch, fetchUser } from "../actions";
 import { theme, primaryBlueColor, primaryGreyColor, modalMessages} from './themes';
 import {Fonts} from '../resources/fonts/Fonts';

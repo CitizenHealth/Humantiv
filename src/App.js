@@ -3,19 +3,20 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
+import Reactotron from './configuration/ReactotronConfig';
 import reducers from "./reducers";
 import RouterComponent from "./components/Router";
 import firebase from "react-native-firebase";
 import { 
   Sentry,
-  SentryLog 
+  SentryLog,
+  SentrySeverity
 } from 'react-native-sentry';
 import codePush from "react-native-code-push";
 import { 
   Text,
   TextInput 
 } from 'react-native';
-import Reactotron from './configuration/ReactotronConfig';
 import StorybookUI from '../storybook';
 
 // To assign console.log to nothing   
@@ -54,16 +55,74 @@ class App extends Component {
       // ignoreModulesInclude: ["RNSentry"], // default: [] | Include modules that should be ignored too
       // ---------------------------------
     }).install();
+
+    // set a callback after an event was successfully sent
+    // its only guaranteed that this event contains `event_id` & `level`
+    Sentry.setEventSentSuccessfully((event) => {
+      // can also be called outside this block but maybe null
+      // Sentry.lastEventId(); -> returns the last event_id after the first successfully sent event
+      // Sentry.lastException(); -> returns the last event after the first successfully sent event
+    });
+
+    Sentry.setShouldSendCallback((event) => {
+      return true; // if return false, event will not be sent
+    });
+
+    // Sentry.lastException(); // Will return the last sent error event
+    // Sentry.lastEventId(); // Will return the last event id
+
+    // export an extra context
+    Sentry.setExtraContext({
+      "a_thing": 3,
+      "some_things": {"green": "red"},
+      "foobar": ["a", "b", "c"],
+      "react": true,
+      "float": 2.43
+    });
+
+    // set the tag context
+    Sentry.setTagsContext({
+      "environment": "production",
+      "react": true
+    });
+
+    // set the user context
+    Sentry.setUserContext({
+      email: "john@apple.com",
+      userID: "12341",
+      username: "username",
+      extra: {
+        "is_admin": false
+      }
+    });
+
+    // set a custom message
+    Sentry.captureMessage("TEST message", {
+      level: SentrySeverity.Warning
+    }); // Default SentrySeverity.Error
+
+    // capture an exception
+    Sentry.captureException(new Error('Oops!'), {
+      logger: 'my.module'
+    });
+
+    // capture a breadcrumb
+    Sentry.captureBreadcrumb({
+      message: 'Item added to shopping cart',
+      category: 'action',
+      data: {
+        isbn: '978-1617290541',
+        cartSize: '3'
+      }
+    });
+
+    // This will trigger a crash in the native sentry client
+    //Sentry.nativeCrash();
   }
 
   render() {
-    const store = Reactotron.createStore(
-      reducers, 
-      {}, 
-      composeWithDevTools(
-        applyMiddleware(ReduxThunk)
-      )
-    );
+    const store = createStore(reducers, composeWithDevTools(applyMiddleware(ReduxThunk), Reactotron.createEnhancer()))
+
 
     return (
       <Provider store={store}>

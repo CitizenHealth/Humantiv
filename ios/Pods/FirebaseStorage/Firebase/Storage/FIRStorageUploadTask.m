@@ -20,7 +20,7 @@
 #import "FIRStorageTask_Private.h"
 #import "FIRStorageUploadTask_Private.h"
 
-#import "GTMSessionUploadFetcher.h"
+#import <GTMSessionFetcher/GTMSessionUploadFetcher.h>
 
 @implementation FIRStorageUploadTask
 
@@ -79,6 +79,13 @@
       return;
     }
 
+    NSError *contentValidationError;
+    if (![strongSelf isContentToUploadValid:&contentValidationError]) {
+      strongSelf.error = contentValidationError;
+      [strongSelf finishTaskWithStatus:FIRStorageTaskStatusFailure snapshot:strongSelf.snapshot];
+      return;
+    }
+
     strongSelf.state = FIRStorageTaskStateQueueing;
 
     NSMutableURLRequest *request = [strongSelf.baseRequest mutableCopy];
@@ -92,8 +99,8 @@
         [NSString stringWithFormat:@"%zu", (unsigned long)[bodyData length]];
     [request setValue:contentLengthString forHTTPHeaderField:@"Content-Length"];
 
-    NSURLComponents *components =
-        [NSURLComponents componentsWithURL:request.URL resolvingAgainstBaseURL:NO];
+    NSURLComponents *components = [NSURLComponents componentsWithURL:request.URL
+                                             resolvingAgainstBaseURL:NO];
 
     if ([components.host isEqual:kGCSHost]) {
       [components setPercentEncodedPath:[@"/upload" stringByAppendingString:components.path]];
@@ -134,8 +141,6 @@
     // Process fetches
     strongSelf.state = FIRStorageTaskStateRunning;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-retain-cycles"
     strongSelf->_fetcherCompletion = ^(NSData *_Nullable data, NSError *_Nullable error) {
       // Fire last progress updates
       [self fireHandlersForStatus:FIRStorageTaskStatusProgress snapshot:self.snapshot];
@@ -145,9 +150,8 @@
         self.state = FIRStorageTaskStateFailed;
         self.error = [FIRStorageErrors errorWithServerError:error reference:self.reference];
         self.metadata = self->_uploadMetadata;
-        [self fireHandlersForStatus:FIRStorageTaskStatusFailure snapshot:self.snapshot];
-        [self removeAllObservers];
-        self->_fetcherCompletion = nil;
+
+        [self finishTaskWithStatus:FIRStorageTaskStatusFailure snapshot:self.snapshot];
         return;
       }
 
@@ -164,17 +168,50 @@
         self.error = [FIRStorageErrors errorWithInvalidRequest:data];
       }
 
-      [self fireHandlersForStatus:FIRStorageTaskStatusSuccess snapshot:self.snapshot];
-      [self removeAllObservers];
-      self->_fetcherCompletion = nil;
+      [self finishTaskWithStatus:FIRStorageTaskStatusSuccess snapshot:self.snapshot];
     };
-#pragma clang diagnostic pop
 
     [strongSelf->_uploadFetcher
         beginFetchWithCompletionHandler:^(NSData *_Nullable data, NSError *_Nullable error) {
-          weakSelf.fetcherCompletion(data, error);
+          if (weakSelf.fetcherCompletion != nil) {
+            weakSelf.fetcherCompletion(data, error);
+          }
         }];
   }];
+}
+
+- (void)finishTaskWithStatus:(FIRStorageTaskStatus)status
+                    snapshot:(FIRStorageTaskSnapshot *)snapshot {
+  [self fireHandlersForStatus:status snapshot:self.snapshot];
+  [self removeAllObservers];
+  self->_fetcherCompletion = nil;
+}
+
+- (BOOL)isContentToUploadValid:(NSError **)outError {
+  if (_uploadData != nil) {
+    return YES;
+  }
+
+  NSError *fileReachabilityError;
+  if (![_fileURL checkResourceIsReachableAndReturnError:&fileReachabilityError]) {
+    if (outError != NULL) {
+      NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
+      userInfo[NSLocalizedDescriptionKey] =
+          [NSString stringWithFormat:@"File at URL: %@ is not reachable.", _fileURL.absoluteString];
+
+      if (fileReachabilityError) {
+        userInfo[NSUnderlyingErrorKey] = fileReachabilityError;
+      }
+
+      *outError = [NSError errorWithDomain:FIRStorageErrorDomain
+                                      code:FIRStorageErrorCodeUnknown
+                                  userInfo:userInfo];
+    }
+
+    return NO;
+  }
+
+  return YES;
 }
 
 #pragma mark - Upload Management

@@ -14,22 +14,22 @@ then
 	if [ $os == 'ios' ]
 	then
 		# Display app Keys
-		appcenter codepush deployment list -a Citizen-Health/Humantiv --displayKeys
+		appcenter codepush deployment list -a Qventus/Qventus --displayKeys
 	elif [ $os == 'android' ]
 	then
 		# Display app Keys
-		appcenter codepush deployment list -a Citizen-Health/Humantiv-1 --displayKeys
+		appcenter codepush deployment list -a Qventus/Qventus-Android --displayKeys
 	fi	
 elif [ $option == 'deploy' ]
 then
 	if [ $os == 'ios' ]
 	then
 		# Deploy iOS app
-		appcenter codepush release-react -a Citizen-Health/Humantiv -d Production
+		appcenter codepush release-react -a Qventus/Qventus -d Production
 	elif [ $os == 'android' ]
 	then
 		# Deploy Android app
-		appcenter codepush release-react -a Citizen-Health/Humantiv-1 -d Production
+		appcenter codepush release-react -a Qventus/Qventus-Android -d Production
 	fi
 else
 	# Display app Keys

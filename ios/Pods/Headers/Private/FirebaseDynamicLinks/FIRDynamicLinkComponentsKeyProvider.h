@@ -1,1 +1,1 @@
-../../../FirebaseDynamicLinks/Firebase/DynamicLinks/FDLURLComponents/FIRDynamicLinkComponentsKeyProvider.h
+../../../FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FDLURLComponents/FIRDynamicLinkComponentsKeyProvider.h

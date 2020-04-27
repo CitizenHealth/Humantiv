@@ -1,1 +1,1 @@
-../../../FirebaseDynamicLinks/Firebase/DynamicLinks/FIRDLRetrievalProcessResult+Private.h
+../../../FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/FIRDLRetrievalProcessResult+Private.h

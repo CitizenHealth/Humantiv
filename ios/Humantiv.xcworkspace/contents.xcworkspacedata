@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Humantiv.xcodeproj">
+      location = "group:/Users/nabylb/Documents/COMPANYS/ThreeFourteen/Clients/CitizenHealth/GitHub/Humantiv2/ios/Humantiv.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Humantiv.xcodeproj">
    </FileRef>
 </Workspace>

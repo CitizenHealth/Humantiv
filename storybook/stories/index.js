@@ -39,7 +39,7 @@ import {
   SleepManualLog,
   StressManualLog
 } from '../../src/components/custom';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
 import { 
@@ -95,7 +95,7 @@ storiesOf('Button', module)
       <FontAwesome 
         style={{color: 'white'}}
       >
-        {Icons.facebook}
+        {RegularIcons.facebook}
         <Text style={primaryWhiteTextStyle}>  Connect with Facebook</Text>
       </FontAwesome>
     </FacebookLoginButton>
@@ -112,7 +112,7 @@ storiesOf('Button', module)
       <FontAwesome 
         style={{color: 'white'}}
       >
-        {Icons.googlePlus}
+        {RegularIcons.googlePlus}
         <Text style={primaryWhiteTextStyle}>  Connect with Google</Text>
       </FontAwesome>
     </GoogleLoginButton>

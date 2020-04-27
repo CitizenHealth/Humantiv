@@ -1,1 +1,1 @@
-../../../FirebaseDynamicLinks/Firebase/DynamicLinks/Public/FIRDynamicLink.h
+../../../FirebaseDynamicLinks/FirebaseDynamicLinks/Sources/Public/FIRDynamicLink.h

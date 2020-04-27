@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { scale } from "react-native-size-matters";
 import {connect} from "react-redux";
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import FontAwesome, { RegularIcons } from 'react-native-fontawesome';
 import HGraph from 'react-native-hgraph';
 import Spinner from "react-native-spinkit";
 import {
@@ -630,7 +630,7 @@ class HealthView extends Component {
         }
         return (
             <IconButton>
-            <FontAwesome>{Icons.userCircle}</FontAwesome>
+            <FontAwesome>{RegularIcons.userCircle}</FontAwesome>
             </IconButton>
         );
     }
@@ -997,7 +997,7 @@ class HealthView extends Component {
                           <FontAwesome
                             style={{color: primaryBlueColor}}
                           > 
-                            {Icons.comments}
+                            {RegularIcons.comments}
                           </FontAwesome>
                       </IconButton>                 
                     </View>                  
@@ -1036,7 +1036,7 @@ class HealthView extends Component {
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
-                      {Icons.bed}  
+                      {RegularIcons.bed}  
                     </FontAwesome>
                   </ActionButton.Item>
                   <ActionButton.Item 
@@ -1047,7 +1047,7 @@ class HealthView extends Component {
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
-                      {Icons.heartbeat}  
+                      {RegularIcons.heartbeat}  
                     </FontAwesome>
                   </ActionButton.Item>
                   <ActionButton.Item 
@@ -1058,7 +1058,7 @@ class HealthView extends Component {
                     <FontAwesome 
                       style={styles.actionButtonIcon}
                     >
-                      {Icons.balanceScale}  
+                      {RegularIcons.balanceScale}  
                     </FontAwesome>
                   </ActionButton.Item>
                 </ActionButton>        */}
